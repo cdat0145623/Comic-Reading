@@ -1,7 +1,23 @@
 {
-  "compilerOptions": {
-    "paths": {
-      "@/*": ["./*"]
-    }
-  }
+    "compilerOptions": {
+        "baseUrl": ".",
+        "paths": {
+            "@/*": ["./*"]
+        },
+        // "module": "esnext",
+        // "target": "es6",
+        // "allowJs": true,
+        // "checkJs": false
+        "allowJs": true, // ✅ Cho phép dùng file JS
+        // "checkJs": true, // ✅ Kiểm tra type trong JS (hiện gợi ý tốt hơn)
+        "module": "esnext",
+        "target": "es6",
+        "moduleResolution": "node",
+        "jsx": "react-jsx"
+    },
+    "include": [
+        ".", // Toàn bộ project
+        "prisma" // Bao gồm thư mục schema
+    ],
+    "exclude": ["node_modules", ".next"]
 }

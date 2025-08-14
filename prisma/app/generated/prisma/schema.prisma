@@ -1,0 +1,289 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "./app/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        Int          @id @default(autoincrement())
+  email     String       @unique
+  password  String
+  avatarUrl String?      @map("avatar_url")
+  name      String?
+  birthYear Int?
+  sex       Sex?
+  role      Role         @default(USER)
+  setting   UserSetting? @relation("UserToSetting")
+
+  voteTickets Int @default(0)
+  candyTotal  Int @default(0)
+  potatoToal  Int @default(0)
+  keyTotal    Int @default(0)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  storyBookmarks      StoryBookmark[]
+  // 1 user thì có thể đánh giá nhiều truyện
+  ratingStorys        Rating[]
+  // 1 user thì có thể thích nhiều bài đánh giá ở nhiều truyện khác nhau
+  ratingLikes         RatingLike[]
+  // 1 user thì có thể bình luận dưới nhiều bài đánh giá ở nhiều truyện khác nhau
+  ratingComments      RatingComment[]
+  // 1 user thì có thể thích nhiều bình luận của nhiều người ở nhiều truyện khác nhau
+  ratingCommentsLikes RatingCommentLike[]
+
+  storysFan       StoryFan[]
+  uploadedStories Story[]               @relation("UserUploadedStories")
+  chaptersRead    ChapterRead[]
+  discussStorys   Discuss[]
+  discussesLikes  DiscussLike[]
+  votes           StoryRecommendation[]
+}
+
+enum Sex {
+  SECRET @map("secret")
+  MALE   @map("male")
+  FEMALE @map("female")
+}
+
+enum Role {
+  USER     @map("user")
+  UPLOADER @map("uploader")
+  ADMIN    @map("admin")
+}
+
+model UserSetting {
+  id                Int               @id @default(autoincrement())
+  userId            Int               @unique
+  user              User              @relation("UserToSetting", fields: [userId], references: [id])
+  sortReading       SortReadingOption @default(RECENTLYREAD)
+  sortMarked        SortMarkedOption  @default(RECENTLYSAVED)
+  notifyNewChapter  Boolean           @default(true)
+  notifyInteraction Boolean           @default(true)
+}
+
+enum SortReadingOption {
+  LATESTCHAPTER @map("latest_chapter")
+  RECENTLYREAD  @map("recently_read")
+  TITLE         @map("title")
+}
+
+enum SortMarkedOption {
+  LATESTCHAPTER @map("latest_chapter")
+  RECENTLYSAVED @map("recently_saved")
+  TITLE         @map("title")
+}
+
+model Story {
+  id            Int      @id @default(autoincrement())
+  title         String
+  slug          String?  @unique
+  stringUrl     String   @map("string_url")
+  totalChapters Int?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  uploaderId    Int
+  uploader      User     @relation("UserUploadedStories", fields: [uploaderId], references: [id])
+  authorId      Int
+  author        Author   @relation(fields: [authorId], references: [id])
+  introduce     String
+
+  chapters  Chapter[]
+  bookmarks StoryBookmark[]
+  ratings   Rating[]
+  fans      StoryFan[]
+  tags      Tag[]                 @relation("StoryTags")
+  discusses Discuss[]
+  votes     StoryRecommendation[]
+  stats     StoryStats?
+  topReads  TopStoryRead[]
+}
+
+model StoryRecommendation {
+  id        Int      @id @default(autoincrement())
+  userId    Int
+  storyId   Int
+  createdAt DateTime @default(now())
+
+  user  User  @relation(fields: [userId], references: [id])
+  story Story @relation(fields: [storyId], references: [id])
+}
+
+model Author {
+  id      Int     @id @default(autoincrement())
+  name    String
+  stories Story[]
+}
+
+model StoryStats {
+  storyId        Int   @id
+  story          Story @relation(fields: [storyId], references: [id])
+  weeklyChapter  Int   @default(0)
+  totalReads     Int   @default(0)
+  totalVotes     Int   @default(0)
+  totalBookmarks Int   @default(0)
+  totalComments  Int   @default(0)
+  totalFans      Int   @default(0)
+  averageRating  Float @default(0)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Chapter {
+  id       Int           @id @default(autoincrement())
+  name     String
+  number   Int
+  content  String
+  postedAt DateTime      @default(now())
+  storyId  Int
+  story    Story         @relation(fields: [storyId], references: [id])
+  reads    ChapterRead[]
+}
+
+model ChapterRead {
+  id        Int      @id @default(autoincrement())
+  readAt    DateTime @default(now())
+  userId    Int
+  user      User     @relation(fields: [userId], references: [id])
+  chapterId Int
+  chapter   Chapter  @relation(fields: [chapterId], references: [id])
+
+  @@unique([userId, chapterId])
+}
+
+model TopStoryRead {
+  id          Int      @id @default(autoincrement())
+  storyId     Int
+  story       Story    @relation(fields: [storyId], references: [id])
+  readerCount Int
+  duration    Int
+  createdAt   DateTime @default(now())
+
+  @@unique([storyId, duration, createdAt])
+}
+
+model TagGroup {
+  id   Int     @id @default(autoincrement())
+  name String  @unique
+  slug String? @unique
+  tags Tag[]
+}
+
+model Tag {
+  id      Int      @id @default(autoincrement())
+  label   String
+  slug    String?  @unique
+  groupId Int
+  group   TagGroup @relation(fields: [groupId], references: [id])
+  stories Story[]  @relation("StoryTags")
+}
+
+model StoryBookmark {
+  id        Int      @id @default(autoincrement())
+  userId    Int
+  user      User     @relation(fields: [userId], references: [id])
+  storyId   Int
+  story     Story    @relation(fields: [storyId], references: [id])
+  createdAt DateTime @default(now())
+
+  @@unique([userId, storyId])
+}
+
+model Rating {
+  id        Int      @id @default(autoincrement())
+  stars     Float
+  content   String?
+  character String?
+  plot      String?
+  world     String?
+  createdAt DateTime @default(now())
+
+  userId              Int
+  user                User            @relation(fields: [userId], references: [id])
+  storyId             Int
+  story               Story           @relation(fields: [storyId], references: [id])
+  ratingUsers         RatingLike[]
+  ratingUsersComments RatingComment[]
+
+  @@unique([userId, storyId])
+}
+
+model RatingLike {
+  id       Int    @id @default(autoincrement())
+  userId   Int
+  user     User   @relation(fields: [userId], references: [id])
+  ratingId Int
+  rating   Rating @relation(fields: [ratingId], references: [id])
+
+  @@unique([userId, ratingId])
+}
+
+model RatingComment {
+  id        Int                 @id @default(autoincrement())
+  content   String
+  createdAt DateTime            @default(now())
+  userId    Int
+  user      User                @relation(fields: [userId], references: [id])
+  ratingId  Int
+  rating    Rating              @relation(fields: [ratingId], references: [id])
+  parentId  Int?
+  parent    RatingComment?      @relation("Replies", fields: [parentId], references: [id])
+  replies   RatingComment[]     @relation("Replies")
+  userLikes RatingCommentLike[]
+}
+
+model RatingCommentLike {
+  id              Int           @id @default(autoincrement())
+  userId          Int
+  user            User          @relation(fields: [userId], references: [id])
+  ratingCommentId Int
+  ratingComment   RatingComment @relation(fields: [ratingCommentId], references: [id])
+
+  @@unique([userId, ratingCommentId])
+}
+
+model Discuss {
+  id        Int      @id @default(autoincrement())
+  content   String
+  createdAt DateTime @default(now())
+
+  userId  Int
+  user    User  @relation(fields: [userId], references: [id])
+  storyId Int
+  story   Story @relation(fields: [storyId], references: [id])
+
+  parentId Int?
+  parent   Discuss?      @relation("RepliesDiscuss", fields: [parentId], references: [id])
+  replies  Discuss[]     @relation("RepliesDiscuss")
+  likes    DiscussLike[]
+}
+
+model DiscussLike {
+  id        Int     @id @default(autoincrement())
+  userId    Int
+  user      User    @relation(fields: [userId], references: [id])
+  discussId Int
+  discuss   Discuss @relation(fields: [discussId], references: [id])
+
+  @@unique([userId, discussId])
+}
+
+model StoryFan {
+  id        Int      @id @default(autoincrement())
+  points    Int      @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  userId  Int
+  user    User  @relation(fields: [userId], references: [id])
+  storyId Int
+  story   Story @relation(fields: [storyId], references: [id])
+
+  @@unique([userId, storyId])
+}
