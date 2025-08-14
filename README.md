@@ -34,13 +34,3 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
-
-SELECT s.id AS "storyId",
-COUNT(DISTINCT cr."userId") AS "readerCount"
-FROM "ChapterRead" cr
-JOIN "Chapter" c on c.id = cr."chapterId"
-JOIN "Story" s on s.id = c."storyId"
-WHERE "readAt" >= (NOW() AT TIME ZONE 'UTC') - INTERVAL '5 minutes'
-GROUP BY s.id
-ORDER BY "readerCount" DESC
-LIMIT 100;
