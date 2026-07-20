@@ -12,7 +12,11 @@ function Reading() {
         <div className="flex flex-wrap">
             {status === "authenticated" && (
                 <>
-                    <SectionLink title="Truyện Vừa Đọc" href="#" icon />
+                    <SectionLink
+                        title="Truyện Vừa Đọc"
+                        href="/tai-khoan/tu-truyen"
+                        icon
+                    />
                     <ReadingList user={user.user} />
                 </>
             )}

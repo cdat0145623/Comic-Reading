@@ -1,8 +1,29 @@
-import { timeAgo } from "@/app/_lib/helper";
-import Link from "next/link";
+"use client";
 
-function ReadingCard({ story, index }) {
-    const { id, readAt, readNumber, title, totalChapters, slug } = story;
+import { timeAgo } from "@/app/_lib/helper";
+import { useChapterNavigation } from "@/app/hooks/useChapterNavigation";
+import Link from "next/link";
+import RemoveReadingStoryButton from "./RemoveReadingStoryButton";
+
+function ReadingCard({ story, index, userId }) {
+    const {
+        id,
+        storyId,
+        readAt,
+        lastReadAt,
+        readNumber,
+        title,
+        totalChapters,
+        slug,
+    } = story;
+    const { navigateToChapter } = useChapterNavigation();
+
+    const handleNavigate = (e) => {
+        if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+        e.preventDefault();
+        navigateToChapter({ slug, number: readNumber });
+    };
+
     return (
         <div className="grid" key={id}>
             <div
@@ -12,11 +33,14 @@ function ReadingCard({ story, index }) {
             >
                 <div className="hidden md:grid md:col-span-1">
                     <span className="text-gray-500 text-xs truncate">
-                        {timeAgo(readAt)}
+                        {timeAgo(lastReadAt ?? readAt)}
                     </span>
                 </div>
                 <div className="col-span-12 md:col-span-8 sm:col-span-9 truncate">
-                    <Link href={`/truyen/${slug}`}>
+                    <Link
+                        href={`/truyen/${slug}/chuong-${readNumber}`}
+                        onClick={handleNavigate}
+                    >
                         <span className="text-title-color font-semibold hover:text-primary">
                             {title}
                         </span>
@@ -28,9 +52,11 @@ function ReadingCard({ story, index }) {
                     </span>
                 </div>
                 <div className="col-span-1 justify-self-end">
-                    <button className="border border-color-text rounded px-2 text-primary cursor-pointer">
-                        <span className="text-xs">x</span>
-                    </button>
+                    <RemoveReadingStoryButton
+                        storyId={storyId}
+                        title={title}
+                        userId={userId}
+                    />
                 </div>
             </div>
         </div>
