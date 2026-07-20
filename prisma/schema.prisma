@@ -9,23 +9,29 @@ datasource db {
 }
 
 model User {
-  id                  String                @id @default(uuid())
-  email               String?               @unique
+  id                  String                  @id @default(uuid())
+  email               String?                 @unique
   password            String?
-  image               String?               @map("avatar_url")
+  image               String?                 @map("avatar_url")
   name                String?
   birthYear           Int?
   sex                 Sex?
-  role                Role                  @default(USER)
-  candyTotal          Int                   @default(0)
-  createdAt           DateTime              @default(now())
-  keyTotal            Int                   @default(0)
-  potatoToal          Int                   @default(0)
-  updatedAt           DateTime              @updatedAt
-  voteTickets         Int                   @default(0)
+  role                Role                    @default(USER)
+  candyTotal          Int                     @default(0)
+  createdAt           DateTime                @default(now())
+  keyTotal            Int                     @default(0)
+  potatoToal          Int                     @default(0)
+  updatedAt           DateTime                @updatedAt
+  voteTickets         Int                     @default(0)
   emailVerified       DateTime?
+  imageUpdatedAt      DateTime?
+  authVersion         Int                     @default(0)
   accounts            Account[]
   chaptersRead        ChapterRead[]
+  chapterReadEvents   ChapterReadEvent[]
+  readingStates       UserStoryReadingState[]
+  storySubscriptions  StorySubscription[]
+  notifications       Notification[]
   discussStorys       Discuss[]
   discussesLikes      DiscussLike[]
   ratingStorys        Rating[]
@@ -33,11 +39,12 @@ model User {
   ratingCommentsLikes RatingCommentLike[]
   ratingLikes         RatingLike[]
   sessions            Session[]
-  uploadedStories     Story[]               @relation("UserUploadedStories")
+  uploadedStories     Story[]                 @relation("UserUploadedStories")
   storyBookmarks      StoryBookmark[]
   storysFan           StoryFan[]
   votes               StoryRecommendation[]
-  setting             UserSetting?          @relation("UserToSetting")
+  setting             UserSetting?            @relation("UserToSetting")
+  authTokens          UserAuthToken[]
 }
 
 model Account {
@@ -74,6 +81,30 @@ model VerificationToken {
   @@unique([identifier, token])
 }
 
+model UserAuthToken {
+  id          String        @id @default(uuid())
+  userId      String
+  type        AuthTokenType
+  tokenHash   String        @unique
+  targetEmail String?
+  expiresAt   DateTime
+  usedAt      DateTime?
+  createdAt   DateTime      @default(now())
+  user        User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, type, expiresAt])
+}
+
+model AuthRateLimit {
+  keyHash         String    @id
+  failures        Int       @default(0)
+  windowStartedAt DateTime  @default(now())
+  lockedUntil     DateTime?
+  updatedAt       DateTime  @updatedAt
+
+  @@index([updatedAt])
+}
+
 model UserSetting {
   id                Int               @id @default(autoincrement())
   userId            String            @unique
@@ -81,32 +112,43 @@ model UserSetting {
   sortMarked        SortMarkedOption  @default(RECENTLYSAVED)
   notifyNewChapter  Boolean           @default(true)
   notifyInteraction Boolean           @default(true)
+  notifyGeneral     Boolean           @default(true)
   user              User              @relation("UserToSetting", fields: [userId], references: [id])
 }
 
 model Story {
-  id            Int                   @id @default(autoincrement())
-  title         String
-  slug          String?               @unique
-  stringUrl     String                @map("string_url")
-  totalChapters Int?
-  createdAt     DateTime              @default(now())
-  updatedAt     DateTime              @updatedAt
-  uploaderId    String
-  authorId      Int
-  introduce     String
-  manager_pick  Int                   @default(0)
-  chapters      Chapter[]
-  discusses     Discuss[]
-  ratings       Rating[]
-  author        Author                @relation(fields: [authorId], references: [id])
-  uploader      User                  @relation("UserUploadedStories", fields: [uploaderId], references: [id])
-  bookmarks     StoryBookmark[]
-  fans          StoryFan[]
-  votes         StoryRecommendation[]
-  stats         StoryStats?
-  topReads      TopStoryRead[]
-  tags          Tag[]                 @relation("StoryTags")
+  id              Int                     @id @default(autoincrement())
+  title           String
+  slug            String?                 @unique
+  stringUrl       String                  @map("string_url")
+  totalChapters   Int?
+  latestChapterAt DateTime?
+  createdAt       DateTime                @default(now())
+  updatedAt       DateTime                @updatedAt
+  uploaderId      String
+  authorId        Int
+  introduce       String
+  manager_pick    Int                     @default(0)
+  chapters        Chapter[]
+  discusses       Discuss[]
+  ratings         Rating[]
+  author          Author                  @relation(fields: [authorId], references: [id])
+  uploader        User                    @relation("UserUploadedStories", fields: [uploaderId], references: [id])
+  bookmarks       StoryBookmark[]
+  fans            StoryFan[]
+  votes           StoryRecommendation[]
+  stats           StoryStats?
+  dailyStats      StoryDailyReadStats[]
+  topReads        TopStoryRead[]
+  readEvents      ChapterReadEvent[]
+  readingStates   UserStoryReadingState[]
+  subscriptions   StorySubscription[]
+  notifications   Notification[]
+  tags            Tag[]                   @relation("StoryTags")
+
+  @@index([latestChapterAt])
+  @@index([latestChapterAt, id])
+  @@index([totalChapters, id])
 }
 
 model StoryRecommendation {
@@ -137,22 +179,28 @@ model StoryStats {
   updatedAt      DateTime @updatedAt
   createdAt      DateTime @default(now())
   story          Story    @relation(fields: [storyId], references: [id])
+
+  @@index([averageRating, storyId])
+  @@index([totalReads, storyId])
 }
 
 model Chapter {
-  id       Int           @id @default(autoincrement())
-  name     String
-  number   Int
-  content  String
-  postedAt DateTime      @default(now())
-  storyId  Int
-  story    Story         @relation(fields: [storyId], references: [id])
-  reads    ChapterRead[]
+  id            Int                     @id @default(autoincrement())
+  name          String
+  number        Int
+  content       String
+  postedAt      DateTime                @default(now())
+  storyId       Int
+  story         Story                   @relation(fields: [storyId], references: [id])
+  reads         ChapterRead[]
+  readEvents    ChapterReadEvent[]
+  readingStates UserStoryReadingState[]
 }
 
 model ChapterRead {
   id        Int      @id @default(autoincrement())
   readAt    DateTime @default(now())
+  updatedAt DateTime @updatedAt
   userId    String
   chapterId Int
   chapter   Chapter  @relation(fields: [chapterId], references: [id])
@@ -161,15 +209,57 @@ model ChapterRead {
   @@unique([userId, chapterId])
 }
 
+model ChapterReadEvent {
+  id        Int      @id @default(autoincrement())
+  readAt    DateTime @default(now())
+  userId    String
+  storyId   Int
+  chapterId Int
+  chapter   Chapter  @relation(fields: [chapterId], references: [id])
+  story     Story    @relation(fields: [storyId], references: [id])
+  user      User     @relation(fields: [userId], references: [id])
+
+  @@index([readAt])
+  @@index([storyId, readAt])
+  @@index([userId, readAt])
+  @@index([chapterId, readAt])
+}
+
+model UserStoryReadingState {
+  id            Int       @id @default(autoincrement())
+  userId        String
+  storyId       Int
+  lastChapterId Int
+  lastReadAt    DateTime  @default(now())
+  hiddenAt      DateTime?
+  user          User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  story         Story     @relation(fields: [storyId], references: [id], onDelete: Cascade)
+  lastChapter   Chapter   @relation(fields: [lastChapterId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, storyId])
+  @@index([userId, hiddenAt, lastReadAt])
+  @@index([storyId])
+}
+
 model TopStoryRead {
   id          Int      @id @default(autoincrement())
   storyId     Int
   readerCount Int
   createdAt   DateTime @default(now())
-  duration    Int
+  updatedAt   DateTime @updatedAt
+  windowStart DateTime
+  windowEnd   DateTime
+  story       Story    @relation(fields: [storyId], references: [id])
+}
+
+model StoryDailyReadStats {
+  id          Int      @id @default(autoincrement())
+  storyId     Int
+  date        DateTime @db.Date
+  readerCount Int      @default(0)
   story       Story    @relation(fields: [storyId], references: [id])
 
-  @@unique([storyId, duration, createdAt])
+  @@unique([storyId, date])
 }
 
 model TagGroup {
@@ -197,6 +287,36 @@ model StoryBookmark {
   user      User     @relation(fields: [userId], references: [id])
 
   @@unique([userId, storyId])
+  @@index([userId, createdAt])
+}
+
+model StorySubscription {
+  id        Int      @id @default(autoincrement())
+  userId    String
+  storyId   Int
+  createdAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  story     Story    @relation(fields: [storyId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, storyId])
+  @@index([storyId])
+}
+
+model Notification {
+  id        Int              @id @default(autoincrement())
+  userId    String
+  type      NotificationType
+  storyId   Int?
+  title     String
+  content   String?
+  dedupeKey String           @unique
+  readAt    DateTime?
+  createdAt DateTime         @default(now())
+  user      User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  story     Story?           @relation(fields: [storyId], references: [id], onDelete: Cascade)
+
+  @@index([userId, readAt, createdAt])
+  @@index([storyId, createdAt])
 }
 
 model Rating {
@@ -206,7 +326,7 @@ model Rating {
   character           String?
   plot                String?
   world               String?
-  wordCount           Int @default(0) @map("worldCount")
+  wordCount           Int             @default(0) @map("worldCount")
   createdAt           DateTime        @default(now())
   updatedAt           DateTime        @updatedAt
   likeCount           Int             @default(0)
@@ -219,73 +339,88 @@ model Rating {
   // ratingUsers         RatingLike[]
 
   @@unique([userId, storyId])
+  @@index([storyId, createdAt, id])
+  @@index([storyId, likeCount, id, createdAt])
 }
 
 model RatingLike {
-  id       Int    @id @default(autoincrement())
-  userId   String
-  ratingId Int
+  id        Int      @id @default(autoincrement())
+  userId    String
+  ratingId  Int
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  rating   Rating @relation(fields: [ratingId], references: [id])
-  user     User   @relation(fields: [userId], references: [id])
+  rating    Rating   @relation(fields: [ratingId], references: [id])
+  user      User     @relation(fields: [userId], references: [id])
 
   @@unique([userId, ratingId])
+  @@index([ratingId])
 }
 
 model RatingComment {
-  id        Int                 @id @default(autoincrement())
-  content   String
-  createdAt DateTime            @default(now())
-  updatedAt DateTime            @updatedAt
-  userId    String
-  ratingId  Int
-  parentId  Int?
-  parent    RatingComment?      @relation("Replies", fields: [parentId], references: [id])
-  replies   RatingComment[]     @relation("Replies")
-  rating    Rating              @relation(fields: [ratingId], references: [id])
-  user      User                @relation(fields: [userId], references: [id])
-  userLikes RatingCommentLike[]
+  id                 Int                 @id @default(autoincrement())
+  clientSubmissionId String?             @unique
+  content            String
+  createdAt          DateTime            @default(now())
+  updatedAt          DateTime            @updatedAt
+  userId             String
+  ratingId           Int
+  parentId           Int?
+  parent             RatingComment?      @relation("Replies", fields: [parentId], references: [id])
+  replies            RatingComment[]     @relation("Replies")
+  rating             Rating              @relation(fields: [ratingId], references: [id])
+  user               User                @relation(fields: [userId], references: [id])
+  userLikes          RatingCommentLike[]
+
+  @@index([ratingId, createdAt, id])
 }
 
 model RatingCommentLike {
   id              Int           @id @default(autoincrement())
   userId          String
   ratingCommentId Int
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
   ratingComment   RatingComment @relation(fields: [ratingCommentId], references: [id])
   user            User          @relation(fields: [userId], references: [id])
 
   @@unique([userId, ratingCommentId])
+  @@index([ratingCommentId])
 }
 
 model Discuss {
-  id        Int           @id @default(autoincrement())
-  content   String
-  createdAt DateTime      @default(now())
-  updatedAt DateTime      @updatedAt
-  userId    String
-  storyId   Int
-  parentId  Int?
-  likeCount Int           @default(0)
-  parent    Discuss?      @relation("RepliesDiscuss", fields: [parentId], references: [id])
-  replies   Discuss[]     @relation("RepliesDiscuss")
-  story     Story         @relation(fields: [storyId], references: [id])
-  user      User          @relation(fields: [userId], references: [id])
-  likes     DiscussLike[]
+  id                 Int           @id @default(autoincrement())
+  clientSubmissionId String?       @unique
+  content            String
+  createdAt          DateTime      @default(now())
+  updatedAt          DateTime      @updatedAt
+  userId             String
+  storyId            Int
+  parentId           Int?
+  threadRootId       Int?
+  likeCount          Int           @default(0)
+  parent             Discuss?      @relation("RepliesDiscuss", fields: [parentId], references: [id])
+  replies            Discuss[]     @relation("RepliesDiscuss")
+  threadRoot         Discuss?      @relation("DiscussThread", fields: [threadRootId], references: [id])
+  threadItems        Discuss[]     @relation("DiscussThread")
+  story              Story         @relation(fields: [storyId], references: [id])
+  user               User          @relation(fields: [userId], references: [id])
+  likes              DiscussLike[]
+
+  @@index([storyId, parentId, createdAt, id])
+  @@index([storyId, threadRootId, createdAt, id])
 }
 
 model DiscussLike {
-  id        Int     @id @default(autoincrement())
-  createdAt DateTime      @default(now())
-  updatedAt DateTime      @updatedAt
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
   userId    String
   discussId Int
-  discuss   Discuss @relation(fields: [discussId], references: [id])
-  user      User    @relation(fields: [userId], references: [id])
+  discuss   Discuss  @relation(fields: [discussId], references: [id])
+  user      User     @relation(fields: [userId], references: [id])
 
   @@unique([userId, discussId])
+  @@index([discussId])
 }
 
 model StoryFan {
@@ -323,4 +458,16 @@ enum SortMarkedOption {
   LATESTCHAPTER @map("latest_chapter")
   RECENTLYSAVED @map("recently_saved")
   TITLE         @map("title")
+}
+
+enum NotificationType {
+  NEW_CHAPTER
+  INTERACTION
+  SYSTEM
+}
+
+enum AuthTokenType {
+  EMAIL_VERIFICATION
+  EMAIL_CHANGE
+  PASSWORD_RESET
 }
