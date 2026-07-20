@@ -8,7 +8,7 @@ function TopRecentlyCompleted() {
         <div className="mt-5">
             <SectionLink
                 title="Mới hoàn thành"
-                href="/danh-sach/truyen-full"
+                href="/kham-pha?status=hoan-thanh"
                 icon
             />
             <Suspense fallback={<Spinner />}>

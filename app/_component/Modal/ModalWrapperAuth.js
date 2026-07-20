@@ -2,6 +2,7 @@
 import Modal from "./Modal";
 import ModalSignIn from "./ModalSignIn";
 import ModalSignUp from "./ModalSignUp";
+import ModalChapterCatalog from "../Story/ChapterCatalog/ModalChapterCatalog";
 
 function ModalWrapperAuth() {
     return (
@@ -20,6 +21,14 @@ function ModalWrapperAuth() {
                 className="m-auto"
             >
                 <ModalSignUp />
+            </Modal.Window>
+
+            <Modal.Window
+                name="chapterCatalog"
+                variant="fade-center"
+                className="m-auto !max-w-none"
+            >
+                <ModalChapterCatalog />
             </Modal.Window>
         </>
     );

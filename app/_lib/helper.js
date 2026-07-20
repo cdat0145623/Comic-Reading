@@ -3,6 +3,7 @@
 import { formatDistanceToNow } from "date-fns";
 import { vi } from "date-fns/locale";
 import { fetchRatings } from "./api";
+import { getRatingListParams, ratingKeys } from "./story-activity-query";
 
 function formatRatingContent(rating) {
     const fields = [
@@ -116,18 +117,16 @@ function insertReplyRecursively(comments, newComment) {
 }
 
 function getRatingsQueryKey({ storyId, pageSize, sortOption, isDisplayAll }) {
-    return ["ratings", { storyId, pageSize, sortOption, isDisplayAll }];
+    return ratingKeys.list({ storyId, pageSize, sortOption, isDisplayAll });
 }
 
 const fetchRatingsByKey = ({ queryKey, pageParam }) => {
-    // console.log("pageParams:", pageParam);
-    const [key, params] = queryKey;
-    console.log("key:", key);
-    console.log("params:", params);
+    const params = getRatingListParams(queryKey);
+
     return fetchRatings({
         ...params,
         paginationCursor: pageParam,
-        active: key,
+        active: "ratings",
     });
 };
 
@@ -142,6 +141,31 @@ function getFrameSrc(points) {
     if (points < 30000) return "/khung-duong-chu.png";
     if (points < 50000) return "/khung-ho-phap.png";
     return "/khung-truong-lao.png";
+}
+
+function selectedTag(tags) {
+    const groupSlugs = [
+        "tinh-trang",
+        "the-loai",
+        "tinh-cach-nhan-vat-chinh",
+        "boi-canh-the-gioi",
+        "luu-phai",
+    ];
+
+    const groupSlugsSet = new Set(groupSlugs);
+    if (!tags.length) return;
+    const filteredTags = tags
+        .filter((tag) => groupSlugsSet.has(tag.group.slug))
+        .map((tag) => ({
+            ...tag,
+            color:
+                tag.group.slug === "the-loai"
+                    ? "text-primary border-primary"
+                    : tag.group.slug === "tinh-trang"
+                      ? "text-rose-700 border-rose-700"
+                      : "text-emerald-700 border-emerald-700",
+        }));
+    return filteredTags;
 }
 
 // function sortItems(arr) {
@@ -163,10 +187,39 @@ function collect(arr) {
     ];
 
     return merged.sort(
-        (a, b) => a.createdAt.localeCompare(b.createdAt) || a.id - b.id
+        (a, b) => a.createdAt.localeCompare(b.createdAt) || a.id - b.id,
     );
 }
+
+function breakSentences(title, content) {
+    const formatedContent = content.replace(/([.!?…])\s+/g, "$1\n\n").trim();
+
+    return `${title}\n\n${formatedContent}`;
+}
+
+function sortByReaderCount(arr, order = "desc") {
+    return arr.sort((a, b) => {
+        if (order === "asc") {
+            return a.readerCount - b.readerCount;
+        } else {
+            return b.readerCount - a.readerCount;
+        }
+    });
+}
+
+const generateImageUrl = (imageUrl, updatedAt) => {
+    const time = new Date(updatedAt).getTime();
+    // console.log(
+    //     `https://res.cloudinary.com/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}/image/upload/w_200/${imageUrl}?t=${time}`,
+    // );
+    // return `https://res.cloudinary.com/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}/image/upload/w_200/${imageUrl}?t=${time}`;
+    return `${imageUrl}?t=${time}`;
+};
+
 export {
+    sortByReaderCount,
+    breakSentences,
+    selectedTag,
     getFrameSrc,
     formatRatingContent,
     timeAgo,
@@ -179,18 +232,6 @@ export {
     getRatingsQueryKey,
     fetchRatingsByKey,
     makeStateKey,
-    // sortItems,
     collect,
+    generateImageUrl,
 };
-
-// function getRatingsQueryKey({ storyId, pageSize, sortOption, isDisplayAll }) {
-//     return [
-//         "ratings",
-//         JSON.stringify({ storyId, pageSize, sortOption, isDisplayAll }),
-//     ];
-// }
-
-// const fetchRatingsByKey = ({ queryKey, pageParam = 1 }) => {
-//     const [, params] = queryKey;
-//     return fetchRatings({ ...params, page: pageParam });
-// };

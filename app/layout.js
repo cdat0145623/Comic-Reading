@@ -3,8 +3,12 @@ import Header from "./_component/Header";
 import Banner from "./_component/Banner";
 import Footer from "./_component/Footer";
 import SessionWrapper from "./_component/SessionWrapper";
-import { auth } from "@/lib/auth-with-adapter";
+import { auth } from "@/lib/auth";
 import Providers from "./Providers";
+import { NavigationProgressProvider } from "./_component/NavigationProgressBar";
+import { getAppearanceBootstrapScript } from "./_lib/appearance";
+import RouteChrome from "./_component/RouteChrome";
+import AuthHeader from "./_component/Auth/AuthHeader";
 
 export const metadata = {
     title: {
@@ -18,15 +22,28 @@ export default async function RootLayout({ children }) {
     const session = await auth();
     // console.log("Root Sesssion::::", session);
     return (
-        <html lang="en">
+        <html lang="vi" suppressHydrationWarning>
+            <head>
+                <script
+                    dangerouslySetInnerHTML={{
+                        __html: getAppearanceBootstrapScript(),
+                    }}
+                />
+            </head>
             <body className="min-h-screen">
                 <Providers>
-                    <SessionWrapper session={session}>
-                        <Header />
-                        <Banner />
-                        <main className="mt-6 space-y-5">{children}</main>
-                        <Footer />
-                    </SessionWrapper>
+                    <NavigationProgressProvider>
+                        <SessionWrapper session={session}>
+                            <RouteChrome
+                                siteHeader={<Header />}
+                                authHeader={<AuthHeader />}
+                                banner={<Banner />}
+                                footer={<Footer />}
+                            >
+                                {children}
+                            </RouteChrome>
+                        </SessionWrapper>
+                    </NavigationProgressProvider>
                 </Providers>
             </body>
         </html>

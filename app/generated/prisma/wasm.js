@@ -135,7 +135,9 @@ exports.Prisma.UserScalarFieldEnum = {
   potatoToal: 'potatoToal',
   updatedAt: 'updatedAt',
   voteTickets: 'voteTickets',
-  emailVerified: 'emailVerified'
+  emailVerified: 'emailVerified',
+  imageUpdatedAt: 'imageUpdatedAt',
+  authVersion: 'authVersion'
 };
 
 exports.Prisma.AccountScalarFieldEnum = {
@@ -166,13 +168,33 @@ exports.Prisma.VerificationTokenScalarFieldEnum = {
   expires: 'expires'
 };
 
+exports.Prisma.UserAuthTokenScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  type: 'type',
+  tokenHash: 'tokenHash',
+  targetEmail: 'targetEmail',
+  expiresAt: 'expiresAt',
+  usedAt: 'usedAt',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.AuthRateLimitScalarFieldEnum = {
+  keyHash: 'keyHash',
+  failures: 'failures',
+  windowStartedAt: 'windowStartedAt',
+  lockedUntil: 'lockedUntil',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.UserSettingScalarFieldEnum = {
   id: 'id',
   userId: 'userId',
   sortReading: 'sortReading',
   sortMarked: 'sortMarked',
   notifyNewChapter: 'notifyNewChapter',
-  notifyInteraction: 'notifyInteraction'
+  notifyInteraction: 'notifyInteraction',
+  notifyGeneral: 'notifyGeneral'
 };
 
 exports.Prisma.StoryScalarFieldEnum = {
@@ -181,6 +203,7 @@ exports.Prisma.StoryScalarFieldEnum = {
   slug: 'slug',
   stringUrl: 'stringUrl',
   totalChapters: 'totalChapters',
+  latestChapterAt: 'latestChapterAt',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
   uploaderId: 'uploaderId',
@@ -227,8 +250,26 @@ exports.Prisma.ChapterScalarFieldEnum = {
 exports.Prisma.ChapterReadScalarFieldEnum = {
   id: 'id',
   readAt: 'readAt',
+  updatedAt: 'updatedAt',
   userId: 'userId',
   chapterId: 'chapterId'
+};
+
+exports.Prisma.ChapterReadEventScalarFieldEnum = {
+  id: 'id',
+  readAt: 'readAt',
+  userId: 'userId',
+  storyId: 'storyId',
+  chapterId: 'chapterId'
+};
+
+exports.Prisma.UserStoryReadingStateScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  storyId: 'storyId',
+  lastChapterId: 'lastChapterId',
+  lastReadAt: 'lastReadAt',
+  hiddenAt: 'hiddenAt'
 };
 
 exports.Prisma.TopStoryReadScalarFieldEnum = {
@@ -236,7 +277,16 @@ exports.Prisma.TopStoryReadScalarFieldEnum = {
   storyId: 'storyId',
   readerCount: 'readerCount',
   createdAt: 'createdAt',
-  duration: 'duration'
+  updatedAt: 'updatedAt',
+  windowStart: 'windowStart',
+  windowEnd: 'windowEnd'
+};
+
+exports.Prisma.StoryDailyReadStatsScalarFieldEnum = {
+  id: 'id',
+  storyId: 'storyId',
+  date: 'date',
+  readerCount: 'readerCount'
 };
 
 exports.Prisma.TagGroupScalarFieldEnum = {
@@ -256,6 +306,25 @@ exports.Prisma.StoryBookmarkScalarFieldEnum = {
   id: 'id',
   userId: 'userId',
   storyId: 'storyId',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.StorySubscriptionScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  storyId: 'storyId',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.NotificationScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  type: 'type',
+  storyId: 'storyId',
+  title: 'title',
+  content: 'content',
+  dedupeKey: 'dedupeKey',
+  readAt: 'readAt',
   createdAt: 'createdAt'
 };
 
@@ -284,6 +353,7 @@ exports.Prisma.RatingLikeScalarFieldEnum = {
 
 exports.Prisma.RatingCommentScalarFieldEnum = {
   id: 'id',
+  clientSubmissionId: 'clientSubmissionId',
   content: 'content',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
@@ -302,12 +372,14 @@ exports.Prisma.RatingCommentLikeScalarFieldEnum = {
 
 exports.Prisma.DiscussScalarFieldEnum = {
   id: 'id',
+  clientSubmissionId: 'clientSubmissionId',
   content: 'content',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
   userId: 'userId',
   storyId: 'storyId',
   parentId: 'parentId',
+  threadRootId: 'threadRootId',
   likeCount: 'likeCount'
 };
 
@@ -354,6 +426,12 @@ exports.Role = exports.$Enums.Role = {
   ADMIN: 'ADMIN'
 };
 
+exports.AuthTokenType = exports.$Enums.AuthTokenType = {
+  EMAIL_VERIFICATION: 'EMAIL_VERIFICATION',
+  EMAIL_CHANGE: 'EMAIL_CHANGE',
+  PASSWORD_RESET: 'PASSWORD_RESET'
+};
+
 exports.SortReadingOption = exports.$Enums.SortReadingOption = {
   LATESTCHAPTER: 'LATESTCHAPTER',
   RECENTLYREAD: 'RECENTLYREAD',
@@ -366,11 +444,19 @@ exports.SortMarkedOption = exports.$Enums.SortMarkedOption = {
   TITLE: 'TITLE'
 };
 
+exports.NotificationType = exports.$Enums.NotificationType = {
+  NEW_CHAPTER: 'NEW_CHAPTER',
+  INTERACTION: 'INTERACTION',
+  SYSTEM: 'SYSTEM'
+};
+
 exports.Prisma.ModelName = {
   User: 'User',
   Account: 'Account',
   Session: 'Session',
   VerificationToken: 'VerificationToken',
+  UserAuthToken: 'UserAuthToken',
+  AuthRateLimit: 'AuthRateLimit',
   UserSetting: 'UserSetting',
   Story: 'Story',
   StoryRecommendation: 'StoryRecommendation',
@@ -378,10 +464,15 @@ exports.Prisma.ModelName = {
   StoryStats: 'StoryStats',
   Chapter: 'Chapter',
   ChapterRead: 'ChapterRead',
+  ChapterReadEvent: 'ChapterReadEvent',
+  UserStoryReadingState: 'UserStoryReadingState',
   TopStoryRead: 'TopStoryRead',
+  StoryDailyReadStats: 'StoryDailyReadStats',
   TagGroup: 'TagGroup',
   Tag: 'Tag',
   StoryBookmark: 'StoryBookmark',
+  StorySubscription: 'StorySubscription',
+  Notification: 'Notification',
   Rating: 'Rating',
   RatingLike: 'RatingLike',
   RatingComment: 'RatingComment',

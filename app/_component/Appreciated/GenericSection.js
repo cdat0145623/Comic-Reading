@@ -2,6 +2,7 @@
 import Spinner from "../Spinner";
 import RatingItem from "../Story/Activity/Rating/RatingItem";
 import { useInfiniteGeneric } from "@/app/hooks/useInfiniteGeneric";
+import { useEffect } from "react";
 
 function GenericSection({
     queryKey,
@@ -9,12 +10,18 @@ function GenericSection({
     page = 1,
     pageSize = 10,
     isDisplayAll = false,
+    onCountChange,
     sortOption = "newest",
     storyId,
 }) {
     const { data, fetchNextPage, hasNextPage, isFetchingNextPage } =
         useInfiniteGeneric({ queryKey });
     const isGlobalRatingPage = pageSize === 4 || pageSize === 20;
+    const visibleCount = data?.pages?.[0]?.visibleCount;
+
+    useEffect(() => {
+        if (Number.isFinite(visibleCount)) onCountChange?.(visibleCount);
+    }, [onCountChange, visibleCount]);
 
     let genericData;
     if (activeTab === "ratings")

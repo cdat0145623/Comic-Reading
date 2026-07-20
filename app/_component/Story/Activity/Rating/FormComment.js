@@ -3,37 +3,28 @@ import { useSession } from "next-auth/react";
 import { useForm } from "react-hook-form";
 import { useModal } from "@/app/_component/Modal/Modal";
 import { notify } from "@/lib/toaster";
-import { useParams } from "next/navigation";
 import SpinnerMini from "@/app/_component/SpinnerMini";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { useCreateComment } from "@/app/hooks/useCreateComment";
+import { useActivityDraft } from "@/app/hooks/useActivityDraft";
 
 function FormComment({
     storyId,
-    sortOption,
     ratingId,
+    rootCommentId,
     setIsReply,
-    setNewComments,
     commentId,
-    onRatingUpdated,
     mentionName,
     user,
-    tempComments,
-    setTempComments,
     showComments,
     setShowComments,
     activeTab,
-    // setCommentIdToRootMap,
-    // commentIdToRootMap,
 }) {
     // console.log("ratingId", ratingId);
     const {
         register,
-        formState: { errors, isSubmitting, isSubmitted },
         handleSubmit,
-        setValue,
         getValues,
-        clearErrors,
         reset,
         setFocus,
         watch,
@@ -41,26 +32,23 @@ function FormComment({
 
     const { data: session } = useSession();
     const { open } = useModal();
-    const params = useParams();
-    const textAreaRef = useRef(null);
     const [placeholder, setPlaceHolder] = useState("Trả lời...");
-    const handleSuccess = (newComment, message) => {
-        reset();
-        setIsReply((prev) => !prev);
-        if (showComments === false) {
-            setShowComments(true);
-        }
+    const handleSuccess = (_newComment, message) => {
+        setIsReply(false);
         notify({ type: "success", message: message || "Success" });
     };
     const { submitComment, isLoadingComment } = useCreateComment({
-        tempComments,
-        setTempComments,
-        showComments,
+        activeTab,
         onSuccess: handleSuccess,
-        sortOption,
-        rootCommentId: ratingId,
-        // setCommentIdToRootMap,
-        // commentIdToRootMap,
+        ratingId,
+        rootCommentId,
+        storyId,
+    });
+    const clearDraft = useActivityDraft({
+        reset,
+        scope: `${activeTab}:${storyId}:${ratingId || rootCommentId}:${commentId || "root"}`,
+        userId: session?.user?.id,
+        watch,
     });
 
     useEffect(() => {
@@ -68,28 +56,28 @@ function FormComment({
         if (mentionName) {
             const current = watch("content") || "";
             const isReplyOther = user?.id !== session?.user?.id;
-            console.log("isReplyToOther::", isReplyOther);
             if (!current.startsWith(mentionName) && isReplyOther) {
                 setPlaceHolder(`${mentionName} ${current}`);
             }
         }
         // }
-    }, []);
+    }, [mentionName, session?.user?.id, setFocus, user?.id, watch]);
 
-    const onComment = async (data) => {
-        console.log("Data:", data);
+    const onComment = async () => {
         const params =
             activeTab === "ratings"
                 ? {
                       formData: getValues(),
                       ratingId,
                       commentId,
+                      rootCommentId,
                       storyId,
                       active: activeTab,
                   }
                 : {
                       formData: getValues(),
                       commentId,
+                      rootCommentId,
                       storyId,
                       active: activeTab,
                   };
@@ -98,18 +86,16 @@ function FormComment({
             open("signIn");
             return;
         }
-        submitComment(params);
-
-        // submitComment({
-        //     formData: getValues(),
-        //     ratingId,
-        //     commentId,
-        //     storyId,
-        //     active: activeTab,
-        // });
+        if (showComments === false) setShowComments(true);
+        submitComment({
+            ...params,
+            clientSubmissionId: crypto.randomUUID(),
+        });
+        clearDraft();
+        reset();
     };
 
-    const onError = async (errors) => {
+    const onError = (errors) => {
         if (errors?.content?.message) {
             notify({
                 type: "error",
@@ -124,7 +110,6 @@ function FormComment({
             <form onSubmit={handleSubmit(onComment, onError)}>
                 <div className="mb-4 flex items-center space-x-2">
                     <textarea
-                        ref={textAreaRef}
                         {...register("content", {
                             required: "Nội dung không được để trống",
                             validate: (value) => {

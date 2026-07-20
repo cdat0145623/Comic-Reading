@@ -3,31 +3,41 @@
 import { notify } from "@/lib/toaster";
 import { useSession } from "next-auth/react";
 import { useForm } from "react-hook-form";
+import { useModal } from "@/app/_component/Modal/Modal";
+import { useActivityDraft } from "@/app/hooks/useActivityDraft";
 
 function FormDiscuss({ storyId, createDiscuss }) {
     const {
         register,
-        formState: { errors, isSubmitting, isSubmitted },
         handleSubmit,
-        setValue,
         getValues,
-        clearErrors,
         reset,
-        setFocus,
         watch,
     } = useForm();
 
     const { data: session } = useSession();
-    const onDiscuss = (data) => {
+    const { open } = useModal();
+    const clearDraft = useActivityDraft({
+        reset,
+        scope: `root-discussion:${storyId}`,
+        userId: session?.user?.id,
+        watch,
+    });
+    const onDiscuss = () => {
         if (!session) {
             open("signIn");
             return;
         }
-        createDiscuss({ formData: getValues(), storyId });
+        createDiscuss({
+            clientSubmissionId: crypto.randomUUID(),
+            formData: getValues(),
+            storyId,
+        });
+        clearDraft();
         reset();
     };
 
-    const onError = async (errors) => {
+    const onError = (errors) => {
         if (errors?.content?.message) {
             notify({
                 type: "error",

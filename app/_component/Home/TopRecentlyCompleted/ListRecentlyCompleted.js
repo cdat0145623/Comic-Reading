@@ -3,7 +3,7 @@ import SwiperCompleted from "./SwiperCompleted";
 
 async function ListRecentlyCompleted() {
     const topStoriesComplete = await getStoriesRecentlyCompleted();
-    // console.log(topStoriesComplete);
+
     return (
         <>
             {!topStoriesComplete || topStoriesComplete?.length === 0 ? (

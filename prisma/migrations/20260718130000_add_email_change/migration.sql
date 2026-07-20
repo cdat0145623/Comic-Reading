@@ -1,0 +1,4 @@
+ALTER TYPE "AuthTokenType" ADD VALUE 'EMAIL_CHANGE';
+
+ALTER TABLE "UserAuthToken"
+ADD COLUMN "targetEmail" TEXT;

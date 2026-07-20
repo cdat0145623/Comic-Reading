@@ -1,10 +1,10 @@
 import Image from "next/image";
-import Link from "next/link";
 import logo from "@/public/logo.png";
+import NavigationLink from "./NavigationLink";
 
 function Logo() {
     return (
-        <Link href="/">
+        <NavigationLink href="/" aria-label="Trang chủ">
             <Image
                 src={logo}
                 height={40}
@@ -12,7 +12,7 @@ function Logo() {
                 alt="Image me truyen chu"
                 quality={100}
             />
-        </Link>
+        </NavigationLink>
     );
 }
 

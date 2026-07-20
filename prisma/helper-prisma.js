@@ -19,6 +19,14 @@ function generateRandomElement(arr, count) {
     return suffled.slice(0, count);
 }
 
+function randomDateWithinLastHour() {
+    const now = new Date();
+    const past = new Date(now.getTime() - 5 * 60 * 1000);
+    const randomTime =
+        past.getTime() + Math.random() * (now.getTime() - past.getTime());
+    return new Date(randomTime);
+}
+
 const randomItem = (array) => array[Math.floor(Math.random() * array.length)];
 
 function generateRandomRating() {
@@ -152,4 +160,5 @@ export {
     generateUniqueSlug,
     generateRandomWord,
     countTotalWorlds,
+    randomDateWithinLastHour,
 };

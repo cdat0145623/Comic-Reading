@@ -1,6 +1,10 @@
 import { getFanStory, getRatings } from "@/app/_lib/data-service";
 import { parseNumberParams } from "@/app/_lib/helper-server";
 import { NextResponse } from "next/server";
+import {
+    getRatingComments,
+    getStoryDiscussions,
+} from "@/app/_lib/story-activity-service";
 
 export async function GET(request, { params }) {
     const { active } = await params;
@@ -14,13 +18,17 @@ export async function GET(request, { params }) {
         ? JSON.parse(rawPaginationCursor)
         : undefined;
 
-    const pageSize = parseNumberParams(searchParams.get("pageSize"), 20);
+    const pageSize = Math.min(
+        Math.max(parseNumberParams(searchParams.get("pageSize"), 20), 1),
+        20,
+    );
 
     const isDisplayAll = searchParams.get("isDisplayAll") === "true";
 
     const rawStoryId = searchParams.get("storyId");
 
     let ratingId = searchParams.get("ratingId");
+    const rawRootCommentId = searchParams.get("rootCommentId");
     let storyId;
     storyId =
         rawStoryId === null || rawStoryId === "false"
@@ -34,7 +42,7 @@ export async function GET(request, { params }) {
         if (ratingId && active === "ratings") {
             ratingId = Number(ratingId);
             props = { ratingId, ...props };
-            const { comments, nextCursor } = await getRatings(props);
+            const { comments, nextCursor } = await getRatingComments(props);
             return NextResponse.json({
                 success: true,
                 comments,
@@ -58,22 +66,24 @@ export async function GET(request, { params }) {
             });
         }
         if (active === "comments") {
-            ratingId = Number(ratingId);
             storyId = Number(rawStoryId);
-            props = { ratingId, storyId, ...props };
-            const { discuss, nextCursor } = await getRatings(props);
+            const rootCommentId = rawRootCommentId
+                ? Number(rawRootCommentId)
+                : undefined;
+            props = { rootCommentId, storyId, ...props };
+            const { discuss, nextCursor } = await getStoryDiscussions(props);
             return NextResponse.json({
                 success: true,
                 discuss,
                 nextCursor,
             });
         }
-        const { ratings, nextCursor, count } = await getRatings(props);
+        const { ratings, nextCursor, visibleCount } = await getRatings(props);
         return NextResponse.json({
             success: true,
             ratings,
             nextCursor,
-            count,
+            visibleCount,
         });
     } catch (e) {
         console.log("Server API Error:::", e);

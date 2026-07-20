@@ -1,0 +1,46 @@
+.readerCanvas {
+    min-height: 72vh;
+    padding: 0;
+    color: var(--app-text);
+    background-color: var(--app-canvas);
+    box-shadow: 0 0 0 100vmax var(--app-canvas);
+    clip-path: inset(0 -100vmax);
+    transition:
+        color 200ms ease,
+        background-color 200ms ease;
+}
+
+.readerSurface {
+    width: 100%;
+    max-width: 1024px;
+    min-height: 72vh;
+    margin: 0 auto;
+    padding-top: 1px;
+    overflow: hidden;
+    background-color: var(--app-surface);
+    border: 1px solid var(--app-border);
+    box-shadow: 0 16px 36px rgb(15 23 42 / 8%);
+    transition:
+        color 200ms ease,
+        background-color 200ms ease,
+        border-color 200ms ease;
+}
+
+.readerFlow {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+@media (max-width: 719px) {
+    .readerCanvas {
+        padding: 0;
+    }
+
+    .readerSurface {
+        width: 100%;
+        border-right: 0;
+        border-left: 0;
+        box-shadow: none;
+    }
+}

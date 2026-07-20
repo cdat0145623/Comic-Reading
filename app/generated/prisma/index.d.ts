@@ -34,6 +34,16 @@ export type Session = $Result.DefaultSelection<Prisma.$SessionPayload>
  */
 export type VerificationToken = $Result.DefaultSelection<Prisma.$VerificationTokenPayload>
 /**
+ * Model UserAuthToken
+ * 
+ */
+export type UserAuthToken = $Result.DefaultSelection<Prisma.$UserAuthTokenPayload>
+/**
+ * Model AuthRateLimit
+ * 
+ */
+export type AuthRateLimit = $Result.DefaultSelection<Prisma.$AuthRateLimitPayload>
+/**
  * Model UserSetting
  * 
  */
@@ -69,10 +79,25 @@ export type Chapter = $Result.DefaultSelection<Prisma.$ChapterPayload>
  */
 export type ChapterRead = $Result.DefaultSelection<Prisma.$ChapterReadPayload>
 /**
+ * Model ChapterReadEvent
+ * 
+ */
+export type ChapterReadEvent = $Result.DefaultSelection<Prisma.$ChapterReadEventPayload>
+/**
+ * Model UserStoryReadingState
+ * 
+ */
+export type UserStoryReadingState = $Result.DefaultSelection<Prisma.$UserStoryReadingStatePayload>
+/**
  * Model TopStoryRead
  * 
  */
 export type TopStoryRead = $Result.DefaultSelection<Prisma.$TopStoryReadPayload>
+/**
+ * Model StoryDailyReadStats
+ * 
+ */
+export type StoryDailyReadStats = $Result.DefaultSelection<Prisma.$StoryDailyReadStatsPayload>
 /**
  * Model TagGroup
  * 
@@ -88,6 +113,16 @@ export type Tag = $Result.DefaultSelection<Prisma.$TagPayload>
  * 
  */
 export type StoryBookmark = $Result.DefaultSelection<Prisma.$StoryBookmarkPayload>
+/**
+ * Model StorySubscription
+ * 
+ */
+export type StorySubscription = $Result.DefaultSelection<Prisma.$StorySubscriptionPayload>
+/**
+ * Model Notification
+ * 
+ */
+export type Notification = $Result.DefaultSelection<Prisma.$NotificationPayload>
 /**
  * Model Rating
  * 
@@ -163,6 +198,24 @@ export const SortMarkedOption: {
 
 export type SortMarkedOption = (typeof SortMarkedOption)[keyof typeof SortMarkedOption]
 
+
+export const NotificationType: {
+  NEW_CHAPTER: 'NEW_CHAPTER',
+  INTERACTION: 'INTERACTION',
+  SYSTEM: 'SYSTEM'
+};
+
+export type NotificationType = (typeof NotificationType)[keyof typeof NotificationType]
+
+
+export const AuthTokenType: {
+  EMAIL_VERIFICATION: 'EMAIL_VERIFICATION',
+  EMAIL_CHANGE: 'EMAIL_CHANGE',
+  PASSWORD_RESET: 'PASSWORD_RESET'
+};
+
+export type AuthTokenType = (typeof AuthTokenType)[keyof typeof AuthTokenType]
+
 }
 
 export type Sex = $Enums.Sex
@@ -180,6 +233,14 @@ export const SortReadingOption: typeof $Enums.SortReadingOption
 export type SortMarkedOption = $Enums.SortMarkedOption
 
 export const SortMarkedOption: typeof $Enums.SortMarkedOption
+
+export type NotificationType = $Enums.NotificationType
+
+export const NotificationType: typeof $Enums.NotificationType
+
+export type AuthTokenType = $Enums.AuthTokenType
+
+export const AuthTokenType: typeof $Enums.AuthTokenType
 
 /**
  * ##  Prisma Client ʲˢ
@@ -347,6 +408,26 @@ export class PrismaClient<
   get verificationToken(): Prisma.VerificationTokenDelegate<ExtArgs, ClientOptions>;
 
   /**
+   * `prisma.userAuthToken`: Exposes CRUD operations for the **UserAuthToken** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more UserAuthTokens
+    * const userAuthTokens = await prisma.userAuthToken.findMany()
+    * ```
+    */
+  get userAuthToken(): Prisma.UserAuthTokenDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.authRateLimit`: Exposes CRUD operations for the **AuthRateLimit** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more AuthRateLimits
+    * const authRateLimits = await prisma.authRateLimit.findMany()
+    * ```
+    */
+  get authRateLimit(): Prisma.AuthRateLimitDelegate<ExtArgs, ClientOptions>;
+
+  /**
    * `prisma.userSetting`: Exposes CRUD operations for the **UserSetting** model.
     * Example usage:
     * ```ts
@@ -417,6 +498,26 @@ export class PrismaClient<
   get chapterRead(): Prisma.ChapterReadDelegate<ExtArgs, ClientOptions>;
 
   /**
+   * `prisma.chapterReadEvent`: Exposes CRUD operations for the **ChapterReadEvent** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more ChapterReadEvents
+    * const chapterReadEvents = await prisma.chapterReadEvent.findMany()
+    * ```
+    */
+  get chapterReadEvent(): Prisma.ChapterReadEventDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.userStoryReadingState`: Exposes CRUD operations for the **UserStoryReadingState** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more UserStoryReadingStates
+    * const userStoryReadingStates = await prisma.userStoryReadingState.findMany()
+    * ```
+    */
+  get userStoryReadingState(): Prisma.UserStoryReadingStateDelegate<ExtArgs, ClientOptions>;
+
+  /**
    * `prisma.topStoryRead`: Exposes CRUD operations for the **TopStoryRead** model.
     * Example usage:
     * ```ts
@@ -425,6 +526,16 @@ export class PrismaClient<
     * ```
     */
   get topStoryRead(): Prisma.TopStoryReadDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.storyDailyReadStats`: Exposes CRUD operations for the **StoryDailyReadStats** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more StoryDailyReadStats
+    * const storyDailyReadStats = await prisma.storyDailyReadStats.findMany()
+    * ```
+    */
+  get storyDailyReadStats(): Prisma.StoryDailyReadStatsDelegate<ExtArgs, ClientOptions>;
 
   /**
    * `prisma.tagGroup`: Exposes CRUD operations for the **TagGroup** model.
@@ -455,6 +566,26 @@ export class PrismaClient<
     * ```
     */
   get storyBookmark(): Prisma.StoryBookmarkDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.storySubscription`: Exposes CRUD operations for the **StorySubscription** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more StorySubscriptions
+    * const storySubscriptions = await prisma.storySubscription.findMany()
+    * ```
+    */
+  get storySubscription(): Prisma.StorySubscriptionDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.notification`: Exposes CRUD operations for the **Notification** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Notifications
+    * const notifications = await prisma.notification.findMany()
+    * ```
+    */
+  get notification(): Prisma.NotificationDelegate<ExtArgs, ClientOptions>;
 
   /**
    * `prisma.rating`: Exposes CRUD operations for the **Rating** model.
@@ -969,6 +1100,8 @@ export namespace Prisma {
     Account: 'Account',
     Session: 'Session',
     VerificationToken: 'VerificationToken',
+    UserAuthToken: 'UserAuthToken',
+    AuthRateLimit: 'AuthRateLimit',
     UserSetting: 'UserSetting',
     Story: 'Story',
     StoryRecommendation: 'StoryRecommendation',
@@ -976,10 +1109,15 @@ export namespace Prisma {
     StoryStats: 'StoryStats',
     Chapter: 'Chapter',
     ChapterRead: 'ChapterRead',
+    ChapterReadEvent: 'ChapterReadEvent',
+    UserStoryReadingState: 'UserStoryReadingState',
     TopStoryRead: 'TopStoryRead',
+    StoryDailyReadStats: 'StoryDailyReadStats',
     TagGroup: 'TagGroup',
     Tag: 'Tag',
     StoryBookmark: 'StoryBookmark',
+    StorySubscription: 'StorySubscription',
+    Notification: 'Notification',
     Rating: 'Rating',
     RatingLike: 'RatingLike',
     RatingComment: 'RatingComment',
@@ -1005,7 +1143,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user" | "account" | "session" | "verificationToken" | "userSetting" | "story" | "storyRecommendation" | "author" | "storyStats" | "chapter" | "chapterRead" | "topStoryRead" | "tagGroup" | "tag" | "storyBookmark" | "rating" | "ratingLike" | "ratingComment" | "ratingCommentLike" | "discuss" | "discussLike" | "storyFan"
+      modelProps: "user" | "account" | "session" | "verificationToken" | "userAuthToken" | "authRateLimit" | "userSetting" | "story" | "storyRecommendation" | "author" | "storyStats" | "chapter" | "chapterRead" | "chapterReadEvent" | "userStoryReadingState" | "topStoryRead" | "storyDailyReadStats" | "tagGroup" | "tag" | "storyBookmark" | "storySubscription" | "notification" | "rating" | "ratingLike" | "ratingComment" | "ratingCommentLike" | "discuss" | "discussLike" | "storyFan"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1302,6 +1440,154 @@ export namespace Prisma {
           count: {
             args: Prisma.VerificationTokenCountArgs<ExtArgs>
             result: $Utils.Optional<VerificationTokenCountAggregateOutputType> | number
+          }
+        }
+      }
+      UserAuthToken: {
+        payload: Prisma.$UserAuthTokenPayload<ExtArgs>
+        fields: Prisma.UserAuthTokenFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.UserAuthTokenFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserAuthTokenPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.UserAuthTokenFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserAuthTokenPayload>
+          }
+          findFirst: {
+            args: Prisma.UserAuthTokenFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserAuthTokenPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.UserAuthTokenFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserAuthTokenPayload>
+          }
+          findMany: {
+            args: Prisma.UserAuthTokenFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserAuthTokenPayload>[]
+          }
+          create: {
+            args: Prisma.UserAuthTokenCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserAuthTokenPayload>
+          }
+          createMany: {
+            args: Prisma.UserAuthTokenCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.UserAuthTokenCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserAuthTokenPayload>[]
+          }
+          delete: {
+            args: Prisma.UserAuthTokenDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserAuthTokenPayload>
+          }
+          update: {
+            args: Prisma.UserAuthTokenUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserAuthTokenPayload>
+          }
+          deleteMany: {
+            args: Prisma.UserAuthTokenDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.UserAuthTokenUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.UserAuthTokenUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserAuthTokenPayload>[]
+          }
+          upsert: {
+            args: Prisma.UserAuthTokenUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserAuthTokenPayload>
+          }
+          aggregate: {
+            args: Prisma.UserAuthTokenAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateUserAuthToken>
+          }
+          groupBy: {
+            args: Prisma.UserAuthTokenGroupByArgs<ExtArgs>
+            result: $Utils.Optional<UserAuthTokenGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.UserAuthTokenCountArgs<ExtArgs>
+            result: $Utils.Optional<UserAuthTokenCountAggregateOutputType> | number
+          }
+        }
+      }
+      AuthRateLimit: {
+        payload: Prisma.$AuthRateLimitPayload<ExtArgs>
+        fields: Prisma.AuthRateLimitFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.AuthRateLimitFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AuthRateLimitPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.AuthRateLimitFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AuthRateLimitPayload>
+          }
+          findFirst: {
+            args: Prisma.AuthRateLimitFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AuthRateLimitPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.AuthRateLimitFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AuthRateLimitPayload>
+          }
+          findMany: {
+            args: Prisma.AuthRateLimitFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AuthRateLimitPayload>[]
+          }
+          create: {
+            args: Prisma.AuthRateLimitCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AuthRateLimitPayload>
+          }
+          createMany: {
+            args: Prisma.AuthRateLimitCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.AuthRateLimitCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AuthRateLimitPayload>[]
+          }
+          delete: {
+            args: Prisma.AuthRateLimitDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AuthRateLimitPayload>
+          }
+          update: {
+            args: Prisma.AuthRateLimitUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AuthRateLimitPayload>
+          }
+          deleteMany: {
+            args: Prisma.AuthRateLimitDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.AuthRateLimitUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.AuthRateLimitUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AuthRateLimitPayload>[]
+          }
+          upsert: {
+            args: Prisma.AuthRateLimitUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AuthRateLimitPayload>
+          }
+          aggregate: {
+            args: Prisma.AuthRateLimitAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateAuthRateLimit>
+          }
+          groupBy: {
+            args: Prisma.AuthRateLimitGroupByArgs<ExtArgs>
+            result: $Utils.Optional<AuthRateLimitGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.AuthRateLimitCountArgs<ExtArgs>
+            result: $Utils.Optional<AuthRateLimitCountAggregateOutputType> | number
           }
         }
       }
@@ -1823,6 +2109,154 @@ export namespace Prisma {
           }
         }
       }
+      ChapterReadEvent: {
+        payload: Prisma.$ChapterReadEventPayload<ExtArgs>
+        fields: Prisma.ChapterReadEventFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.ChapterReadEventFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ChapterReadEventPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.ChapterReadEventFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ChapterReadEventPayload>
+          }
+          findFirst: {
+            args: Prisma.ChapterReadEventFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ChapterReadEventPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.ChapterReadEventFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ChapterReadEventPayload>
+          }
+          findMany: {
+            args: Prisma.ChapterReadEventFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ChapterReadEventPayload>[]
+          }
+          create: {
+            args: Prisma.ChapterReadEventCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ChapterReadEventPayload>
+          }
+          createMany: {
+            args: Prisma.ChapterReadEventCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.ChapterReadEventCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ChapterReadEventPayload>[]
+          }
+          delete: {
+            args: Prisma.ChapterReadEventDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ChapterReadEventPayload>
+          }
+          update: {
+            args: Prisma.ChapterReadEventUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ChapterReadEventPayload>
+          }
+          deleteMany: {
+            args: Prisma.ChapterReadEventDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.ChapterReadEventUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.ChapterReadEventUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ChapterReadEventPayload>[]
+          }
+          upsert: {
+            args: Prisma.ChapterReadEventUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ChapterReadEventPayload>
+          }
+          aggregate: {
+            args: Prisma.ChapterReadEventAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateChapterReadEvent>
+          }
+          groupBy: {
+            args: Prisma.ChapterReadEventGroupByArgs<ExtArgs>
+            result: $Utils.Optional<ChapterReadEventGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.ChapterReadEventCountArgs<ExtArgs>
+            result: $Utils.Optional<ChapterReadEventCountAggregateOutputType> | number
+          }
+        }
+      }
+      UserStoryReadingState: {
+        payload: Prisma.$UserStoryReadingStatePayload<ExtArgs>
+        fields: Prisma.UserStoryReadingStateFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.UserStoryReadingStateFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserStoryReadingStatePayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.UserStoryReadingStateFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserStoryReadingStatePayload>
+          }
+          findFirst: {
+            args: Prisma.UserStoryReadingStateFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserStoryReadingStatePayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.UserStoryReadingStateFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserStoryReadingStatePayload>
+          }
+          findMany: {
+            args: Prisma.UserStoryReadingStateFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserStoryReadingStatePayload>[]
+          }
+          create: {
+            args: Prisma.UserStoryReadingStateCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserStoryReadingStatePayload>
+          }
+          createMany: {
+            args: Prisma.UserStoryReadingStateCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.UserStoryReadingStateCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserStoryReadingStatePayload>[]
+          }
+          delete: {
+            args: Prisma.UserStoryReadingStateDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserStoryReadingStatePayload>
+          }
+          update: {
+            args: Prisma.UserStoryReadingStateUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserStoryReadingStatePayload>
+          }
+          deleteMany: {
+            args: Prisma.UserStoryReadingStateDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.UserStoryReadingStateUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.UserStoryReadingStateUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserStoryReadingStatePayload>[]
+          }
+          upsert: {
+            args: Prisma.UserStoryReadingStateUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserStoryReadingStatePayload>
+          }
+          aggregate: {
+            args: Prisma.UserStoryReadingStateAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateUserStoryReadingState>
+          }
+          groupBy: {
+            args: Prisma.UserStoryReadingStateGroupByArgs<ExtArgs>
+            result: $Utils.Optional<UserStoryReadingStateGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.UserStoryReadingStateCountArgs<ExtArgs>
+            result: $Utils.Optional<UserStoryReadingStateCountAggregateOutputType> | number
+          }
+        }
+      }
       TopStoryRead: {
         payload: Prisma.$TopStoryReadPayload<ExtArgs>
         fields: Prisma.TopStoryReadFieldRefs
@@ -1894,6 +2328,80 @@ export namespace Prisma {
           count: {
             args: Prisma.TopStoryReadCountArgs<ExtArgs>
             result: $Utils.Optional<TopStoryReadCountAggregateOutputType> | number
+          }
+        }
+      }
+      StoryDailyReadStats: {
+        payload: Prisma.$StoryDailyReadStatsPayload<ExtArgs>
+        fields: Prisma.StoryDailyReadStatsFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.StoryDailyReadStatsFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$StoryDailyReadStatsPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.StoryDailyReadStatsFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$StoryDailyReadStatsPayload>
+          }
+          findFirst: {
+            args: Prisma.StoryDailyReadStatsFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$StoryDailyReadStatsPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.StoryDailyReadStatsFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$StoryDailyReadStatsPayload>
+          }
+          findMany: {
+            args: Prisma.StoryDailyReadStatsFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$StoryDailyReadStatsPayload>[]
+          }
+          create: {
+            args: Prisma.StoryDailyReadStatsCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$StoryDailyReadStatsPayload>
+          }
+          createMany: {
+            args: Prisma.StoryDailyReadStatsCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.StoryDailyReadStatsCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$StoryDailyReadStatsPayload>[]
+          }
+          delete: {
+            args: Prisma.StoryDailyReadStatsDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$StoryDailyReadStatsPayload>
+          }
+          update: {
+            args: Prisma.StoryDailyReadStatsUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$StoryDailyReadStatsPayload>
+          }
+          deleteMany: {
+            args: Prisma.StoryDailyReadStatsDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.StoryDailyReadStatsUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.StoryDailyReadStatsUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$StoryDailyReadStatsPayload>[]
+          }
+          upsert: {
+            args: Prisma.StoryDailyReadStatsUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$StoryDailyReadStatsPayload>
+          }
+          aggregate: {
+            args: Prisma.StoryDailyReadStatsAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateStoryDailyReadStats>
+          }
+          groupBy: {
+            args: Prisma.StoryDailyReadStatsGroupByArgs<ExtArgs>
+            result: $Utils.Optional<StoryDailyReadStatsGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.StoryDailyReadStatsCountArgs<ExtArgs>
+            result: $Utils.Optional<StoryDailyReadStatsCountAggregateOutputType> | number
           }
         }
       }
@@ -2116,6 +2624,154 @@ export namespace Prisma {
           count: {
             args: Prisma.StoryBookmarkCountArgs<ExtArgs>
             result: $Utils.Optional<StoryBookmarkCountAggregateOutputType> | number
+          }
+        }
+      }
+      StorySubscription: {
+        payload: Prisma.$StorySubscriptionPayload<ExtArgs>
+        fields: Prisma.StorySubscriptionFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.StorySubscriptionFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$StorySubscriptionPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.StorySubscriptionFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$StorySubscriptionPayload>
+          }
+          findFirst: {
+            args: Prisma.StorySubscriptionFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$StorySubscriptionPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.StorySubscriptionFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$StorySubscriptionPayload>
+          }
+          findMany: {
+            args: Prisma.StorySubscriptionFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$StorySubscriptionPayload>[]
+          }
+          create: {
+            args: Prisma.StorySubscriptionCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$StorySubscriptionPayload>
+          }
+          createMany: {
+            args: Prisma.StorySubscriptionCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.StorySubscriptionCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$StorySubscriptionPayload>[]
+          }
+          delete: {
+            args: Prisma.StorySubscriptionDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$StorySubscriptionPayload>
+          }
+          update: {
+            args: Prisma.StorySubscriptionUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$StorySubscriptionPayload>
+          }
+          deleteMany: {
+            args: Prisma.StorySubscriptionDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.StorySubscriptionUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.StorySubscriptionUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$StorySubscriptionPayload>[]
+          }
+          upsert: {
+            args: Prisma.StorySubscriptionUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$StorySubscriptionPayload>
+          }
+          aggregate: {
+            args: Prisma.StorySubscriptionAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateStorySubscription>
+          }
+          groupBy: {
+            args: Prisma.StorySubscriptionGroupByArgs<ExtArgs>
+            result: $Utils.Optional<StorySubscriptionGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.StorySubscriptionCountArgs<ExtArgs>
+            result: $Utils.Optional<StorySubscriptionCountAggregateOutputType> | number
+          }
+        }
+      }
+      Notification: {
+        payload: Prisma.$NotificationPayload<ExtArgs>
+        fields: Prisma.NotificationFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.NotificationFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$NotificationPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.NotificationFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$NotificationPayload>
+          }
+          findFirst: {
+            args: Prisma.NotificationFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$NotificationPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.NotificationFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$NotificationPayload>
+          }
+          findMany: {
+            args: Prisma.NotificationFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$NotificationPayload>[]
+          }
+          create: {
+            args: Prisma.NotificationCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$NotificationPayload>
+          }
+          createMany: {
+            args: Prisma.NotificationCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.NotificationCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$NotificationPayload>[]
+          }
+          delete: {
+            args: Prisma.NotificationDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$NotificationPayload>
+          }
+          update: {
+            args: Prisma.NotificationUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$NotificationPayload>
+          }
+          deleteMany: {
+            args: Prisma.NotificationDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.NotificationUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.NotificationUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$NotificationPayload>[]
+          }
+          upsert: {
+            args: Prisma.NotificationUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$NotificationPayload>
+          }
+          aggregate: {
+            args: Prisma.NotificationAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateNotification>
+          }
+          groupBy: {
+            args: Prisma.NotificationGroupByArgs<ExtArgs>
+            result: $Utils.Optional<NotificationGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.NotificationCountArgs<ExtArgs>
+            result: $Utils.Optional<NotificationCountAggregateOutputType> | number
           }
         }
       }
@@ -2725,6 +3381,8 @@ export namespace Prisma {
     account?: AccountOmit
     session?: SessionOmit
     verificationToken?: VerificationTokenOmit
+    userAuthToken?: UserAuthTokenOmit
+    authRateLimit?: AuthRateLimitOmit
     userSetting?: UserSettingOmit
     story?: StoryOmit
     storyRecommendation?: StoryRecommendationOmit
@@ -2732,10 +3390,15 @@ export namespace Prisma {
     storyStats?: StoryStatsOmit
     chapter?: ChapterOmit
     chapterRead?: ChapterReadOmit
+    chapterReadEvent?: ChapterReadEventOmit
+    userStoryReadingState?: UserStoryReadingStateOmit
     topStoryRead?: TopStoryReadOmit
+    storyDailyReadStats?: StoryDailyReadStatsOmit
     tagGroup?: TagGroupOmit
     tag?: TagOmit
     storyBookmark?: StoryBookmarkOmit
+    storySubscription?: StorySubscriptionOmit
+    notification?: NotificationOmit
     rating?: RatingOmit
     ratingLike?: RatingLikeOmit
     ratingComment?: RatingCommentOmit
@@ -2839,6 +3502,10 @@ export namespace Prisma {
   export type UserCountOutputType = {
     accounts: number
     chaptersRead: number
+    chapterReadEvents: number
+    readingStates: number
+    storySubscriptions: number
+    notifications: number
     discussStorys: number
     discussesLikes: number
     ratingStorys: number
@@ -2850,11 +3517,16 @@ export namespace Prisma {
     storyBookmarks: number
     storysFan: number
     votes: number
+    authTokens: number
   }
 
   export type UserCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     accounts?: boolean | UserCountOutputTypeCountAccountsArgs
     chaptersRead?: boolean | UserCountOutputTypeCountChaptersReadArgs
+    chapterReadEvents?: boolean | UserCountOutputTypeCountChapterReadEventsArgs
+    readingStates?: boolean | UserCountOutputTypeCountReadingStatesArgs
+    storySubscriptions?: boolean | UserCountOutputTypeCountStorySubscriptionsArgs
+    notifications?: boolean | UserCountOutputTypeCountNotificationsArgs
     discussStorys?: boolean | UserCountOutputTypeCountDiscussStorysArgs
     discussesLikes?: boolean | UserCountOutputTypeCountDiscussesLikesArgs
     ratingStorys?: boolean | UserCountOutputTypeCountRatingStorysArgs
@@ -2866,6 +3538,7 @@ export namespace Prisma {
     storyBookmarks?: boolean | UserCountOutputTypeCountStoryBookmarksArgs
     storysFan?: boolean | UserCountOutputTypeCountStorysFanArgs
     votes?: boolean | UserCountOutputTypeCountVotesArgs
+    authTokens?: boolean | UserCountOutputTypeCountAuthTokensArgs
   }
 
   // Custom InputTypes
@@ -2891,6 +3564,34 @@ export namespace Prisma {
    */
   export type UserCountOutputTypeCountChaptersReadArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: ChapterReadWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountChapterReadEventsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ChapterReadEventWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountReadingStatesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: UserStoryReadingStateWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountStorySubscriptionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: StorySubscriptionWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountNotificationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: NotificationWhereInput
   }
 
   /**
@@ -2970,6 +3671,13 @@ export namespace Prisma {
     where?: StoryRecommendationWhereInput
   }
 
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountAuthTokensArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: UserAuthTokenWhereInput
+  }
+
 
   /**
    * Count Type StoryCountOutputType
@@ -2982,7 +3690,12 @@ export namespace Prisma {
     bookmarks: number
     fans: number
     votes: number
+    dailyStats: number
     topReads: number
+    readEvents: number
+    readingStates: number
+    subscriptions: number
+    notifications: number
     tags: number
   }
 
@@ -2993,7 +3706,12 @@ export namespace Prisma {
     bookmarks?: boolean | StoryCountOutputTypeCountBookmarksArgs
     fans?: boolean | StoryCountOutputTypeCountFansArgs
     votes?: boolean | StoryCountOutputTypeCountVotesArgs
+    dailyStats?: boolean | StoryCountOutputTypeCountDailyStatsArgs
     topReads?: boolean | StoryCountOutputTypeCountTopReadsArgs
+    readEvents?: boolean | StoryCountOutputTypeCountReadEventsArgs
+    readingStates?: boolean | StoryCountOutputTypeCountReadingStatesArgs
+    subscriptions?: boolean | StoryCountOutputTypeCountSubscriptionsArgs
+    notifications?: boolean | StoryCountOutputTypeCountNotificationsArgs
     tags?: boolean | StoryCountOutputTypeCountTagsArgs
   }
 
@@ -3053,8 +3771,43 @@ export namespace Prisma {
   /**
    * StoryCountOutputType without action
    */
+  export type StoryCountOutputTypeCountDailyStatsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: StoryDailyReadStatsWhereInput
+  }
+
+  /**
+   * StoryCountOutputType without action
+   */
   export type StoryCountOutputTypeCountTopReadsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: TopStoryReadWhereInput
+  }
+
+  /**
+   * StoryCountOutputType without action
+   */
+  export type StoryCountOutputTypeCountReadEventsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ChapterReadEventWhereInput
+  }
+
+  /**
+   * StoryCountOutputType without action
+   */
+  export type StoryCountOutputTypeCountReadingStatesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: UserStoryReadingStateWhereInput
+  }
+
+  /**
+   * StoryCountOutputType without action
+   */
+  export type StoryCountOutputTypeCountSubscriptionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: StorySubscriptionWhereInput
+  }
+
+  /**
+   * StoryCountOutputType without action
+   */
+  export type StoryCountOutputTypeCountNotificationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: NotificationWhereInput
   }
 
   /**
@@ -3102,10 +3855,14 @@ export namespace Prisma {
 
   export type ChapterCountOutputType = {
     reads: number
+    readEvents: number
+    readingStates: number
   }
 
   export type ChapterCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     reads?: boolean | ChapterCountOutputTypeCountReadsArgs
+    readEvents?: boolean | ChapterCountOutputTypeCountReadEventsArgs
+    readingStates?: boolean | ChapterCountOutputTypeCountReadingStatesArgs
   }
 
   // Custom InputTypes
@@ -3124,6 +3881,20 @@ export namespace Prisma {
    */
   export type ChapterCountOutputTypeCountReadsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: ChapterReadWhereInput
+  }
+
+  /**
+   * ChapterCountOutputType without action
+   */
+  export type ChapterCountOutputTypeCountReadEventsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ChapterReadEventWhereInput
+  }
+
+  /**
+   * ChapterCountOutputType without action
+   */
+  export type ChapterCountOutputTypeCountReadingStatesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: UserStoryReadingStateWhereInput
   }
 
 
@@ -3275,11 +4046,13 @@ export namespace Prisma {
 
   export type DiscussCountOutputType = {
     replies: number
+    threadItems: number
     likes: number
   }
 
   export type DiscussCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     replies?: boolean | DiscussCountOutputTypeCountRepliesArgs
+    threadItems?: boolean | DiscussCountOutputTypeCountThreadItemsArgs
     likes?: boolean | DiscussCountOutputTypeCountLikesArgs
   }
 
@@ -3298,6 +4071,13 @@ export namespace Prisma {
    * DiscussCountOutputType without action
    */
   export type DiscussCountOutputTypeCountRepliesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: DiscussWhereInput
+  }
+
+  /**
+   * DiscussCountOutputType without action
+   */
+  export type DiscussCountOutputTypeCountThreadItemsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: DiscussWhereInput
   }
 
@@ -3331,6 +4111,7 @@ export namespace Prisma {
     keyTotal: number | null
     potatoToal: number | null
     voteTickets: number | null
+    authVersion: number | null
   }
 
   export type UserSumAggregateOutputType = {
@@ -3339,6 +4120,7 @@ export namespace Prisma {
     keyTotal: number | null
     potatoToal: number | null
     voteTickets: number | null
+    authVersion: number | null
   }
 
   export type UserMinAggregateOutputType = {
@@ -3357,6 +4139,8 @@ export namespace Prisma {
     updatedAt: Date | null
     voteTickets: number | null
     emailVerified: Date | null
+    imageUpdatedAt: Date | null
+    authVersion: number | null
   }
 
   export type UserMaxAggregateOutputType = {
@@ -3375,6 +4159,8 @@ export namespace Prisma {
     updatedAt: Date | null
     voteTickets: number | null
     emailVerified: Date | null
+    imageUpdatedAt: Date | null
+    authVersion: number | null
   }
 
   export type UserCountAggregateOutputType = {
@@ -3393,6 +4179,8 @@ export namespace Prisma {
     updatedAt: number
     voteTickets: number
     emailVerified: number
+    imageUpdatedAt: number
+    authVersion: number
     _all: number
   }
 
@@ -3403,6 +4191,7 @@ export namespace Prisma {
     keyTotal?: true
     potatoToal?: true
     voteTickets?: true
+    authVersion?: true
   }
 
   export type UserSumAggregateInputType = {
@@ -3411,6 +4200,7 @@ export namespace Prisma {
     keyTotal?: true
     potatoToal?: true
     voteTickets?: true
+    authVersion?: true
   }
 
   export type UserMinAggregateInputType = {
@@ -3429,6 +4219,8 @@ export namespace Prisma {
     updatedAt?: true
     voteTickets?: true
     emailVerified?: true
+    imageUpdatedAt?: true
+    authVersion?: true
   }
 
   export type UserMaxAggregateInputType = {
@@ -3447,6 +4239,8 @@ export namespace Prisma {
     updatedAt?: true
     voteTickets?: true
     emailVerified?: true
+    imageUpdatedAt?: true
+    authVersion?: true
   }
 
   export type UserCountAggregateInputType = {
@@ -3465,6 +4259,8 @@ export namespace Prisma {
     updatedAt?: true
     voteTickets?: true
     emailVerified?: true
+    imageUpdatedAt?: true
+    authVersion?: true
     _all?: true
   }
 
@@ -3570,6 +4366,8 @@ export namespace Prisma {
     updatedAt: Date
     voteTickets: number
     emailVerified: Date | null
+    imageUpdatedAt: Date | null
+    authVersion: number
     _count: UserCountAggregateOutputType | null
     _avg: UserAvgAggregateOutputType | null
     _sum: UserSumAggregateOutputType | null
@@ -3607,8 +4405,14 @@ export namespace Prisma {
     updatedAt?: boolean
     voteTickets?: boolean
     emailVerified?: boolean
+    imageUpdatedAt?: boolean
+    authVersion?: boolean
     accounts?: boolean | User$accountsArgs<ExtArgs>
     chaptersRead?: boolean | User$chaptersReadArgs<ExtArgs>
+    chapterReadEvents?: boolean | User$chapterReadEventsArgs<ExtArgs>
+    readingStates?: boolean | User$readingStatesArgs<ExtArgs>
+    storySubscriptions?: boolean | User$storySubscriptionsArgs<ExtArgs>
+    notifications?: boolean | User$notificationsArgs<ExtArgs>
     discussStorys?: boolean | User$discussStorysArgs<ExtArgs>
     discussesLikes?: boolean | User$discussesLikesArgs<ExtArgs>
     ratingStorys?: boolean | User$ratingStorysArgs<ExtArgs>
@@ -3621,6 +4425,7 @@ export namespace Prisma {
     storysFan?: boolean | User$storysFanArgs<ExtArgs>
     votes?: boolean | User$votesArgs<ExtArgs>
     setting?: boolean | User$settingArgs<ExtArgs>
+    authTokens?: boolean | User$authTokensArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
 
@@ -3640,6 +4445,8 @@ export namespace Prisma {
     updatedAt?: boolean
     voteTickets?: boolean
     emailVerified?: boolean
+    imageUpdatedAt?: boolean
+    authVersion?: boolean
   }, ExtArgs["result"]["user"]>
 
   export type UserSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -3658,6 +4465,8 @@ export namespace Prisma {
     updatedAt?: boolean
     voteTickets?: boolean
     emailVerified?: boolean
+    imageUpdatedAt?: boolean
+    authVersion?: boolean
   }, ExtArgs["result"]["user"]>
 
   export type UserSelectScalar = {
@@ -3676,12 +4485,18 @@ export namespace Prisma {
     updatedAt?: boolean
     voteTickets?: boolean
     emailVerified?: boolean
+    imageUpdatedAt?: boolean
+    authVersion?: boolean
   }
 
-  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "email" | "password" | "image" | "name" | "birthYear" | "sex" | "role" | "candyTotal" | "createdAt" | "keyTotal" | "potatoToal" | "updatedAt" | "voteTickets" | "emailVerified", ExtArgs["result"]["user"]>
+  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "email" | "password" | "image" | "name" | "birthYear" | "sex" | "role" | "candyTotal" | "createdAt" | "keyTotal" | "potatoToal" | "updatedAt" | "voteTickets" | "emailVerified" | "imageUpdatedAt" | "authVersion", ExtArgs["result"]["user"]>
   export type UserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     accounts?: boolean | User$accountsArgs<ExtArgs>
     chaptersRead?: boolean | User$chaptersReadArgs<ExtArgs>
+    chapterReadEvents?: boolean | User$chapterReadEventsArgs<ExtArgs>
+    readingStates?: boolean | User$readingStatesArgs<ExtArgs>
+    storySubscriptions?: boolean | User$storySubscriptionsArgs<ExtArgs>
+    notifications?: boolean | User$notificationsArgs<ExtArgs>
     discussStorys?: boolean | User$discussStorysArgs<ExtArgs>
     discussesLikes?: boolean | User$discussesLikesArgs<ExtArgs>
     ratingStorys?: boolean | User$ratingStorysArgs<ExtArgs>
@@ -3694,6 +4509,7 @@ export namespace Prisma {
     storysFan?: boolean | User$storysFanArgs<ExtArgs>
     votes?: boolean | User$votesArgs<ExtArgs>
     setting?: boolean | User$settingArgs<ExtArgs>
+    authTokens?: boolean | User$authTokensArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type UserIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -3704,6 +4520,10 @@ export namespace Prisma {
     objects: {
       accounts: Prisma.$AccountPayload<ExtArgs>[]
       chaptersRead: Prisma.$ChapterReadPayload<ExtArgs>[]
+      chapterReadEvents: Prisma.$ChapterReadEventPayload<ExtArgs>[]
+      readingStates: Prisma.$UserStoryReadingStatePayload<ExtArgs>[]
+      storySubscriptions: Prisma.$StorySubscriptionPayload<ExtArgs>[]
+      notifications: Prisma.$NotificationPayload<ExtArgs>[]
       discussStorys: Prisma.$DiscussPayload<ExtArgs>[]
       discussesLikes: Prisma.$DiscussLikePayload<ExtArgs>[]
       ratingStorys: Prisma.$RatingPayload<ExtArgs>[]
@@ -3716,6 +4536,7 @@ export namespace Prisma {
       storysFan: Prisma.$StoryFanPayload<ExtArgs>[]
       votes: Prisma.$StoryRecommendationPayload<ExtArgs>[]
       setting: Prisma.$UserSettingPayload<ExtArgs> | null
+      authTokens: Prisma.$UserAuthTokenPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -3733,6 +4554,8 @@ export namespace Prisma {
       updatedAt: Date
       voteTickets: number
       emailVerified: Date | null
+      imageUpdatedAt: Date | null
+      authVersion: number
     }, ExtArgs["result"]["user"]>
     composites: {}
   }
@@ -4129,6 +4952,10 @@ export namespace Prisma {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     accounts<T extends User$accountsArgs<ExtArgs> = {}>(args?: Subset<T, User$accountsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AccountPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     chaptersRead<T extends User$chaptersReadArgs<ExtArgs> = {}>(args?: Subset<T, User$chaptersReadArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ChapterReadPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    chapterReadEvents<T extends User$chapterReadEventsArgs<ExtArgs> = {}>(args?: Subset<T, User$chapterReadEventsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ChapterReadEventPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    readingStates<T extends User$readingStatesArgs<ExtArgs> = {}>(args?: Subset<T, User$readingStatesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserStoryReadingStatePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    storySubscriptions<T extends User$storySubscriptionsArgs<ExtArgs> = {}>(args?: Subset<T, User$storySubscriptionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$StorySubscriptionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    notifications<T extends User$notificationsArgs<ExtArgs> = {}>(args?: Subset<T, User$notificationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$NotificationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     discussStorys<T extends User$discussStorysArgs<ExtArgs> = {}>(args?: Subset<T, User$discussStorysArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DiscussPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     discussesLikes<T extends User$discussesLikesArgs<ExtArgs> = {}>(args?: Subset<T, User$discussesLikesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DiscussLikePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     ratingStorys<T extends User$ratingStorysArgs<ExtArgs> = {}>(args?: Subset<T, User$ratingStorysArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RatingPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
@@ -4141,6 +4968,7 @@ export namespace Prisma {
     storysFan<T extends User$storysFanArgs<ExtArgs> = {}>(args?: Subset<T, User$storysFanArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$StoryFanPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     votes<T extends User$votesArgs<ExtArgs> = {}>(args?: Subset<T, User$votesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$StoryRecommendationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     setting<T extends User$settingArgs<ExtArgs> = {}>(args?: Subset<T, User$settingArgs<ExtArgs>>): Prisma__UserSettingClient<$Result.GetResult<Prisma.$UserSettingPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    authTokens<T extends User$authTokensArgs<ExtArgs> = {}>(args?: Subset<T, User$authTokensArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserAuthTokenPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -4185,6 +5013,8 @@ export namespace Prisma {
     readonly updatedAt: FieldRef<"User", 'DateTime'>
     readonly voteTickets: FieldRef<"User", 'Int'>
     readonly emailVerified: FieldRef<"User", 'DateTime'>
+    readonly imageUpdatedAt: FieldRef<"User", 'DateTime'>
+    readonly authVersion: FieldRef<"User", 'Int'>
   }
     
 
@@ -4621,6 +5451,102 @@ export namespace Prisma {
   }
 
   /**
+   * User.chapterReadEvents
+   */
+  export type User$chapterReadEventsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ChapterReadEvent
+     */
+    select?: ChapterReadEventSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ChapterReadEvent
+     */
+    omit?: ChapterReadEventOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ChapterReadEventInclude<ExtArgs> | null
+    where?: ChapterReadEventWhereInput
+    orderBy?: ChapterReadEventOrderByWithRelationInput | ChapterReadEventOrderByWithRelationInput[]
+    cursor?: ChapterReadEventWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ChapterReadEventScalarFieldEnum | ChapterReadEventScalarFieldEnum[]
+  }
+
+  /**
+   * User.readingStates
+   */
+  export type User$readingStatesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserStoryReadingState
+     */
+    select?: UserStoryReadingStateSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserStoryReadingState
+     */
+    omit?: UserStoryReadingStateOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserStoryReadingStateInclude<ExtArgs> | null
+    where?: UserStoryReadingStateWhereInput
+    orderBy?: UserStoryReadingStateOrderByWithRelationInput | UserStoryReadingStateOrderByWithRelationInput[]
+    cursor?: UserStoryReadingStateWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: UserStoryReadingStateScalarFieldEnum | UserStoryReadingStateScalarFieldEnum[]
+  }
+
+  /**
+   * User.storySubscriptions
+   */
+  export type User$storySubscriptionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StorySubscription
+     */
+    select?: StorySubscriptionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the StorySubscription
+     */
+    omit?: StorySubscriptionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StorySubscriptionInclude<ExtArgs> | null
+    where?: StorySubscriptionWhereInput
+    orderBy?: StorySubscriptionOrderByWithRelationInput | StorySubscriptionOrderByWithRelationInput[]
+    cursor?: StorySubscriptionWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: StorySubscriptionScalarFieldEnum | StorySubscriptionScalarFieldEnum[]
+  }
+
+  /**
+   * User.notifications
+   */
+  export type User$notificationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Notification
+     */
+    select?: NotificationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Notification
+     */
+    omit?: NotificationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NotificationInclude<ExtArgs> | null
+    where?: NotificationWhereInput
+    orderBy?: NotificationOrderByWithRelationInput | NotificationOrderByWithRelationInput[]
+    cursor?: NotificationWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: NotificationScalarFieldEnum | NotificationScalarFieldEnum[]
+  }
+
+  /**
    * User.discussStorys
    */
   export type User$discussStorysArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -4901,6 +5827,30 @@ export namespace Prisma {
      */
     include?: UserSettingInclude<ExtArgs> | null
     where?: UserSettingWhereInput
+  }
+
+  /**
+   * User.authTokens
+   */
+  export type User$authTokensArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserAuthToken
+     */
+    select?: UserAuthTokenSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserAuthToken
+     */
+    omit?: UserAuthTokenOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserAuthTokenInclude<ExtArgs> | null
+    where?: UserAuthTokenWhereInput
+    orderBy?: UserAuthTokenOrderByWithRelationInput | UserAuthTokenOrderByWithRelationInput[]
+    cursor?: UserAuthTokenWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: UserAuthTokenScalarFieldEnum | UserAuthTokenScalarFieldEnum[]
   }
 
   /**
@@ -8120,6 +9070,2132 @@ export namespace Prisma {
 
 
   /**
+   * Model UserAuthToken
+   */
+
+  export type AggregateUserAuthToken = {
+    _count: UserAuthTokenCountAggregateOutputType | null
+    _min: UserAuthTokenMinAggregateOutputType | null
+    _max: UserAuthTokenMaxAggregateOutputType | null
+  }
+
+  export type UserAuthTokenMinAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    type: $Enums.AuthTokenType | null
+    tokenHash: string | null
+    targetEmail: string | null
+    expiresAt: Date | null
+    usedAt: Date | null
+    createdAt: Date | null
+  }
+
+  export type UserAuthTokenMaxAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    type: $Enums.AuthTokenType | null
+    tokenHash: string | null
+    targetEmail: string | null
+    expiresAt: Date | null
+    usedAt: Date | null
+    createdAt: Date | null
+  }
+
+  export type UserAuthTokenCountAggregateOutputType = {
+    id: number
+    userId: number
+    type: number
+    tokenHash: number
+    targetEmail: number
+    expiresAt: number
+    usedAt: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type UserAuthTokenMinAggregateInputType = {
+    id?: true
+    userId?: true
+    type?: true
+    tokenHash?: true
+    targetEmail?: true
+    expiresAt?: true
+    usedAt?: true
+    createdAt?: true
+  }
+
+  export type UserAuthTokenMaxAggregateInputType = {
+    id?: true
+    userId?: true
+    type?: true
+    tokenHash?: true
+    targetEmail?: true
+    expiresAt?: true
+    usedAt?: true
+    createdAt?: true
+  }
+
+  export type UserAuthTokenCountAggregateInputType = {
+    id?: true
+    userId?: true
+    type?: true
+    tokenHash?: true
+    targetEmail?: true
+    expiresAt?: true
+    usedAt?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type UserAuthTokenAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which UserAuthToken to aggregate.
+     */
+    where?: UserAuthTokenWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of UserAuthTokens to fetch.
+     */
+    orderBy?: UserAuthTokenOrderByWithRelationInput | UserAuthTokenOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: UserAuthTokenWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` UserAuthTokens from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` UserAuthTokens.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned UserAuthTokens
+    **/
+    _count?: true | UserAuthTokenCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: UserAuthTokenMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: UserAuthTokenMaxAggregateInputType
+  }
+
+  export type GetUserAuthTokenAggregateType<T extends UserAuthTokenAggregateArgs> = {
+        [P in keyof T & keyof AggregateUserAuthToken]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateUserAuthToken[P]>
+      : GetScalarType<T[P], AggregateUserAuthToken[P]>
+  }
+
+
+
+
+  export type UserAuthTokenGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: UserAuthTokenWhereInput
+    orderBy?: UserAuthTokenOrderByWithAggregationInput | UserAuthTokenOrderByWithAggregationInput[]
+    by: UserAuthTokenScalarFieldEnum[] | UserAuthTokenScalarFieldEnum
+    having?: UserAuthTokenScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: UserAuthTokenCountAggregateInputType | true
+    _min?: UserAuthTokenMinAggregateInputType
+    _max?: UserAuthTokenMaxAggregateInputType
+  }
+
+  export type UserAuthTokenGroupByOutputType = {
+    id: string
+    userId: string
+    type: $Enums.AuthTokenType
+    tokenHash: string
+    targetEmail: string | null
+    expiresAt: Date
+    usedAt: Date | null
+    createdAt: Date
+    _count: UserAuthTokenCountAggregateOutputType | null
+    _min: UserAuthTokenMinAggregateOutputType | null
+    _max: UserAuthTokenMaxAggregateOutputType | null
+  }
+
+  type GetUserAuthTokenGroupByPayload<T extends UserAuthTokenGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<UserAuthTokenGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof UserAuthTokenGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], UserAuthTokenGroupByOutputType[P]>
+            : GetScalarType<T[P], UserAuthTokenGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type UserAuthTokenSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    type?: boolean
+    tokenHash?: boolean
+    targetEmail?: boolean
+    expiresAt?: boolean
+    usedAt?: boolean
+    createdAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["userAuthToken"]>
+
+  export type UserAuthTokenSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    type?: boolean
+    tokenHash?: boolean
+    targetEmail?: boolean
+    expiresAt?: boolean
+    usedAt?: boolean
+    createdAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["userAuthToken"]>
+
+  export type UserAuthTokenSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    type?: boolean
+    tokenHash?: boolean
+    targetEmail?: boolean
+    expiresAt?: boolean
+    usedAt?: boolean
+    createdAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["userAuthToken"]>
+
+  export type UserAuthTokenSelectScalar = {
+    id?: boolean
+    userId?: boolean
+    type?: boolean
+    tokenHash?: boolean
+    targetEmail?: boolean
+    expiresAt?: boolean
+    usedAt?: boolean
+    createdAt?: boolean
+  }
+
+  export type UserAuthTokenOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "type" | "tokenHash" | "targetEmail" | "expiresAt" | "usedAt" | "createdAt", ExtArgs["result"]["userAuthToken"]>
+  export type UserAuthTokenInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type UserAuthTokenIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type UserAuthTokenIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+
+  export type $UserAuthTokenPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "UserAuthToken"
+    objects: {
+      user: Prisma.$UserPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      userId: string
+      type: $Enums.AuthTokenType
+      tokenHash: string
+      targetEmail: string | null
+      expiresAt: Date
+      usedAt: Date | null
+      createdAt: Date
+    }, ExtArgs["result"]["userAuthToken"]>
+    composites: {}
+  }
+
+  type UserAuthTokenGetPayload<S extends boolean | null | undefined | UserAuthTokenDefaultArgs> = $Result.GetResult<Prisma.$UserAuthTokenPayload, S>
+
+  type UserAuthTokenCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<UserAuthTokenFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: UserAuthTokenCountAggregateInputType | true
+    }
+
+  export interface UserAuthTokenDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['UserAuthToken'], meta: { name: 'UserAuthToken' } }
+    /**
+     * Find zero or one UserAuthToken that matches the filter.
+     * @param {UserAuthTokenFindUniqueArgs} args - Arguments to find a UserAuthToken
+     * @example
+     * // Get one UserAuthToken
+     * const userAuthToken = await prisma.userAuthToken.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends UserAuthTokenFindUniqueArgs>(args: SelectSubset<T, UserAuthTokenFindUniqueArgs<ExtArgs>>): Prisma__UserAuthTokenClient<$Result.GetResult<Prisma.$UserAuthTokenPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one UserAuthToken that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {UserAuthTokenFindUniqueOrThrowArgs} args - Arguments to find a UserAuthToken
+     * @example
+     * // Get one UserAuthToken
+     * const userAuthToken = await prisma.userAuthToken.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends UserAuthTokenFindUniqueOrThrowArgs>(args: SelectSubset<T, UserAuthTokenFindUniqueOrThrowArgs<ExtArgs>>): Prisma__UserAuthTokenClient<$Result.GetResult<Prisma.$UserAuthTokenPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first UserAuthToken that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserAuthTokenFindFirstArgs} args - Arguments to find a UserAuthToken
+     * @example
+     * // Get one UserAuthToken
+     * const userAuthToken = await prisma.userAuthToken.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends UserAuthTokenFindFirstArgs>(args?: SelectSubset<T, UserAuthTokenFindFirstArgs<ExtArgs>>): Prisma__UserAuthTokenClient<$Result.GetResult<Prisma.$UserAuthTokenPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first UserAuthToken that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserAuthTokenFindFirstOrThrowArgs} args - Arguments to find a UserAuthToken
+     * @example
+     * // Get one UserAuthToken
+     * const userAuthToken = await prisma.userAuthToken.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends UserAuthTokenFindFirstOrThrowArgs>(args?: SelectSubset<T, UserAuthTokenFindFirstOrThrowArgs<ExtArgs>>): Prisma__UserAuthTokenClient<$Result.GetResult<Prisma.$UserAuthTokenPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more UserAuthTokens that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserAuthTokenFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all UserAuthTokens
+     * const userAuthTokens = await prisma.userAuthToken.findMany()
+     * 
+     * // Get first 10 UserAuthTokens
+     * const userAuthTokens = await prisma.userAuthToken.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const userAuthTokenWithIdOnly = await prisma.userAuthToken.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends UserAuthTokenFindManyArgs>(args?: SelectSubset<T, UserAuthTokenFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserAuthTokenPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a UserAuthToken.
+     * @param {UserAuthTokenCreateArgs} args - Arguments to create a UserAuthToken.
+     * @example
+     * // Create one UserAuthToken
+     * const UserAuthToken = await prisma.userAuthToken.create({
+     *   data: {
+     *     // ... data to create a UserAuthToken
+     *   }
+     * })
+     * 
+     */
+    create<T extends UserAuthTokenCreateArgs>(args: SelectSubset<T, UserAuthTokenCreateArgs<ExtArgs>>): Prisma__UserAuthTokenClient<$Result.GetResult<Prisma.$UserAuthTokenPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many UserAuthTokens.
+     * @param {UserAuthTokenCreateManyArgs} args - Arguments to create many UserAuthTokens.
+     * @example
+     * // Create many UserAuthTokens
+     * const userAuthToken = await prisma.userAuthToken.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends UserAuthTokenCreateManyArgs>(args?: SelectSubset<T, UserAuthTokenCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many UserAuthTokens and returns the data saved in the database.
+     * @param {UserAuthTokenCreateManyAndReturnArgs} args - Arguments to create many UserAuthTokens.
+     * @example
+     * // Create many UserAuthTokens
+     * const userAuthToken = await prisma.userAuthToken.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many UserAuthTokens and only return the `id`
+     * const userAuthTokenWithIdOnly = await prisma.userAuthToken.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends UserAuthTokenCreateManyAndReturnArgs>(args?: SelectSubset<T, UserAuthTokenCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserAuthTokenPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a UserAuthToken.
+     * @param {UserAuthTokenDeleteArgs} args - Arguments to delete one UserAuthToken.
+     * @example
+     * // Delete one UserAuthToken
+     * const UserAuthToken = await prisma.userAuthToken.delete({
+     *   where: {
+     *     // ... filter to delete one UserAuthToken
+     *   }
+     * })
+     * 
+     */
+    delete<T extends UserAuthTokenDeleteArgs>(args: SelectSubset<T, UserAuthTokenDeleteArgs<ExtArgs>>): Prisma__UserAuthTokenClient<$Result.GetResult<Prisma.$UserAuthTokenPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one UserAuthToken.
+     * @param {UserAuthTokenUpdateArgs} args - Arguments to update one UserAuthToken.
+     * @example
+     * // Update one UserAuthToken
+     * const userAuthToken = await prisma.userAuthToken.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends UserAuthTokenUpdateArgs>(args: SelectSubset<T, UserAuthTokenUpdateArgs<ExtArgs>>): Prisma__UserAuthTokenClient<$Result.GetResult<Prisma.$UserAuthTokenPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more UserAuthTokens.
+     * @param {UserAuthTokenDeleteManyArgs} args - Arguments to filter UserAuthTokens to delete.
+     * @example
+     * // Delete a few UserAuthTokens
+     * const { count } = await prisma.userAuthToken.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends UserAuthTokenDeleteManyArgs>(args?: SelectSubset<T, UserAuthTokenDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more UserAuthTokens.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserAuthTokenUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many UserAuthTokens
+     * const userAuthToken = await prisma.userAuthToken.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends UserAuthTokenUpdateManyArgs>(args: SelectSubset<T, UserAuthTokenUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more UserAuthTokens and returns the data updated in the database.
+     * @param {UserAuthTokenUpdateManyAndReturnArgs} args - Arguments to update many UserAuthTokens.
+     * @example
+     * // Update many UserAuthTokens
+     * const userAuthToken = await prisma.userAuthToken.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more UserAuthTokens and only return the `id`
+     * const userAuthTokenWithIdOnly = await prisma.userAuthToken.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends UserAuthTokenUpdateManyAndReturnArgs>(args: SelectSubset<T, UserAuthTokenUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserAuthTokenPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one UserAuthToken.
+     * @param {UserAuthTokenUpsertArgs} args - Arguments to update or create a UserAuthToken.
+     * @example
+     * // Update or create a UserAuthToken
+     * const userAuthToken = await prisma.userAuthToken.upsert({
+     *   create: {
+     *     // ... data to create a UserAuthToken
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the UserAuthToken we want to update
+     *   }
+     * })
+     */
+    upsert<T extends UserAuthTokenUpsertArgs>(args: SelectSubset<T, UserAuthTokenUpsertArgs<ExtArgs>>): Prisma__UserAuthTokenClient<$Result.GetResult<Prisma.$UserAuthTokenPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of UserAuthTokens.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserAuthTokenCountArgs} args - Arguments to filter UserAuthTokens to count.
+     * @example
+     * // Count the number of UserAuthTokens
+     * const count = await prisma.userAuthToken.count({
+     *   where: {
+     *     // ... the filter for the UserAuthTokens we want to count
+     *   }
+     * })
+    **/
+    count<T extends UserAuthTokenCountArgs>(
+      args?: Subset<T, UserAuthTokenCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], UserAuthTokenCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a UserAuthToken.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserAuthTokenAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends UserAuthTokenAggregateArgs>(args: Subset<T, UserAuthTokenAggregateArgs>): Prisma.PrismaPromise<GetUserAuthTokenAggregateType<T>>
+
+    /**
+     * Group by UserAuthToken.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserAuthTokenGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends UserAuthTokenGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: UserAuthTokenGroupByArgs['orderBy'] }
+        : { orderBy?: UserAuthTokenGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, UserAuthTokenGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetUserAuthTokenGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the UserAuthToken model
+   */
+  readonly fields: UserAuthTokenFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for UserAuthToken.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__UserAuthTokenClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the UserAuthToken model
+   */
+  interface UserAuthTokenFieldRefs {
+    readonly id: FieldRef<"UserAuthToken", 'String'>
+    readonly userId: FieldRef<"UserAuthToken", 'String'>
+    readonly type: FieldRef<"UserAuthToken", 'AuthTokenType'>
+    readonly tokenHash: FieldRef<"UserAuthToken", 'String'>
+    readonly targetEmail: FieldRef<"UserAuthToken", 'String'>
+    readonly expiresAt: FieldRef<"UserAuthToken", 'DateTime'>
+    readonly usedAt: FieldRef<"UserAuthToken", 'DateTime'>
+    readonly createdAt: FieldRef<"UserAuthToken", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * UserAuthToken findUnique
+   */
+  export type UserAuthTokenFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserAuthToken
+     */
+    select?: UserAuthTokenSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserAuthToken
+     */
+    omit?: UserAuthTokenOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserAuthTokenInclude<ExtArgs> | null
+    /**
+     * Filter, which UserAuthToken to fetch.
+     */
+    where: UserAuthTokenWhereUniqueInput
+  }
+
+  /**
+   * UserAuthToken findUniqueOrThrow
+   */
+  export type UserAuthTokenFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserAuthToken
+     */
+    select?: UserAuthTokenSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserAuthToken
+     */
+    omit?: UserAuthTokenOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserAuthTokenInclude<ExtArgs> | null
+    /**
+     * Filter, which UserAuthToken to fetch.
+     */
+    where: UserAuthTokenWhereUniqueInput
+  }
+
+  /**
+   * UserAuthToken findFirst
+   */
+  export type UserAuthTokenFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserAuthToken
+     */
+    select?: UserAuthTokenSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserAuthToken
+     */
+    omit?: UserAuthTokenOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserAuthTokenInclude<ExtArgs> | null
+    /**
+     * Filter, which UserAuthToken to fetch.
+     */
+    where?: UserAuthTokenWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of UserAuthTokens to fetch.
+     */
+    orderBy?: UserAuthTokenOrderByWithRelationInput | UserAuthTokenOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for UserAuthTokens.
+     */
+    cursor?: UserAuthTokenWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` UserAuthTokens from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` UserAuthTokens.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of UserAuthTokens.
+     */
+    distinct?: UserAuthTokenScalarFieldEnum | UserAuthTokenScalarFieldEnum[]
+  }
+
+  /**
+   * UserAuthToken findFirstOrThrow
+   */
+  export type UserAuthTokenFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserAuthToken
+     */
+    select?: UserAuthTokenSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserAuthToken
+     */
+    omit?: UserAuthTokenOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserAuthTokenInclude<ExtArgs> | null
+    /**
+     * Filter, which UserAuthToken to fetch.
+     */
+    where?: UserAuthTokenWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of UserAuthTokens to fetch.
+     */
+    orderBy?: UserAuthTokenOrderByWithRelationInput | UserAuthTokenOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for UserAuthTokens.
+     */
+    cursor?: UserAuthTokenWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` UserAuthTokens from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` UserAuthTokens.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of UserAuthTokens.
+     */
+    distinct?: UserAuthTokenScalarFieldEnum | UserAuthTokenScalarFieldEnum[]
+  }
+
+  /**
+   * UserAuthToken findMany
+   */
+  export type UserAuthTokenFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserAuthToken
+     */
+    select?: UserAuthTokenSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserAuthToken
+     */
+    omit?: UserAuthTokenOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserAuthTokenInclude<ExtArgs> | null
+    /**
+     * Filter, which UserAuthTokens to fetch.
+     */
+    where?: UserAuthTokenWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of UserAuthTokens to fetch.
+     */
+    orderBy?: UserAuthTokenOrderByWithRelationInput | UserAuthTokenOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing UserAuthTokens.
+     */
+    cursor?: UserAuthTokenWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` UserAuthTokens from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` UserAuthTokens.
+     */
+    skip?: number
+    distinct?: UserAuthTokenScalarFieldEnum | UserAuthTokenScalarFieldEnum[]
+  }
+
+  /**
+   * UserAuthToken create
+   */
+  export type UserAuthTokenCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserAuthToken
+     */
+    select?: UserAuthTokenSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserAuthToken
+     */
+    omit?: UserAuthTokenOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserAuthTokenInclude<ExtArgs> | null
+    /**
+     * The data needed to create a UserAuthToken.
+     */
+    data: XOR<UserAuthTokenCreateInput, UserAuthTokenUncheckedCreateInput>
+  }
+
+  /**
+   * UserAuthToken createMany
+   */
+  export type UserAuthTokenCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many UserAuthTokens.
+     */
+    data: UserAuthTokenCreateManyInput | UserAuthTokenCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * UserAuthToken createManyAndReturn
+   */
+  export type UserAuthTokenCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserAuthToken
+     */
+    select?: UserAuthTokenSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserAuthToken
+     */
+    omit?: UserAuthTokenOmit<ExtArgs> | null
+    /**
+     * The data used to create many UserAuthTokens.
+     */
+    data: UserAuthTokenCreateManyInput | UserAuthTokenCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserAuthTokenIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * UserAuthToken update
+   */
+  export type UserAuthTokenUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserAuthToken
+     */
+    select?: UserAuthTokenSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserAuthToken
+     */
+    omit?: UserAuthTokenOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserAuthTokenInclude<ExtArgs> | null
+    /**
+     * The data needed to update a UserAuthToken.
+     */
+    data: XOR<UserAuthTokenUpdateInput, UserAuthTokenUncheckedUpdateInput>
+    /**
+     * Choose, which UserAuthToken to update.
+     */
+    where: UserAuthTokenWhereUniqueInput
+  }
+
+  /**
+   * UserAuthToken updateMany
+   */
+  export type UserAuthTokenUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update UserAuthTokens.
+     */
+    data: XOR<UserAuthTokenUpdateManyMutationInput, UserAuthTokenUncheckedUpdateManyInput>
+    /**
+     * Filter which UserAuthTokens to update
+     */
+    where?: UserAuthTokenWhereInput
+    /**
+     * Limit how many UserAuthTokens to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * UserAuthToken updateManyAndReturn
+   */
+  export type UserAuthTokenUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserAuthToken
+     */
+    select?: UserAuthTokenSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserAuthToken
+     */
+    omit?: UserAuthTokenOmit<ExtArgs> | null
+    /**
+     * The data used to update UserAuthTokens.
+     */
+    data: XOR<UserAuthTokenUpdateManyMutationInput, UserAuthTokenUncheckedUpdateManyInput>
+    /**
+     * Filter which UserAuthTokens to update
+     */
+    where?: UserAuthTokenWhereInput
+    /**
+     * Limit how many UserAuthTokens to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserAuthTokenIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * UserAuthToken upsert
+   */
+  export type UserAuthTokenUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserAuthToken
+     */
+    select?: UserAuthTokenSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserAuthToken
+     */
+    omit?: UserAuthTokenOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserAuthTokenInclude<ExtArgs> | null
+    /**
+     * The filter to search for the UserAuthToken to update in case it exists.
+     */
+    where: UserAuthTokenWhereUniqueInput
+    /**
+     * In case the UserAuthToken found by the `where` argument doesn't exist, create a new UserAuthToken with this data.
+     */
+    create: XOR<UserAuthTokenCreateInput, UserAuthTokenUncheckedCreateInput>
+    /**
+     * In case the UserAuthToken was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<UserAuthTokenUpdateInput, UserAuthTokenUncheckedUpdateInput>
+  }
+
+  /**
+   * UserAuthToken delete
+   */
+  export type UserAuthTokenDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserAuthToken
+     */
+    select?: UserAuthTokenSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserAuthToken
+     */
+    omit?: UserAuthTokenOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserAuthTokenInclude<ExtArgs> | null
+    /**
+     * Filter which UserAuthToken to delete.
+     */
+    where: UserAuthTokenWhereUniqueInput
+  }
+
+  /**
+   * UserAuthToken deleteMany
+   */
+  export type UserAuthTokenDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which UserAuthTokens to delete
+     */
+    where?: UserAuthTokenWhereInput
+    /**
+     * Limit how many UserAuthTokens to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * UserAuthToken without action
+   */
+  export type UserAuthTokenDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserAuthToken
+     */
+    select?: UserAuthTokenSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserAuthToken
+     */
+    omit?: UserAuthTokenOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserAuthTokenInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model AuthRateLimit
+   */
+
+  export type AggregateAuthRateLimit = {
+    _count: AuthRateLimitCountAggregateOutputType | null
+    _avg: AuthRateLimitAvgAggregateOutputType | null
+    _sum: AuthRateLimitSumAggregateOutputType | null
+    _min: AuthRateLimitMinAggregateOutputType | null
+    _max: AuthRateLimitMaxAggregateOutputType | null
+  }
+
+  export type AuthRateLimitAvgAggregateOutputType = {
+    failures: number | null
+  }
+
+  export type AuthRateLimitSumAggregateOutputType = {
+    failures: number | null
+  }
+
+  export type AuthRateLimitMinAggregateOutputType = {
+    keyHash: string | null
+    failures: number | null
+    windowStartedAt: Date | null
+    lockedUntil: Date | null
+    updatedAt: Date | null
+  }
+
+  export type AuthRateLimitMaxAggregateOutputType = {
+    keyHash: string | null
+    failures: number | null
+    windowStartedAt: Date | null
+    lockedUntil: Date | null
+    updatedAt: Date | null
+  }
+
+  export type AuthRateLimitCountAggregateOutputType = {
+    keyHash: number
+    failures: number
+    windowStartedAt: number
+    lockedUntil: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type AuthRateLimitAvgAggregateInputType = {
+    failures?: true
+  }
+
+  export type AuthRateLimitSumAggregateInputType = {
+    failures?: true
+  }
+
+  export type AuthRateLimitMinAggregateInputType = {
+    keyHash?: true
+    failures?: true
+    windowStartedAt?: true
+    lockedUntil?: true
+    updatedAt?: true
+  }
+
+  export type AuthRateLimitMaxAggregateInputType = {
+    keyHash?: true
+    failures?: true
+    windowStartedAt?: true
+    lockedUntil?: true
+    updatedAt?: true
+  }
+
+  export type AuthRateLimitCountAggregateInputType = {
+    keyHash?: true
+    failures?: true
+    windowStartedAt?: true
+    lockedUntil?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type AuthRateLimitAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which AuthRateLimit to aggregate.
+     */
+    where?: AuthRateLimitWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of AuthRateLimits to fetch.
+     */
+    orderBy?: AuthRateLimitOrderByWithRelationInput | AuthRateLimitOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: AuthRateLimitWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` AuthRateLimits from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` AuthRateLimits.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned AuthRateLimits
+    **/
+    _count?: true | AuthRateLimitCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: AuthRateLimitAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: AuthRateLimitSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: AuthRateLimitMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: AuthRateLimitMaxAggregateInputType
+  }
+
+  export type GetAuthRateLimitAggregateType<T extends AuthRateLimitAggregateArgs> = {
+        [P in keyof T & keyof AggregateAuthRateLimit]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateAuthRateLimit[P]>
+      : GetScalarType<T[P], AggregateAuthRateLimit[P]>
+  }
+
+
+
+
+  export type AuthRateLimitGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: AuthRateLimitWhereInput
+    orderBy?: AuthRateLimitOrderByWithAggregationInput | AuthRateLimitOrderByWithAggregationInput[]
+    by: AuthRateLimitScalarFieldEnum[] | AuthRateLimitScalarFieldEnum
+    having?: AuthRateLimitScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: AuthRateLimitCountAggregateInputType | true
+    _avg?: AuthRateLimitAvgAggregateInputType
+    _sum?: AuthRateLimitSumAggregateInputType
+    _min?: AuthRateLimitMinAggregateInputType
+    _max?: AuthRateLimitMaxAggregateInputType
+  }
+
+  export type AuthRateLimitGroupByOutputType = {
+    keyHash: string
+    failures: number
+    windowStartedAt: Date
+    lockedUntil: Date | null
+    updatedAt: Date
+    _count: AuthRateLimitCountAggregateOutputType | null
+    _avg: AuthRateLimitAvgAggregateOutputType | null
+    _sum: AuthRateLimitSumAggregateOutputType | null
+    _min: AuthRateLimitMinAggregateOutputType | null
+    _max: AuthRateLimitMaxAggregateOutputType | null
+  }
+
+  type GetAuthRateLimitGroupByPayload<T extends AuthRateLimitGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<AuthRateLimitGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof AuthRateLimitGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], AuthRateLimitGroupByOutputType[P]>
+            : GetScalarType<T[P], AuthRateLimitGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type AuthRateLimitSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    keyHash?: boolean
+    failures?: boolean
+    windowStartedAt?: boolean
+    lockedUntil?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["authRateLimit"]>
+
+  export type AuthRateLimitSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    keyHash?: boolean
+    failures?: boolean
+    windowStartedAt?: boolean
+    lockedUntil?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["authRateLimit"]>
+
+  export type AuthRateLimitSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    keyHash?: boolean
+    failures?: boolean
+    windowStartedAt?: boolean
+    lockedUntil?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["authRateLimit"]>
+
+  export type AuthRateLimitSelectScalar = {
+    keyHash?: boolean
+    failures?: boolean
+    windowStartedAt?: boolean
+    lockedUntil?: boolean
+    updatedAt?: boolean
+  }
+
+  export type AuthRateLimitOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"keyHash" | "failures" | "windowStartedAt" | "lockedUntil" | "updatedAt", ExtArgs["result"]["authRateLimit"]>
+
+  export type $AuthRateLimitPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "AuthRateLimit"
+    objects: {}
+    scalars: $Extensions.GetPayloadResult<{
+      keyHash: string
+      failures: number
+      windowStartedAt: Date
+      lockedUntil: Date | null
+      updatedAt: Date
+    }, ExtArgs["result"]["authRateLimit"]>
+    composites: {}
+  }
+
+  type AuthRateLimitGetPayload<S extends boolean | null | undefined | AuthRateLimitDefaultArgs> = $Result.GetResult<Prisma.$AuthRateLimitPayload, S>
+
+  type AuthRateLimitCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<AuthRateLimitFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: AuthRateLimitCountAggregateInputType | true
+    }
+
+  export interface AuthRateLimitDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['AuthRateLimit'], meta: { name: 'AuthRateLimit' } }
+    /**
+     * Find zero or one AuthRateLimit that matches the filter.
+     * @param {AuthRateLimitFindUniqueArgs} args - Arguments to find a AuthRateLimit
+     * @example
+     * // Get one AuthRateLimit
+     * const authRateLimit = await prisma.authRateLimit.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends AuthRateLimitFindUniqueArgs>(args: SelectSubset<T, AuthRateLimitFindUniqueArgs<ExtArgs>>): Prisma__AuthRateLimitClient<$Result.GetResult<Prisma.$AuthRateLimitPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one AuthRateLimit that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {AuthRateLimitFindUniqueOrThrowArgs} args - Arguments to find a AuthRateLimit
+     * @example
+     * // Get one AuthRateLimit
+     * const authRateLimit = await prisma.authRateLimit.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends AuthRateLimitFindUniqueOrThrowArgs>(args: SelectSubset<T, AuthRateLimitFindUniqueOrThrowArgs<ExtArgs>>): Prisma__AuthRateLimitClient<$Result.GetResult<Prisma.$AuthRateLimitPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first AuthRateLimit that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AuthRateLimitFindFirstArgs} args - Arguments to find a AuthRateLimit
+     * @example
+     * // Get one AuthRateLimit
+     * const authRateLimit = await prisma.authRateLimit.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends AuthRateLimitFindFirstArgs>(args?: SelectSubset<T, AuthRateLimitFindFirstArgs<ExtArgs>>): Prisma__AuthRateLimitClient<$Result.GetResult<Prisma.$AuthRateLimitPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first AuthRateLimit that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AuthRateLimitFindFirstOrThrowArgs} args - Arguments to find a AuthRateLimit
+     * @example
+     * // Get one AuthRateLimit
+     * const authRateLimit = await prisma.authRateLimit.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends AuthRateLimitFindFirstOrThrowArgs>(args?: SelectSubset<T, AuthRateLimitFindFirstOrThrowArgs<ExtArgs>>): Prisma__AuthRateLimitClient<$Result.GetResult<Prisma.$AuthRateLimitPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more AuthRateLimits that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AuthRateLimitFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all AuthRateLimits
+     * const authRateLimits = await prisma.authRateLimit.findMany()
+     * 
+     * // Get first 10 AuthRateLimits
+     * const authRateLimits = await prisma.authRateLimit.findMany({ take: 10 })
+     * 
+     * // Only select the `keyHash`
+     * const authRateLimitWithKeyHashOnly = await prisma.authRateLimit.findMany({ select: { keyHash: true } })
+     * 
+     */
+    findMany<T extends AuthRateLimitFindManyArgs>(args?: SelectSubset<T, AuthRateLimitFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AuthRateLimitPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a AuthRateLimit.
+     * @param {AuthRateLimitCreateArgs} args - Arguments to create a AuthRateLimit.
+     * @example
+     * // Create one AuthRateLimit
+     * const AuthRateLimit = await prisma.authRateLimit.create({
+     *   data: {
+     *     // ... data to create a AuthRateLimit
+     *   }
+     * })
+     * 
+     */
+    create<T extends AuthRateLimitCreateArgs>(args: SelectSubset<T, AuthRateLimitCreateArgs<ExtArgs>>): Prisma__AuthRateLimitClient<$Result.GetResult<Prisma.$AuthRateLimitPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many AuthRateLimits.
+     * @param {AuthRateLimitCreateManyArgs} args - Arguments to create many AuthRateLimits.
+     * @example
+     * // Create many AuthRateLimits
+     * const authRateLimit = await prisma.authRateLimit.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends AuthRateLimitCreateManyArgs>(args?: SelectSubset<T, AuthRateLimitCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many AuthRateLimits and returns the data saved in the database.
+     * @param {AuthRateLimitCreateManyAndReturnArgs} args - Arguments to create many AuthRateLimits.
+     * @example
+     * // Create many AuthRateLimits
+     * const authRateLimit = await prisma.authRateLimit.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many AuthRateLimits and only return the `keyHash`
+     * const authRateLimitWithKeyHashOnly = await prisma.authRateLimit.createManyAndReturn({
+     *   select: { keyHash: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends AuthRateLimitCreateManyAndReturnArgs>(args?: SelectSubset<T, AuthRateLimitCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AuthRateLimitPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a AuthRateLimit.
+     * @param {AuthRateLimitDeleteArgs} args - Arguments to delete one AuthRateLimit.
+     * @example
+     * // Delete one AuthRateLimit
+     * const AuthRateLimit = await prisma.authRateLimit.delete({
+     *   where: {
+     *     // ... filter to delete one AuthRateLimit
+     *   }
+     * })
+     * 
+     */
+    delete<T extends AuthRateLimitDeleteArgs>(args: SelectSubset<T, AuthRateLimitDeleteArgs<ExtArgs>>): Prisma__AuthRateLimitClient<$Result.GetResult<Prisma.$AuthRateLimitPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one AuthRateLimit.
+     * @param {AuthRateLimitUpdateArgs} args - Arguments to update one AuthRateLimit.
+     * @example
+     * // Update one AuthRateLimit
+     * const authRateLimit = await prisma.authRateLimit.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends AuthRateLimitUpdateArgs>(args: SelectSubset<T, AuthRateLimitUpdateArgs<ExtArgs>>): Prisma__AuthRateLimitClient<$Result.GetResult<Prisma.$AuthRateLimitPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more AuthRateLimits.
+     * @param {AuthRateLimitDeleteManyArgs} args - Arguments to filter AuthRateLimits to delete.
+     * @example
+     * // Delete a few AuthRateLimits
+     * const { count } = await prisma.authRateLimit.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends AuthRateLimitDeleteManyArgs>(args?: SelectSubset<T, AuthRateLimitDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more AuthRateLimits.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AuthRateLimitUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many AuthRateLimits
+     * const authRateLimit = await prisma.authRateLimit.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends AuthRateLimitUpdateManyArgs>(args: SelectSubset<T, AuthRateLimitUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more AuthRateLimits and returns the data updated in the database.
+     * @param {AuthRateLimitUpdateManyAndReturnArgs} args - Arguments to update many AuthRateLimits.
+     * @example
+     * // Update many AuthRateLimits
+     * const authRateLimit = await prisma.authRateLimit.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more AuthRateLimits and only return the `keyHash`
+     * const authRateLimitWithKeyHashOnly = await prisma.authRateLimit.updateManyAndReturn({
+     *   select: { keyHash: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends AuthRateLimitUpdateManyAndReturnArgs>(args: SelectSubset<T, AuthRateLimitUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AuthRateLimitPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one AuthRateLimit.
+     * @param {AuthRateLimitUpsertArgs} args - Arguments to update or create a AuthRateLimit.
+     * @example
+     * // Update or create a AuthRateLimit
+     * const authRateLimit = await prisma.authRateLimit.upsert({
+     *   create: {
+     *     // ... data to create a AuthRateLimit
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the AuthRateLimit we want to update
+     *   }
+     * })
+     */
+    upsert<T extends AuthRateLimitUpsertArgs>(args: SelectSubset<T, AuthRateLimitUpsertArgs<ExtArgs>>): Prisma__AuthRateLimitClient<$Result.GetResult<Prisma.$AuthRateLimitPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of AuthRateLimits.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AuthRateLimitCountArgs} args - Arguments to filter AuthRateLimits to count.
+     * @example
+     * // Count the number of AuthRateLimits
+     * const count = await prisma.authRateLimit.count({
+     *   where: {
+     *     // ... the filter for the AuthRateLimits we want to count
+     *   }
+     * })
+    **/
+    count<T extends AuthRateLimitCountArgs>(
+      args?: Subset<T, AuthRateLimitCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], AuthRateLimitCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a AuthRateLimit.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AuthRateLimitAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends AuthRateLimitAggregateArgs>(args: Subset<T, AuthRateLimitAggregateArgs>): Prisma.PrismaPromise<GetAuthRateLimitAggregateType<T>>
+
+    /**
+     * Group by AuthRateLimit.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AuthRateLimitGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends AuthRateLimitGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: AuthRateLimitGroupByArgs['orderBy'] }
+        : { orderBy?: AuthRateLimitGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, AuthRateLimitGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetAuthRateLimitGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the AuthRateLimit model
+   */
+  readonly fields: AuthRateLimitFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for AuthRateLimit.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__AuthRateLimitClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the AuthRateLimit model
+   */
+  interface AuthRateLimitFieldRefs {
+    readonly keyHash: FieldRef<"AuthRateLimit", 'String'>
+    readonly failures: FieldRef<"AuthRateLimit", 'Int'>
+    readonly windowStartedAt: FieldRef<"AuthRateLimit", 'DateTime'>
+    readonly lockedUntil: FieldRef<"AuthRateLimit", 'DateTime'>
+    readonly updatedAt: FieldRef<"AuthRateLimit", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * AuthRateLimit findUnique
+   */
+  export type AuthRateLimitFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AuthRateLimit
+     */
+    select?: AuthRateLimitSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AuthRateLimit
+     */
+    omit?: AuthRateLimitOmit<ExtArgs> | null
+    /**
+     * Filter, which AuthRateLimit to fetch.
+     */
+    where: AuthRateLimitWhereUniqueInput
+  }
+
+  /**
+   * AuthRateLimit findUniqueOrThrow
+   */
+  export type AuthRateLimitFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AuthRateLimit
+     */
+    select?: AuthRateLimitSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AuthRateLimit
+     */
+    omit?: AuthRateLimitOmit<ExtArgs> | null
+    /**
+     * Filter, which AuthRateLimit to fetch.
+     */
+    where: AuthRateLimitWhereUniqueInput
+  }
+
+  /**
+   * AuthRateLimit findFirst
+   */
+  export type AuthRateLimitFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AuthRateLimit
+     */
+    select?: AuthRateLimitSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AuthRateLimit
+     */
+    omit?: AuthRateLimitOmit<ExtArgs> | null
+    /**
+     * Filter, which AuthRateLimit to fetch.
+     */
+    where?: AuthRateLimitWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of AuthRateLimits to fetch.
+     */
+    orderBy?: AuthRateLimitOrderByWithRelationInput | AuthRateLimitOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for AuthRateLimits.
+     */
+    cursor?: AuthRateLimitWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` AuthRateLimits from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` AuthRateLimits.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of AuthRateLimits.
+     */
+    distinct?: AuthRateLimitScalarFieldEnum | AuthRateLimitScalarFieldEnum[]
+  }
+
+  /**
+   * AuthRateLimit findFirstOrThrow
+   */
+  export type AuthRateLimitFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AuthRateLimit
+     */
+    select?: AuthRateLimitSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AuthRateLimit
+     */
+    omit?: AuthRateLimitOmit<ExtArgs> | null
+    /**
+     * Filter, which AuthRateLimit to fetch.
+     */
+    where?: AuthRateLimitWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of AuthRateLimits to fetch.
+     */
+    orderBy?: AuthRateLimitOrderByWithRelationInput | AuthRateLimitOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for AuthRateLimits.
+     */
+    cursor?: AuthRateLimitWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` AuthRateLimits from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` AuthRateLimits.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of AuthRateLimits.
+     */
+    distinct?: AuthRateLimitScalarFieldEnum | AuthRateLimitScalarFieldEnum[]
+  }
+
+  /**
+   * AuthRateLimit findMany
+   */
+  export type AuthRateLimitFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AuthRateLimit
+     */
+    select?: AuthRateLimitSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AuthRateLimit
+     */
+    omit?: AuthRateLimitOmit<ExtArgs> | null
+    /**
+     * Filter, which AuthRateLimits to fetch.
+     */
+    where?: AuthRateLimitWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of AuthRateLimits to fetch.
+     */
+    orderBy?: AuthRateLimitOrderByWithRelationInput | AuthRateLimitOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing AuthRateLimits.
+     */
+    cursor?: AuthRateLimitWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` AuthRateLimits from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` AuthRateLimits.
+     */
+    skip?: number
+    distinct?: AuthRateLimitScalarFieldEnum | AuthRateLimitScalarFieldEnum[]
+  }
+
+  /**
+   * AuthRateLimit create
+   */
+  export type AuthRateLimitCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AuthRateLimit
+     */
+    select?: AuthRateLimitSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AuthRateLimit
+     */
+    omit?: AuthRateLimitOmit<ExtArgs> | null
+    /**
+     * The data needed to create a AuthRateLimit.
+     */
+    data: XOR<AuthRateLimitCreateInput, AuthRateLimitUncheckedCreateInput>
+  }
+
+  /**
+   * AuthRateLimit createMany
+   */
+  export type AuthRateLimitCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many AuthRateLimits.
+     */
+    data: AuthRateLimitCreateManyInput | AuthRateLimitCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * AuthRateLimit createManyAndReturn
+   */
+  export type AuthRateLimitCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AuthRateLimit
+     */
+    select?: AuthRateLimitSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the AuthRateLimit
+     */
+    omit?: AuthRateLimitOmit<ExtArgs> | null
+    /**
+     * The data used to create many AuthRateLimits.
+     */
+    data: AuthRateLimitCreateManyInput | AuthRateLimitCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * AuthRateLimit update
+   */
+  export type AuthRateLimitUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AuthRateLimit
+     */
+    select?: AuthRateLimitSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AuthRateLimit
+     */
+    omit?: AuthRateLimitOmit<ExtArgs> | null
+    /**
+     * The data needed to update a AuthRateLimit.
+     */
+    data: XOR<AuthRateLimitUpdateInput, AuthRateLimitUncheckedUpdateInput>
+    /**
+     * Choose, which AuthRateLimit to update.
+     */
+    where: AuthRateLimitWhereUniqueInput
+  }
+
+  /**
+   * AuthRateLimit updateMany
+   */
+  export type AuthRateLimitUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update AuthRateLimits.
+     */
+    data: XOR<AuthRateLimitUpdateManyMutationInput, AuthRateLimitUncheckedUpdateManyInput>
+    /**
+     * Filter which AuthRateLimits to update
+     */
+    where?: AuthRateLimitWhereInput
+    /**
+     * Limit how many AuthRateLimits to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * AuthRateLimit updateManyAndReturn
+   */
+  export type AuthRateLimitUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AuthRateLimit
+     */
+    select?: AuthRateLimitSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the AuthRateLimit
+     */
+    omit?: AuthRateLimitOmit<ExtArgs> | null
+    /**
+     * The data used to update AuthRateLimits.
+     */
+    data: XOR<AuthRateLimitUpdateManyMutationInput, AuthRateLimitUncheckedUpdateManyInput>
+    /**
+     * Filter which AuthRateLimits to update
+     */
+    where?: AuthRateLimitWhereInput
+    /**
+     * Limit how many AuthRateLimits to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * AuthRateLimit upsert
+   */
+  export type AuthRateLimitUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AuthRateLimit
+     */
+    select?: AuthRateLimitSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AuthRateLimit
+     */
+    omit?: AuthRateLimitOmit<ExtArgs> | null
+    /**
+     * The filter to search for the AuthRateLimit to update in case it exists.
+     */
+    where: AuthRateLimitWhereUniqueInput
+    /**
+     * In case the AuthRateLimit found by the `where` argument doesn't exist, create a new AuthRateLimit with this data.
+     */
+    create: XOR<AuthRateLimitCreateInput, AuthRateLimitUncheckedCreateInput>
+    /**
+     * In case the AuthRateLimit was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<AuthRateLimitUpdateInput, AuthRateLimitUncheckedUpdateInput>
+  }
+
+  /**
+   * AuthRateLimit delete
+   */
+  export type AuthRateLimitDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AuthRateLimit
+     */
+    select?: AuthRateLimitSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AuthRateLimit
+     */
+    omit?: AuthRateLimitOmit<ExtArgs> | null
+    /**
+     * Filter which AuthRateLimit to delete.
+     */
+    where: AuthRateLimitWhereUniqueInput
+  }
+
+  /**
+   * AuthRateLimit deleteMany
+   */
+  export type AuthRateLimitDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which AuthRateLimits to delete
+     */
+    where?: AuthRateLimitWhereInput
+    /**
+     * Limit how many AuthRateLimits to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * AuthRateLimit without action
+   */
+  export type AuthRateLimitDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AuthRateLimit
+     */
+    select?: AuthRateLimitSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AuthRateLimit
+     */
+    omit?: AuthRateLimitOmit<ExtArgs> | null
+  }
+
+
+  /**
    * Model UserSetting
    */
 
@@ -8146,6 +11222,7 @@ export namespace Prisma {
     sortMarked: $Enums.SortMarkedOption | null
     notifyNewChapter: boolean | null
     notifyInteraction: boolean | null
+    notifyGeneral: boolean | null
   }
 
   export type UserSettingMaxAggregateOutputType = {
@@ -8155,6 +11232,7 @@ export namespace Prisma {
     sortMarked: $Enums.SortMarkedOption | null
     notifyNewChapter: boolean | null
     notifyInteraction: boolean | null
+    notifyGeneral: boolean | null
   }
 
   export type UserSettingCountAggregateOutputType = {
@@ -8164,6 +11242,7 @@ export namespace Prisma {
     sortMarked: number
     notifyNewChapter: number
     notifyInteraction: number
+    notifyGeneral: number
     _all: number
   }
 
@@ -8183,6 +11262,7 @@ export namespace Prisma {
     sortMarked?: true
     notifyNewChapter?: true
     notifyInteraction?: true
+    notifyGeneral?: true
   }
 
   export type UserSettingMaxAggregateInputType = {
@@ -8192,6 +11272,7 @@ export namespace Prisma {
     sortMarked?: true
     notifyNewChapter?: true
     notifyInteraction?: true
+    notifyGeneral?: true
   }
 
   export type UserSettingCountAggregateInputType = {
@@ -8201,6 +11282,7 @@ export namespace Prisma {
     sortMarked?: true
     notifyNewChapter?: true
     notifyInteraction?: true
+    notifyGeneral?: true
     _all?: true
   }
 
@@ -8297,6 +11379,7 @@ export namespace Prisma {
     sortMarked: $Enums.SortMarkedOption
     notifyNewChapter: boolean
     notifyInteraction: boolean
+    notifyGeneral: boolean
     _count: UserSettingCountAggregateOutputType | null
     _avg: UserSettingAvgAggregateOutputType | null
     _sum: UserSettingSumAggregateOutputType | null
@@ -8325,6 +11408,7 @@ export namespace Prisma {
     sortMarked?: boolean
     notifyNewChapter?: boolean
     notifyInteraction?: boolean
+    notifyGeneral?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["userSetting"]>
 
@@ -8335,6 +11419,7 @@ export namespace Prisma {
     sortMarked?: boolean
     notifyNewChapter?: boolean
     notifyInteraction?: boolean
+    notifyGeneral?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["userSetting"]>
 
@@ -8345,6 +11430,7 @@ export namespace Prisma {
     sortMarked?: boolean
     notifyNewChapter?: boolean
     notifyInteraction?: boolean
+    notifyGeneral?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["userSetting"]>
 
@@ -8355,9 +11441,10 @@ export namespace Prisma {
     sortMarked?: boolean
     notifyNewChapter?: boolean
     notifyInteraction?: boolean
+    notifyGeneral?: boolean
   }
 
-  export type UserSettingOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "sortReading" | "sortMarked" | "notifyNewChapter" | "notifyInteraction", ExtArgs["result"]["userSetting"]>
+  export type UserSettingOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "sortReading" | "sortMarked" | "notifyNewChapter" | "notifyInteraction" | "notifyGeneral", ExtArgs["result"]["userSetting"]>
   export type UserSettingInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | UserDefaultArgs<ExtArgs>
   }
@@ -8380,6 +11467,7 @@ export namespace Prisma {
       sortMarked: $Enums.SortMarkedOption
       notifyNewChapter: boolean
       notifyInteraction: boolean
+      notifyGeneral: boolean
     }, ExtArgs["result"]["userSetting"]>
     composites: {}
   }
@@ -8810,6 +11898,7 @@ export namespace Prisma {
     readonly sortMarked: FieldRef<"UserSetting", 'SortMarkedOption'>
     readonly notifyNewChapter: FieldRef<"UserSetting", 'Boolean'>
     readonly notifyInteraction: FieldRef<"UserSetting", 'Boolean'>
+    readonly notifyGeneral: FieldRef<"UserSetting", 'Boolean'>
   }
     
 
@@ -9256,6 +12345,7 @@ export namespace Prisma {
     slug: string | null
     stringUrl: string | null
     totalChapters: number | null
+    latestChapterAt: Date | null
     createdAt: Date | null
     updatedAt: Date | null
     uploaderId: string | null
@@ -9270,6 +12360,7 @@ export namespace Prisma {
     slug: string | null
     stringUrl: string | null
     totalChapters: number | null
+    latestChapterAt: Date | null
     createdAt: Date | null
     updatedAt: Date | null
     uploaderId: string | null
@@ -9284,6 +12375,7 @@ export namespace Prisma {
     slug: number
     stringUrl: number
     totalChapters: number
+    latestChapterAt: number
     createdAt: number
     updatedAt: number
     uploaderId: number
@@ -9314,6 +12406,7 @@ export namespace Prisma {
     slug?: true
     stringUrl?: true
     totalChapters?: true
+    latestChapterAt?: true
     createdAt?: true
     updatedAt?: true
     uploaderId?: true
@@ -9328,6 +12421,7 @@ export namespace Prisma {
     slug?: true
     stringUrl?: true
     totalChapters?: true
+    latestChapterAt?: true
     createdAt?: true
     updatedAt?: true
     uploaderId?: true
@@ -9342,6 +12436,7 @@ export namespace Prisma {
     slug?: true
     stringUrl?: true
     totalChapters?: true
+    latestChapterAt?: true
     createdAt?: true
     updatedAt?: true
     uploaderId?: true
@@ -9443,6 +12538,7 @@ export namespace Prisma {
     slug: string | null
     stringUrl: string
     totalChapters: number | null
+    latestChapterAt: Date | null
     createdAt: Date
     updatedAt: Date
     uploaderId: string
@@ -9476,6 +12572,7 @@ export namespace Prisma {
     slug?: boolean
     stringUrl?: boolean
     totalChapters?: boolean
+    latestChapterAt?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     uploaderId?: boolean
@@ -9491,7 +12588,12 @@ export namespace Prisma {
     fans?: boolean | Story$fansArgs<ExtArgs>
     votes?: boolean | Story$votesArgs<ExtArgs>
     stats?: boolean | Story$statsArgs<ExtArgs>
+    dailyStats?: boolean | Story$dailyStatsArgs<ExtArgs>
     topReads?: boolean | Story$topReadsArgs<ExtArgs>
+    readEvents?: boolean | Story$readEventsArgs<ExtArgs>
+    readingStates?: boolean | Story$readingStatesArgs<ExtArgs>
+    subscriptions?: boolean | Story$subscriptionsArgs<ExtArgs>
+    notifications?: boolean | Story$notificationsArgs<ExtArgs>
     tags?: boolean | Story$tagsArgs<ExtArgs>
     _count?: boolean | StoryCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["story"]>
@@ -9502,6 +12604,7 @@ export namespace Prisma {
     slug?: boolean
     stringUrl?: boolean
     totalChapters?: boolean
+    latestChapterAt?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     uploaderId?: boolean
@@ -9518,6 +12621,7 @@ export namespace Prisma {
     slug?: boolean
     stringUrl?: boolean
     totalChapters?: boolean
+    latestChapterAt?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     uploaderId?: boolean
@@ -9534,6 +12638,7 @@ export namespace Prisma {
     slug?: boolean
     stringUrl?: boolean
     totalChapters?: boolean
+    latestChapterAt?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     uploaderId?: boolean
@@ -9542,7 +12647,7 @@ export namespace Prisma {
     manager_pick?: boolean
   }
 
-  export type StoryOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "slug" | "stringUrl" | "totalChapters" | "createdAt" | "updatedAt" | "uploaderId" | "authorId" | "introduce" | "manager_pick", ExtArgs["result"]["story"]>
+  export type StoryOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "slug" | "stringUrl" | "totalChapters" | "latestChapterAt" | "createdAt" | "updatedAt" | "uploaderId" | "authorId" | "introduce" | "manager_pick", ExtArgs["result"]["story"]>
   export type StoryInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     chapters?: boolean | Story$chaptersArgs<ExtArgs>
     discusses?: boolean | Story$discussesArgs<ExtArgs>
@@ -9553,7 +12658,12 @@ export namespace Prisma {
     fans?: boolean | Story$fansArgs<ExtArgs>
     votes?: boolean | Story$votesArgs<ExtArgs>
     stats?: boolean | Story$statsArgs<ExtArgs>
+    dailyStats?: boolean | Story$dailyStatsArgs<ExtArgs>
     topReads?: boolean | Story$topReadsArgs<ExtArgs>
+    readEvents?: boolean | Story$readEventsArgs<ExtArgs>
+    readingStates?: boolean | Story$readingStatesArgs<ExtArgs>
+    subscriptions?: boolean | Story$subscriptionsArgs<ExtArgs>
+    notifications?: boolean | Story$notificationsArgs<ExtArgs>
     tags?: boolean | Story$tagsArgs<ExtArgs>
     _count?: boolean | StoryCountOutputTypeDefaultArgs<ExtArgs>
   }
@@ -9578,7 +12688,12 @@ export namespace Prisma {
       fans: Prisma.$StoryFanPayload<ExtArgs>[]
       votes: Prisma.$StoryRecommendationPayload<ExtArgs>[]
       stats: Prisma.$StoryStatsPayload<ExtArgs> | null
+      dailyStats: Prisma.$StoryDailyReadStatsPayload<ExtArgs>[]
       topReads: Prisma.$TopStoryReadPayload<ExtArgs>[]
+      readEvents: Prisma.$ChapterReadEventPayload<ExtArgs>[]
+      readingStates: Prisma.$UserStoryReadingStatePayload<ExtArgs>[]
+      subscriptions: Prisma.$StorySubscriptionPayload<ExtArgs>[]
+      notifications: Prisma.$NotificationPayload<ExtArgs>[]
       tags: Prisma.$TagPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
@@ -9587,6 +12702,7 @@ export namespace Prisma {
       slug: string | null
       stringUrl: string
       totalChapters: number | null
+      latestChapterAt: Date | null
       createdAt: Date
       updatedAt: Date
       uploaderId: string
@@ -9996,7 +13112,12 @@ export namespace Prisma {
     fans<T extends Story$fansArgs<ExtArgs> = {}>(args?: Subset<T, Story$fansArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$StoryFanPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     votes<T extends Story$votesArgs<ExtArgs> = {}>(args?: Subset<T, Story$votesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$StoryRecommendationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     stats<T extends Story$statsArgs<ExtArgs> = {}>(args?: Subset<T, Story$statsArgs<ExtArgs>>): Prisma__StoryStatsClient<$Result.GetResult<Prisma.$StoryStatsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    dailyStats<T extends Story$dailyStatsArgs<ExtArgs> = {}>(args?: Subset<T, Story$dailyStatsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$StoryDailyReadStatsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     topReads<T extends Story$topReadsArgs<ExtArgs> = {}>(args?: Subset<T, Story$topReadsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TopStoryReadPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    readEvents<T extends Story$readEventsArgs<ExtArgs> = {}>(args?: Subset<T, Story$readEventsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ChapterReadEventPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    readingStates<T extends Story$readingStatesArgs<ExtArgs> = {}>(args?: Subset<T, Story$readingStatesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserStoryReadingStatePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    subscriptions<T extends Story$subscriptionsArgs<ExtArgs> = {}>(args?: Subset<T, Story$subscriptionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$StorySubscriptionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    notifications<T extends Story$notificationsArgs<ExtArgs> = {}>(args?: Subset<T, Story$notificationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$NotificationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     tags<T extends Story$tagsArgs<ExtArgs> = {}>(args?: Subset<T, Story$tagsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TagPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -10032,6 +13153,7 @@ export namespace Prisma {
     readonly slug: FieldRef<"Story", 'String'>
     readonly stringUrl: FieldRef<"Story", 'String'>
     readonly totalChapters: FieldRef<"Story", 'Int'>
+    readonly latestChapterAt: FieldRef<"Story", 'DateTime'>
     readonly createdAt: FieldRef<"Story", 'DateTime'>
     readonly updatedAt: FieldRef<"Story", 'DateTime'>
     readonly uploaderId: FieldRef<"Story", 'String'>
@@ -10597,6 +13719,30 @@ export namespace Prisma {
   }
 
   /**
+   * Story.dailyStats
+   */
+  export type Story$dailyStatsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StoryDailyReadStats
+     */
+    select?: StoryDailyReadStatsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the StoryDailyReadStats
+     */
+    omit?: StoryDailyReadStatsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StoryDailyReadStatsInclude<ExtArgs> | null
+    where?: StoryDailyReadStatsWhereInput
+    orderBy?: StoryDailyReadStatsOrderByWithRelationInput | StoryDailyReadStatsOrderByWithRelationInput[]
+    cursor?: StoryDailyReadStatsWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: StoryDailyReadStatsScalarFieldEnum | StoryDailyReadStatsScalarFieldEnum[]
+  }
+
+  /**
    * Story.topReads
    */
   export type Story$topReadsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -10618,6 +13764,102 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: TopStoryReadScalarFieldEnum | TopStoryReadScalarFieldEnum[]
+  }
+
+  /**
+   * Story.readEvents
+   */
+  export type Story$readEventsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ChapterReadEvent
+     */
+    select?: ChapterReadEventSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ChapterReadEvent
+     */
+    omit?: ChapterReadEventOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ChapterReadEventInclude<ExtArgs> | null
+    where?: ChapterReadEventWhereInput
+    orderBy?: ChapterReadEventOrderByWithRelationInput | ChapterReadEventOrderByWithRelationInput[]
+    cursor?: ChapterReadEventWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ChapterReadEventScalarFieldEnum | ChapterReadEventScalarFieldEnum[]
+  }
+
+  /**
+   * Story.readingStates
+   */
+  export type Story$readingStatesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserStoryReadingState
+     */
+    select?: UserStoryReadingStateSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserStoryReadingState
+     */
+    omit?: UserStoryReadingStateOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserStoryReadingStateInclude<ExtArgs> | null
+    where?: UserStoryReadingStateWhereInput
+    orderBy?: UserStoryReadingStateOrderByWithRelationInput | UserStoryReadingStateOrderByWithRelationInput[]
+    cursor?: UserStoryReadingStateWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: UserStoryReadingStateScalarFieldEnum | UserStoryReadingStateScalarFieldEnum[]
+  }
+
+  /**
+   * Story.subscriptions
+   */
+  export type Story$subscriptionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StorySubscription
+     */
+    select?: StorySubscriptionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the StorySubscription
+     */
+    omit?: StorySubscriptionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StorySubscriptionInclude<ExtArgs> | null
+    where?: StorySubscriptionWhereInput
+    orderBy?: StorySubscriptionOrderByWithRelationInput | StorySubscriptionOrderByWithRelationInput[]
+    cursor?: StorySubscriptionWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: StorySubscriptionScalarFieldEnum | StorySubscriptionScalarFieldEnum[]
+  }
+
+  /**
+   * Story.notifications
+   */
+  export type Story$notificationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Notification
+     */
+    select?: NotificationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Notification
+     */
+    omit?: NotificationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NotificationInclude<ExtArgs> | null
+    where?: NotificationWhereInput
+    orderBy?: NotificationOrderByWithRelationInput | NotificationOrderByWithRelationInput[]
+    cursor?: NotificationWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: NotificationScalarFieldEnum | NotificationScalarFieldEnum[]
   }
 
   /**
@@ -14233,6 +17475,8 @@ export namespace Prisma {
     storyId?: boolean
     story?: boolean | StoryDefaultArgs<ExtArgs>
     reads?: boolean | Chapter$readsArgs<ExtArgs>
+    readEvents?: boolean | Chapter$readEventsArgs<ExtArgs>
+    readingStates?: boolean | Chapter$readingStatesArgs<ExtArgs>
     _count?: boolean | ChapterCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["chapter"]>
 
@@ -14269,6 +17513,8 @@ export namespace Prisma {
   export type ChapterInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     story?: boolean | StoryDefaultArgs<ExtArgs>
     reads?: boolean | Chapter$readsArgs<ExtArgs>
+    readEvents?: boolean | Chapter$readEventsArgs<ExtArgs>
+    readingStates?: boolean | Chapter$readingStatesArgs<ExtArgs>
     _count?: boolean | ChapterCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type ChapterIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -14283,6 +17529,8 @@ export namespace Prisma {
     objects: {
       story: Prisma.$StoryPayload<ExtArgs>
       reads: Prisma.$ChapterReadPayload<ExtArgs>[]
+      readEvents: Prisma.$ChapterReadEventPayload<ExtArgs>[]
+      readingStates: Prisma.$UserStoryReadingStatePayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: number
@@ -14687,6 +17935,8 @@ export namespace Prisma {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     story<T extends StoryDefaultArgs<ExtArgs> = {}>(args?: Subset<T, StoryDefaultArgs<ExtArgs>>): Prisma__StoryClient<$Result.GetResult<Prisma.$StoryPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     reads<T extends Chapter$readsArgs<ExtArgs> = {}>(args?: Subset<T, Chapter$readsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ChapterReadPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    readEvents<T extends Chapter$readEventsArgs<ExtArgs> = {}>(args?: Subset<T, Chapter$readEventsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ChapterReadEventPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    readingStates<T extends Chapter$readingStatesArgs<ExtArgs> = {}>(args?: Subset<T, Chapter$readingStatesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserStoryReadingStatePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -15142,6 +18392,54 @@ export namespace Prisma {
   }
 
   /**
+   * Chapter.readEvents
+   */
+  export type Chapter$readEventsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ChapterReadEvent
+     */
+    select?: ChapterReadEventSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ChapterReadEvent
+     */
+    omit?: ChapterReadEventOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ChapterReadEventInclude<ExtArgs> | null
+    where?: ChapterReadEventWhereInput
+    orderBy?: ChapterReadEventOrderByWithRelationInput | ChapterReadEventOrderByWithRelationInput[]
+    cursor?: ChapterReadEventWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ChapterReadEventScalarFieldEnum | ChapterReadEventScalarFieldEnum[]
+  }
+
+  /**
+   * Chapter.readingStates
+   */
+  export type Chapter$readingStatesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserStoryReadingState
+     */
+    select?: UserStoryReadingStateSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserStoryReadingState
+     */
+    omit?: UserStoryReadingStateOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserStoryReadingStateInclude<ExtArgs> | null
+    where?: UserStoryReadingStateWhereInput
+    orderBy?: UserStoryReadingStateOrderByWithRelationInput | UserStoryReadingStateOrderByWithRelationInput[]
+    cursor?: UserStoryReadingStateWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: UserStoryReadingStateScalarFieldEnum | UserStoryReadingStateScalarFieldEnum[]
+  }
+
+  /**
    * Chapter without action
    */
   export type ChapterDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -15185,6 +18483,7 @@ export namespace Prisma {
   export type ChapterReadMinAggregateOutputType = {
     id: number | null
     readAt: Date | null
+    updatedAt: Date | null
     userId: string | null
     chapterId: number | null
   }
@@ -15192,6 +18491,7 @@ export namespace Prisma {
   export type ChapterReadMaxAggregateOutputType = {
     id: number | null
     readAt: Date | null
+    updatedAt: Date | null
     userId: string | null
     chapterId: number | null
   }
@@ -15199,6 +18499,7 @@ export namespace Prisma {
   export type ChapterReadCountAggregateOutputType = {
     id: number
     readAt: number
+    updatedAt: number
     userId: number
     chapterId: number
     _all: number
@@ -15218,6 +18519,7 @@ export namespace Prisma {
   export type ChapterReadMinAggregateInputType = {
     id?: true
     readAt?: true
+    updatedAt?: true
     userId?: true
     chapterId?: true
   }
@@ -15225,6 +18527,7 @@ export namespace Prisma {
   export type ChapterReadMaxAggregateInputType = {
     id?: true
     readAt?: true
+    updatedAt?: true
     userId?: true
     chapterId?: true
   }
@@ -15232,6 +18535,7 @@ export namespace Prisma {
   export type ChapterReadCountAggregateInputType = {
     id?: true
     readAt?: true
+    updatedAt?: true
     userId?: true
     chapterId?: true
     _all?: true
@@ -15326,6 +18630,7 @@ export namespace Prisma {
   export type ChapterReadGroupByOutputType = {
     id: number
     readAt: Date
+    updatedAt: Date
     userId: string
     chapterId: number
     _count: ChapterReadCountAggregateOutputType | null
@@ -15352,6 +18657,7 @@ export namespace Prisma {
   export type ChapterReadSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     readAt?: boolean
+    updatedAt?: boolean
     userId?: boolean
     chapterId?: boolean
     chapter?: boolean | ChapterDefaultArgs<ExtArgs>
@@ -15361,6 +18667,7 @@ export namespace Prisma {
   export type ChapterReadSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     readAt?: boolean
+    updatedAt?: boolean
     userId?: boolean
     chapterId?: boolean
     chapter?: boolean | ChapterDefaultArgs<ExtArgs>
@@ -15370,6 +18677,7 @@ export namespace Prisma {
   export type ChapterReadSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     readAt?: boolean
+    updatedAt?: boolean
     userId?: boolean
     chapterId?: boolean
     chapter?: boolean | ChapterDefaultArgs<ExtArgs>
@@ -15379,11 +18687,12 @@ export namespace Prisma {
   export type ChapterReadSelectScalar = {
     id?: boolean
     readAt?: boolean
+    updatedAt?: boolean
     userId?: boolean
     chapterId?: boolean
   }
 
-  export type ChapterReadOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "readAt" | "userId" | "chapterId", ExtArgs["result"]["chapterRead"]>
+  export type ChapterReadOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "readAt" | "updatedAt" | "userId" | "chapterId", ExtArgs["result"]["chapterRead"]>
   export type ChapterReadInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     chapter?: boolean | ChapterDefaultArgs<ExtArgs>
     user?: boolean | UserDefaultArgs<ExtArgs>
@@ -15406,6 +18715,7 @@ export namespace Prisma {
     scalars: $Extensions.GetPayloadResult<{
       id: number
       readAt: Date
+      updatedAt: Date
       userId: string
       chapterId: number
     }, ExtArgs["result"]["chapterRead"]>
@@ -15835,6 +19145,7 @@ export namespace Prisma {
   interface ChapterReadFieldRefs {
     readonly id: FieldRef<"ChapterRead", 'Int'>
     readonly readAt: FieldRef<"ChapterRead", 'DateTime'>
+    readonly updatedAt: FieldRef<"ChapterRead", 'DateTime'>
     readonly userId: FieldRef<"ChapterRead", 'String'>
     readonly chapterId: FieldRef<"ChapterRead", 'Int'>
   }
@@ -16252,6 +19563,2251 @@ export namespace Prisma {
 
 
   /**
+   * Model ChapterReadEvent
+   */
+
+  export type AggregateChapterReadEvent = {
+    _count: ChapterReadEventCountAggregateOutputType | null
+    _avg: ChapterReadEventAvgAggregateOutputType | null
+    _sum: ChapterReadEventSumAggregateOutputType | null
+    _min: ChapterReadEventMinAggregateOutputType | null
+    _max: ChapterReadEventMaxAggregateOutputType | null
+  }
+
+  export type ChapterReadEventAvgAggregateOutputType = {
+    id: number | null
+    storyId: number | null
+    chapterId: number | null
+  }
+
+  export type ChapterReadEventSumAggregateOutputType = {
+    id: number | null
+    storyId: number | null
+    chapterId: number | null
+  }
+
+  export type ChapterReadEventMinAggregateOutputType = {
+    id: number | null
+    readAt: Date | null
+    userId: string | null
+    storyId: number | null
+    chapterId: number | null
+  }
+
+  export type ChapterReadEventMaxAggregateOutputType = {
+    id: number | null
+    readAt: Date | null
+    userId: string | null
+    storyId: number | null
+    chapterId: number | null
+  }
+
+  export type ChapterReadEventCountAggregateOutputType = {
+    id: number
+    readAt: number
+    userId: number
+    storyId: number
+    chapterId: number
+    _all: number
+  }
+
+
+  export type ChapterReadEventAvgAggregateInputType = {
+    id?: true
+    storyId?: true
+    chapterId?: true
+  }
+
+  export type ChapterReadEventSumAggregateInputType = {
+    id?: true
+    storyId?: true
+    chapterId?: true
+  }
+
+  export type ChapterReadEventMinAggregateInputType = {
+    id?: true
+    readAt?: true
+    userId?: true
+    storyId?: true
+    chapterId?: true
+  }
+
+  export type ChapterReadEventMaxAggregateInputType = {
+    id?: true
+    readAt?: true
+    userId?: true
+    storyId?: true
+    chapterId?: true
+  }
+
+  export type ChapterReadEventCountAggregateInputType = {
+    id?: true
+    readAt?: true
+    userId?: true
+    storyId?: true
+    chapterId?: true
+    _all?: true
+  }
+
+  export type ChapterReadEventAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ChapterReadEvent to aggregate.
+     */
+    where?: ChapterReadEventWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ChapterReadEvents to fetch.
+     */
+    orderBy?: ChapterReadEventOrderByWithRelationInput | ChapterReadEventOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: ChapterReadEventWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ChapterReadEvents from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ChapterReadEvents.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned ChapterReadEvents
+    **/
+    _count?: true | ChapterReadEventCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: ChapterReadEventAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: ChapterReadEventSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: ChapterReadEventMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: ChapterReadEventMaxAggregateInputType
+  }
+
+  export type GetChapterReadEventAggregateType<T extends ChapterReadEventAggregateArgs> = {
+        [P in keyof T & keyof AggregateChapterReadEvent]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateChapterReadEvent[P]>
+      : GetScalarType<T[P], AggregateChapterReadEvent[P]>
+  }
+
+
+
+
+  export type ChapterReadEventGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ChapterReadEventWhereInput
+    orderBy?: ChapterReadEventOrderByWithAggregationInput | ChapterReadEventOrderByWithAggregationInput[]
+    by: ChapterReadEventScalarFieldEnum[] | ChapterReadEventScalarFieldEnum
+    having?: ChapterReadEventScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: ChapterReadEventCountAggregateInputType | true
+    _avg?: ChapterReadEventAvgAggregateInputType
+    _sum?: ChapterReadEventSumAggregateInputType
+    _min?: ChapterReadEventMinAggregateInputType
+    _max?: ChapterReadEventMaxAggregateInputType
+  }
+
+  export type ChapterReadEventGroupByOutputType = {
+    id: number
+    readAt: Date
+    userId: string
+    storyId: number
+    chapterId: number
+    _count: ChapterReadEventCountAggregateOutputType | null
+    _avg: ChapterReadEventAvgAggregateOutputType | null
+    _sum: ChapterReadEventSumAggregateOutputType | null
+    _min: ChapterReadEventMinAggregateOutputType | null
+    _max: ChapterReadEventMaxAggregateOutputType | null
+  }
+
+  type GetChapterReadEventGroupByPayload<T extends ChapterReadEventGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<ChapterReadEventGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof ChapterReadEventGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], ChapterReadEventGroupByOutputType[P]>
+            : GetScalarType<T[P], ChapterReadEventGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type ChapterReadEventSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    readAt?: boolean
+    userId?: boolean
+    storyId?: boolean
+    chapterId?: boolean
+    chapter?: boolean | ChapterDefaultArgs<ExtArgs>
+    story?: boolean | StoryDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["chapterReadEvent"]>
+
+  export type ChapterReadEventSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    readAt?: boolean
+    userId?: boolean
+    storyId?: boolean
+    chapterId?: boolean
+    chapter?: boolean | ChapterDefaultArgs<ExtArgs>
+    story?: boolean | StoryDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["chapterReadEvent"]>
+
+  export type ChapterReadEventSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    readAt?: boolean
+    userId?: boolean
+    storyId?: boolean
+    chapterId?: boolean
+    chapter?: boolean | ChapterDefaultArgs<ExtArgs>
+    story?: boolean | StoryDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["chapterReadEvent"]>
+
+  export type ChapterReadEventSelectScalar = {
+    id?: boolean
+    readAt?: boolean
+    userId?: boolean
+    storyId?: boolean
+    chapterId?: boolean
+  }
+
+  export type ChapterReadEventOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "readAt" | "userId" | "storyId" | "chapterId", ExtArgs["result"]["chapterReadEvent"]>
+  export type ChapterReadEventInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    chapter?: boolean | ChapterDefaultArgs<ExtArgs>
+    story?: boolean | StoryDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type ChapterReadEventIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    chapter?: boolean | ChapterDefaultArgs<ExtArgs>
+    story?: boolean | StoryDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type ChapterReadEventIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    chapter?: boolean | ChapterDefaultArgs<ExtArgs>
+    story?: boolean | StoryDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+
+  export type $ChapterReadEventPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "ChapterReadEvent"
+    objects: {
+      chapter: Prisma.$ChapterPayload<ExtArgs>
+      story: Prisma.$StoryPayload<ExtArgs>
+      user: Prisma.$UserPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: number
+      readAt: Date
+      userId: string
+      storyId: number
+      chapterId: number
+    }, ExtArgs["result"]["chapterReadEvent"]>
+    composites: {}
+  }
+
+  type ChapterReadEventGetPayload<S extends boolean | null | undefined | ChapterReadEventDefaultArgs> = $Result.GetResult<Prisma.$ChapterReadEventPayload, S>
+
+  type ChapterReadEventCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<ChapterReadEventFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: ChapterReadEventCountAggregateInputType | true
+    }
+
+  export interface ChapterReadEventDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['ChapterReadEvent'], meta: { name: 'ChapterReadEvent' } }
+    /**
+     * Find zero or one ChapterReadEvent that matches the filter.
+     * @param {ChapterReadEventFindUniqueArgs} args - Arguments to find a ChapterReadEvent
+     * @example
+     * // Get one ChapterReadEvent
+     * const chapterReadEvent = await prisma.chapterReadEvent.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends ChapterReadEventFindUniqueArgs>(args: SelectSubset<T, ChapterReadEventFindUniqueArgs<ExtArgs>>): Prisma__ChapterReadEventClient<$Result.GetResult<Prisma.$ChapterReadEventPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one ChapterReadEvent that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {ChapterReadEventFindUniqueOrThrowArgs} args - Arguments to find a ChapterReadEvent
+     * @example
+     * // Get one ChapterReadEvent
+     * const chapterReadEvent = await prisma.chapterReadEvent.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends ChapterReadEventFindUniqueOrThrowArgs>(args: SelectSubset<T, ChapterReadEventFindUniqueOrThrowArgs<ExtArgs>>): Prisma__ChapterReadEventClient<$Result.GetResult<Prisma.$ChapterReadEventPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first ChapterReadEvent that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ChapterReadEventFindFirstArgs} args - Arguments to find a ChapterReadEvent
+     * @example
+     * // Get one ChapterReadEvent
+     * const chapterReadEvent = await prisma.chapterReadEvent.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends ChapterReadEventFindFirstArgs>(args?: SelectSubset<T, ChapterReadEventFindFirstArgs<ExtArgs>>): Prisma__ChapterReadEventClient<$Result.GetResult<Prisma.$ChapterReadEventPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first ChapterReadEvent that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ChapterReadEventFindFirstOrThrowArgs} args - Arguments to find a ChapterReadEvent
+     * @example
+     * // Get one ChapterReadEvent
+     * const chapterReadEvent = await prisma.chapterReadEvent.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends ChapterReadEventFindFirstOrThrowArgs>(args?: SelectSubset<T, ChapterReadEventFindFirstOrThrowArgs<ExtArgs>>): Prisma__ChapterReadEventClient<$Result.GetResult<Prisma.$ChapterReadEventPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more ChapterReadEvents that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ChapterReadEventFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all ChapterReadEvents
+     * const chapterReadEvents = await prisma.chapterReadEvent.findMany()
+     * 
+     * // Get first 10 ChapterReadEvents
+     * const chapterReadEvents = await prisma.chapterReadEvent.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const chapterReadEventWithIdOnly = await prisma.chapterReadEvent.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends ChapterReadEventFindManyArgs>(args?: SelectSubset<T, ChapterReadEventFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ChapterReadEventPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a ChapterReadEvent.
+     * @param {ChapterReadEventCreateArgs} args - Arguments to create a ChapterReadEvent.
+     * @example
+     * // Create one ChapterReadEvent
+     * const ChapterReadEvent = await prisma.chapterReadEvent.create({
+     *   data: {
+     *     // ... data to create a ChapterReadEvent
+     *   }
+     * })
+     * 
+     */
+    create<T extends ChapterReadEventCreateArgs>(args: SelectSubset<T, ChapterReadEventCreateArgs<ExtArgs>>): Prisma__ChapterReadEventClient<$Result.GetResult<Prisma.$ChapterReadEventPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many ChapterReadEvents.
+     * @param {ChapterReadEventCreateManyArgs} args - Arguments to create many ChapterReadEvents.
+     * @example
+     * // Create many ChapterReadEvents
+     * const chapterReadEvent = await prisma.chapterReadEvent.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends ChapterReadEventCreateManyArgs>(args?: SelectSubset<T, ChapterReadEventCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many ChapterReadEvents and returns the data saved in the database.
+     * @param {ChapterReadEventCreateManyAndReturnArgs} args - Arguments to create many ChapterReadEvents.
+     * @example
+     * // Create many ChapterReadEvents
+     * const chapterReadEvent = await prisma.chapterReadEvent.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many ChapterReadEvents and only return the `id`
+     * const chapterReadEventWithIdOnly = await prisma.chapterReadEvent.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends ChapterReadEventCreateManyAndReturnArgs>(args?: SelectSubset<T, ChapterReadEventCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ChapterReadEventPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a ChapterReadEvent.
+     * @param {ChapterReadEventDeleteArgs} args - Arguments to delete one ChapterReadEvent.
+     * @example
+     * // Delete one ChapterReadEvent
+     * const ChapterReadEvent = await prisma.chapterReadEvent.delete({
+     *   where: {
+     *     // ... filter to delete one ChapterReadEvent
+     *   }
+     * })
+     * 
+     */
+    delete<T extends ChapterReadEventDeleteArgs>(args: SelectSubset<T, ChapterReadEventDeleteArgs<ExtArgs>>): Prisma__ChapterReadEventClient<$Result.GetResult<Prisma.$ChapterReadEventPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one ChapterReadEvent.
+     * @param {ChapterReadEventUpdateArgs} args - Arguments to update one ChapterReadEvent.
+     * @example
+     * // Update one ChapterReadEvent
+     * const chapterReadEvent = await prisma.chapterReadEvent.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends ChapterReadEventUpdateArgs>(args: SelectSubset<T, ChapterReadEventUpdateArgs<ExtArgs>>): Prisma__ChapterReadEventClient<$Result.GetResult<Prisma.$ChapterReadEventPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more ChapterReadEvents.
+     * @param {ChapterReadEventDeleteManyArgs} args - Arguments to filter ChapterReadEvents to delete.
+     * @example
+     * // Delete a few ChapterReadEvents
+     * const { count } = await prisma.chapterReadEvent.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends ChapterReadEventDeleteManyArgs>(args?: SelectSubset<T, ChapterReadEventDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more ChapterReadEvents.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ChapterReadEventUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many ChapterReadEvents
+     * const chapterReadEvent = await prisma.chapterReadEvent.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends ChapterReadEventUpdateManyArgs>(args: SelectSubset<T, ChapterReadEventUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more ChapterReadEvents and returns the data updated in the database.
+     * @param {ChapterReadEventUpdateManyAndReturnArgs} args - Arguments to update many ChapterReadEvents.
+     * @example
+     * // Update many ChapterReadEvents
+     * const chapterReadEvent = await prisma.chapterReadEvent.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more ChapterReadEvents and only return the `id`
+     * const chapterReadEventWithIdOnly = await prisma.chapterReadEvent.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends ChapterReadEventUpdateManyAndReturnArgs>(args: SelectSubset<T, ChapterReadEventUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ChapterReadEventPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one ChapterReadEvent.
+     * @param {ChapterReadEventUpsertArgs} args - Arguments to update or create a ChapterReadEvent.
+     * @example
+     * // Update or create a ChapterReadEvent
+     * const chapterReadEvent = await prisma.chapterReadEvent.upsert({
+     *   create: {
+     *     // ... data to create a ChapterReadEvent
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the ChapterReadEvent we want to update
+     *   }
+     * })
+     */
+    upsert<T extends ChapterReadEventUpsertArgs>(args: SelectSubset<T, ChapterReadEventUpsertArgs<ExtArgs>>): Prisma__ChapterReadEventClient<$Result.GetResult<Prisma.$ChapterReadEventPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of ChapterReadEvents.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ChapterReadEventCountArgs} args - Arguments to filter ChapterReadEvents to count.
+     * @example
+     * // Count the number of ChapterReadEvents
+     * const count = await prisma.chapterReadEvent.count({
+     *   where: {
+     *     // ... the filter for the ChapterReadEvents we want to count
+     *   }
+     * })
+    **/
+    count<T extends ChapterReadEventCountArgs>(
+      args?: Subset<T, ChapterReadEventCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], ChapterReadEventCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a ChapterReadEvent.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ChapterReadEventAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends ChapterReadEventAggregateArgs>(args: Subset<T, ChapterReadEventAggregateArgs>): Prisma.PrismaPromise<GetChapterReadEventAggregateType<T>>
+
+    /**
+     * Group by ChapterReadEvent.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ChapterReadEventGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends ChapterReadEventGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: ChapterReadEventGroupByArgs['orderBy'] }
+        : { orderBy?: ChapterReadEventGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, ChapterReadEventGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetChapterReadEventGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the ChapterReadEvent model
+   */
+  readonly fields: ChapterReadEventFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for ChapterReadEvent.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__ChapterReadEventClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    chapter<T extends ChapterDefaultArgs<ExtArgs> = {}>(args?: Subset<T, ChapterDefaultArgs<ExtArgs>>): Prisma__ChapterClient<$Result.GetResult<Prisma.$ChapterPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    story<T extends StoryDefaultArgs<ExtArgs> = {}>(args?: Subset<T, StoryDefaultArgs<ExtArgs>>): Prisma__StoryClient<$Result.GetResult<Prisma.$StoryPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the ChapterReadEvent model
+   */
+  interface ChapterReadEventFieldRefs {
+    readonly id: FieldRef<"ChapterReadEvent", 'Int'>
+    readonly readAt: FieldRef<"ChapterReadEvent", 'DateTime'>
+    readonly userId: FieldRef<"ChapterReadEvent", 'String'>
+    readonly storyId: FieldRef<"ChapterReadEvent", 'Int'>
+    readonly chapterId: FieldRef<"ChapterReadEvent", 'Int'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * ChapterReadEvent findUnique
+   */
+  export type ChapterReadEventFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ChapterReadEvent
+     */
+    select?: ChapterReadEventSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ChapterReadEvent
+     */
+    omit?: ChapterReadEventOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ChapterReadEventInclude<ExtArgs> | null
+    /**
+     * Filter, which ChapterReadEvent to fetch.
+     */
+    where: ChapterReadEventWhereUniqueInput
+  }
+
+  /**
+   * ChapterReadEvent findUniqueOrThrow
+   */
+  export type ChapterReadEventFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ChapterReadEvent
+     */
+    select?: ChapterReadEventSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ChapterReadEvent
+     */
+    omit?: ChapterReadEventOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ChapterReadEventInclude<ExtArgs> | null
+    /**
+     * Filter, which ChapterReadEvent to fetch.
+     */
+    where: ChapterReadEventWhereUniqueInput
+  }
+
+  /**
+   * ChapterReadEvent findFirst
+   */
+  export type ChapterReadEventFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ChapterReadEvent
+     */
+    select?: ChapterReadEventSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ChapterReadEvent
+     */
+    omit?: ChapterReadEventOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ChapterReadEventInclude<ExtArgs> | null
+    /**
+     * Filter, which ChapterReadEvent to fetch.
+     */
+    where?: ChapterReadEventWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ChapterReadEvents to fetch.
+     */
+    orderBy?: ChapterReadEventOrderByWithRelationInput | ChapterReadEventOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ChapterReadEvents.
+     */
+    cursor?: ChapterReadEventWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ChapterReadEvents from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ChapterReadEvents.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ChapterReadEvents.
+     */
+    distinct?: ChapterReadEventScalarFieldEnum | ChapterReadEventScalarFieldEnum[]
+  }
+
+  /**
+   * ChapterReadEvent findFirstOrThrow
+   */
+  export type ChapterReadEventFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ChapterReadEvent
+     */
+    select?: ChapterReadEventSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ChapterReadEvent
+     */
+    omit?: ChapterReadEventOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ChapterReadEventInclude<ExtArgs> | null
+    /**
+     * Filter, which ChapterReadEvent to fetch.
+     */
+    where?: ChapterReadEventWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ChapterReadEvents to fetch.
+     */
+    orderBy?: ChapterReadEventOrderByWithRelationInput | ChapterReadEventOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ChapterReadEvents.
+     */
+    cursor?: ChapterReadEventWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ChapterReadEvents from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ChapterReadEvents.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ChapterReadEvents.
+     */
+    distinct?: ChapterReadEventScalarFieldEnum | ChapterReadEventScalarFieldEnum[]
+  }
+
+  /**
+   * ChapterReadEvent findMany
+   */
+  export type ChapterReadEventFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ChapterReadEvent
+     */
+    select?: ChapterReadEventSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ChapterReadEvent
+     */
+    omit?: ChapterReadEventOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ChapterReadEventInclude<ExtArgs> | null
+    /**
+     * Filter, which ChapterReadEvents to fetch.
+     */
+    where?: ChapterReadEventWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ChapterReadEvents to fetch.
+     */
+    orderBy?: ChapterReadEventOrderByWithRelationInput | ChapterReadEventOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing ChapterReadEvents.
+     */
+    cursor?: ChapterReadEventWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ChapterReadEvents from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ChapterReadEvents.
+     */
+    skip?: number
+    distinct?: ChapterReadEventScalarFieldEnum | ChapterReadEventScalarFieldEnum[]
+  }
+
+  /**
+   * ChapterReadEvent create
+   */
+  export type ChapterReadEventCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ChapterReadEvent
+     */
+    select?: ChapterReadEventSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ChapterReadEvent
+     */
+    omit?: ChapterReadEventOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ChapterReadEventInclude<ExtArgs> | null
+    /**
+     * The data needed to create a ChapterReadEvent.
+     */
+    data: XOR<ChapterReadEventCreateInput, ChapterReadEventUncheckedCreateInput>
+  }
+
+  /**
+   * ChapterReadEvent createMany
+   */
+  export type ChapterReadEventCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many ChapterReadEvents.
+     */
+    data: ChapterReadEventCreateManyInput | ChapterReadEventCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * ChapterReadEvent createManyAndReturn
+   */
+  export type ChapterReadEventCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ChapterReadEvent
+     */
+    select?: ChapterReadEventSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the ChapterReadEvent
+     */
+    omit?: ChapterReadEventOmit<ExtArgs> | null
+    /**
+     * The data used to create many ChapterReadEvents.
+     */
+    data: ChapterReadEventCreateManyInput | ChapterReadEventCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ChapterReadEventIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * ChapterReadEvent update
+   */
+  export type ChapterReadEventUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ChapterReadEvent
+     */
+    select?: ChapterReadEventSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ChapterReadEvent
+     */
+    omit?: ChapterReadEventOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ChapterReadEventInclude<ExtArgs> | null
+    /**
+     * The data needed to update a ChapterReadEvent.
+     */
+    data: XOR<ChapterReadEventUpdateInput, ChapterReadEventUncheckedUpdateInput>
+    /**
+     * Choose, which ChapterReadEvent to update.
+     */
+    where: ChapterReadEventWhereUniqueInput
+  }
+
+  /**
+   * ChapterReadEvent updateMany
+   */
+  export type ChapterReadEventUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update ChapterReadEvents.
+     */
+    data: XOR<ChapterReadEventUpdateManyMutationInput, ChapterReadEventUncheckedUpdateManyInput>
+    /**
+     * Filter which ChapterReadEvents to update
+     */
+    where?: ChapterReadEventWhereInput
+    /**
+     * Limit how many ChapterReadEvents to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * ChapterReadEvent updateManyAndReturn
+   */
+  export type ChapterReadEventUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ChapterReadEvent
+     */
+    select?: ChapterReadEventSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the ChapterReadEvent
+     */
+    omit?: ChapterReadEventOmit<ExtArgs> | null
+    /**
+     * The data used to update ChapterReadEvents.
+     */
+    data: XOR<ChapterReadEventUpdateManyMutationInput, ChapterReadEventUncheckedUpdateManyInput>
+    /**
+     * Filter which ChapterReadEvents to update
+     */
+    where?: ChapterReadEventWhereInput
+    /**
+     * Limit how many ChapterReadEvents to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ChapterReadEventIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * ChapterReadEvent upsert
+   */
+  export type ChapterReadEventUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ChapterReadEvent
+     */
+    select?: ChapterReadEventSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ChapterReadEvent
+     */
+    omit?: ChapterReadEventOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ChapterReadEventInclude<ExtArgs> | null
+    /**
+     * The filter to search for the ChapterReadEvent to update in case it exists.
+     */
+    where: ChapterReadEventWhereUniqueInput
+    /**
+     * In case the ChapterReadEvent found by the `where` argument doesn't exist, create a new ChapterReadEvent with this data.
+     */
+    create: XOR<ChapterReadEventCreateInput, ChapterReadEventUncheckedCreateInput>
+    /**
+     * In case the ChapterReadEvent was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<ChapterReadEventUpdateInput, ChapterReadEventUncheckedUpdateInput>
+  }
+
+  /**
+   * ChapterReadEvent delete
+   */
+  export type ChapterReadEventDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ChapterReadEvent
+     */
+    select?: ChapterReadEventSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ChapterReadEvent
+     */
+    omit?: ChapterReadEventOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ChapterReadEventInclude<ExtArgs> | null
+    /**
+     * Filter which ChapterReadEvent to delete.
+     */
+    where: ChapterReadEventWhereUniqueInput
+  }
+
+  /**
+   * ChapterReadEvent deleteMany
+   */
+  export type ChapterReadEventDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ChapterReadEvents to delete
+     */
+    where?: ChapterReadEventWhereInput
+    /**
+     * Limit how many ChapterReadEvents to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * ChapterReadEvent without action
+   */
+  export type ChapterReadEventDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ChapterReadEvent
+     */
+    select?: ChapterReadEventSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ChapterReadEvent
+     */
+    omit?: ChapterReadEventOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ChapterReadEventInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model UserStoryReadingState
+   */
+
+  export type AggregateUserStoryReadingState = {
+    _count: UserStoryReadingStateCountAggregateOutputType | null
+    _avg: UserStoryReadingStateAvgAggregateOutputType | null
+    _sum: UserStoryReadingStateSumAggregateOutputType | null
+    _min: UserStoryReadingStateMinAggregateOutputType | null
+    _max: UserStoryReadingStateMaxAggregateOutputType | null
+  }
+
+  export type UserStoryReadingStateAvgAggregateOutputType = {
+    id: number | null
+    storyId: number | null
+    lastChapterId: number | null
+  }
+
+  export type UserStoryReadingStateSumAggregateOutputType = {
+    id: number | null
+    storyId: number | null
+    lastChapterId: number | null
+  }
+
+  export type UserStoryReadingStateMinAggregateOutputType = {
+    id: number | null
+    userId: string | null
+    storyId: number | null
+    lastChapterId: number | null
+    lastReadAt: Date | null
+    hiddenAt: Date | null
+  }
+
+  export type UserStoryReadingStateMaxAggregateOutputType = {
+    id: number | null
+    userId: string | null
+    storyId: number | null
+    lastChapterId: number | null
+    lastReadAt: Date | null
+    hiddenAt: Date | null
+  }
+
+  export type UserStoryReadingStateCountAggregateOutputType = {
+    id: number
+    userId: number
+    storyId: number
+    lastChapterId: number
+    lastReadAt: number
+    hiddenAt: number
+    _all: number
+  }
+
+
+  export type UserStoryReadingStateAvgAggregateInputType = {
+    id?: true
+    storyId?: true
+    lastChapterId?: true
+  }
+
+  export type UserStoryReadingStateSumAggregateInputType = {
+    id?: true
+    storyId?: true
+    lastChapterId?: true
+  }
+
+  export type UserStoryReadingStateMinAggregateInputType = {
+    id?: true
+    userId?: true
+    storyId?: true
+    lastChapterId?: true
+    lastReadAt?: true
+    hiddenAt?: true
+  }
+
+  export type UserStoryReadingStateMaxAggregateInputType = {
+    id?: true
+    userId?: true
+    storyId?: true
+    lastChapterId?: true
+    lastReadAt?: true
+    hiddenAt?: true
+  }
+
+  export type UserStoryReadingStateCountAggregateInputType = {
+    id?: true
+    userId?: true
+    storyId?: true
+    lastChapterId?: true
+    lastReadAt?: true
+    hiddenAt?: true
+    _all?: true
+  }
+
+  export type UserStoryReadingStateAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which UserStoryReadingState to aggregate.
+     */
+    where?: UserStoryReadingStateWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of UserStoryReadingStates to fetch.
+     */
+    orderBy?: UserStoryReadingStateOrderByWithRelationInput | UserStoryReadingStateOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: UserStoryReadingStateWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` UserStoryReadingStates from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` UserStoryReadingStates.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned UserStoryReadingStates
+    **/
+    _count?: true | UserStoryReadingStateCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: UserStoryReadingStateAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: UserStoryReadingStateSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: UserStoryReadingStateMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: UserStoryReadingStateMaxAggregateInputType
+  }
+
+  export type GetUserStoryReadingStateAggregateType<T extends UserStoryReadingStateAggregateArgs> = {
+        [P in keyof T & keyof AggregateUserStoryReadingState]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateUserStoryReadingState[P]>
+      : GetScalarType<T[P], AggregateUserStoryReadingState[P]>
+  }
+
+
+
+
+  export type UserStoryReadingStateGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: UserStoryReadingStateWhereInput
+    orderBy?: UserStoryReadingStateOrderByWithAggregationInput | UserStoryReadingStateOrderByWithAggregationInput[]
+    by: UserStoryReadingStateScalarFieldEnum[] | UserStoryReadingStateScalarFieldEnum
+    having?: UserStoryReadingStateScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: UserStoryReadingStateCountAggregateInputType | true
+    _avg?: UserStoryReadingStateAvgAggregateInputType
+    _sum?: UserStoryReadingStateSumAggregateInputType
+    _min?: UserStoryReadingStateMinAggregateInputType
+    _max?: UserStoryReadingStateMaxAggregateInputType
+  }
+
+  export type UserStoryReadingStateGroupByOutputType = {
+    id: number
+    userId: string
+    storyId: number
+    lastChapterId: number
+    lastReadAt: Date
+    hiddenAt: Date | null
+    _count: UserStoryReadingStateCountAggregateOutputType | null
+    _avg: UserStoryReadingStateAvgAggregateOutputType | null
+    _sum: UserStoryReadingStateSumAggregateOutputType | null
+    _min: UserStoryReadingStateMinAggregateOutputType | null
+    _max: UserStoryReadingStateMaxAggregateOutputType | null
+  }
+
+  type GetUserStoryReadingStateGroupByPayload<T extends UserStoryReadingStateGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<UserStoryReadingStateGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof UserStoryReadingStateGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], UserStoryReadingStateGroupByOutputType[P]>
+            : GetScalarType<T[P], UserStoryReadingStateGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type UserStoryReadingStateSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    storyId?: boolean
+    lastChapterId?: boolean
+    lastReadAt?: boolean
+    hiddenAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    story?: boolean | StoryDefaultArgs<ExtArgs>
+    lastChapter?: boolean | ChapterDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["userStoryReadingState"]>
+
+  export type UserStoryReadingStateSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    storyId?: boolean
+    lastChapterId?: boolean
+    lastReadAt?: boolean
+    hiddenAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    story?: boolean | StoryDefaultArgs<ExtArgs>
+    lastChapter?: boolean | ChapterDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["userStoryReadingState"]>
+
+  export type UserStoryReadingStateSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    storyId?: boolean
+    lastChapterId?: boolean
+    lastReadAt?: boolean
+    hiddenAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    story?: boolean | StoryDefaultArgs<ExtArgs>
+    lastChapter?: boolean | ChapterDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["userStoryReadingState"]>
+
+  export type UserStoryReadingStateSelectScalar = {
+    id?: boolean
+    userId?: boolean
+    storyId?: boolean
+    lastChapterId?: boolean
+    lastReadAt?: boolean
+    hiddenAt?: boolean
+  }
+
+  export type UserStoryReadingStateOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "storyId" | "lastChapterId" | "lastReadAt" | "hiddenAt", ExtArgs["result"]["userStoryReadingState"]>
+  export type UserStoryReadingStateInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    story?: boolean | StoryDefaultArgs<ExtArgs>
+    lastChapter?: boolean | ChapterDefaultArgs<ExtArgs>
+  }
+  export type UserStoryReadingStateIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    story?: boolean | StoryDefaultArgs<ExtArgs>
+    lastChapter?: boolean | ChapterDefaultArgs<ExtArgs>
+  }
+  export type UserStoryReadingStateIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    story?: boolean | StoryDefaultArgs<ExtArgs>
+    lastChapter?: boolean | ChapterDefaultArgs<ExtArgs>
+  }
+
+  export type $UserStoryReadingStatePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "UserStoryReadingState"
+    objects: {
+      user: Prisma.$UserPayload<ExtArgs>
+      story: Prisma.$StoryPayload<ExtArgs>
+      lastChapter: Prisma.$ChapterPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: number
+      userId: string
+      storyId: number
+      lastChapterId: number
+      lastReadAt: Date
+      hiddenAt: Date | null
+    }, ExtArgs["result"]["userStoryReadingState"]>
+    composites: {}
+  }
+
+  type UserStoryReadingStateGetPayload<S extends boolean | null | undefined | UserStoryReadingStateDefaultArgs> = $Result.GetResult<Prisma.$UserStoryReadingStatePayload, S>
+
+  type UserStoryReadingStateCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<UserStoryReadingStateFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: UserStoryReadingStateCountAggregateInputType | true
+    }
+
+  export interface UserStoryReadingStateDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['UserStoryReadingState'], meta: { name: 'UserStoryReadingState' } }
+    /**
+     * Find zero or one UserStoryReadingState that matches the filter.
+     * @param {UserStoryReadingStateFindUniqueArgs} args - Arguments to find a UserStoryReadingState
+     * @example
+     * // Get one UserStoryReadingState
+     * const userStoryReadingState = await prisma.userStoryReadingState.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends UserStoryReadingStateFindUniqueArgs>(args: SelectSubset<T, UserStoryReadingStateFindUniqueArgs<ExtArgs>>): Prisma__UserStoryReadingStateClient<$Result.GetResult<Prisma.$UserStoryReadingStatePayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one UserStoryReadingState that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {UserStoryReadingStateFindUniqueOrThrowArgs} args - Arguments to find a UserStoryReadingState
+     * @example
+     * // Get one UserStoryReadingState
+     * const userStoryReadingState = await prisma.userStoryReadingState.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends UserStoryReadingStateFindUniqueOrThrowArgs>(args: SelectSubset<T, UserStoryReadingStateFindUniqueOrThrowArgs<ExtArgs>>): Prisma__UserStoryReadingStateClient<$Result.GetResult<Prisma.$UserStoryReadingStatePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first UserStoryReadingState that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserStoryReadingStateFindFirstArgs} args - Arguments to find a UserStoryReadingState
+     * @example
+     * // Get one UserStoryReadingState
+     * const userStoryReadingState = await prisma.userStoryReadingState.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends UserStoryReadingStateFindFirstArgs>(args?: SelectSubset<T, UserStoryReadingStateFindFirstArgs<ExtArgs>>): Prisma__UserStoryReadingStateClient<$Result.GetResult<Prisma.$UserStoryReadingStatePayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first UserStoryReadingState that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserStoryReadingStateFindFirstOrThrowArgs} args - Arguments to find a UserStoryReadingState
+     * @example
+     * // Get one UserStoryReadingState
+     * const userStoryReadingState = await prisma.userStoryReadingState.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends UserStoryReadingStateFindFirstOrThrowArgs>(args?: SelectSubset<T, UserStoryReadingStateFindFirstOrThrowArgs<ExtArgs>>): Prisma__UserStoryReadingStateClient<$Result.GetResult<Prisma.$UserStoryReadingStatePayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more UserStoryReadingStates that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserStoryReadingStateFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all UserStoryReadingStates
+     * const userStoryReadingStates = await prisma.userStoryReadingState.findMany()
+     * 
+     * // Get first 10 UserStoryReadingStates
+     * const userStoryReadingStates = await prisma.userStoryReadingState.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const userStoryReadingStateWithIdOnly = await prisma.userStoryReadingState.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends UserStoryReadingStateFindManyArgs>(args?: SelectSubset<T, UserStoryReadingStateFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserStoryReadingStatePayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a UserStoryReadingState.
+     * @param {UserStoryReadingStateCreateArgs} args - Arguments to create a UserStoryReadingState.
+     * @example
+     * // Create one UserStoryReadingState
+     * const UserStoryReadingState = await prisma.userStoryReadingState.create({
+     *   data: {
+     *     // ... data to create a UserStoryReadingState
+     *   }
+     * })
+     * 
+     */
+    create<T extends UserStoryReadingStateCreateArgs>(args: SelectSubset<T, UserStoryReadingStateCreateArgs<ExtArgs>>): Prisma__UserStoryReadingStateClient<$Result.GetResult<Prisma.$UserStoryReadingStatePayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many UserStoryReadingStates.
+     * @param {UserStoryReadingStateCreateManyArgs} args - Arguments to create many UserStoryReadingStates.
+     * @example
+     * // Create many UserStoryReadingStates
+     * const userStoryReadingState = await prisma.userStoryReadingState.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends UserStoryReadingStateCreateManyArgs>(args?: SelectSubset<T, UserStoryReadingStateCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many UserStoryReadingStates and returns the data saved in the database.
+     * @param {UserStoryReadingStateCreateManyAndReturnArgs} args - Arguments to create many UserStoryReadingStates.
+     * @example
+     * // Create many UserStoryReadingStates
+     * const userStoryReadingState = await prisma.userStoryReadingState.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many UserStoryReadingStates and only return the `id`
+     * const userStoryReadingStateWithIdOnly = await prisma.userStoryReadingState.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends UserStoryReadingStateCreateManyAndReturnArgs>(args?: SelectSubset<T, UserStoryReadingStateCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserStoryReadingStatePayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a UserStoryReadingState.
+     * @param {UserStoryReadingStateDeleteArgs} args - Arguments to delete one UserStoryReadingState.
+     * @example
+     * // Delete one UserStoryReadingState
+     * const UserStoryReadingState = await prisma.userStoryReadingState.delete({
+     *   where: {
+     *     // ... filter to delete one UserStoryReadingState
+     *   }
+     * })
+     * 
+     */
+    delete<T extends UserStoryReadingStateDeleteArgs>(args: SelectSubset<T, UserStoryReadingStateDeleteArgs<ExtArgs>>): Prisma__UserStoryReadingStateClient<$Result.GetResult<Prisma.$UserStoryReadingStatePayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one UserStoryReadingState.
+     * @param {UserStoryReadingStateUpdateArgs} args - Arguments to update one UserStoryReadingState.
+     * @example
+     * // Update one UserStoryReadingState
+     * const userStoryReadingState = await prisma.userStoryReadingState.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends UserStoryReadingStateUpdateArgs>(args: SelectSubset<T, UserStoryReadingStateUpdateArgs<ExtArgs>>): Prisma__UserStoryReadingStateClient<$Result.GetResult<Prisma.$UserStoryReadingStatePayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more UserStoryReadingStates.
+     * @param {UserStoryReadingStateDeleteManyArgs} args - Arguments to filter UserStoryReadingStates to delete.
+     * @example
+     * // Delete a few UserStoryReadingStates
+     * const { count } = await prisma.userStoryReadingState.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends UserStoryReadingStateDeleteManyArgs>(args?: SelectSubset<T, UserStoryReadingStateDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more UserStoryReadingStates.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserStoryReadingStateUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many UserStoryReadingStates
+     * const userStoryReadingState = await prisma.userStoryReadingState.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends UserStoryReadingStateUpdateManyArgs>(args: SelectSubset<T, UserStoryReadingStateUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more UserStoryReadingStates and returns the data updated in the database.
+     * @param {UserStoryReadingStateUpdateManyAndReturnArgs} args - Arguments to update many UserStoryReadingStates.
+     * @example
+     * // Update many UserStoryReadingStates
+     * const userStoryReadingState = await prisma.userStoryReadingState.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more UserStoryReadingStates and only return the `id`
+     * const userStoryReadingStateWithIdOnly = await prisma.userStoryReadingState.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends UserStoryReadingStateUpdateManyAndReturnArgs>(args: SelectSubset<T, UserStoryReadingStateUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserStoryReadingStatePayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one UserStoryReadingState.
+     * @param {UserStoryReadingStateUpsertArgs} args - Arguments to update or create a UserStoryReadingState.
+     * @example
+     * // Update or create a UserStoryReadingState
+     * const userStoryReadingState = await prisma.userStoryReadingState.upsert({
+     *   create: {
+     *     // ... data to create a UserStoryReadingState
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the UserStoryReadingState we want to update
+     *   }
+     * })
+     */
+    upsert<T extends UserStoryReadingStateUpsertArgs>(args: SelectSubset<T, UserStoryReadingStateUpsertArgs<ExtArgs>>): Prisma__UserStoryReadingStateClient<$Result.GetResult<Prisma.$UserStoryReadingStatePayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of UserStoryReadingStates.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserStoryReadingStateCountArgs} args - Arguments to filter UserStoryReadingStates to count.
+     * @example
+     * // Count the number of UserStoryReadingStates
+     * const count = await prisma.userStoryReadingState.count({
+     *   where: {
+     *     // ... the filter for the UserStoryReadingStates we want to count
+     *   }
+     * })
+    **/
+    count<T extends UserStoryReadingStateCountArgs>(
+      args?: Subset<T, UserStoryReadingStateCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], UserStoryReadingStateCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a UserStoryReadingState.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserStoryReadingStateAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends UserStoryReadingStateAggregateArgs>(args: Subset<T, UserStoryReadingStateAggregateArgs>): Prisma.PrismaPromise<GetUserStoryReadingStateAggregateType<T>>
+
+    /**
+     * Group by UserStoryReadingState.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserStoryReadingStateGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends UserStoryReadingStateGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: UserStoryReadingStateGroupByArgs['orderBy'] }
+        : { orderBy?: UserStoryReadingStateGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, UserStoryReadingStateGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetUserStoryReadingStateGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the UserStoryReadingState model
+   */
+  readonly fields: UserStoryReadingStateFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for UserStoryReadingState.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__UserStoryReadingStateClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    story<T extends StoryDefaultArgs<ExtArgs> = {}>(args?: Subset<T, StoryDefaultArgs<ExtArgs>>): Prisma__StoryClient<$Result.GetResult<Prisma.$StoryPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    lastChapter<T extends ChapterDefaultArgs<ExtArgs> = {}>(args?: Subset<T, ChapterDefaultArgs<ExtArgs>>): Prisma__ChapterClient<$Result.GetResult<Prisma.$ChapterPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the UserStoryReadingState model
+   */
+  interface UserStoryReadingStateFieldRefs {
+    readonly id: FieldRef<"UserStoryReadingState", 'Int'>
+    readonly userId: FieldRef<"UserStoryReadingState", 'String'>
+    readonly storyId: FieldRef<"UserStoryReadingState", 'Int'>
+    readonly lastChapterId: FieldRef<"UserStoryReadingState", 'Int'>
+    readonly lastReadAt: FieldRef<"UserStoryReadingState", 'DateTime'>
+    readonly hiddenAt: FieldRef<"UserStoryReadingState", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * UserStoryReadingState findUnique
+   */
+  export type UserStoryReadingStateFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserStoryReadingState
+     */
+    select?: UserStoryReadingStateSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserStoryReadingState
+     */
+    omit?: UserStoryReadingStateOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserStoryReadingStateInclude<ExtArgs> | null
+    /**
+     * Filter, which UserStoryReadingState to fetch.
+     */
+    where: UserStoryReadingStateWhereUniqueInput
+  }
+
+  /**
+   * UserStoryReadingState findUniqueOrThrow
+   */
+  export type UserStoryReadingStateFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserStoryReadingState
+     */
+    select?: UserStoryReadingStateSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserStoryReadingState
+     */
+    omit?: UserStoryReadingStateOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserStoryReadingStateInclude<ExtArgs> | null
+    /**
+     * Filter, which UserStoryReadingState to fetch.
+     */
+    where: UserStoryReadingStateWhereUniqueInput
+  }
+
+  /**
+   * UserStoryReadingState findFirst
+   */
+  export type UserStoryReadingStateFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserStoryReadingState
+     */
+    select?: UserStoryReadingStateSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserStoryReadingState
+     */
+    omit?: UserStoryReadingStateOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserStoryReadingStateInclude<ExtArgs> | null
+    /**
+     * Filter, which UserStoryReadingState to fetch.
+     */
+    where?: UserStoryReadingStateWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of UserStoryReadingStates to fetch.
+     */
+    orderBy?: UserStoryReadingStateOrderByWithRelationInput | UserStoryReadingStateOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for UserStoryReadingStates.
+     */
+    cursor?: UserStoryReadingStateWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` UserStoryReadingStates from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` UserStoryReadingStates.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of UserStoryReadingStates.
+     */
+    distinct?: UserStoryReadingStateScalarFieldEnum | UserStoryReadingStateScalarFieldEnum[]
+  }
+
+  /**
+   * UserStoryReadingState findFirstOrThrow
+   */
+  export type UserStoryReadingStateFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserStoryReadingState
+     */
+    select?: UserStoryReadingStateSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserStoryReadingState
+     */
+    omit?: UserStoryReadingStateOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserStoryReadingStateInclude<ExtArgs> | null
+    /**
+     * Filter, which UserStoryReadingState to fetch.
+     */
+    where?: UserStoryReadingStateWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of UserStoryReadingStates to fetch.
+     */
+    orderBy?: UserStoryReadingStateOrderByWithRelationInput | UserStoryReadingStateOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for UserStoryReadingStates.
+     */
+    cursor?: UserStoryReadingStateWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` UserStoryReadingStates from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` UserStoryReadingStates.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of UserStoryReadingStates.
+     */
+    distinct?: UserStoryReadingStateScalarFieldEnum | UserStoryReadingStateScalarFieldEnum[]
+  }
+
+  /**
+   * UserStoryReadingState findMany
+   */
+  export type UserStoryReadingStateFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserStoryReadingState
+     */
+    select?: UserStoryReadingStateSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserStoryReadingState
+     */
+    omit?: UserStoryReadingStateOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserStoryReadingStateInclude<ExtArgs> | null
+    /**
+     * Filter, which UserStoryReadingStates to fetch.
+     */
+    where?: UserStoryReadingStateWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of UserStoryReadingStates to fetch.
+     */
+    orderBy?: UserStoryReadingStateOrderByWithRelationInput | UserStoryReadingStateOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing UserStoryReadingStates.
+     */
+    cursor?: UserStoryReadingStateWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` UserStoryReadingStates from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` UserStoryReadingStates.
+     */
+    skip?: number
+    distinct?: UserStoryReadingStateScalarFieldEnum | UserStoryReadingStateScalarFieldEnum[]
+  }
+
+  /**
+   * UserStoryReadingState create
+   */
+  export type UserStoryReadingStateCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserStoryReadingState
+     */
+    select?: UserStoryReadingStateSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserStoryReadingState
+     */
+    omit?: UserStoryReadingStateOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserStoryReadingStateInclude<ExtArgs> | null
+    /**
+     * The data needed to create a UserStoryReadingState.
+     */
+    data: XOR<UserStoryReadingStateCreateInput, UserStoryReadingStateUncheckedCreateInput>
+  }
+
+  /**
+   * UserStoryReadingState createMany
+   */
+  export type UserStoryReadingStateCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many UserStoryReadingStates.
+     */
+    data: UserStoryReadingStateCreateManyInput | UserStoryReadingStateCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * UserStoryReadingState createManyAndReturn
+   */
+  export type UserStoryReadingStateCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserStoryReadingState
+     */
+    select?: UserStoryReadingStateSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserStoryReadingState
+     */
+    omit?: UserStoryReadingStateOmit<ExtArgs> | null
+    /**
+     * The data used to create many UserStoryReadingStates.
+     */
+    data: UserStoryReadingStateCreateManyInput | UserStoryReadingStateCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserStoryReadingStateIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * UserStoryReadingState update
+   */
+  export type UserStoryReadingStateUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserStoryReadingState
+     */
+    select?: UserStoryReadingStateSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserStoryReadingState
+     */
+    omit?: UserStoryReadingStateOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserStoryReadingStateInclude<ExtArgs> | null
+    /**
+     * The data needed to update a UserStoryReadingState.
+     */
+    data: XOR<UserStoryReadingStateUpdateInput, UserStoryReadingStateUncheckedUpdateInput>
+    /**
+     * Choose, which UserStoryReadingState to update.
+     */
+    where: UserStoryReadingStateWhereUniqueInput
+  }
+
+  /**
+   * UserStoryReadingState updateMany
+   */
+  export type UserStoryReadingStateUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update UserStoryReadingStates.
+     */
+    data: XOR<UserStoryReadingStateUpdateManyMutationInput, UserStoryReadingStateUncheckedUpdateManyInput>
+    /**
+     * Filter which UserStoryReadingStates to update
+     */
+    where?: UserStoryReadingStateWhereInput
+    /**
+     * Limit how many UserStoryReadingStates to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * UserStoryReadingState updateManyAndReturn
+   */
+  export type UserStoryReadingStateUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserStoryReadingState
+     */
+    select?: UserStoryReadingStateSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserStoryReadingState
+     */
+    omit?: UserStoryReadingStateOmit<ExtArgs> | null
+    /**
+     * The data used to update UserStoryReadingStates.
+     */
+    data: XOR<UserStoryReadingStateUpdateManyMutationInput, UserStoryReadingStateUncheckedUpdateManyInput>
+    /**
+     * Filter which UserStoryReadingStates to update
+     */
+    where?: UserStoryReadingStateWhereInput
+    /**
+     * Limit how many UserStoryReadingStates to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserStoryReadingStateIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * UserStoryReadingState upsert
+   */
+  export type UserStoryReadingStateUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserStoryReadingState
+     */
+    select?: UserStoryReadingStateSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserStoryReadingState
+     */
+    omit?: UserStoryReadingStateOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserStoryReadingStateInclude<ExtArgs> | null
+    /**
+     * The filter to search for the UserStoryReadingState to update in case it exists.
+     */
+    where: UserStoryReadingStateWhereUniqueInput
+    /**
+     * In case the UserStoryReadingState found by the `where` argument doesn't exist, create a new UserStoryReadingState with this data.
+     */
+    create: XOR<UserStoryReadingStateCreateInput, UserStoryReadingStateUncheckedCreateInput>
+    /**
+     * In case the UserStoryReadingState was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<UserStoryReadingStateUpdateInput, UserStoryReadingStateUncheckedUpdateInput>
+  }
+
+  /**
+   * UserStoryReadingState delete
+   */
+  export type UserStoryReadingStateDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserStoryReadingState
+     */
+    select?: UserStoryReadingStateSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserStoryReadingState
+     */
+    omit?: UserStoryReadingStateOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserStoryReadingStateInclude<ExtArgs> | null
+    /**
+     * Filter which UserStoryReadingState to delete.
+     */
+    where: UserStoryReadingStateWhereUniqueInput
+  }
+
+  /**
+   * UserStoryReadingState deleteMany
+   */
+  export type UserStoryReadingStateDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which UserStoryReadingStates to delete
+     */
+    where?: UserStoryReadingStateWhereInput
+    /**
+     * Limit how many UserStoryReadingStates to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * UserStoryReadingState without action
+   */
+  export type UserStoryReadingStateDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserStoryReadingState
+     */
+    select?: UserStoryReadingStateSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserStoryReadingState
+     */
+    omit?: UserStoryReadingStateOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserStoryReadingStateInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Model TopStoryRead
    */
 
@@ -16267,14 +21823,12 @@ export namespace Prisma {
     id: number | null
     storyId: number | null
     readerCount: number | null
-    duration: number | null
   }
 
   export type TopStoryReadSumAggregateOutputType = {
     id: number | null
     storyId: number | null
     readerCount: number | null
-    duration: number | null
   }
 
   export type TopStoryReadMinAggregateOutputType = {
@@ -16282,7 +21836,9 @@ export namespace Prisma {
     storyId: number | null
     readerCount: number | null
     createdAt: Date | null
-    duration: number | null
+    updatedAt: Date | null
+    windowStart: Date | null
+    windowEnd: Date | null
   }
 
   export type TopStoryReadMaxAggregateOutputType = {
@@ -16290,7 +21846,9 @@ export namespace Prisma {
     storyId: number | null
     readerCount: number | null
     createdAt: Date | null
-    duration: number | null
+    updatedAt: Date | null
+    windowStart: Date | null
+    windowEnd: Date | null
   }
 
   export type TopStoryReadCountAggregateOutputType = {
@@ -16298,7 +21856,9 @@ export namespace Prisma {
     storyId: number
     readerCount: number
     createdAt: number
-    duration: number
+    updatedAt: number
+    windowStart: number
+    windowEnd: number
     _all: number
   }
 
@@ -16307,14 +21867,12 @@ export namespace Prisma {
     id?: true
     storyId?: true
     readerCount?: true
-    duration?: true
   }
 
   export type TopStoryReadSumAggregateInputType = {
     id?: true
     storyId?: true
     readerCount?: true
-    duration?: true
   }
 
   export type TopStoryReadMinAggregateInputType = {
@@ -16322,7 +21880,9 @@ export namespace Prisma {
     storyId?: true
     readerCount?: true
     createdAt?: true
-    duration?: true
+    updatedAt?: true
+    windowStart?: true
+    windowEnd?: true
   }
 
   export type TopStoryReadMaxAggregateInputType = {
@@ -16330,7 +21890,9 @@ export namespace Prisma {
     storyId?: true
     readerCount?: true
     createdAt?: true
-    duration?: true
+    updatedAt?: true
+    windowStart?: true
+    windowEnd?: true
   }
 
   export type TopStoryReadCountAggregateInputType = {
@@ -16338,7 +21900,9 @@ export namespace Prisma {
     storyId?: true
     readerCount?: true
     createdAt?: true
-    duration?: true
+    updatedAt?: true
+    windowStart?: true
+    windowEnd?: true
     _all?: true
   }
 
@@ -16433,7 +21997,9 @@ export namespace Prisma {
     storyId: number
     readerCount: number
     createdAt: Date
-    duration: number
+    updatedAt: Date
+    windowStart: Date
+    windowEnd: Date
     _count: TopStoryReadCountAggregateOutputType | null
     _avg: TopStoryReadAvgAggregateOutputType | null
     _sum: TopStoryReadSumAggregateOutputType | null
@@ -16460,7 +22026,9 @@ export namespace Prisma {
     storyId?: boolean
     readerCount?: boolean
     createdAt?: boolean
-    duration?: boolean
+    updatedAt?: boolean
+    windowStart?: boolean
+    windowEnd?: boolean
     story?: boolean | StoryDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["topStoryRead"]>
 
@@ -16469,7 +22037,9 @@ export namespace Prisma {
     storyId?: boolean
     readerCount?: boolean
     createdAt?: boolean
-    duration?: boolean
+    updatedAt?: boolean
+    windowStart?: boolean
+    windowEnd?: boolean
     story?: boolean | StoryDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["topStoryRead"]>
 
@@ -16478,7 +22048,9 @@ export namespace Prisma {
     storyId?: boolean
     readerCount?: boolean
     createdAt?: boolean
-    duration?: boolean
+    updatedAt?: boolean
+    windowStart?: boolean
+    windowEnd?: boolean
     story?: boolean | StoryDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["topStoryRead"]>
 
@@ -16487,10 +22059,12 @@ export namespace Prisma {
     storyId?: boolean
     readerCount?: boolean
     createdAt?: boolean
-    duration?: boolean
+    updatedAt?: boolean
+    windowStart?: boolean
+    windowEnd?: boolean
   }
 
-  export type TopStoryReadOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "storyId" | "readerCount" | "createdAt" | "duration", ExtArgs["result"]["topStoryRead"]>
+  export type TopStoryReadOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "storyId" | "readerCount" | "createdAt" | "updatedAt" | "windowStart" | "windowEnd", ExtArgs["result"]["topStoryRead"]>
   export type TopStoryReadInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     story?: boolean | StoryDefaultArgs<ExtArgs>
   }
@@ -16511,7 +22085,9 @@ export namespace Prisma {
       storyId: number
       readerCount: number
       createdAt: Date
-      duration: number
+      updatedAt: Date
+      windowStart: Date
+      windowEnd: Date
     }, ExtArgs["result"]["topStoryRead"]>
     composites: {}
   }
@@ -16940,7 +22516,9 @@ export namespace Prisma {
     readonly storyId: FieldRef<"TopStoryRead", 'Int'>
     readonly readerCount: FieldRef<"TopStoryRead", 'Int'>
     readonly createdAt: FieldRef<"TopStoryRead", 'DateTime'>
-    readonly duration: FieldRef<"TopStoryRead", 'Int'>
+    readonly updatedAt: FieldRef<"TopStoryRead", 'DateTime'>
+    readonly windowStart: FieldRef<"TopStoryRead", 'DateTime'>
+    readonly windowEnd: FieldRef<"TopStoryRead", 'DateTime'>
   }
     
 
@@ -17352,6 +22930,1093 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well
      */
     include?: TopStoryReadInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model StoryDailyReadStats
+   */
+
+  export type AggregateStoryDailyReadStats = {
+    _count: StoryDailyReadStatsCountAggregateOutputType | null
+    _avg: StoryDailyReadStatsAvgAggregateOutputType | null
+    _sum: StoryDailyReadStatsSumAggregateOutputType | null
+    _min: StoryDailyReadStatsMinAggregateOutputType | null
+    _max: StoryDailyReadStatsMaxAggregateOutputType | null
+  }
+
+  export type StoryDailyReadStatsAvgAggregateOutputType = {
+    id: number | null
+    storyId: number | null
+    readerCount: number | null
+  }
+
+  export type StoryDailyReadStatsSumAggregateOutputType = {
+    id: number | null
+    storyId: number | null
+    readerCount: number | null
+  }
+
+  export type StoryDailyReadStatsMinAggregateOutputType = {
+    id: number | null
+    storyId: number | null
+    date: Date | null
+    readerCount: number | null
+  }
+
+  export type StoryDailyReadStatsMaxAggregateOutputType = {
+    id: number | null
+    storyId: number | null
+    date: Date | null
+    readerCount: number | null
+  }
+
+  export type StoryDailyReadStatsCountAggregateOutputType = {
+    id: number
+    storyId: number
+    date: number
+    readerCount: number
+    _all: number
+  }
+
+
+  export type StoryDailyReadStatsAvgAggregateInputType = {
+    id?: true
+    storyId?: true
+    readerCount?: true
+  }
+
+  export type StoryDailyReadStatsSumAggregateInputType = {
+    id?: true
+    storyId?: true
+    readerCount?: true
+  }
+
+  export type StoryDailyReadStatsMinAggregateInputType = {
+    id?: true
+    storyId?: true
+    date?: true
+    readerCount?: true
+  }
+
+  export type StoryDailyReadStatsMaxAggregateInputType = {
+    id?: true
+    storyId?: true
+    date?: true
+    readerCount?: true
+  }
+
+  export type StoryDailyReadStatsCountAggregateInputType = {
+    id?: true
+    storyId?: true
+    date?: true
+    readerCount?: true
+    _all?: true
+  }
+
+  export type StoryDailyReadStatsAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which StoryDailyReadStats to aggregate.
+     */
+    where?: StoryDailyReadStatsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of StoryDailyReadStats to fetch.
+     */
+    orderBy?: StoryDailyReadStatsOrderByWithRelationInput | StoryDailyReadStatsOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: StoryDailyReadStatsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` StoryDailyReadStats from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` StoryDailyReadStats.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned StoryDailyReadStats
+    **/
+    _count?: true | StoryDailyReadStatsCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: StoryDailyReadStatsAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: StoryDailyReadStatsSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: StoryDailyReadStatsMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: StoryDailyReadStatsMaxAggregateInputType
+  }
+
+  export type GetStoryDailyReadStatsAggregateType<T extends StoryDailyReadStatsAggregateArgs> = {
+        [P in keyof T & keyof AggregateStoryDailyReadStats]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateStoryDailyReadStats[P]>
+      : GetScalarType<T[P], AggregateStoryDailyReadStats[P]>
+  }
+
+
+
+
+  export type StoryDailyReadStatsGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: StoryDailyReadStatsWhereInput
+    orderBy?: StoryDailyReadStatsOrderByWithAggregationInput | StoryDailyReadStatsOrderByWithAggregationInput[]
+    by: StoryDailyReadStatsScalarFieldEnum[] | StoryDailyReadStatsScalarFieldEnum
+    having?: StoryDailyReadStatsScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: StoryDailyReadStatsCountAggregateInputType | true
+    _avg?: StoryDailyReadStatsAvgAggregateInputType
+    _sum?: StoryDailyReadStatsSumAggregateInputType
+    _min?: StoryDailyReadStatsMinAggregateInputType
+    _max?: StoryDailyReadStatsMaxAggregateInputType
+  }
+
+  export type StoryDailyReadStatsGroupByOutputType = {
+    id: number
+    storyId: number
+    date: Date
+    readerCount: number
+    _count: StoryDailyReadStatsCountAggregateOutputType | null
+    _avg: StoryDailyReadStatsAvgAggregateOutputType | null
+    _sum: StoryDailyReadStatsSumAggregateOutputType | null
+    _min: StoryDailyReadStatsMinAggregateOutputType | null
+    _max: StoryDailyReadStatsMaxAggregateOutputType | null
+  }
+
+  type GetStoryDailyReadStatsGroupByPayload<T extends StoryDailyReadStatsGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<StoryDailyReadStatsGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof StoryDailyReadStatsGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], StoryDailyReadStatsGroupByOutputType[P]>
+            : GetScalarType<T[P], StoryDailyReadStatsGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type StoryDailyReadStatsSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    storyId?: boolean
+    date?: boolean
+    readerCount?: boolean
+    story?: boolean | StoryDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["storyDailyReadStats"]>
+
+  export type StoryDailyReadStatsSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    storyId?: boolean
+    date?: boolean
+    readerCount?: boolean
+    story?: boolean | StoryDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["storyDailyReadStats"]>
+
+  export type StoryDailyReadStatsSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    storyId?: boolean
+    date?: boolean
+    readerCount?: boolean
+    story?: boolean | StoryDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["storyDailyReadStats"]>
+
+  export type StoryDailyReadStatsSelectScalar = {
+    id?: boolean
+    storyId?: boolean
+    date?: boolean
+    readerCount?: boolean
+  }
+
+  export type StoryDailyReadStatsOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "storyId" | "date" | "readerCount", ExtArgs["result"]["storyDailyReadStats"]>
+  export type StoryDailyReadStatsInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    story?: boolean | StoryDefaultArgs<ExtArgs>
+  }
+  export type StoryDailyReadStatsIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    story?: boolean | StoryDefaultArgs<ExtArgs>
+  }
+  export type StoryDailyReadStatsIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    story?: boolean | StoryDefaultArgs<ExtArgs>
+  }
+
+  export type $StoryDailyReadStatsPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "StoryDailyReadStats"
+    objects: {
+      story: Prisma.$StoryPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: number
+      storyId: number
+      date: Date
+      readerCount: number
+    }, ExtArgs["result"]["storyDailyReadStats"]>
+    composites: {}
+  }
+
+  type StoryDailyReadStatsGetPayload<S extends boolean | null | undefined | StoryDailyReadStatsDefaultArgs> = $Result.GetResult<Prisma.$StoryDailyReadStatsPayload, S>
+
+  type StoryDailyReadStatsCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<StoryDailyReadStatsFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: StoryDailyReadStatsCountAggregateInputType | true
+    }
+
+  export interface StoryDailyReadStatsDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['StoryDailyReadStats'], meta: { name: 'StoryDailyReadStats' } }
+    /**
+     * Find zero or one StoryDailyReadStats that matches the filter.
+     * @param {StoryDailyReadStatsFindUniqueArgs} args - Arguments to find a StoryDailyReadStats
+     * @example
+     * // Get one StoryDailyReadStats
+     * const storyDailyReadStats = await prisma.storyDailyReadStats.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends StoryDailyReadStatsFindUniqueArgs>(args: SelectSubset<T, StoryDailyReadStatsFindUniqueArgs<ExtArgs>>): Prisma__StoryDailyReadStatsClient<$Result.GetResult<Prisma.$StoryDailyReadStatsPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one StoryDailyReadStats that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {StoryDailyReadStatsFindUniqueOrThrowArgs} args - Arguments to find a StoryDailyReadStats
+     * @example
+     * // Get one StoryDailyReadStats
+     * const storyDailyReadStats = await prisma.storyDailyReadStats.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends StoryDailyReadStatsFindUniqueOrThrowArgs>(args: SelectSubset<T, StoryDailyReadStatsFindUniqueOrThrowArgs<ExtArgs>>): Prisma__StoryDailyReadStatsClient<$Result.GetResult<Prisma.$StoryDailyReadStatsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first StoryDailyReadStats that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {StoryDailyReadStatsFindFirstArgs} args - Arguments to find a StoryDailyReadStats
+     * @example
+     * // Get one StoryDailyReadStats
+     * const storyDailyReadStats = await prisma.storyDailyReadStats.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends StoryDailyReadStatsFindFirstArgs>(args?: SelectSubset<T, StoryDailyReadStatsFindFirstArgs<ExtArgs>>): Prisma__StoryDailyReadStatsClient<$Result.GetResult<Prisma.$StoryDailyReadStatsPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first StoryDailyReadStats that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {StoryDailyReadStatsFindFirstOrThrowArgs} args - Arguments to find a StoryDailyReadStats
+     * @example
+     * // Get one StoryDailyReadStats
+     * const storyDailyReadStats = await prisma.storyDailyReadStats.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends StoryDailyReadStatsFindFirstOrThrowArgs>(args?: SelectSubset<T, StoryDailyReadStatsFindFirstOrThrowArgs<ExtArgs>>): Prisma__StoryDailyReadStatsClient<$Result.GetResult<Prisma.$StoryDailyReadStatsPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more StoryDailyReadStats that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {StoryDailyReadStatsFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all StoryDailyReadStats
+     * const storyDailyReadStats = await prisma.storyDailyReadStats.findMany()
+     * 
+     * // Get first 10 StoryDailyReadStats
+     * const storyDailyReadStats = await prisma.storyDailyReadStats.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const storyDailyReadStatsWithIdOnly = await prisma.storyDailyReadStats.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends StoryDailyReadStatsFindManyArgs>(args?: SelectSubset<T, StoryDailyReadStatsFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$StoryDailyReadStatsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a StoryDailyReadStats.
+     * @param {StoryDailyReadStatsCreateArgs} args - Arguments to create a StoryDailyReadStats.
+     * @example
+     * // Create one StoryDailyReadStats
+     * const StoryDailyReadStats = await prisma.storyDailyReadStats.create({
+     *   data: {
+     *     // ... data to create a StoryDailyReadStats
+     *   }
+     * })
+     * 
+     */
+    create<T extends StoryDailyReadStatsCreateArgs>(args: SelectSubset<T, StoryDailyReadStatsCreateArgs<ExtArgs>>): Prisma__StoryDailyReadStatsClient<$Result.GetResult<Prisma.$StoryDailyReadStatsPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many StoryDailyReadStats.
+     * @param {StoryDailyReadStatsCreateManyArgs} args - Arguments to create many StoryDailyReadStats.
+     * @example
+     * // Create many StoryDailyReadStats
+     * const storyDailyReadStats = await prisma.storyDailyReadStats.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends StoryDailyReadStatsCreateManyArgs>(args?: SelectSubset<T, StoryDailyReadStatsCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many StoryDailyReadStats and returns the data saved in the database.
+     * @param {StoryDailyReadStatsCreateManyAndReturnArgs} args - Arguments to create many StoryDailyReadStats.
+     * @example
+     * // Create many StoryDailyReadStats
+     * const storyDailyReadStats = await prisma.storyDailyReadStats.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many StoryDailyReadStats and only return the `id`
+     * const storyDailyReadStatsWithIdOnly = await prisma.storyDailyReadStats.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends StoryDailyReadStatsCreateManyAndReturnArgs>(args?: SelectSubset<T, StoryDailyReadStatsCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$StoryDailyReadStatsPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a StoryDailyReadStats.
+     * @param {StoryDailyReadStatsDeleteArgs} args - Arguments to delete one StoryDailyReadStats.
+     * @example
+     * // Delete one StoryDailyReadStats
+     * const StoryDailyReadStats = await prisma.storyDailyReadStats.delete({
+     *   where: {
+     *     // ... filter to delete one StoryDailyReadStats
+     *   }
+     * })
+     * 
+     */
+    delete<T extends StoryDailyReadStatsDeleteArgs>(args: SelectSubset<T, StoryDailyReadStatsDeleteArgs<ExtArgs>>): Prisma__StoryDailyReadStatsClient<$Result.GetResult<Prisma.$StoryDailyReadStatsPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one StoryDailyReadStats.
+     * @param {StoryDailyReadStatsUpdateArgs} args - Arguments to update one StoryDailyReadStats.
+     * @example
+     * // Update one StoryDailyReadStats
+     * const storyDailyReadStats = await prisma.storyDailyReadStats.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends StoryDailyReadStatsUpdateArgs>(args: SelectSubset<T, StoryDailyReadStatsUpdateArgs<ExtArgs>>): Prisma__StoryDailyReadStatsClient<$Result.GetResult<Prisma.$StoryDailyReadStatsPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more StoryDailyReadStats.
+     * @param {StoryDailyReadStatsDeleteManyArgs} args - Arguments to filter StoryDailyReadStats to delete.
+     * @example
+     * // Delete a few StoryDailyReadStats
+     * const { count } = await prisma.storyDailyReadStats.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends StoryDailyReadStatsDeleteManyArgs>(args?: SelectSubset<T, StoryDailyReadStatsDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more StoryDailyReadStats.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {StoryDailyReadStatsUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many StoryDailyReadStats
+     * const storyDailyReadStats = await prisma.storyDailyReadStats.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends StoryDailyReadStatsUpdateManyArgs>(args: SelectSubset<T, StoryDailyReadStatsUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more StoryDailyReadStats and returns the data updated in the database.
+     * @param {StoryDailyReadStatsUpdateManyAndReturnArgs} args - Arguments to update many StoryDailyReadStats.
+     * @example
+     * // Update many StoryDailyReadStats
+     * const storyDailyReadStats = await prisma.storyDailyReadStats.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more StoryDailyReadStats and only return the `id`
+     * const storyDailyReadStatsWithIdOnly = await prisma.storyDailyReadStats.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends StoryDailyReadStatsUpdateManyAndReturnArgs>(args: SelectSubset<T, StoryDailyReadStatsUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$StoryDailyReadStatsPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one StoryDailyReadStats.
+     * @param {StoryDailyReadStatsUpsertArgs} args - Arguments to update or create a StoryDailyReadStats.
+     * @example
+     * // Update or create a StoryDailyReadStats
+     * const storyDailyReadStats = await prisma.storyDailyReadStats.upsert({
+     *   create: {
+     *     // ... data to create a StoryDailyReadStats
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the StoryDailyReadStats we want to update
+     *   }
+     * })
+     */
+    upsert<T extends StoryDailyReadStatsUpsertArgs>(args: SelectSubset<T, StoryDailyReadStatsUpsertArgs<ExtArgs>>): Prisma__StoryDailyReadStatsClient<$Result.GetResult<Prisma.$StoryDailyReadStatsPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of StoryDailyReadStats.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {StoryDailyReadStatsCountArgs} args - Arguments to filter StoryDailyReadStats to count.
+     * @example
+     * // Count the number of StoryDailyReadStats
+     * const count = await prisma.storyDailyReadStats.count({
+     *   where: {
+     *     // ... the filter for the StoryDailyReadStats we want to count
+     *   }
+     * })
+    **/
+    count<T extends StoryDailyReadStatsCountArgs>(
+      args?: Subset<T, StoryDailyReadStatsCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], StoryDailyReadStatsCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a StoryDailyReadStats.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {StoryDailyReadStatsAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends StoryDailyReadStatsAggregateArgs>(args: Subset<T, StoryDailyReadStatsAggregateArgs>): Prisma.PrismaPromise<GetStoryDailyReadStatsAggregateType<T>>
+
+    /**
+     * Group by StoryDailyReadStats.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {StoryDailyReadStatsGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends StoryDailyReadStatsGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: StoryDailyReadStatsGroupByArgs['orderBy'] }
+        : { orderBy?: StoryDailyReadStatsGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, StoryDailyReadStatsGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetStoryDailyReadStatsGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the StoryDailyReadStats model
+   */
+  readonly fields: StoryDailyReadStatsFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for StoryDailyReadStats.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__StoryDailyReadStatsClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    story<T extends StoryDefaultArgs<ExtArgs> = {}>(args?: Subset<T, StoryDefaultArgs<ExtArgs>>): Prisma__StoryClient<$Result.GetResult<Prisma.$StoryPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the StoryDailyReadStats model
+   */
+  interface StoryDailyReadStatsFieldRefs {
+    readonly id: FieldRef<"StoryDailyReadStats", 'Int'>
+    readonly storyId: FieldRef<"StoryDailyReadStats", 'Int'>
+    readonly date: FieldRef<"StoryDailyReadStats", 'DateTime'>
+    readonly readerCount: FieldRef<"StoryDailyReadStats", 'Int'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * StoryDailyReadStats findUnique
+   */
+  export type StoryDailyReadStatsFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StoryDailyReadStats
+     */
+    select?: StoryDailyReadStatsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the StoryDailyReadStats
+     */
+    omit?: StoryDailyReadStatsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StoryDailyReadStatsInclude<ExtArgs> | null
+    /**
+     * Filter, which StoryDailyReadStats to fetch.
+     */
+    where: StoryDailyReadStatsWhereUniqueInput
+  }
+
+  /**
+   * StoryDailyReadStats findUniqueOrThrow
+   */
+  export type StoryDailyReadStatsFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StoryDailyReadStats
+     */
+    select?: StoryDailyReadStatsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the StoryDailyReadStats
+     */
+    omit?: StoryDailyReadStatsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StoryDailyReadStatsInclude<ExtArgs> | null
+    /**
+     * Filter, which StoryDailyReadStats to fetch.
+     */
+    where: StoryDailyReadStatsWhereUniqueInput
+  }
+
+  /**
+   * StoryDailyReadStats findFirst
+   */
+  export type StoryDailyReadStatsFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StoryDailyReadStats
+     */
+    select?: StoryDailyReadStatsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the StoryDailyReadStats
+     */
+    omit?: StoryDailyReadStatsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StoryDailyReadStatsInclude<ExtArgs> | null
+    /**
+     * Filter, which StoryDailyReadStats to fetch.
+     */
+    where?: StoryDailyReadStatsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of StoryDailyReadStats to fetch.
+     */
+    orderBy?: StoryDailyReadStatsOrderByWithRelationInput | StoryDailyReadStatsOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for StoryDailyReadStats.
+     */
+    cursor?: StoryDailyReadStatsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` StoryDailyReadStats from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` StoryDailyReadStats.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of StoryDailyReadStats.
+     */
+    distinct?: StoryDailyReadStatsScalarFieldEnum | StoryDailyReadStatsScalarFieldEnum[]
+  }
+
+  /**
+   * StoryDailyReadStats findFirstOrThrow
+   */
+  export type StoryDailyReadStatsFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StoryDailyReadStats
+     */
+    select?: StoryDailyReadStatsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the StoryDailyReadStats
+     */
+    omit?: StoryDailyReadStatsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StoryDailyReadStatsInclude<ExtArgs> | null
+    /**
+     * Filter, which StoryDailyReadStats to fetch.
+     */
+    where?: StoryDailyReadStatsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of StoryDailyReadStats to fetch.
+     */
+    orderBy?: StoryDailyReadStatsOrderByWithRelationInput | StoryDailyReadStatsOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for StoryDailyReadStats.
+     */
+    cursor?: StoryDailyReadStatsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` StoryDailyReadStats from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` StoryDailyReadStats.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of StoryDailyReadStats.
+     */
+    distinct?: StoryDailyReadStatsScalarFieldEnum | StoryDailyReadStatsScalarFieldEnum[]
+  }
+
+  /**
+   * StoryDailyReadStats findMany
+   */
+  export type StoryDailyReadStatsFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StoryDailyReadStats
+     */
+    select?: StoryDailyReadStatsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the StoryDailyReadStats
+     */
+    omit?: StoryDailyReadStatsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StoryDailyReadStatsInclude<ExtArgs> | null
+    /**
+     * Filter, which StoryDailyReadStats to fetch.
+     */
+    where?: StoryDailyReadStatsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of StoryDailyReadStats to fetch.
+     */
+    orderBy?: StoryDailyReadStatsOrderByWithRelationInput | StoryDailyReadStatsOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing StoryDailyReadStats.
+     */
+    cursor?: StoryDailyReadStatsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` StoryDailyReadStats from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` StoryDailyReadStats.
+     */
+    skip?: number
+    distinct?: StoryDailyReadStatsScalarFieldEnum | StoryDailyReadStatsScalarFieldEnum[]
+  }
+
+  /**
+   * StoryDailyReadStats create
+   */
+  export type StoryDailyReadStatsCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StoryDailyReadStats
+     */
+    select?: StoryDailyReadStatsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the StoryDailyReadStats
+     */
+    omit?: StoryDailyReadStatsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StoryDailyReadStatsInclude<ExtArgs> | null
+    /**
+     * The data needed to create a StoryDailyReadStats.
+     */
+    data: XOR<StoryDailyReadStatsCreateInput, StoryDailyReadStatsUncheckedCreateInput>
+  }
+
+  /**
+   * StoryDailyReadStats createMany
+   */
+  export type StoryDailyReadStatsCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many StoryDailyReadStats.
+     */
+    data: StoryDailyReadStatsCreateManyInput | StoryDailyReadStatsCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * StoryDailyReadStats createManyAndReturn
+   */
+  export type StoryDailyReadStatsCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StoryDailyReadStats
+     */
+    select?: StoryDailyReadStatsSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the StoryDailyReadStats
+     */
+    omit?: StoryDailyReadStatsOmit<ExtArgs> | null
+    /**
+     * The data used to create many StoryDailyReadStats.
+     */
+    data: StoryDailyReadStatsCreateManyInput | StoryDailyReadStatsCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StoryDailyReadStatsIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * StoryDailyReadStats update
+   */
+  export type StoryDailyReadStatsUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StoryDailyReadStats
+     */
+    select?: StoryDailyReadStatsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the StoryDailyReadStats
+     */
+    omit?: StoryDailyReadStatsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StoryDailyReadStatsInclude<ExtArgs> | null
+    /**
+     * The data needed to update a StoryDailyReadStats.
+     */
+    data: XOR<StoryDailyReadStatsUpdateInput, StoryDailyReadStatsUncheckedUpdateInput>
+    /**
+     * Choose, which StoryDailyReadStats to update.
+     */
+    where: StoryDailyReadStatsWhereUniqueInput
+  }
+
+  /**
+   * StoryDailyReadStats updateMany
+   */
+  export type StoryDailyReadStatsUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update StoryDailyReadStats.
+     */
+    data: XOR<StoryDailyReadStatsUpdateManyMutationInput, StoryDailyReadStatsUncheckedUpdateManyInput>
+    /**
+     * Filter which StoryDailyReadStats to update
+     */
+    where?: StoryDailyReadStatsWhereInput
+    /**
+     * Limit how many StoryDailyReadStats to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * StoryDailyReadStats updateManyAndReturn
+   */
+  export type StoryDailyReadStatsUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StoryDailyReadStats
+     */
+    select?: StoryDailyReadStatsSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the StoryDailyReadStats
+     */
+    omit?: StoryDailyReadStatsOmit<ExtArgs> | null
+    /**
+     * The data used to update StoryDailyReadStats.
+     */
+    data: XOR<StoryDailyReadStatsUpdateManyMutationInput, StoryDailyReadStatsUncheckedUpdateManyInput>
+    /**
+     * Filter which StoryDailyReadStats to update
+     */
+    where?: StoryDailyReadStatsWhereInput
+    /**
+     * Limit how many StoryDailyReadStats to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StoryDailyReadStatsIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * StoryDailyReadStats upsert
+   */
+  export type StoryDailyReadStatsUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StoryDailyReadStats
+     */
+    select?: StoryDailyReadStatsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the StoryDailyReadStats
+     */
+    omit?: StoryDailyReadStatsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StoryDailyReadStatsInclude<ExtArgs> | null
+    /**
+     * The filter to search for the StoryDailyReadStats to update in case it exists.
+     */
+    where: StoryDailyReadStatsWhereUniqueInput
+    /**
+     * In case the StoryDailyReadStats found by the `where` argument doesn't exist, create a new StoryDailyReadStats with this data.
+     */
+    create: XOR<StoryDailyReadStatsCreateInput, StoryDailyReadStatsUncheckedCreateInput>
+    /**
+     * In case the StoryDailyReadStats was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<StoryDailyReadStatsUpdateInput, StoryDailyReadStatsUncheckedUpdateInput>
+  }
+
+  /**
+   * StoryDailyReadStats delete
+   */
+  export type StoryDailyReadStatsDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StoryDailyReadStats
+     */
+    select?: StoryDailyReadStatsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the StoryDailyReadStats
+     */
+    omit?: StoryDailyReadStatsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StoryDailyReadStatsInclude<ExtArgs> | null
+    /**
+     * Filter which StoryDailyReadStats to delete.
+     */
+    where: StoryDailyReadStatsWhereUniqueInput
+  }
+
+  /**
+   * StoryDailyReadStats deleteMany
+   */
+  export type StoryDailyReadStatsDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which StoryDailyReadStats to delete
+     */
+    where?: StoryDailyReadStatsWhereInput
+    /**
+     * Limit how many StoryDailyReadStats to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * StoryDailyReadStats without action
+   */
+  export type StoryDailyReadStatsDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StoryDailyReadStats
+     */
+    select?: StoryDailyReadStatsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the StoryDailyReadStats
+     */
+    omit?: StoryDailyReadStatsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StoryDailyReadStatsInclude<ExtArgs> | null
   }
 
 
@@ -20638,6 +27303,2272 @@ export namespace Prisma {
 
 
   /**
+   * Model StorySubscription
+   */
+
+  export type AggregateStorySubscription = {
+    _count: StorySubscriptionCountAggregateOutputType | null
+    _avg: StorySubscriptionAvgAggregateOutputType | null
+    _sum: StorySubscriptionSumAggregateOutputType | null
+    _min: StorySubscriptionMinAggregateOutputType | null
+    _max: StorySubscriptionMaxAggregateOutputType | null
+  }
+
+  export type StorySubscriptionAvgAggregateOutputType = {
+    id: number | null
+    storyId: number | null
+  }
+
+  export type StorySubscriptionSumAggregateOutputType = {
+    id: number | null
+    storyId: number | null
+  }
+
+  export type StorySubscriptionMinAggregateOutputType = {
+    id: number | null
+    userId: string | null
+    storyId: number | null
+    createdAt: Date | null
+  }
+
+  export type StorySubscriptionMaxAggregateOutputType = {
+    id: number | null
+    userId: string | null
+    storyId: number | null
+    createdAt: Date | null
+  }
+
+  export type StorySubscriptionCountAggregateOutputType = {
+    id: number
+    userId: number
+    storyId: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type StorySubscriptionAvgAggregateInputType = {
+    id?: true
+    storyId?: true
+  }
+
+  export type StorySubscriptionSumAggregateInputType = {
+    id?: true
+    storyId?: true
+  }
+
+  export type StorySubscriptionMinAggregateInputType = {
+    id?: true
+    userId?: true
+    storyId?: true
+    createdAt?: true
+  }
+
+  export type StorySubscriptionMaxAggregateInputType = {
+    id?: true
+    userId?: true
+    storyId?: true
+    createdAt?: true
+  }
+
+  export type StorySubscriptionCountAggregateInputType = {
+    id?: true
+    userId?: true
+    storyId?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type StorySubscriptionAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which StorySubscription to aggregate.
+     */
+    where?: StorySubscriptionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of StorySubscriptions to fetch.
+     */
+    orderBy?: StorySubscriptionOrderByWithRelationInput | StorySubscriptionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: StorySubscriptionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` StorySubscriptions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` StorySubscriptions.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned StorySubscriptions
+    **/
+    _count?: true | StorySubscriptionCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: StorySubscriptionAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: StorySubscriptionSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: StorySubscriptionMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: StorySubscriptionMaxAggregateInputType
+  }
+
+  export type GetStorySubscriptionAggregateType<T extends StorySubscriptionAggregateArgs> = {
+        [P in keyof T & keyof AggregateStorySubscription]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateStorySubscription[P]>
+      : GetScalarType<T[P], AggregateStorySubscription[P]>
+  }
+
+
+
+
+  export type StorySubscriptionGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: StorySubscriptionWhereInput
+    orderBy?: StorySubscriptionOrderByWithAggregationInput | StorySubscriptionOrderByWithAggregationInput[]
+    by: StorySubscriptionScalarFieldEnum[] | StorySubscriptionScalarFieldEnum
+    having?: StorySubscriptionScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: StorySubscriptionCountAggregateInputType | true
+    _avg?: StorySubscriptionAvgAggregateInputType
+    _sum?: StorySubscriptionSumAggregateInputType
+    _min?: StorySubscriptionMinAggregateInputType
+    _max?: StorySubscriptionMaxAggregateInputType
+  }
+
+  export type StorySubscriptionGroupByOutputType = {
+    id: number
+    userId: string
+    storyId: number
+    createdAt: Date
+    _count: StorySubscriptionCountAggregateOutputType | null
+    _avg: StorySubscriptionAvgAggregateOutputType | null
+    _sum: StorySubscriptionSumAggregateOutputType | null
+    _min: StorySubscriptionMinAggregateOutputType | null
+    _max: StorySubscriptionMaxAggregateOutputType | null
+  }
+
+  type GetStorySubscriptionGroupByPayload<T extends StorySubscriptionGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<StorySubscriptionGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof StorySubscriptionGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], StorySubscriptionGroupByOutputType[P]>
+            : GetScalarType<T[P], StorySubscriptionGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type StorySubscriptionSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    storyId?: boolean
+    createdAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    story?: boolean | StoryDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["storySubscription"]>
+
+  export type StorySubscriptionSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    storyId?: boolean
+    createdAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    story?: boolean | StoryDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["storySubscription"]>
+
+  export type StorySubscriptionSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    storyId?: boolean
+    createdAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    story?: boolean | StoryDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["storySubscription"]>
+
+  export type StorySubscriptionSelectScalar = {
+    id?: boolean
+    userId?: boolean
+    storyId?: boolean
+    createdAt?: boolean
+  }
+
+  export type StorySubscriptionOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "storyId" | "createdAt", ExtArgs["result"]["storySubscription"]>
+  export type StorySubscriptionInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    story?: boolean | StoryDefaultArgs<ExtArgs>
+  }
+  export type StorySubscriptionIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    story?: boolean | StoryDefaultArgs<ExtArgs>
+  }
+  export type StorySubscriptionIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    story?: boolean | StoryDefaultArgs<ExtArgs>
+  }
+
+  export type $StorySubscriptionPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "StorySubscription"
+    objects: {
+      user: Prisma.$UserPayload<ExtArgs>
+      story: Prisma.$StoryPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: number
+      userId: string
+      storyId: number
+      createdAt: Date
+    }, ExtArgs["result"]["storySubscription"]>
+    composites: {}
+  }
+
+  type StorySubscriptionGetPayload<S extends boolean | null | undefined | StorySubscriptionDefaultArgs> = $Result.GetResult<Prisma.$StorySubscriptionPayload, S>
+
+  type StorySubscriptionCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<StorySubscriptionFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: StorySubscriptionCountAggregateInputType | true
+    }
+
+  export interface StorySubscriptionDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['StorySubscription'], meta: { name: 'StorySubscription' } }
+    /**
+     * Find zero or one StorySubscription that matches the filter.
+     * @param {StorySubscriptionFindUniqueArgs} args - Arguments to find a StorySubscription
+     * @example
+     * // Get one StorySubscription
+     * const storySubscription = await prisma.storySubscription.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends StorySubscriptionFindUniqueArgs>(args: SelectSubset<T, StorySubscriptionFindUniqueArgs<ExtArgs>>): Prisma__StorySubscriptionClient<$Result.GetResult<Prisma.$StorySubscriptionPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one StorySubscription that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {StorySubscriptionFindUniqueOrThrowArgs} args - Arguments to find a StorySubscription
+     * @example
+     * // Get one StorySubscription
+     * const storySubscription = await prisma.storySubscription.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends StorySubscriptionFindUniqueOrThrowArgs>(args: SelectSubset<T, StorySubscriptionFindUniqueOrThrowArgs<ExtArgs>>): Prisma__StorySubscriptionClient<$Result.GetResult<Prisma.$StorySubscriptionPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first StorySubscription that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {StorySubscriptionFindFirstArgs} args - Arguments to find a StorySubscription
+     * @example
+     * // Get one StorySubscription
+     * const storySubscription = await prisma.storySubscription.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends StorySubscriptionFindFirstArgs>(args?: SelectSubset<T, StorySubscriptionFindFirstArgs<ExtArgs>>): Prisma__StorySubscriptionClient<$Result.GetResult<Prisma.$StorySubscriptionPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first StorySubscription that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {StorySubscriptionFindFirstOrThrowArgs} args - Arguments to find a StorySubscription
+     * @example
+     * // Get one StorySubscription
+     * const storySubscription = await prisma.storySubscription.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends StorySubscriptionFindFirstOrThrowArgs>(args?: SelectSubset<T, StorySubscriptionFindFirstOrThrowArgs<ExtArgs>>): Prisma__StorySubscriptionClient<$Result.GetResult<Prisma.$StorySubscriptionPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more StorySubscriptions that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {StorySubscriptionFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all StorySubscriptions
+     * const storySubscriptions = await prisma.storySubscription.findMany()
+     * 
+     * // Get first 10 StorySubscriptions
+     * const storySubscriptions = await prisma.storySubscription.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const storySubscriptionWithIdOnly = await prisma.storySubscription.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends StorySubscriptionFindManyArgs>(args?: SelectSubset<T, StorySubscriptionFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$StorySubscriptionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a StorySubscription.
+     * @param {StorySubscriptionCreateArgs} args - Arguments to create a StorySubscription.
+     * @example
+     * // Create one StorySubscription
+     * const StorySubscription = await prisma.storySubscription.create({
+     *   data: {
+     *     // ... data to create a StorySubscription
+     *   }
+     * })
+     * 
+     */
+    create<T extends StorySubscriptionCreateArgs>(args: SelectSubset<T, StorySubscriptionCreateArgs<ExtArgs>>): Prisma__StorySubscriptionClient<$Result.GetResult<Prisma.$StorySubscriptionPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many StorySubscriptions.
+     * @param {StorySubscriptionCreateManyArgs} args - Arguments to create many StorySubscriptions.
+     * @example
+     * // Create many StorySubscriptions
+     * const storySubscription = await prisma.storySubscription.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends StorySubscriptionCreateManyArgs>(args?: SelectSubset<T, StorySubscriptionCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many StorySubscriptions and returns the data saved in the database.
+     * @param {StorySubscriptionCreateManyAndReturnArgs} args - Arguments to create many StorySubscriptions.
+     * @example
+     * // Create many StorySubscriptions
+     * const storySubscription = await prisma.storySubscription.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many StorySubscriptions and only return the `id`
+     * const storySubscriptionWithIdOnly = await prisma.storySubscription.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends StorySubscriptionCreateManyAndReturnArgs>(args?: SelectSubset<T, StorySubscriptionCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$StorySubscriptionPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a StorySubscription.
+     * @param {StorySubscriptionDeleteArgs} args - Arguments to delete one StorySubscription.
+     * @example
+     * // Delete one StorySubscription
+     * const StorySubscription = await prisma.storySubscription.delete({
+     *   where: {
+     *     // ... filter to delete one StorySubscription
+     *   }
+     * })
+     * 
+     */
+    delete<T extends StorySubscriptionDeleteArgs>(args: SelectSubset<T, StorySubscriptionDeleteArgs<ExtArgs>>): Prisma__StorySubscriptionClient<$Result.GetResult<Prisma.$StorySubscriptionPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one StorySubscription.
+     * @param {StorySubscriptionUpdateArgs} args - Arguments to update one StorySubscription.
+     * @example
+     * // Update one StorySubscription
+     * const storySubscription = await prisma.storySubscription.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends StorySubscriptionUpdateArgs>(args: SelectSubset<T, StorySubscriptionUpdateArgs<ExtArgs>>): Prisma__StorySubscriptionClient<$Result.GetResult<Prisma.$StorySubscriptionPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more StorySubscriptions.
+     * @param {StorySubscriptionDeleteManyArgs} args - Arguments to filter StorySubscriptions to delete.
+     * @example
+     * // Delete a few StorySubscriptions
+     * const { count } = await prisma.storySubscription.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends StorySubscriptionDeleteManyArgs>(args?: SelectSubset<T, StorySubscriptionDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more StorySubscriptions.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {StorySubscriptionUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many StorySubscriptions
+     * const storySubscription = await prisma.storySubscription.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends StorySubscriptionUpdateManyArgs>(args: SelectSubset<T, StorySubscriptionUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more StorySubscriptions and returns the data updated in the database.
+     * @param {StorySubscriptionUpdateManyAndReturnArgs} args - Arguments to update many StorySubscriptions.
+     * @example
+     * // Update many StorySubscriptions
+     * const storySubscription = await prisma.storySubscription.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more StorySubscriptions and only return the `id`
+     * const storySubscriptionWithIdOnly = await prisma.storySubscription.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends StorySubscriptionUpdateManyAndReturnArgs>(args: SelectSubset<T, StorySubscriptionUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$StorySubscriptionPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one StorySubscription.
+     * @param {StorySubscriptionUpsertArgs} args - Arguments to update or create a StorySubscription.
+     * @example
+     * // Update or create a StorySubscription
+     * const storySubscription = await prisma.storySubscription.upsert({
+     *   create: {
+     *     // ... data to create a StorySubscription
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the StorySubscription we want to update
+     *   }
+     * })
+     */
+    upsert<T extends StorySubscriptionUpsertArgs>(args: SelectSubset<T, StorySubscriptionUpsertArgs<ExtArgs>>): Prisma__StorySubscriptionClient<$Result.GetResult<Prisma.$StorySubscriptionPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of StorySubscriptions.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {StorySubscriptionCountArgs} args - Arguments to filter StorySubscriptions to count.
+     * @example
+     * // Count the number of StorySubscriptions
+     * const count = await prisma.storySubscription.count({
+     *   where: {
+     *     // ... the filter for the StorySubscriptions we want to count
+     *   }
+     * })
+    **/
+    count<T extends StorySubscriptionCountArgs>(
+      args?: Subset<T, StorySubscriptionCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], StorySubscriptionCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a StorySubscription.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {StorySubscriptionAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends StorySubscriptionAggregateArgs>(args: Subset<T, StorySubscriptionAggregateArgs>): Prisma.PrismaPromise<GetStorySubscriptionAggregateType<T>>
+
+    /**
+     * Group by StorySubscription.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {StorySubscriptionGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends StorySubscriptionGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: StorySubscriptionGroupByArgs['orderBy'] }
+        : { orderBy?: StorySubscriptionGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, StorySubscriptionGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetStorySubscriptionGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the StorySubscription model
+   */
+  readonly fields: StorySubscriptionFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for StorySubscription.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__StorySubscriptionClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    story<T extends StoryDefaultArgs<ExtArgs> = {}>(args?: Subset<T, StoryDefaultArgs<ExtArgs>>): Prisma__StoryClient<$Result.GetResult<Prisma.$StoryPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the StorySubscription model
+   */
+  interface StorySubscriptionFieldRefs {
+    readonly id: FieldRef<"StorySubscription", 'Int'>
+    readonly userId: FieldRef<"StorySubscription", 'String'>
+    readonly storyId: FieldRef<"StorySubscription", 'Int'>
+    readonly createdAt: FieldRef<"StorySubscription", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * StorySubscription findUnique
+   */
+  export type StorySubscriptionFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StorySubscription
+     */
+    select?: StorySubscriptionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the StorySubscription
+     */
+    omit?: StorySubscriptionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StorySubscriptionInclude<ExtArgs> | null
+    /**
+     * Filter, which StorySubscription to fetch.
+     */
+    where: StorySubscriptionWhereUniqueInput
+  }
+
+  /**
+   * StorySubscription findUniqueOrThrow
+   */
+  export type StorySubscriptionFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StorySubscription
+     */
+    select?: StorySubscriptionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the StorySubscription
+     */
+    omit?: StorySubscriptionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StorySubscriptionInclude<ExtArgs> | null
+    /**
+     * Filter, which StorySubscription to fetch.
+     */
+    where: StorySubscriptionWhereUniqueInput
+  }
+
+  /**
+   * StorySubscription findFirst
+   */
+  export type StorySubscriptionFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StorySubscription
+     */
+    select?: StorySubscriptionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the StorySubscription
+     */
+    omit?: StorySubscriptionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StorySubscriptionInclude<ExtArgs> | null
+    /**
+     * Filter, which StorySubscription to fetch.
+     */
+    where?: StorySubscriptionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of StorySubscriptions to fetch.
+     */
+    orderBy?: StorySubscriptionOrderByWithRelationInput | StorySubscriptionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for StorySubscriptions.
+     */
+    cursor?: StorySubscriptionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` StorySubscriptions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` StorySubscriptions.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of StorySubscriptions.
+     */
+    distinct?: StorySubscriptionScalarFieldEnum | StorySubscriptionScalarFieldEnum[]
+  }
+
+  /**
+   * StorySubscription findFirstOrThrow
+   */
+  export type StorySubscriptionFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StorySubscription
+     */
+    select?: StorySubscriptionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the StorySubscription
+     */
+    omit?: StorySubscriptionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StorySubscriptionInclude<ExtArgs> | null
+    /**
+     * Filter, which StorySubscription to fetch.
+     */
+    where?: StorySubscriptionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of StorySubscriptions to fetch.
+     */
+    orderBy?: StorySubscriptionOrderByWithRelationInput | StorySubscriptionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for StorySubscriptions.
+     */
+    cursor?: StorySubscriptionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` StorySubscriptions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` StorySubscriptions.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of StorySubscriptions.
+     */
+    distinct?: StorySubscriptionScalarFieldEnum | StorySubscriptionScalarFieldEnum[]
+  }
+
+  /**
+   * StorySubscription findMany
+   */
+  export type StorySubscriptionFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StorySubscription
+     */
+    select?: StorySubscriptionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the StorySubscription
+     */
+    omit?: StorySubscriptionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StorySubscriptionInclude<ExtArgs> | null
+    /**
+     * Filter, which StorySubscriptions to fetch.
+     */
+    where?: StorySubscriptionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of StorySubscriptions to fetch.
+     */
+    orderBy?: StorySubscriptionOrderByWithRelationInput | StorySubscriptionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing StorySubscriptions.
+     */
+    cursor?: StorySubscriptionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` StorySubscriptions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` StorySubscriptions.
+     */
+    skip?: number
+    distinct?: StorySubscriptionScalarFieldEnum | StorySubscriptionScalarFieldEnum[]
+  }
+
+  /**
+   * StorySubscription create
+   */
+  export type StorySubscriptionCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StorySubscription
+     */
+    select?: StorySubscriptionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the StorySubscription
+     */
+    omit?: StorySubscriptionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StorySubscriptionInclude<ExtArgs> | null
+    /**
+     * The data needed to create a StorySubscription.
+     */
+    data: XOR<StorySubscriptionCreateInput, StorySubscriptionUncheckedCreateInput>
+  }
+
+  /**
+   * StorySubscription createMany
+   */
+  export type StorySubscriptionCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many StorySubscriptions.
+     */
+    data: StorySubscriptionCreateManyInput | StorySubscriptionCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * StorySubscription createManyAndReturn
+   */
+  export type StorySubscriptionCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StorySubscription
+     */
+    select?: StorySubscriptionSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the StorySubscription
+     */
+    omit?: StorySubscriptionOmit<ExtArgs> | null
+    /**
+     * The data used to create many StorySubscriptions.
+     */
+    data: StorySubscriptionCreateManyInput | StorySubscriptionCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StorySubscriptionIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * StorySubscription update
+   */
+  export type StorySubscriptionUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StorySubscription
+     */
+    select?: StorySubscriptionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the StorySubscription
+     */
+    omit?: StorySubscriptionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StorySubscriptionInclude<ExtArgs> | null
+    /**
+     * The data needed to update a StorySubscription.
+     */
+    data: XOR<StorySubscriptionUpdateInput, StorySubscriptionUncheckedUpdateInput>
+    /**
+     * Choose, which StorySubscription to update.
+     */
+    where: StorySubscriptionWhereUniqueInput
+  }
+
+  /**
+   * StorySubscription updateMany
+   */
+  export type StorySubscriptionUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update StorySubscriptions.
+     */
+    data: XOR<StorySubscriptionUpdateManyMutationInput, StorySubscriptionUncheckedUpdateManyInput>
+    /**
+     * Filter which StorySubscriptions to update
+     */
+    where?: StorySubscriptionWhereInput
+    /**
+     * Limit how many StorySubscriptions to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * StorySubscription updateManyAndReturn
+   */
+  export type StorySubscriptionUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StorySubscription
+     */
+    select?: StorySubscriptionSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the StorySubscription
+     */
+    omit?: StorySubscriptionOmit<ExtArgs> | null
+    /**
+     * The data used to update StorySubscriptions.
+     */
+    data: XOR<StorySubscriptionUpdateManyMutationInput, StorySubscriptionUncheckedUpdateManyInput>
+    /**
+     * Filter which StorySubscriptions to update
+     */
+    where?: StorySubscriptionWhereInput
+    /**
+     * Limit how many StorySubscriptions to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StorySubscriptionIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * StorySubscription upsert
+   */
+  export type StorySubscriptionUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StorySubscription
+     */
+    select?: StorySubscriptionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the StorySubscription
+     */
+    omit?: StorySubscriptionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StorySubscriptionInclude<ExtArgs> | null
+    /**
+     * The filter to search for the StorySubscription to update in case it exists.
+     */
+    where: StorySubscriptionWhereUniqueInput
+    /**
+     * In case the StorySubscription found by the `where` argument doesn't exist, create a new StorySubscription with this data.
+     */
+    create: XOR<StorySubscriptionCreateInput, StorySubscriptionUncheckedCreateInput>
+    /**
+     * In case the StorySubscription was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<StorySubscriptionUpdateInput, StorySubscriptionUncheckedUpdateInput>
+  }
+
+  /**
+   * StorySubscription delete
+   */
+  export type StorySubscriptionDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StorySubscription
+     */
+    select?: StorySubscriptionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the StorySubscription
+     */
+    omit?: StorySubscriptionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StorySubscriptionInclude<ExtArgs> | null
+    /**
+     * Filter which StorySubscription to delete.
+     */
+    where: StorySubscriptionWhereUniqueInput
+  }
+
+  /**
+   * StorySubscription deleteMany
+   */
+  export type StorySubscriptionDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which StorySubscriptions to delete
+     */
+    where?: StorySubscriptionWhereInput
+    /**
+     * Limit how many StorySubscriptions to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * StorySubscription without action
+   */
+  export type StorySubscriptionDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StorySubscription
+     */
+    select?: StorySubscriptionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the StorySubscription
+     */
+    omit?: StorySubscriptionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StorySubscriptionInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model Notification
+   */
+
+  export type AggregateNotification = {
+    _count: NotificationCountAggregateOutputType | null
+    _avg: NotificationAvgAggregateOutputType | null
+    _sum: NotificationSumAggregateOutputType | null
+    _min: NotificationMinAggregateOutputType | null
+    _max: NotificationMaxAggregateOutputType | null
+  }
+
+  export type NotificationAvgAggregateOutputType = {
+    id: number | null
+    storyId: number | null
+  }
+
+  export type NotificationSumAggregateOutputType = {
+    id: number | null
+    storyId: number | null
+  }
+
+  export type NotificationMinAggregateOutputType = {
+    id: number | null
+    userId: string | null
+    type: $Enums.NotificationType | null
+    storyId: number | null
+    title: string | null
+    content: string | null
+    dedupeKey: string | null
+    readAt: Date | null
+    createdAt: Date | null
+  }
+
+  export type NotificationMaxAggregateOutputType = {
+    id: number | null
+    userId: string | null
+    type: $Enums.NotificationType | null
+    storyId: number | null
+    title: string | null
+    content: string | null
+    dedupeKey: string | null
+    readAt: Date | null
+    createdAt: Date | null
+  }
+
+  export type NotificationCountAggregateOutputType = {
+    id: number
+    userId: number
+    type: number
+    storyId: number
+    title: number
+    content: number
+    dedupeKey: number
+    readAt: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type NotificationAvgAggregateInputType = {
+    id?: true
+    storyId?: true
+  }
+
+  export type NotificationSumAggregateInputType = {
+    id?: true
+    storyId?: true
+  }
+
+  export type NotificationMinAggregateInputType = {
+    id?: true
+    userId?: true
+    type?: true
+    storyId?: true
+    title?: true
+    content?: true
+    dedupeKey?: true
+    readAt?: true
+    createdAt?: true
+  }
+
+  export type NotificationMaxAggregateInputType = {
+    id?: true
+    userId?: true
+    type?: true
+    storyId?: true
+    title?: true
+    content?: true
+    dedupeKey?: true
+    readAt?: true
+    createdAt?: true
+  }
+
+  export type NotificationCountAggregateInputType = {
+    id?: true
+    userId?: true
+    type?: true
+    storyId?: true
+    title?: true
+    content?: true
+    dedupeKey?: true
+    readAt?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type NotificationAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Notification to aggregate.
+     */
+    where?: NotificationWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Notifications to fetch.
+     */
+    orderBy?: NotificationOrderByWithRelationInput | NotificationOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: NotificationWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Notifications from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Notifications.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Notifications
+    **/
+    _count?: true | NotificationCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: NotificationAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: NotificationSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: NotificationMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: NotificationMaxAggregateInputType
+  }
+
+  export type GetNotificationAggregateType<T extends NotificationAggregateArgs> = {
+        [P in keyof T & keyof AggregateNotification]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateNotification[P]>
+      : GetScalarType<T[P], AggregateNotification[P]>
+  }
+
+
+
+
+  export type NotificationGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: NotificationWhereInput
+    orderBy?: NotificationOrderByWithAggregationInput | NotificationOrderByWithAggregationInput[]
+    by: NotificationScalarFieldEnum[] | NotificationScalarFieldEnum
+    having?: NotificationScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: NotificationCountAggregateInputType | true
+    _avg?: NotificationAvgAggregateInputType
+    _sum?: NotificationSumAggregateInputType
+    _min?: NotificationMinAggregateInputType
+    _max?: NotificationMaxAggregateInputType
+  }
+
+  export type NotificationGroupByOutputType = {
+    id: number
+    userId: string
+    type: $Enums.NotificationType
+    storyId: number | null
+    title: string
+    content: string | null
+    dedupeKey: string
+    readAt: Date | null
+    createdAt: Date
+    _count: NotificationCountAggregateOutputType | null
+    _avg: NotificationAvgAggregateOutputType | null
+    _sum: NotificationSumAggregateOutputType | null
+    _min: NotificationMinAggregateOutputType | null
+    _max: NotificationMaxAggregateOutputType | null
+  }
+
+  type GetNotificationGroupByPayload<T extends NotificationGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<NotificationGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof NotificationGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], NotificationGroupByOutputType[P]>
+            : GetScalarType<T[P], NotificationGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type NotificationSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    type?: boolean
+    storyId?: boolean
+    title?: boolean
+    content?: boolean
+    dedupeKey?: boolean
+    readAt?: boolean
+    createdAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    story?: boolean | Notification$storyArgs<ExtArgs>
+  }, ExtArgs["result"]["notification"]>
+
+  export type NotificationSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    type?: boolean
+    storyId?: boolean
+    title?: boolean
+    content?: boolean
+    dedupeKey?: boolean
+    readAt?: boolean
+    createdAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    story?: boolean | Notification$storyArgs<ExtArgs>
+  }, ExtArgs["result"]["notification"]>
+
+  export type NotificationSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    type?: boolean
+    storyId?: boolean
+    title?: boolean
+    content?: boolean
+    dedupeKey?: boolean
+    readAt?: boolean
+    createdAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    story?: boolean | Notification$storyArgs<ExtArgs>
+  }, ExtArgs["result"]["notification"]>
+
+  export type NotificationSelectScalar = {
+    id?: boolean
+    userId?: boolean
+    type?: boolean
+    storyId?: boolean
+    title?: boolean
+    content?: boolean
+    dedupeKey?: boolean
+    readAt?: boolean
+    createdAt?: boolean
+  }
+
+  export type NotificationOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "type" | "storyId" | "title" | "content" | "dedupeKey" | "readAt" | "createdAt", ExtArgs["result"]["notification"]>
+  export type NotificationInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    story?: boolean | Notification$storyArgs<ExtArgs>
+  }
+  export type NotificationIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    story?: boolean | Notification$storyArgs<ExtArgs>
+  }
+  export type NotificationIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    story?: boolean | Notification$storyArgs<ExtArgs>
+  }
+
+  export type $NotificationPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Notification"
+    objects: {
+      user: Prisma.$UserPayload<ExtArgs>
+      story: Prisma.$StoryPayload<ExtArgs> | null
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: number
+      userId: string
+      type: $Enums.NotificationType
+      storyId: number | null
+      title: string
+      content: string | null
+      dedupeKey: string
+      readAt: Date | null
+      createdAt: Date
+    }, ExtArgs["result"]["notification"]>
+    composites: {}
+  }
+
+  type NotificationGetPayload<S extends boolean | null | undefined | NotificationDefaultArgs> = $Result.GetResult<Prisma.$NotificationPayload, S>
+
+  type NotificationCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<NotificationFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: NotificationCountAggregateInputType | true
+    }
+
+  export interface NotificationDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Notification'], meta: { name: 'Notification' } }
+    /**
+     * Find zero or one Notification that matches the filter.
+     * @param {NotificationFindUniqueArgs} args - Arguments to find a Notification
+     * @example
+     * // Get one Notification
+     * const notification = await prisma.notification.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends NotificationFindUniqueArgs>(args: SelectSubset<T, NotificationFindUniqueArgs<ExtArgs>>): Prisma__NotificationClient<$Result.GetResult<Prisma.$NotificationPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Notification that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {NotificationFindUniqueOrThrowArgs} args - Arguments to find a Notification
+     * @example
+     * // Get one Notification
+     * const notification = await prisma.notification.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends NotificationFindUniqueOrThrowArgs>(args: SelectSubset<T, NotificationFindUniqueOrThrowArgs<ExtArgs>>): Prisma__NotificationClient<$Result.GetResult<Prisma.$NotificationPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Notification that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {NotificationFindFirstArgs} args - Arguments to find a Notification
+     * @example
+     * // Get one Notification
+     * const notification = await prisma.notification.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends NotificationFindFirstArgs>(args?: SelectSubset<T, NotificationFindFirstArgs<ExtArgs>>): Prisma__NotificationClient<$Result.GetResult<Prisma.$NotificationPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Notification that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {NotificationFindFirstOrThrowArgs} args - Arguments to find a Notification
+     * @example
+     * // Get one Notification
+     * const notification = await prisma.notification.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends NotificationFindFirstOrThrowArgs>(args?: SelectSubset<T, NotificationFindFirstOrThrowArgs<ExtArgs>>): Prisma__NotificationClient<$Result.GetResult<Prisma.$NotificationPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Notifications that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {NotificationFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Notifications
+     * const notifications = await prisma.notification.findMany()
+     * 
+     * // Get first 10 Notifications
+     * const notifications = await prisma.notification.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const notificationWithIdOnly = await prisma.notification.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends NotificationFindManyArgs>(args?: SelectSubset<T, NotificationFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$NotificationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Notification.
+     * @param {NotificationCreateArgs} args - Arguments to create a Notification.
+     * @example
+     * // Create one Notification
+     * const Notification = await prisma.notification.create({
+     *   data: {
+     *     // ... data to create a Notification
+     *   }
+     * })
+     * 
+     */
+    create<T extends NotificationCreateArgs>(args: SelectSubset<T, NotificationCreateArgs<ExtArgs>>): Prisma__NotificationClient<$Result.GetResult<Prisma.$NotificationPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Notifications.
+     * @param {NotificationCreateManyArgs} args - Arguments to create many Notifications.
+     * @example
+     * // Create many Notifications
+     * const notification = await prisma.notification.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends NotificationCreateManyArgs>(args?: SelectSubset<T, NotificationCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Notifications and returns the data saved in the database.
+     * @param {NotificationCreateManyAndReturnArgs} args - Arguments to create many Notifications.
+     * @example
+     * // Create many Notifications
+     * const notification = await prisma.notification.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Notifications and only return the `id`
+     * const notificationWithIdOnly = await prisma.notification.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends NotificationCreateManyAndReturnArgs>(args?: SelectSubset<T, NotificationCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$NotificationPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a Notification.
+     * @param {NotificationDeleteArgs} args - Arguments to delete one Notification.
+     * @example
+     * // Delete one Notification
+     * const Notification = await prisma.notification.delete({
+     *   where: {
+     *     // ... filter to delete one Notification
+     *   }
+     * })
+     * 
+     */
+    delete<T extends NotificationDeleteArgs>(args: SelectSubset<T, NotificationDeleteArgs<ExtArgs>>): Prisma__NotificationClient<$Result.GetResult<Prisma.$NotificationPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Notification.
+     * @param {NotificationUpdateArgs} args - Arguments to update one Notification.
+     * @example
+     * // Update one Notification
+     * const notification = await prisma.notification.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends NotificationUpdateArgs>(args: SelectSubset<T, NotificationUpdateArgs<ExtArgs>>): Prisma__NotificationClient<$Result.GetResult<Prisma.$NotificationPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Notifications.
+     * @param {NotificationDeleteManyArgs} args - Arguments to filter Notifications to delete.
+     * @example
+     * // Delete a few Notifications
+     * const { count } = await prisma.notification.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends NotificationDeleteManyArgs>(args?: SelectSubset<T, NotificationDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Notifications.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {NotificationUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Notifications
+     * const notification = await prisma.notification.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends NotificationUpdateManyArgs>(args: SelectSubset<T, NotificationUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Notifications and returns the data updated in the database.
+     * @param {NotificationUpdateManyAndReturnArgs} args - Arguments to update many Notifications.
+     * @example
+     * // Update many Notifications
+     * const notification = await prisma.notification.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Notifications and only return the `id`
+     * const notificationWithIdOnly = await prisma.notification.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends NotificationUpdateManyAndReturnArgs>(args: SelectSubset<T, NotificationUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$NotificationPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one Notification.
+     * @param {NotificationUpsertArgs} args - Arguments to update or create a Notification.
+     * @example
+     * // Update or create a Notification
+     * const notification = await prisma.notification.upsert({
+     *   create: {
+     *     // ... data to create a Notification
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Notification we want to update
+     *   }
+     * })
+     */
+    upsert<T extends NotificationUpsertArgs>(args: SelectSubset<T, NotificationUpsertArgs<ExtArgs>>): Prisma__NotificationClient<$Result.GetResult<Prisma.$NotificationPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Notifications.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {NotificationCountArgs} args - Arguments to filter Notifications to count.
+     * @example
+     * // Count the number of Notifications
+     * const count = await prisma.notification.count({
+     *   where: {
+     *     // ... the filter for the Notifications we want to count
+     *   }
+     * })
+    **/
+    count<T extends NotificationCountArgs>(
+      args?: Subset<T, NotificationCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], NotificationCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Notification.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {NotificationAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends NotificationAggregateArgs>(args: Subset<T, NotificationAggregateArgs>): Prisma.PrismaPromise<GetNotificationAggregateType<T>>
+
+    /**
+     * Group by Notification.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {NotificationGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends NotificationGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: NotificationGroupByArgs['orderBy'] }
+        : { orderBy?: NotificationGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, NotificationGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetNotificationGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Notification model
+   */
+  readonly fields: NotificationFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Notification.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__NotificationClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    story<T extends Notification$storyArgs<ExtArgs> = {}>(args?: Subset<T, Notification$storyArgs<ExtArgs>>): Prisma__StoryClient<$Result.GetResult<Prisma.$StoryPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Notification model
+   */
+  interface NotificationFieldRefs {
+    readonly id: FieldRef<"Notification", 'Int'>
+    readonly userId: FieldRef<"Notification", 'String'>
+    readonly type: FieldRef<"Notification", 'NotificationType'>
+    readonly storyId: FieldRef<"Notification", 'Int'>
+    readonly title: FieldRef<"Notification", 'String'>
+    readonly content: FieldRef<"Notification", 'String'>
+    readonly dedupeKey: FieldRef<"Notification", 'String'>
+    readonly readAt: FieldRef<"Notification", 'DateTime'>
+    readonly createdAt: FieldRef<"Notification", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Notification findUnique
+   */
+  export type NotificationFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Notification
+     */
+    select?: NotificationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Notification
+     */
+    omit?: NotificationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NotificationInclude<ExtArgs> | null
+    /**
+     * Filter, which Notification to fetch.
+     */
+    where: NotificationWhereUniqueInput
+  }
+
+  /**
+   * Notification findUniqueOrThrow
+   */
+  export type NotificationFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Notification
+     */
+    select?: NotificationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Notification
+     */
+    omit?: NotificationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NotificationInclude<ExtArgs> | null
+    /**
+     * Filter, which Notification to fetch.
+     */
+    where: NotificationWhereUniqueInput
+  }
+
+  /**
+   * Notification findFirst
+   */
+  export type NotificationFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Notification
+     */
+    select?: NotificationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Notification
+     */
+    omit?: NotificationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NotificationInclude<ExtArgs> | null
+    /**
+     * Filter, which Notification to fetch.
+     */
+    where?: NotificationWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Notifications to fetch.
+     */
+    orderBy?: NotificationOrderByWithRelationInput | NotificationOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Notifications.
+     */
+    cursor?: NotificationWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Notifications from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Notifications.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Notifications.
+     */
+    distinct?: NotificationScalarFieldEnum | NotificationScalarFieldEnum[]
+  }
+
+  /**
+   * Notification findFirstOrThrow
+   */
+  export type NotificationFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Notification
+     */
+    select?: NotificationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Notification
+     */
+    omit?: NotificationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NotificationInclude<ExtArgs> | null
+    /**
+     * Filter, which Notification to fetch.
+     */
+    where?: NotificationWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Notifications to fetch.
+     */
+    orderBy?: NotificationOrderByWithRelationInput | NotificationOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Notifications.
+     */
+    cursor?: NotificationWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Notifications from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Notifications.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Notifications.
+     */
+    distinct?: NotificationScalarFieldEnum | NotificationScalarFieldEnum[]
+  }
+
+  /**
+   * Notification findMany
+   */
+  export type NotificationFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Notification
+     */
+    select?: NotificationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Notification
+     */
+    omit?: NotificationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NotificationInclude<ExtArgs> | null
+    /**
+     * Filter, which Notifications to fetch.
+     */
+    where?: NotificationWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Notifications to fetch.
+     */
+    orderBy?: NotificationOrderByWithRelationInput | NotificationOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Notifications.
+     */
+    cursor?: NotificationWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Notifications from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Notifications.
+     */
+    skip?: number
+    distinct?: NotificationScalarFieldEnum | NotificationScalarFieldEnum[]
+  }
+
+  /**
+   * Notification create
+   */
+  export type NotificationCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Notification
+     */
+    select?: NotificationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Notification
+     */
+    omit?: NotificationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NotificationInclude<ExtArgs> | null
+    /**
+     * The data needed to create a Notification.
+     */
+    data: XOR<NotificationCreateInput, NotificationUncheckedCreateInput>
+  }
+
+  /**
+   * Notification createMany
+   */
+  export type NotificationCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Notifications.
+     */
+    data: NotificationCreateManyInput | NotificationCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Notification createManyAndReturn
+   */
+  export type NotificationCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Notification
+     */
+    select?: NotificationSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Notification
+     */
+    omit?: NotificationOmit<ExtArgs> | null
+    /**
+     * The data used to create many Notifications.
+     */
+    data: NotificationCreateManyInput | NotificationCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NotificationIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Notification update
+   */
+  export type NotificationUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Notification
+     */
+    select?: NotificationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Notification
+     */
+    omit?: NotificationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NotificationInclude<ExtArgs> | null
+    /**
+     * The data needed to update a Notification.
+     */
+    data: XOR<NotificationUpdateInput, NotificationUncheckedUpdateInput>
+    /**
+     * Choose, which Notification to update.
+     */
+    where: NotificationWhereUniqueInput
+  }
+
+  /**
+   * Notification updateMany
+   */
+  export type NotificationUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Notifications.
+     */
+    data: XOR<NotificationUpdateManyMutationInput, NotificationUncheckedUpdateManyInput>
+    /**
+     * Filter which Notifications to update
+     */
+    where?: NotificationWhereInput
+    /**
+     * Limit how many Notifications to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Notification updateManyAndReturn
+   */
+  export type NotificationUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Notification
+     */
+    select?: NotificationSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Notification
+     */
+    omit?: NotificationOmit<ExtArgs> | null
+    /**
+     * The data used to update Notifications.
+     */
+    data: XOR<NotificationUpdateManyMutationInput, NotificationUncheckedUpdateManyInput>
+    /**
+     * Filter which Notifications to update
+     */
+    where?: NotificationWhereInput
+    /**
+     * Limit how many Notifications to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NotificationIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Notification upsert
+   */
+  export type NotificationUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Notification
+     */
+    select?: NotificationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Notification
+     */
+    omit?: NotificationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NotificationInclude<ExtArgs> | null
+    /**
+     * The filter to search for the Notification to update in case it exists.
+     */
+    where: NotificationWhereUniqueInput
+    /**
+     * In case the Notification found by the `where` argument doesn't exist, create a new Notification with this data.
+     */
+    create: XOR<NotificationCreateInput, NotificationUncheckedCreateInput>
+    /**
+     * In case the Notification was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<NotificationUpdateInput, NotificationUncheckedUpdateInput>
+  }
+
+  /**
+   * Notification delete
+   */
+  export type NotificationDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Notification
+     */
+    select?: NotificationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Notification
+     */
+    omit?: NotificationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NotificationInclude<ExtArgs> | null
+    /**
+     * Filter which Notification to delete.
+     */
+    where: NotificationWhereUniqueInput
+  }
+
+  /**
+   * Notification deleteMany
+   */
+  export type NotificationDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Notifications to delete
+     */
+    where?: NotificationWhereInput
+    /**
+     * Limit how many Notifications to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * Notification.story
+   */
+  export type Notification$storyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Story
+     */
+    select?: StorySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Story
+     */
+    omit?: StoryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StoryInclude<ExtArgs> | null
+    where?: StoryWhereInput
+  }
+
+  /**
+   * Notification without action
+   */
+  export type NotificationDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Notification
+     */
+    select?: NotificationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Notification
+     */
+    omit?: NotificationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NotificationInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Model Rating
    */
 
@@ -23032,6 +31963,7 @@ export namespace Prisma {
 
   export type RatingCommentMinAggregateOutputType = {
     id: number | null
+    clientSubmissionId: string | null
     content: string | null
     createdAt: Date | null
     updatedAt: Date | null
@@ -23042,6 +31974,7 @@ export namespace Prisma {
 
   export type RatingCommentMaxAggregateOutputType = {
     id: number | null
+    clientSubmissionId: string | null
     content: string | null
     createdAt: Date | null
     updatedAt: Date | null
@@ -23052,6 +31985,7 @@ export namespace Prisma {
 
   export type RatingCommentCountAggregateOutputType = {
     id: number
+    clientSubmissionId: number
     content: number
     createdAt: number
     updatedAt: number
@@ -23076,6 +32010,7 @@ export namespace Prisma {
 
   export type RatingCommentMinAggregateInputType = {
     id?: true
+    clientSubmissionId?: true
     content?: true
     createdAt?: true
     updatedAt?: true
@@ -23086,6 +32021,7 @@ export namespace Prisma {
 
   export type RatingCommentMaxAggregateInputType = {
     id?: true
+    clientSubmissionId?: true
     content?: true
     createdAt?: true
     updatedAt?: true
@@ -23096,6 +32032,7 @@ export namespace Prisma {
 
   export type RatingCommentCountAggregateInputType = {
     id?: true
+    clientSubmissionId?: true
     content?: true
     createdAt?: true
     updatedAt?: true
@@ -23193,6 +32130,7 @@ export namespace Prisma {
 
   export type RatingCommentGroupByOutputType = {
     id: number
+    clientSubmissionId: string | null
     content: string
     createdAt: Date
     updatedAt: Date
@@ -23222,6 +32160,7 @@ export namespace Prisma {
 
   export type RatingCommentSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
+    clientSubmissionId?: boolean
     content?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -23238,6 +32177,7 @@ export namespace Prisma {
 
   export type RatingCommentSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
+    clientSubmissionId?: boolean
     content?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -23251,6 +32191,7 @@ export namespace Prisma {
 
   export type RatingCommentSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
+    clientSubmissionId?: boolean
     content?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -23264,6 +32205,7 @@ export namespace Prisma {
 
   export type RatingCommentSelectScalar = {
     id?: boolean
+    clientSubmissionId?: boolean
     content?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -23272,7 +32214,7 @@ export namespace Prisma {
     parentId?: boolean
   }
 
-  export type RatingCommentOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "content" | "createdAt" | "updatedAt" | "userId" | "ratingId" | "parentId", ExtArgs["result"]["ratingComment"]>
+  export type RatingCommentOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "clientSubmissionId" | "content" | "createdAt" | "updatedAt" | "userId" | "ratingId" | "parentId", ExtArgs["result"]["ratingComment"]>
   export type RatingCommentInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     parent?: boolean | RatingComment$parentArgs<ExtArgs>
     replies?: boolean | RatingComment$repliesArgs<ExtArgs>
@@ -23303,6 +32245,7 @@ export namespace Prisma {
     }
     scalars: $Extensions.GetPayloadResult<{
       id: number
+      clientSubmissionId: string | null
       content: string
       createdAt: Date
       updatedAt: Date
@@ -23738,6 +32681,7 @@ export namespace Prisma {
    */
   interface RatingCommentFieldRefs {
     readonly id: FieldRef<"RatingComment", 'Int'>
+    readonly clientSubmissionId: FieldRef<"RatingComment", 'String'>
     readonly content: FieldRef<"RatingComment", 'String'>
     readonly createdAt: FieldRef<"RatingComment", 'DateTime'>
     readonly updatedAt: FieldRef<"RatingComment", 'DateTime'>
@@ -25345,6 +34289,7 @@ export namespace Prisma {
     id: number | null
     storyId: number | null
     parentId: number | null
+    threadRootId: number | null
     likeCount: number | null
   }
 
@@ -25352,39 +34297,46 @@ export namespace Prisma {
     id: number | null
     storyId: number | null
     parentId: number | null
+    threadRootId: number | null
     likeCount: number | null
   }
 
   export type DiscussMinAggregateOutputType = {
     id: number | null
+    clientSubmissionId: string | null
     content: string | null
     createdAt: Date | null
     updatedAt: Date | null
     userId: string | null
     storyId: number | null
     parentId: number | null
+    threadRootId: number | null
     likeCount: number | null
   }
 
   export type DiscussMaxAggregateOutputType = {
     id: number | null
+    clientSubmissionId: string | null
     content: string | null
     createdAt: Date | null
     updatedAt: Date | null
     userId: string | null
     storyId: number | null
     parentId: number | null
+    threadRootId: number | null
     likeCount: number | null
   }
 
   export type DiscussCountAggregateOutputType = {
     id: number
+    clientSubmissionId: number
     content: number
     createdAt: number
     updatedAt: number
     userId: number
     storyId: number
     parentId: number
+    threadRootId: number
     likeCount: number
     _all: number
   }
@@ -25394,6 +34346,7 @@ export namespace Prisma {
     id?: true
     storyId?: true
     parentId?: true
+    threadRootId?: true
     likeCount?: true
   }
 
@@ -25401,39 +34354,46 @@ export namespace Prisma {
     id?: true
     storyId?: true
     parentId?: true
+    threadRootId?: true
     likeCount?: true
   }
 
   export type DiscussMinAggregateInputType = {
     id?: true
+    clientSubmissionId?: true
     content?: true
     createdAt?: true
     updatedAt?: true
     userId?: true
     storyId?: true
     parentId?: true
+    threadRootId?: true
     likeCount?: true
   }
 
   export type DiscussMaxAggregateInputType = {
     id?: true
+    clientSubmissionId?: true
     content?: true
     createdAt?: true
     updatedAt?: true
     userId?: true
     storyId?: true
     parentId?: true
+    threadRootId?: true
     likeCount?: true
   }
 
   export type DiscussCountAggregateInputType = {
     id?: true
+    clientSubmissionId?: true
     content?: true
     createdAt?: true
     updatedAt?: true
     userId?: true
     storyId?: true
     parentId?: true
+    threadRootId?: true
     likeCount?: true
     _all?: true
   }
@@ -25526,12 +34486,14 @@ export namespace Prisma {
 
   export type DiscussGroupByOutputType = {
     id: number
+    clientSubmissionId: string | null
     content: string
     createdAt: Date
     updatedAt: Date
     userId: string
     storyId: number
     parentId: number | null
+    threadRootId: number | null
     likeCount: number
     _count: DiscussCountAggregateOutputType | null
     _avg: DiscussAvgAggregateOutputType | null
@@ -25556,15 +34518,19 @@ export namespace Prisma {
 
   export type DiscussSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
+    clientSubmissionId?: boolean
     content?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     userId?: boolean
     storyId?: boolean
     parentId?: boolean
+    threadRootId?: boolean
     likeCount?: boolean
     parent?: boolean | Discuss$parentArgs<ExtArgs>
     replies?: boolean | Discuss$repliesArgs<ExtArgs>
+    threadRoot?: boolean | Discuss$threadRootArgs<ExtArgs>
+    threadItems?: boolean | Discuss$threadItemsArgs<ExtArgs>
     story?: boolean | StoryDefaultArgs<ExtArgs>
     user?: boolean | UserDefaultArgs<ExtArgs>
     likes?: boolean | Discuss$likesArgs<ExtArgs>
@@ -25573,47 +34539,57 @@ export namespace Prisma {
 
   export type DiscussSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
+    clientSubmissionId?: boolean
     content?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     userId?: boolean
     storyId?: boolean
     parentId?: boolean
+    threadRootId?: boolean
     likeCount?: boolean
     parent?: boolean | Discuss$parentArgs<ExtArgs>
+    threadRoot?: boolean | Discuss$threadRootArgs<ExtArgs>
     story?: boolean | StoryDefaultArgs<ExtArgs>
     user?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["discuss"]>
 
   export type DiscussSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
+    clientSubmissionId?: boolean
     content?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     userId?: boolean
     storyId?: boolean
     parentId?: boolean
+    threadRootId?: boolean
     likeCount?: boolean
     parent?: boolean | Discuss$parentArgs<ExtArgs>
+    threadRoot?: boolean | Discuss$threadRootArgs<ExtArgs>
     story?: boolean | StoryDefaultArgs<ExtArgs>
     user?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["discuss"]>
 
   export type DiscussSelectScalar = {
     id?: boolean
+    clientSubmissionId?: boolean
     content?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     userId?: boolean
     storyId?: boolean
     parentId?: boolean
+    threadRootId?: boolean
     likeCount?: boolean
   }
 
-  export type DiscussOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "content" | "createdAt" | "updatedAt" | "userId" | "storyId" | "parentId" | "likeCount", ExtArgs["result"]["discuss"]>
+  export type DiscussOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "clientSubmissionId" | "content" | "createdAt" | "updatedAt" | "userId" | "storyId" | "parentId" | "threadRootId" | "likeCount", ExtArgs["result"]["discuss"]>
   export type DiscussInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     parent?: boolean | Discuss$parentArgs<ExtArgs>
     replies?: boolean | Discuss$repliesArgs<ExtArgs>
+    threadRoot?: boolean | Discuss$threadRootArgs<ExtArgs>
+    threadItems?: boolean | Discuss$threadItemsArgs<ExtArgs>
     story?: boolean | StoryDefaultArgs<ExtArgs>
     user?: boolean | UserDefaultArgs<ExtArgs>
     likes?: boolean | Discuss$likesArgs<ExtArgs>
@@ -25621,11 +34597,13 @@ export namespace Prisma {
   }
   export type DiscussIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     parent?: boolean | Discuss$parentArgs<ExtArgs>
+    threadRoot?: boolean | Discuss$threadRootArgs<ExtArgs>
     story?: boolean | StoryDefaultArgs<ExtArgs>
     user?: boolean | UserDefaultArgs<ExtArgs>
   }
   export type DiscussIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     parent?: boolean | Discuss$parentArgs<ExtArgs>
+    threadRoot?: boolean | Discuss$threadRootArgs<ExtArgs>
     story?: boolean | StoryDefaultArgs<ExtArgs>
     user?: boolean | UserDefaultArgs<ExtArgs>
   }
@@ -25635,18 +34613,22 @@ export namespace Prisma {
     objects: {
       parent: Prisma.$DiscussPayload<ExtArgs> | null
       replies: Prisma.$DiscussPayload<ExtArgs>[]
+      threadRoot: Prisma.$DiscussPayload<ExtArgs> | null
+      threadItems: Prisma.$DiscussPayload<ExtArgs>[]
       story: Prisma.$StoryPayload<ExtArgs>
       user: Prisma.$UserPayload<ExtArgs>
       likes: Prisma.$DiscussLikePayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: number
+      clientSubmissionId: string | null
       content: string
       createdAt: Date
       updatedAt: Date
       userId: string
       storyId: number
       parentId: number | null
+      threadRootId: number | null
       likeCount: number
     }, ExtArgs["result"]["discuss"]>
     composites: {}
@@ -26044,6 +35026,8 @@ export namespace Prisma {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     parent<T extends Discuss$parentArgs<ExtArgs> = {}>(args?: Subset<T, Discuss$parentArgs<ExtArgs>>): Prisma__DiscussClient<$Result.GetResult<Prisma.$DiscussPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     replies<T extends Discuss$repliesArgs<ExtArgs> = {}>(args?: Subset<T, Discuss$repliesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DiscussPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    threadRoot<T extends Discuss$threadRootArgs<ExtArgs> = {}>(args?: Subset<T, Discuss$threadRootArgs<ExtArgs>>): Prisma__DiscussClient<$Result.GetResult<Prisma.$DiscussPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    threadItems<T extends Discuss$threadItemsArgs<ExtArgs> = {}>(args?: Subset<T, Discuss$threadItemsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DiscussPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     story<T extends StoryDefaultArgs<ExtArgs> = {}>(args?: Subset<T, StoryDefaultArgs<ExtArgs>>): Prisma__StoryClient<$Result.GetResult<Prisma.$StoryPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     likes<T extends Discuss$likesArgs<ExtArgs> = {}>(args?: Subset<T, Discuss$likesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DiscussLikePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
@@ -26077,12 +35061,14 @@ export namespace Prisma {
    */
   interface DiscussFieldRefs {
     readonly id: FieldRef<"Discuss", 'Int'>
+    readonly clientSubmissionId: FieldRef<"Discuss", 'String'>
     readonly content: FieldRef<"Discuss", 'String'>
     readonly createdAt: FieldRef<"Discuss", 'DateTime'>
     readonly updatedAt: FieldRef<"Discuss", 'DateTime'>
     readonly userId: FieldRef<"Discuss", 'String'>
     readonly storyId: FieldRef<"Discuss", 'Int'>
     readonly parentId: FieldRef<"Discuss", 'Int'>
+    readonly threadRootId: FieldRef<"Discuss", 'Int'>
     readonly likeCount: FieldRef<"Discuss", 'Int'>
   }
     
@@ -26502,6 +35488,49 @@ export namespace Prisma {
    * Discuss.replies
    */
   export type Discuss$repliesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Discuss
+     */
+    select?: DiscussSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Discuss
+     */
+    omit?: DiscussOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DiscussInclude<ExtArgs> | null
+    where?: DiscussWhereInput
+    orderBy?: DiscussOrderByWithRelationInput | DiscussOrderByWithRelationInput[]
+    cursor?: DiscussWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: DiscussScalarFieldEnum | DiscussScalarFieldEnum[]
+  }
+
+  /**
+   * Discuss.threadRoot
+   */
+  export type Discuss$threadRootArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Discuss
+     */
+    select?: DiscussSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Discuss
+     */
+    omit?: DiscussOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DiscussInclude<ExtArgs> | null
+    where?: DiscussWhereInput
+  }
+
+  /**
+   * Discuss.threadItems
+   */
+  export type Discuss$threadItemsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the Discuss
      */
@@ -28819,7 +37848,9 @@ export namespace Prisma {
     potatoToal: 'potatoToal',
     updatedAt: 'updatedAt',
     voteTickets: 'voteTickets',
-    emailVerified: 'emailVerified'
+    emailVerified: 'emailVerified',
+    imageUpdatedAt: 'imageUpdatedAt',
+    authVersion: 'authVersion'
   };
 
   export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
@@ -28862,13 +37893,39 @@ export namespace Prisma {
   export type VerificationTokenScalarFieldEnum = (typeof VerificationTokenScalarFieldEnum)[keyof typeof VerificationTokenScalarFieldEnum]
 
 
+  export const UserAuthTokenScalarFieldEnum: {
+    id: 'id',
+    userId: 'userId',
+    type: 'type',
+    tokenHash: 'tokenHash',
+    targetEmail: 'targetEmail',
+    expiresAt: 'expiresAt',
+    usedAt: 'usedAt',
+    createdAt: 'createdAt'
+  };
+
+  export type UserAuthTokenScalarFieldEnum = (typeof UserAuthTokenScalarFieldEnum)[keyof typeof UserAuthTokenScalarFieldEnum]
+
+
+  export const AuthRateLimitScalarFieldEnum: {
+    keyHash: 'keyHash',
+    failures: 'failures',
+    windowStartedAt: 'windowStartedAt',
+    lockedUntil: 'lockedUntil',
+    updatedAt: 'updatedAt'
+  };
+
+  export type AuthRateLimitScalarFieldEnum = (typeof AuthRateLimitScalarFieldEnum)[keyof typeof AuthRateLimitScalarFieldEnum]
+
+
   export const UserSettingScalarFieldEnum: {
     id: 'id',
     userId: 'userId',
     sortReading: 'sortReading',
     sortMarked: 'sortMarked',
     notifyNewChapter: 'notifyNewChapter',
-    notifyInteraction: 'notifyInteraction'
+    notifyInteraction: 'notifyInteraction',
+    notifyGeneral: 'notifyGeneral'
   };
 
   export type UserSettingScalarFieldEnum = (typeof UserSettingScalarFieldEnum)[keyof typeof UserSettingScalarFieldEnum]
@@ -28880,6 +37937,7 @@ export namespace Prisma {
     slug: 'slug',
     stringUrl: 'stringUrl',
     totalChapters: 'totalChapters',
+    latestChapterAt: 'latestChapterAt',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt',
     uploaderId: 'uploaderId',
@@ -28941,6 +37999,7 @@ export namespace Prisma {
   export const ChapterReadScalarFieldEnum: {
     id: 'id',
     readAt: 'readAt',
+    updatedAt: 'updatedAt',
     userId: 'userId',
     chapterId: 'chapterId'
   };
@@ -28948,15 +38007,50 @@ export namespace Prisma {
   export type ChapterReadScalarFieldEnum = (typeof ChapterReadScalarFieldEnum)[keyof typeof ChapterReadScalarFieldEnum]
 
 
+  export const ChapterReadEventScalarFieldEnum: {
+    id: 'id',
+    readAt: 'readAt',
+    userId: 'userId',
+    storyId: 'storyId',
+    chapterId: 'chapterId'
+  };
+
+  export type ChapterReadEventScalarFieldEnum = (typeof ChapterReadEventScalarFieldEnum)[keyof typeof ChapterReadEventScalarFieldEnum]
+
+
+  export const UserStoryReadingStateScalarFieldEnum: {
+    id: 'id',
+    userId: 'userId',
+    storyId: 'storyId',
+    lastChapterId: 'lastChapterId',
+    lastReadAt: 'lastReadAt',
+    hiddenAt: 'hiddenAt'
+  };
+
+  export type UserStoryReadingStateScalarFieldEnum = (typeof UserStoryReadingStateScalarFieldEnum)[keyof typeof UserStoryReadingStateScalarFieldEnum]
+
+
   export const TopStoryReadScalarFieldEnum: {
     id: 'id',
     storyId: 'storyId',
     readerCount: 'readerCount',
     createdAt: 'createdAt',
-    duration: 'duration'
+    updatedAt: 'updatedAt',
+    windowStart: 'windowStart',
+    windowEnd: 'windowEnd'
   };
 
   export type TopStoryReadScalarFieldEnum = (typeof TopStoryReadScalarFieldEnum)[keyof typeof TopStoryReadScalarFieldEnum]
+
+
+  export const StoryDailyReadStatsScalarFieldEnum: {
+    id: 'id',
+    storyId: 'storyId',
+    date: 'date',
+    readerCount: 'readerCount'
+  };
+
+  export type StoryDailyReadStatsScalarFieldEnum = (typeof StoryDailyReadStatsScalarFieldEnum)[keyof typeof StoryDailyReadStatsScalarFieldEnum]
 
 
   export const TagGroupScalarFieldEnum: {
@@ -28986,6 +38080,31 @@ export namespace Prisma {
   };
 
   export type StoryBookmarkScalarFieldEnum = (typeof StoryBookmarkScalarFieldEnum)[keyof typeof StoryBookmarkScalarFieldEnum]
+
+
+  export const StorySubscriptionScalarFieldEnum: {
+    id: 'id',
+    userId: 'userId',
+    storyId: 'storyId',
+    createdAt: 'createdAt'
+  };
+
+  export type StorySubscriptionScalarFieldEnum = (typeof StorySubscriptionScalarFieldEnum)[keyof typeof StorySubscriptionScalarFieldEnum]
+
+
+  export const NotificationScalarFieldEnum: {
+    id: 'id',
+    userId: 'userId',
+    type: 'type',
+    storyId: 'storyId',
+    title: 'title',
+    content: 'content',
+    dedupeKey: 'dedupeKey',
+    readAt: 'readAt',
+    createdAt: 'createdAt'
+  };
+
+  export type NotificationScalarFieldEnum = (typeof NotificationScalarFieldEnum)[keyof typeof NotificationScalarFieldEnum]
 
 
   export const RatingScalarFieldEnum: {
@@ -29019,6 +38138,7 @@ export namespace Prisma {
 
   export const RatingCommentScalarFieldEnum: {
     id: 'id',
+    clientSubmissionId: 'clientSubmissionId',
     content: 'content',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt',
@@ -29043,12 +38163,14 @@ export namespace Prisma {
 
   export const DiscussScalarFieldEnum: {
     id: 'id',
+    clientSubmissionId: 'clientSubmissionId',
     content: 'content',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt',
     userId: 'userId',
     storyId: 'storyId',
     parentId: 'parentId',
+    threadRootId: 'threadRootId',
     likeCount: 'likeCount'
   };
 
@@ -29178,6 +38300,20 @@ export namespace Prisma {
 
 
   /**
+   * Reference to a field of type 'AuthTokenType'
+   */
+  export type EnumAuthTokenTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'AuthTokenType'>
+    
+
+
+  /**
+   * Reference to a field of type 'AuthTokenType[]'
+   */
+  export type ListEnumAuthTokenTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'AuthTokenType[]'>
+    
+
+
+  /**
    * Reference to a field of type 'SortReadingOption'
    */
   export type EnumSortReadingOptionFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'SortReadingOption'>
@@ -29224,6 +38360,20 @@ export namespace Prisma {
    */
   export type ListFloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float[]'>
     
+
+
+  /**
+   * Reference to a field of type 'NotificationType'
+   */
+  export type EnumNotificationTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'NotificationType'>
+    
+
+
+  /**
+   * Reference to a field of type 'NotificationType[]'
+   */
+  export type ListEnumNotificationTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'NotificationType[]'>
+    
   /**
    * Deep Input Types
    */
@@ -29248,8 +38398,14 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"User"> | Date | string
     voteTickets?: IntFilter<"User"> | number
     emailVerified?: DateTimeNullableFilter<"User"> | Date | string | null
+    imageUpdatedAt?: DateTimeNullableFilter<"User"> | Date | string | null
+    authVersion?: IntFilter<"User"> | number
     accounts?: AccountListRelationFilter
     chaptersRead?: ChapterReadListRelationFilter
+    chapterReadEvents?: ChapterReadEventListRelationFilter
+    readingStates?: UserStoryReadingStateListRelationFilter
+    storySubscriptions?: StorySubscriptionListRelationFilter
+    notifications?: NotificationListRelationFilter
     discussStorys?: DiscussListRelationFilter
     discussesLikes?: DiscussLikeListRelationFilter
     ratingStorys?: RatingListRelationFilter
@@ -29262,6 +38418,7 @@ export namespace Prisma {
     storysFan?: StoryFanListRelationFilter
     votes?: StoryRecommendationListRelationFilter
     setting?: XOR<UserSettingNullableScalarRelationFilter, UserSettingWhereInput> | null
+    authTokens?: UserAuthTokenListRelationFilter
   }
 
   export type UserOrderByWithRelationInput = {
@@ -29280,8 +38437,14 @@ export namespace Prisma {
     updatedAt?: SortOrder
     voteTickets?: SortOrder
     emailVerified?: SortOrderInput | SortOrder
+    imageUpdatedAt?: SortOrderInput | SortOrder
+    authVersion?: SortOrder
     accounts?: AccountOrderByRelationAggregateInput
     chaptersRead?: ChapterReadOrderByRelationAggregateInput
+    chapterReadEvents?: ChapterReadEventOrderByRelationAggregateInput
+    readingStates?: UserStoryReadingStateOrderByRelationAggregateInput
+    storySubscriptions?: StorySubscriptionOrderByRelationAggregateInput
+    notifications?: NotificationOrderByRelationAggregateInput
     discussStorys?: DiscussOrderByRelationAggregateInput
     discussesLikes?: DiscussLikeOrderByRelationAggregateInput
     ratingStorys?: RatingOrderByRelationAggregateInput
@@ -29294,6 +38457,7 @@ export namespace Prisma {
     storysFan?: StoryFanOrderByRelationAggregateInput
     votes?: StoryRecommendationOrderByRelationAggregateInput
     setting?: UserSettingOrderByWithRelationInput
+    authTokens?: UserAuthTokenOrderByRelationAggregateInput
   }
 
   export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -29315,8 +38479,14 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"User"> | Date | string
     voteTickets?: IntFilter<"User"> | number
     emailVerified?: DateTimeNullableFilter<"User"> | Date | string | null
+    imageUpdatedAt?: DateTimeNullableFilter<"User"> | Date | string | null
+    authVersion?: IntFilter<"User"> | number
     accounts?: AccountListRelationFilter
     chaptersRead?: ChapterReadListRelationFilter
+    chapterReadEvents?: ChapterReadEventListRelationFilter
+    readingStates?: UserStoryReadingStateListRelationFilter
+    storySubscriptions?: StorySubscriptionListRelationFilter
+    notifications?: NotificationListRelationFilter
     discussStorys?: DiscussListRelationFilter
     discussesLikes?: DiscussLikeListRelationFilter
     ratingStorys?: RatingListRelationFilter
@@ -29329,6 +38499,7 @@ export namespace Prisma {
     storysFan?: StoryFanListRelationFilter
     votes?: StoryRecommendationListRelationFilter
     setting?: XOR<UserSettingNullableScalarRelationFilter, UserSettingWhereInput> | null
+    authTokens?: UserAuthTokenListRelationFilter
   }, "id" | "email">
 
   export type UserOrderByWithAggregationInput = {
@@ -29347,6 +38518,8 @@ export namespace Prisma {
     updatedAt?: SortOrder
     voteTickets?: SortOrder
     emailVerified?: SortOrderInput | SortOrder
+    imageUpdatedAt?: SortOrderInput | SortOrder
+    authVersion?: SortOrder
     _count?: UserCountOrderByAggregateInput
     _avg?: UserAvgOrderByAggregateInput
     _max?: UserMaxOrderByAggregateInput
@@ -29373,6 +38546,8 @@ export namespace Prisma {
     updatedAt?: DateTimeWithAggregatesFilter<"User"> | Date | string
     voteTickets?: IntWithAggregatesFilter<"User"> | number
     emailVerified?: DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
+    imageUpdatedAt?: DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
+    authVersion?: IntWithAggregatesFilter<"User"> | number
   }
 
   export type AccountWhereInput = {
@@ -29561,6 +38736,130 @@ export namespace Prisma {
     expires?: DateTimeWithAggregatesFilter<"VerificationToken"> | Date | string
   }
 
+  export type UserAuthTokenWhereInput = {
+    AND?: UserAuthTokenWhereInput | UserAuthTokenWhereInput[]
+    OR?: UserAuthTokenWhereInput[]
+    NOT?: UserAuthTokenWhereInput | UserAuthTokenWhereInput[]
+    id?: StringFilter<"UserAuthToken"> | string
+    userId?: StringFilter<"UserAuthToken"> | string
+    type?: EnumAuthTokenTypeFilter<"UserAuthToken"> | $Enums.AuthTokenType
+    tokenHash?: StringFilter<"UserAuthToken"> | string
+    targetEmail?: StringNullableFilter<"UserAuthToken"> | string | null
+    expiresAt?: DateTimeFilter<"UserAuthToken"> | Date | string
+    usedAt?: DateTimeNullableFilter<"UserAuthToken"> | Date | string | null
+    createdAt?: DateTimeFilter<"UserAuthToken"> | Date | string
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }
+
+  export type UserAuthTokenOrderByWithRelationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    type?: SortOrder
+    tokenHash?: SortOrder
+    targetEmail?: SortOrderInput | SortOrder
+    expiresAt?: SortOrder
+    usedAt?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    user?: UserOrderByWithRelationInput
+  }
+
+  export type UserAuthTokenWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    tokenHash?: string
+    AND?: UserAuthTokenWhereInput | UserAuthTokenWhereInput[]
+    OR?: UserAuthTokenWhereInput[]
+    NOT?: UserAuthTokenWhereInput | UserAuthTokenWhereInput[]
+    userId?: StringFilter<"UserAuthToken"> | string
+    type?: EnumAuthTokenTypeFilter<"UserAuthToken"> | $Enums.AuthTokenType
+    targetEmail?: StringNullableFilter<"UserAuthToken"> | string | null
+    expiresAt?: DateTimeFilter<"UserAuthToken"> | Date | string
+    usedAt?: DateTimeNullableFilter<"UserAuthToken"> | Date | string | null
+    createdAt?: DateTimeFilter<"UserAuthToken"> | Date | string
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }, "id" | "tokenHash">
+
+  export type UserAuthTokenOrderByWithAggregationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    type?: SortOrder
+    tokenHash?: SortOrder
+    targetEmail?: SortOrderInput | SortOrder
+    expiresAt?: SortOrder
+    usedAt?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    _count?: UserAuthTokenCountOrderByAggregateInput
+    _max?: UserAuthTokenMaxOrderByAggregateInput
+    _min?: UserAuthTokenMinOrderByAggregateInput
+  }
+
+  export type UserAuthTokenScalarWhereWithAggregatesInput = {
+    AND?: UserAuthTokenScalarWhereWithAggregatesInput | UserAuthTokenScalarWhereWithAggregatesInput[]
+    OR?: UserAuthTokenScalarWhereWithAggregatesInput[]
+    NOT?: UserAuthTokenScalarWhereWithAggregatesInput | UserAuthTokenScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"UserAuthToken"> | string
+    userId?: StringWithAggregatesFilter<"UserAuthToken"> | string
+    type?: EnumAuthTokenTypeWithAggregatesFilter<"UserAuthToken"> | $Enums.AuthTokenType
+    tokenHash?: StringWithAggregatesFilter<"UserAuthToken"> | string
+    targetEmail?: StringNullableWithAggregatesFilter<"UserAuthToken"> | string | null
+    expiresAt?: DateTimeWithAggregatesFilter<"UserAuthToken"> | Date | string
+    usedAt?: DateTimeNullableWithAggregatesFilter<"UserAuthToken"> | Date | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"UserAuthToken"> | Date | string
+  }
+
+  export type AuthRateLimitWhereInput = {
+    AND?: AuthRateLimitWhereInput | AuthRateLimitWhereInput[]
+    OR?: AuthRateLimitWhereInput[]
+    NOT?: AuthRateLimitWhereInput | AuthRateLimitWhereInput[]
+    keyHash?: StringFilter<"AuthRateLimit"> | string
+    failures?: IntFilter<"AuthRateLimit"> | number
+    windowStartedAt?: DateTimeFilter<"AuthRateLimit"> | Date | string
+    lockedUntil?: DateTimeNullableFilter<"AuthRateLimit"> | Date | string | null
+    updatedAt?: DateTimeFilter<"AuthRateLimit"> | Date | string
+  }
+
+  export type AuthRateLimitOrderByWithRelationInput = {
+    keyHash?: SortOrder
+    failures?: SortOrder
+    windowStartedAt?: SortOrder
+    lockedUntil?: SortOrderInput | SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type AuthRateLimitWhereUniqueInput = Prisma.AtLeast<{
+    keyHash?: string
+    AND?: AuthRateLimitWhereInput | AuthRateLimitWhereInput[]
+    OR?: AuthRateLimitWhereInput[]
+    NOT?: AuthRateLimitWhereInput | AuthRateLimitWhereInput[]
+    failures?: IntFilter<"AuthRateLimit"> | number
+    windowStartedAt?: DateTimeFilter<"AuthRateLimit"> | Date | string
+    lockedUntil?: DateTimeNullableFilter<"AuthRateLimit"> | Date | string | null
+    updatedAt?: DateTimeFilter<"AuthRateLimit"> | Date | string
+  }, "keyHash">
+
+  export type AuthRateLimitOrderByWithAggregationInput = {
+    keyHash?: SortOrder
+    failures?: SortOrder
+    windowStartedAt?: SortOrder
+    lockedUntil?: SortOrderInput | SortOrder
+    updatedAt?: SortOrder
+    _count?: AuthRateLimitCountOrderByAggregateInput
+    _avg?: AuthRateLimitAvgOrderByAggregateInput
+    _max?: AuthRateLimitMaxOrderByAggregateInput
+    _min?: AuthRateLimitMinOrderByAggregateInput
+    _sum?: AuthRateLimitSumOrderByAggregateInput
+  }
+
+  export type AuthRateLimitScalarWhereWithAggregatesInput = {
+    AND?: AuthRateLimitScalarWhereWithAggregatesInput | AuthRateLimitScalarWhereWithAggregatesInput[]
+    OR?: AuthRateLimitScalarWhereWithAggregatesInput[]
+    NOT?: AuthRateLimitScalarWhereWithAggregatesInput | AuthRateLimitScalarWhereWithAggregatesInput[]
+    keyHash?: StringWithAggregatesFilter<"AuthRateLimit"> | string
+    failures?: IntWithAggregatesFilter<"AuthRateLimit"> | number
+    windowStartedAt?: DateTimeWithAggregatesFilter<"AuthRateLimit"> | Date | string
+    lockedUntil?: DateTimeNullableWithAggregatesFilter<"AuthRateLimit"> | Date | string | null
+    updatedAt?: DateTimeWithAggregatesFilter<"AuthRateLimit"> | Date | string
+  }
+
   export type UserSettingWhereInput = {
     AND?: UserSettingWhereInput | UserSettingWhereInput[]
     OR?: UserSettingWhereInput[]
@@ -29571,6 +38870,7 @@ export namespace Prisma {
     sortMarked?: EnumSortMarkedOptionFilter<"UserSetting"> | $Enums.SortMarkedOption
     notifyNewChapter?: BoolFilter<"UserSetting"> | boolean
     notifyInteraction?: BoolFilter<"UserSetting"> | boolean
+    notifyGeneral?: BoolFilter<"UserSetting"> | boolean
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
   }
 
@@ -29581,6 +38881,7 @@ export namespace Prisma {
     sortMarked?: SortOrder
     notifyNewChapter?: SortOrder
     notifyInteraction?: SortOrder
+    notifyGeneral?: SortOrder
     user?: UserOrderByWithRelationInput
   }
 
@@ -29594,6 +38895,7 @@ export namespace Prisma {
     sortMarked?: EnumSortMarkedOptionFilter<"UserSetting"> | $Enums.SortMarkedOption
     notifyNewChapter?: BoolFilter<"UserSetting"> | boolean
     notifyInteraction?: BoolFilter<"UserSetting"> | boolean
+    notifyGeneral?: BoolFilter<"UserSetting"> | boolean
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
   }, "id" | "userId">
 
@@ -29604,6 +38906,7 @@ export namespace Prisma {
     sortMarked?: SortOrder
     notifyNewChapter?: SortOrder
     notifyInteraction?: SortOrder
+    notifyGeneral?: SortOrder
     _count?: UserSettingCountOrderByAggregateInput
     _avg?: UserSettingAvgOrderByAggregateInput
     _max?: UserSettingMaxOrderByAggregateInput
@@ -29621,6 +38924,7 @@ export namespace Prisma {
     sortMarked?: EnumSortMarkedOptionWithAggregatesFilter<"UserSetting"> | $Enums.SortMarkedOption
     notifyNewChapter?: BoolWithAggregatesFilter<"UserSetting"> | boolean
     notifyInteraction?: BoolWithAggregatesFilter<"UserSetting"> | boolean
+    notifyGeneral?: BoolWithAggregatesFilter<"UserSetting"> | boolean
   }
 
   export type StoryWhereInput = {
@@ -29632,6 +38936,7 @@ export namespace Prisma {
     slug?: StringNullableFilter<"Story"> | string | null
     stringUrl?: StringFilter<"Story"> | string
     totalChapters?: IntNullableFilter<"Story"> | number | null
+    latestChapterAt?: DateTimeNullableFilter<"Story"> | Date | string | null
     createdAt?: DateTimeFilter<"Story"> | Date | string
     updatedAt?: DateTimeFilter<"Story"> | Date | string
     uploaderId?: StringFilter<"Story"> | string
@@ -29647,7 +38952,12 @@ export namespace Prisma {
     fans?: StoryFanListRelationFilter
     votes?: StoryRecommendationListRelationFilter
     stats?: XOR<StoryStatsNullableScalarRelationFilter, StoryStatsWhereInput> | null
+    dailyStats?: StoryDailyReadStatsListRelationFilter
     topReads?: TopStoryReadListRelationFilter
+    readEvents?: ChapterReadEventListRelationFilter
+    readingStates?: UserStoryReadingStateListRelationFilter
+    subscriptions?: StorySubscriptionListRelationFilter
+    notifications?: NotificationListRelationFilter
     tags?: TagListRelationFilter
   }
 
@@ -29657,6 +38967,7 @@ export namespace Prisma {
     slug?: SortOrderInput | SortOrder
     stringUrl?: SortOrder
     totalChapters?: SortOrderInput | SortOrder
+    latestChapterAt?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     uploaderId?: SortOrder
@@ -29672,7 +38983,12 @@ export namespace Prisma {
     fans?: StoryFanOrderByRelationAggregateInput
     votes?: StoryRecommendationOrderByRelationAggregateInput
     stats?: StoryStatsOrderByWithRelationInput
+    dailyStats?: StoryDailyReadStatsOrderByRelationAggregateInput
     topReads?: TopStoryReadOrderByRelationAggregateInput
+    readEvents?: ChapterReadEventOrderByRelationAggregateInput
+    readingStates?: UserStoryReadingStateOrderByRelationAggregateInput
+    subscriptions?: StorySubscriptionOrderByRelationAggregateInput
+    notifications?: NotificationOrderByRelationAggregateInput
     tags?: TagOrderByRelationAggregateInput
   }
 
@@ -29685,6 +39001,7 @@ export namespace Prisma {
     title?: StringFilter<"Story"> | string
     stringUrl?: StringFilter<"Story"> | string
     totalChapters?: IntNullableFilter<"Story"> | number | null
+    latestChapterAt?: DateTimeNullableFilter<"Story"> | Date | string | null
     createdAt?: DateTimeFilter<"Story"> | Date | string
     updatedAt?: DateTimeFilter<"Story"> | Date | string
     uploaderId?: StringFilter<"Story"> | string
@@ -29700,7 +39017,12 @@ export namespace Prisma {
     fans?: StoryFanListRelationFilter
     votes?: StoryRecommendationListRelationFilter
     stats?: XOR<StoryStatsNullableScalarRelationFilter, StoryStatsWhereInput> | null
+    dailyStats?: StoryDailyReadStatsListRelationFilter
     topReads?: TopStoryReadListRelationFilter
+    readEvents?: ChapterReadEventListRelationFilter
+    readingStates?: UserStoryReadingStateListRelationFilter
+    subscriptions?: StorySubscriptionListRelationFilter
+    notifications?: NotificationListRelationFilter
     tags?: TagListRelationFilter
   }, "id" | "slug">
 
@@ -29710,6 +39032,7 @@ export namespace Prisma {
     slug?: SortOrderInput | SortOrder
     stringUrl?: SortOrder
     totalChapters?: SortOrderInput | SortOrder
+    latestChapterAt?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     uploaderId?: SortOrder
@@ -29732,6 +39055,7 @@ export namespace Prisma {
     slug?: StringNullableWithAggregatesFilter<"Story"> | string | null
     stringUrl?: StringWithAggregatesFilter<"Story"> | string
     totalChapters?: IntNullableWithAggregatesFilter<"Story"> | number | null
+    latestChapterAt?: DateTimeNullableWithAggregatesFilter<"Story"> | Date | string | null
     createdAt?: DateTimeWithAggregatesFilter<"Story"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Story"> | Date | string
     uploaderId?: StringWithAggregatesFilter<"Story"> | string
@@ -29936,6 +39260,8 @@ export namespace Prisma {
     storyId?: IntFilter<"Chapter"> | number
     story?: XOR<StoryScalarRelationFilter, StoryWhereInput>
     reads?: ChapterReadListRelationFilter
+    readEvents?: ChapterReadEventListRelationFilter
+    readingStates?: UserStoryReadingStateListRelationFilter
   }
 
   export type ChapterOrderByWithRelationInput = {
@@ -29947,6 +39273,8 @@ export namespace Prisma {
     storyId?: SortOrder
     story?: StoryOrderByWithRelationInput
     reads?: ChapterReadOrderByRelationAggregateInput
+    readEvents?: ChapterReadEventOrderByRelationAggregateInput
+    readingStates?: UserStoryReadingStateOrderByRelationAggregateInput
   }
 
   export type ChapterWhereUniqueInput = Prisma.AtLeast<{
@@ -29961,6 +39289,8 @@ export namespace Prisma {
     storyId?: IntFilter<"Chapter"> | number
     story?: XOR<StoryScalarRelationFilter, StoryWhereInput>
     reads?: ChapterReadListRelationFilter
+    readEvents?: ChapterReadEventListRelationFilter
+    readingStates?: UserStoryReadingStateListRelationFilter
   }, "id">
 
   export type ChapterOrderByWithAggregationInput = {
@@ -29995,6 +39325,7 @@ export namespace Prisma {
     NOT?: ChapterReadWhereInput | ChapterReadWhereInput[]
     id?: IntFilter<"ChapterRead"> | number
     readAt?: DateTimeFilter<"ChapterRead"> | Date | string
+    updatedAt?: DateTimeFilter<"ChapterRead"> | Date | string
     userId?: StringFilter<"ChapterRead"> | string
     chapterId?: IntFilter<"ChapterRead"> | number
     chapter?: XOR<ChapterScalarRelationFilter, ChapterWhereInput>
@@ -30004,6 +39335,7 @@ export namespace Prisma {
   export type ChapterReadOrderByWithRelationInput = {
     id?: SortOrder
     readAt?: SortOrder
+    updatedAt?: SortOrder
     userId?: SortOrder
     chapterId?: SortOrder
     chapter?: ChapterOrderByWithRelationInput
@@ -30017,6 +39349,7 @@ export namespace Prisma {
     OR?: ChapterReadWhereInput[]
     NOT?: ChapterReadWhereInput | ChapterReadWhereInput[]
     readAt?: DateTimeFilter<"ChapterRead"> | Date | string
+    updatedAt?: DateTimeFilter<"ChapterRead"> | Date | string
     userId?: StringFilter<"ChapterRead"> | string
     chapterId?: IntFilter<"ChapterRead"> | number
     chapter?: XOR<ChapterScalarRelationFilter, ChapterWhereInput>
@@ -30026,6 +39359,7 @@ export namespace Prisma {
   export type ChapterReadOrderByWithAggregationInput = {
     id?: SortOrder
     readAt?: SortOrder
+    updatedAt?: SortOrder
     userId?: SortOrder
     chapterId?: SortOrder
     _count?: ChapterReadCountOrderByAggregateInput
@@ -30041,8 +39375,141 @@ export namespace Prisma {
     NOT?: ChapterReadScalarWhereWithAggregatesInput | ChapterReadScalarWhereWithAggregatesInput[]
     id?: IntWithAggregatesFilter<"ChapterRead"> | number
     readAt?: DateTimeWithAggregatesFilter<"ChapterRead"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"ChapterRead"> | Date | string
     userId?: StringWithAggregatesFilter<"ChapterRead"> | string
     chapterId?: IntWithAggregatesFilter<"ChapterRead"> | number
+  }
+
+  export type ChapterReadEventWhereInput = {
+    AND?: ChapterReadEventWhereInput | ChapterReadEventWhereInput[]
+    OR?: ChapterReadEventWhereInput[]
+    NOT?: ChapterReadEventWhereInput | ChapterReadEventWhereInput[]
+    id?: IntFilter<"ChapterReadEvent"> | number
+    readAt?: DateTimeFilter<"ChapterReadEvent"> | Date | string
+    userId?: StringFilter<"ChapterReadEvent"> | string
+    storyId?: IntFilter<"ChapterReadEvent"> | number
+    chapterId?: IntFilter<"ChapterReadEvent"> | number
+    chapter?: XOR<ChapterScalarRelationFilter, ChapterWhereInput>
+    story?: XOR<StoryScalarRelationFilter, StoryWhereInput>
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }
+
+  export type ChapterReadEventOrderByWithRelationInput = {
+    id?: SortOrder
+    readAt?: SortOrder
+    userId?: SortOrder
+    storyId?: SortOrder
+    chapterId?: SortOrder
+    chapter?: ChapterOrderByWithRelationInput
+    story?: StoryOrderByWithRelationInput
+    user?: UserOrderByWithRelationInput
+  }
+
+  export type ChapterReadEventWhereUniqueInput = Prisma.AtLeast<{
+    id?: number
+    AND?: ChapterReadEventWhereInput | ChapterReadEventWhereInput[]
+    OR?: ChapterReadEventWhereInput[]
+    NOT?: ChapterReadEventWhereInput | ChapterReadEventWhereInput[]
+    readAt?: DateTimeFilter<"ChapterReadEvent"> | Date | string
+    userId?: StringFilter<"ChapterReadEvent"> | string
+    storyId?: IntFilter<"ChapterReadEvent"> | number
+    chapterId?: IntFilter<"ChapterReadEvent"> | number
+    chapter?: XOR<ChapterScalarRelationFilter, ChapterWhereInput>
+    story?: XOR<StoryScalarRelationFilter, StoryWhereInput>
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }, "id">
+
+  export type ChapterReadEventOrderByWithAggregationInput = {
+    id?: SortOrder
+    readAt?: SortOrder
+    userId?: SortOrder
+    storyId?: SortOrder
+    chapterId?: SortOrder
+    _count?: ChapterReadEventCountOrderByAggregateInput
+    _avg?: ChapterReadEventAvgOrderByAggregateInput
+    _max?: ChapterReadEventMaxOrderByAggregateInput
+    _min?: ChapterReadEventMinOrderByAggregateInput
+    _sum?: ChapterReadEventSumOrderByAggregateInput
+  }
+
+  export type ChapterReadEventScalarWhereWithAggregatesInput = {
+    AND?: ChapterReadEventScalarWhereWithAggregatesInput | ChapterReadEventScalarWhereWithAggregatesInput[]
+    OR?: ChapterReadEventScalarWhereWithAggregatesInput[]
+    NOT?: ChapterReadEventScalarWhereWithAggregatesInput | ChapterReadEventScalarWhereWithAggregatesInput[]
+    id?: IntWithAggregatesFilter<"ChapterReadEvent"> | number
+    readAt?: DateTimeWithAggregatesFilter<"ChapterReadEvent"> | Date | string
+    userId?: StringWithAggregatesFilter<"ChapterReadEvent"> | string
+    storyId?: IntWithAggregatesFilter<"ChapterReadEvent"> | number
+    chapterId?: IntWithAggregatesFilter<"ChapterReadEvent"> | number
+  }
+
+  export type UserStoryReadingStateWhereInput = {
+    AND?: UserStoryReadingStateWhereInput | UserStoryReadingStateWhereInput[]
+    OR?: UserStoryReadingStateWhereInput[]
+    NOT?: UserStoryReadingStateWhereInput | UserStoryReadingStateWhereInput[]
+    id?: IntFilter<"UserStoryReadingState"> | number
+    userId?: StringFilter<"UserStoryReadingState"> | string
+    storyId?: IntFilter<"UserStoryReadingState"> | number
+    lastChapterId?: IntFilter<"UserStoryReadingState"> | number
+    lastReadAt?: DateTimeFilter<"UserStoryReadingState"> | Date | string
+    hiddenAt?: DateTimeNullableFilter<"UserStoryReadingState"> | Date | string | null
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+    story?: XOR<StoryScalarRelationFilter, StoryWhereInput>
+    lastChapter?: XOR<ChapterScalarRelationFilter, ChapterWhereInput>
+  }
+
+  export type UserStoryReadingStateOrderByWithRelationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    storyId?: SortOrder
+    lastChapterId?: SortOrder
+    lastReadAt?: SortOrder
+    hiddenAt?: SortOrderInput | SortOrder
+    user?: UserOrderByWithRelationInput
+    story?: StoryOrderByWithRelationInput
+    lastChapter?: ChapterOrderByWithRelationInput
+  }
+
+  export type UserStoryReadingStateWhereUniqueInput = Prisma.AtLeast<{
+    id?: number
+    userId_storyId?: UserStoryReadingStateUserIdStoryIdCompoundUniqueInput
+    AND?: UserStoryReadingStateWhereInput | UserStoryReadingStateWhereInput[]
+    OR?: UserStoryReadingStateWhereInput[]
+    NOT?: UserStoryReadingStateWhereInput | UserStoryReadingStateWhereInput[]
+    userId?: StringFilter<"UserStoryReadingState"> | string
+    storyId?: IntFilter<"UserStoryReadingState"> | number
+    lastChapterId?: IntFilter<"UserStoryReadingState"> | number
+    lastReadAt?: DateTimeFilter<"UserStoryReadingState"> | Date | string
+    hiddenAt?: DateTimeNullableFilter<"UserStoryReadingState"> | Date | string | null
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+    story?: XOR<StoryScalarRelationFilter, StoryWhereInput>
+    lastChapter?: XOR<ChapterScalarRelationFilter, ChapterWhereInput>
+  }, "id" | "userId_storyId">
+
+  export type UserStoryReadingStateOrderByWithAggregationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    storyId?: SortOrder
+    lastChapterId?: SortOrder
+    lastReadAt?: SortOrder
+    hiddenAt?: SortOrderInput | SortOrder
+    _count?: UserStoryReadingStateCountOrderByAggregateInput
+    _avg?: UserStoryReadingStateAvgOrderByAggregateInput
+    _max?: UserStoryReadingStateMaxOrderByAggregateInput
+    _min?: UserStoryReadingStateMinOrderByAggregateInput
+    _sum?: UserStoryReadingStateSumOrderByAggregateInput
+  }
+
+  export type UserStoryReadingStateScalarWhereWithAggregatesInput = {
+    AND?: UserStoryReadingStateScalarWhereWithAggregatesInput | UserStoryReadingStateScalarWhereWithAggregatesInput[]
+    OR?: UserStoryReadingStateScalarWhereWithAggregatesInput[]
+    NOT?: UserStoryReadingStateScalarWhereWithAggregatesInput | UserStoryReadingStateScalarWhereWithAggregatesInput[]
+    id?: IntWithAggregatesFilter<"UserStoryReadingState"> | number
+    userId?: StringWithAggregatesFilter<"UserStoryReadingState"> | string
+    storyId?: IntWithAggregatesFilter<"UserStoryReadingState"> | number
+    lastChapterId?: IntWithAggregatesFilter<"UserStoryReadingState"> | number
+    lastReadAt?: DateTimeWithAggregatesFilter<"UserStoryReadingState"> | Date | string
+    hiddenAt?: DateTimeNullableWithAggregatesFilter<"UserStoryReadingState"> | Date | string | null
   }
 
   export type TopStoryReadWhereInput = {
@@ -30053,7 +39520,9 @@ export namespace Prisma {
     storyId?: IntFilter<"TopStoryRead"> | number
     readerCount?: IntFilter<"TopStoryRead"> | number
     createdAt?: DateTimeFilter<"TopStoryRead"> | Date | string
-    duration?: IntFilter<"TopStoryRead"> | number
+    updatedAt?: DateTimeFilter<"TopStoryRead"> | Date | string
+    windowStart?: DateTimeFilter<"TopStoryRead"> | Date | string
+    windowEnd?: DateTimeFilter<"TopStoryRead"> | Date | string
     story?: XOR<StoryScalarRelationFilter, StoryWhereInput>
   }
 
@@ -30062,29 +39531,34 @@ export namespace Prisma {
     storyId?: SortOrder
     readerCount?: SortOrder
     createdAt?: SortOrder
-    duration?: SortOrder
+    updatedAt?: SortOrder
+    windowStart?: SortOrder
+    windowEnd?: SortOrder
     story?: StoryOrderByWithRelationInput
   }
 
   export type TopStoryReadWhereUniqueInput = Prisma.AtLeast<{
     id?: number
-    storyId_duration_createdAt?: TopStoryReadStoryIdDurationCreatedAtCompoundUniqueInput
     AND?: TopStoryReadWhereInput | TopStoryReadWhereInput[]
     OR?: TopStoryReadWhereInput[]
     NOT?: TopStoryReadWhereInput | TopStoryReadWhereInput[]
     storyId?: IntFilter<"TopStoryRead"> | number
     readerCount?: IntFilter<"TopStoryRead"> | number
     createdAt?: DateTimeFilter<"TopStoryRead"> | Date | string
-    duration?: IntFilter<"TopStoryRead"> | number
+    updatedAt?: DateTimeFilter<"TopStoryRead"> | Date | string
+    windowStart?: DateTimeFilter<"TopStoryRead"> | Date | string
+    windowEnd?: DateTimeFilter<"TopStoryRead"> | Date | string
     story?: XOR<StoryScalarRelationFilter, StoryWhereInput>
-  }, "id" | "storyId_duration_createdAt">
+  }, "id">
 
   export type TopStoryReadOrderByWithAggregationInput = {
     id?: SortOrder
     storyId?: SortOrder
     readerCount?: SortOrder
     createdAt?: SortOrder
-    duration?: SortOrder
+    updatedAt?: SortOrder
+    windowStart?: SortOrder
+    windowEnd?: SortOrder
     _count?: TopStoryReadCountOrderByAggregateInput
     _avg?: TopStoryReadAvgOrderByAggregateInput
     _max?: TopStoryReadMaxOrderByAggregateInput
@@ -30100,7 +39574,62 @@ export namespace Prisma {
     storyId?: IntWithAggregatesFilter<"TopStoryRead"> | number
     readerCount?: IntWithAggregatesFilter<"TopStoryRead"> | number
     createdAt?: DateTimeWithAggregatesFilter<"TopStoryRead"> | Date | string
-    duration?: IntWithAggregatesFilter<"TopStoryRead"> | number
+    updatedAt?: DateTimeWithAggregatesFilter<"TopStoryRead"> | Date | string
+    windowStart?: DateTimeWithAggregatesFilter<"TopStoryRead"> | Date | string
+    windowEnd?: DateTimeWithAggregatesFilter<"TopStoryRead"> | Date | string
+  }
+
+  export type StoryDailyReadStatsWhereInput = {
+    AND?: StoryDailyReadStatsWhereInput | StoryDailyReadStatsWhereInput[]
+    OR?: StoryDailyReadStatsWhereInput[]
+    NOT?: StoryDailyReadStatsWhereInput | StoryDailyReadStatsWhereInput[]
+    id?: IntFilter<"StoryDailyReadStats"> | number
+    storyId?: IntFilter<"StoryDailyReadStats"> | number
+    date?: DateTimeFilter<"StoryDailyReadStats"> | Date | string
+    readerCount?: IntFilter<"StoryDailyReadStats"> | number
+    story?: XOR<StoryScalarRelationFilter, StoryWhereInput>
+  }
+
+  export type StoryDailyReadStatsOrderByWithRelationInput = {
+    id?: SortOrder
+    storyId?: SortOrder
+    date?: SortOrder
+    readerCount?: SortOrder
+    story?: StoryOrderByWithRelationInput
+  }
+
+  export type StoryDailyReadStatsWhereUniqueInput = Prisma.AtLeast<{
+    id?: number
+    storyId_date?: StoryDailyReadStatsStoryIdDateCompoundUniqueInput
+    AND?: StoryDailyReadStatsWhereInput | StoryDailyReadStatsWhereInput[]
+    OR?: StoryDailyReadStatsWhereInput[]
+    NOT?: StoryDailyReadStatsWhereInput | StoryDailyReadStatsWhereInput[]
+    storyId?: IntFilter<"StoryDailyReadStats"> | number
+    date?: DateTimeFilter<"StoryDailyReadStats"> | Date | string
+    readerCount?: IntFilter<"StoryDailyReadStats"> | number
+    story?: XOR<StoryScalarRelationFilter, StoryWhereInput>
+  }, "id" | "storyId_date">
+
+  export type StoryDailyReadStatsOrderByWithAggregationInput = {
+    id?: SortOrder
+    storyId?: SortOrder
+    date?: SortOrder
+    readerCount?: SortOrder
+    _count?: StoryDailyReadStatsCountOrderByAggregateInput
+    _avg?: StoryDailyReadStatsAvgOrderByAggregateInput
+    _max?: StoryDailyReadStatsMaxOrderByAggregateInput
+    _min?: StoryDailyReadStatsMinOrderByAggregateInput
+    _sum?: StoryDailyReadStatsSumOrderByAggregateInput
+  }
+
+  export type StoryDailyReadStatsScalarWhereWithAggregatesInput = {
+    AND?: StoryDailyReadStatsScalarWhereWithAggregatesInput | StoryDailyReadStatsScalarWhereWithAggregatesInput[]
+    OR?: StoryDailyReadStatsScalarWhereWithAggregatesInput[]
+    NOT?: StoryDailyReadStatsScalarWhereWithAggregatesInput | StoryDailyReadStatsScalarWhereWithAggregatesInput[]
+    id?: IntWithAggregatesFilter<"StoryDailyReadStats"> | number
+    storyId?: IntWithAggregatesFilter<"StoryDailyReadStats"> | number
+    date?: DateTimeWithAggregatesFilter<"StoryDailyReadStats"> | Date | string
+    readerCount?: IntWithAggregatesFilter<"StoryDailyReadStats"> | number
   }
 
   export type TagGroupWhereInput = {
@@ -30259,6 +39788,142 @@ export namespace Prisma {
     userId?: StringWithAggregatesFilter<"StoryBookmark"> | string
     storyId?: IntWithAggregatesFilter<"StoryBookmark"> | number
     createdAt?: DateTimeWithAggregatesFilter<"StoryBookmark"> | Date | string
+  }
+
+  export type StorySubscriptionWhereInput = {
+    AND?: StorySubscriptionWhereInput | StorySubscriptionWhereInput[]
+    OR?: StorySubscriptionWhereInput[]
+    NOT?: StorySubscriptionWhereInput | StorySubscriptionWhereInput[]
+    id?: IntFilter<"StorySubscription"> | number
+    userId?: StringFilter<"StorySubscription"> | string
+    storyId?: IntFilter<"StorySubscription"> | number
+    createdAt?: DateTimeFilter<"StorySubscription"> | Date | string
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+    story?: XOR<StoryScalarRelationFilter, StoryWhereInput>
+  }
+
+  export type StorySubscriptionOrderByWithRelationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    storyId?: SortOrder
+    createdAt?: SortOrder
+    user?: UserOrderByWithRelationInput
+    story?: StoryOrderByWithRelationInput
+  }
+
+  export type StorySubscriptionWhereUniqueInput = Prisma.AtLeast<{
+    id?: number
+    userId_storyId?: StorySubscriptionUserIdStoryIdCompoundUniqueInput
+    AND?: StorySubscriptionWhereInput | StorySubscriptionWhereInput[]
+    OR?: StorySubscriptionWhereInput[]
+    NOT?: StorySubscriptionWhereInput | StorySubscriptionWhereInput[]
+    userId?: StringFilter<"StorySubscription"> | string
+    storyId?: IntFilter<"StorySubscription"> | number
+    createdAt?: DateTimeFilter<"StorySubscription"> | Date | string
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+    story?: XOR<StoryScalarRelationFilter, StoryWhereInput>
+  }, "id" | "userId_storyId">
+
+  export type StorySubscriptionOrderByWithAggregationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    storyId?: SortOrder
+    createdAt?: SortOrder
+    _count?: StorySubscriptionCountOrderByAggregateInput
+    _avg?: StorySubscriptionAvgOrderByAggregateInput
+    _max?: StorySubscriptionMaxOrderByAggregateInput
+    _min?: StorySubscriptionMinOrderByAggregateInput
+    _sum?: StorySubscriptionSumOrderByAggregateInput
+  }
+
+  export type StorySubscriptionScalarWhereWithAggregatesInput = {
+    AND?: StorySubscriptionScalarWhereWithAggregatesInput | StorySubscriptionScalarWhereWithAggregatesInput[]
+    OR?: StorySubscriptionScalarWhereWithAggregatesInput[]
+    NOT?: StorySubscriptionScalarWhereWithAggregatesInput | StorySubscriptionScalarWhereWithAggregatesInput[]
+    id?: IntWithAggregatesFilter<"StorySubscription"> | number
+    userId?: StringWithAggregatesFilter<"StorySubscription"> | string
+    storyId?: IntWithAggregatesFilter<"StorySubscription"> | number
+    createdAt?: DateTimeWithAggregatesFilter<"StorySubscription"> | Date | string
+  }
+
+  export type NotificationWhereInput = {
+    AND?: NotificationWhereInput | NotificationWhereInput[]
+    OR?: NotificationWhereInput[]
+    NOT?: NotificationWhereInput | NotificationWhereInput[]
+    id?: IntFilter<"Notification"> | number
+    userId?: StringFilter<"Notification"> | string
+    type?: EnumNotificationTypeFilter<"Notification"> | $Enums.NotificationType
+    storyId?: IntNullableFilter<"Notification"> | number | null
+    title?: StringFilter<"Notification"> | string
+    content?: StringNullableFilter<"Notification"> | string | null
+    dedupeKey?: StringFilter<"Notification"> | string
+    readAt?: DateTimeNullableFilter<"Notification"> | Date | string | null
+    createdAt?: DateTimeFilter<"Notification"> | Date | string
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+    story?: XOR<StoryNullableScalarRelationFilter, StoryWhereInput> | null
+  }
+
+  export type NotificationOrderByWithRelationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    type?: SortOrder
+    storyId?: SortOrderInput | SortOrder
+    title?: SortOrder
+    content?: SortOrderInput | SortOrder
+    dedupeKey?: SortOrder
+    readAt?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    user?: UserOrderByWithRelationInput
+    story?: StoryOrderByWithRelationInput
+  }
+
+  export type NotificationWhereUniqueInput = Prisma.AtLeast<{
+    id?: number
+    dedupeKey?: string
+    AND?: NotificationWhereInput | NotificationWhereInput[]
+    OR?: NotificationWhereInput[]
+    NOT?: NotificationWhereInput | NotificationWhereInput[]
+    userId?: StringFilter<"Notification"> | string
+    type?: EnumNotificationTypeFilter<"Notification"> | $Enums.NotificationType
+    storyId?: IntNullableFilter<"Notification"> | number | null
+    title?: StringFilter<"Notification"> | string
+    content?: StringNullableFilter<"Notification"> | string | null
+    readAt?: DateTimeNullableFilter<"Notification"> | Date | string | null
+    createdAt?: DateTimeFilter<"Notification"> | Date | string
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+    story?: XOR<StoryNullableScalarRelationFilter, StoryWhereInput> | null
+  }, "id" | "dedupeKey">
+
+  export type NotificationOrderByWithAggregationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    type?: SortOrder
+    storyId?: SortOrderInput | SortOrder
+    title?: SortOrder
+    content?: SortOrderInput | SortOrder
+    dedupeKey?: SortOrder
+    readAt?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    _count?: NotificationCountOrderByAggregateInput
+    _avg?: NotificationAvgOrderByAggregateInput
+    _max?: NotificationMaxOrderByAggregateInput
+    _min?: NotificationMinOrderByAggregateInput
+    _sum?: NotificationSumOrderByAggregateInput
+  }
+
+  export type NotificationScalarWhereWithAggregatesInput = {
+    AND?: NotificationScalarWhereWithAggregatesInput | NotificationScalarWhereWithAggregatesInput[]
+    OR?: NotificationScalarWhereWithAggregatesInput[]
+    NOT?: NotificationScalarWhereWithAggregatesInput | NotificationScalarWhereWithAggregatesInput[]
+    id?: IntWithAggregatesFilter<"Notification"> | number
+    userId?: StringWithAggregatesFilter<"Notification"> | string
+    type?: EnumNotificationTypeWithAggregatesFilter<"Notification"> | $Enums.NotificationType
+    storyId?: IntNullableWithAggregatesFilter<"Notification"> | number | null
+    title?: StringWithAggregatesFilter<"Notification"> | string
+    content?: StringNullableWithAggregatesFilter<"Notification"> | string | null
+    dedupeKey?: StringWithAggregatesFilter<"Notification"> | string
+    readAt?: DateTimeNullableWithAggregatesFilter<"Notification"> | Date | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"Notification"> | Date | string
   }
 
   export type RatingWhereInput = {
@@ -30429,6 +40094,7 @@ export namespace Prisma {
     OR?: RatingCommentWhereInput[]
     NOT?: RatingCommentWhereInput | RatingCommentWhereInput[]
     id?: IntFilter<"RatingComment"> | number
+    clientSubmissionId?: StringNullableFilter<"RatingComment"> | string | null
     content?: StringFilter<"RatingComment"> | string
     createdAt?: DateTimeFilter<"RatingComment"> | Date | string
     updatedAt?: DateTimeFilter<"RatingComment"> | Date | string
@@ -30444,6 +40110,7 @@ export namespace Prisma {
 
   export type RatingCommentOrderByWithRelationInput = {
     id?: SortOrder
+    clientSubmissionId?: SortOrderInput | SortOrder
     content?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -30459,6 +40126,7 @@ export namespace Prisma {
 
   export type RatingCommentWhereUniqueInput = Prisma.AtLeast<{
     id?: number
+    clientSubmissionId?: string
     AND?: RatingCommentWhereInput | RatingCommentWhereInput[]
     OR?: RatingCommentWhereInput[]
     NOT?: RatingCommentWhereInput | RatingCommentWhereInput[]
@@ -30473,10 +40141,11 @@ export namespace Prisma {
     rating?: XOR<RatingScalarRelationFilter, RatingWhereInput>
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
     userLikes?: RatingCommentLikeListRelationFilter
-  }, "id">
+  }, "id" | "clientSubmissionId">
 
   export type RatingCommentOrderByWithAggregationInput = {
     id?: SortOrder
+    clientSubmissionId?: SortOrderInput | SortOrder
     content?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -30495,6 +40164,7 @@ export namespace Prisma {
     OR?: RatingCommentScalarWhereWithAggregatesInput[]
     NOT?: RatingCommentScalarWhereWithAggregatesInput | RatingCommentScalarWhereWithAggregatesInput[]
     id?: IntWithAggregatesFilter<"RatingComment"> | number
+    clientSubmissionId?: StringNullableWithAggregatesFilter<"RatingComment"> | string | null
     content?: StringWithAggregatesFilter<"RatingComment"> | string
     createdAt?: DateTimeWithAggregatesFilter<"RatingComment"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"RatingComment"> | Date | string
@@ -30569,15 +40239,19 @@ export namespace Prisma {
     OR?: DiscussWhereInput[]
     NOT?: DiscussWhereInput | DiscussWhereInput[]
     id?: IntFilter<"Discuss"> | number
+    clientSubmissionId?: StringNullableFilter<"Discuss"> | string | null
     content?: StringFilter<"Discuss"> | string
     createdAt?: DateTimeFilter<"Discuss"> | Date | string
     updatedAt?: DateTimeFilter<"Discuss"> | Date | string
     userId?: StringFilter<"Discuss"> | string
     storyId?: IntFilter<"Discuss"> | number
     parentId?: IntNullableFilter<"Discuss"> | number | null
+    threadRootId?: IntNullableFilter<"Discuss"> | number | null
     likeCount?: IntFilter<"Discuss"> | number
     parent?: XOR<DiscussNullableScalarRelationFilter, DiscussWhereInput> | null
     replies?: DiscussListRelationFilter
+    threadRoot?: XOR<DiscussNullableScalarRelationFilter, DiscussWhereInput> | null
+    threadItems?: DiscussListRelationFilter
     story?: XOR<StoryScalarRelationFilter, StoryWhereInput>
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
     likes?: DiscussLikeListRelationFilter
@@ -30585,15 +40259,19 @@ export namespace Prisma {
 
   export type DiscussOrderByWithRelationInput = {
     id?: SortOrder
+    clientSubmissionId?: SortOrderInput | SortOrder
     content?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     userId?: SortOrder
     storyId?: SortOrder
     parentId?: SortOrderInput | SortOrder
+    threadRootId?: SortOrderInput | SortOrder
     likeCount?: SortOrder
     parent?: DiscussOrderByWithRelationInput
     replies?: DiscussOrderByRelationAggregateInput
+    threadRoot?: DiscussOrderByWithRelationInput
+    threadItems?: DiscussOrderByRelationAggregateInput
     story?: StoryOrderByWithRelationInput
     user?: UserOrderByWithRelationInput
     likes?: DiscussLikeOrderByRelationAggregateInput
@@ -30601,6 +40279,7 @@ export namespace Prisma {
 
   export type DiscussWhereUniqueInput = Prisma.AtLeast<{
     id?: number
+    clientSubmissionId?: string
     AND?: DiscussWhereInput | DiscussWhereInput[]
     OR?: DiscussWhereInput[]
     NOT?: DiscussWhereInput | DiscussWhereInput[]
@@ -30610,22 +40289,27 @@ export namespace Prisma {
     userId?: StringFilter<"Discuss"> | string
     storyId?: IntFilter<"Discuss"> | number
     parentId?: IntNullableFilter<"Discuss"> | number | null
+    threadRootId?: IntNullableFilter<"Discuss"> | number | null
     likeCount?: IntFilter<"Discuss"> | number
     parent?: XOR<DiscussNullableScalarRelationFilter, DiscussWhereInput> | null
     replies?: DiscussListRelationFilter
+    threadRoot?: XOR<DiscussNullableScalarRelationFilter, DiscussWhereInput> | null
+    threadItems?: DiscussListRelationFilter
     story?: XOR<StoryScalarRelationFilter, StoryWhereInput>
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
     likes?: DiscussLikeListRelationFilter
-  }, "id">
+  }, "id" | "clientSubmissionId">
 
   export type DiscussOrderByWithAggregationInput = {
     id?: SortOrder
+    clientSubmissionId?: SortOrderInput | SortOrder
     content?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     userId?: SortOrder
     storyId?: SortOrder
     parentId?: SortOrderInput | SortOrder
+    threadRootId?: SortOrderInput | SortOrder
     likeCount?: SortOrder
     _count?: DiscussCountOrderByAggregateInput
     _avg?: DiscussAvgOrderByAggregateInput
@@ -30639,12 +40323,14 @@ export namespace Prisma {
     OR?: DiscussScalarWhereWithAggregatesInput[]
     NOT?: DiscussScalarWhereWithAggregatesInput | DiscussScalarWhereWithAggregatesInput[]
     id?: IntWithAggregatesFilter<"Discuss"> | number
+    clientSubmissionId?: StringNullableWithAggregatesFilter<"Discuss"> | string | null
     content?: StringWithAggregatesFilter<"Discuss"> | string
     createdAt?: DateTimeWithAggregatesFilter<"Discuss"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Discuss"> | Date | string
     userId?: StringWithAggregatesFilter<"Discuss"> | string
     storyId?: IntWithAggregatesFilter<"Discuss"> | number
     parentId?: IntNullableWithAggregatesFilter<"Discuss"> | number | null
+    threadRootId?: IntNullableWithAggregatesFilter<"Discuss"> | number | null
     likeCount?: IntWithAggregatesFilter<"Discuss"> | number
   }
 
@@ -30791,8 +40477,14 @@ export namespace Prisma {
     updatedAt?: Date | string
     voteTickets?: number
     emailVerified?: Date | string | null
+    imageUpdatedAt?: Date | string | null
+    authVersion?: number
     accounts?: AccountCreateNestedManyWithoutUserInput
     chaptersRead?: ChapterReadCreateNestedManyWithoutUserInput
+    chapterReadEvents?: ChapterReadEventCreateNestedManyWithoutUserInput
+    readingStates?: UserStoryReadingStateCreateNestedManyWithoutUserInput
+    storySubscriptions?: StorySubscriptionCreateNestedManyWithoutUserInput
+    notifications?: NotificationCreateNestedManyWithoutUserInput
     discussStorys?: DiscussCreateNestedManyWithoutUserInput
     discussesLikes?: DiscussLikeCreateNestedManyWithoutUserInput
     ratingStorys?: RatingCreateNestedManyWithoutUserInput
@@ -30805,6 +40497,7 @@ export namespace Prisma {
     storysFan?: StoryFanCreateNestedManyWithoutUserInput
     votes?: StoryRecommendationCreateNestedManyWithoutUserInput
     setting?: UserSettingCreateNestedOneWithoutUserInput
+    authTokens?: UserAuthTokenCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateInput = {
@@ -30823,8 +40516,14 @@ export namespace Prisma {
     updatedAt?: Date | string
     voteTickets?: number
     emailVerified?: Date | string | null
+    imageUpdatedAt?: Date | string | null
+    authVersion?: number
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     chaptersRead?: ChapterReadUncheckedCreateNestedManyWithoutUserInput
+    chapterReadEvents?: ChapterReadEventUncheckedCreateNestedManyWithoutUserInput
+    readingStates?: UserStoryReadingStateUncheckedCreateNestedManyWithoutUserInput
+    storySubscriptions?: StorySubscriptionUncheckedCreateNestedManyWithoutUserInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
     discussStorys?: DiscussUncheckedCreateNestedManyWithoutUserInput
     discussesLikes?: DiscussLikeUncheckedCreateNestedManyWithoutUserInput
     ratingStorys?: RatingUncheckedCreateNestedManyWithoutUserInput
@@ -30837,6 +40536,7 @@ export namespace Prisma {
     storysFan?: StoryFanUncheckedCreateNestedManyWithoutUserInput
     votes?: StoryRecommendationUncheckedCreateNestedManyWithoutUserInput
     setting?: UserSettingUncheckedCreateNestedOneWithoutUserInput
+    authTokens?: UserAuthTokenUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserUpdateInput = {
@@ -30855,8 +40555,14 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     voteTickets?: IntFieldUpdateOperationsInput | number
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    imageUpdatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    authVersion?: IntFieldUpdateOperationsInput | number
     accounts?: AccountUpdateManyWithoutUserNestedInput
     chaptersRead?: ChapterReadUpdateManyWithoutUserNestedInput
+    chapterReadEvents?: ChapterReadEventUpdateManyWithoutUserNestedInput
+    readingStates?: UserStoryReadingStateUpdateManyWithoutUserNestedInput
+    storySubscriptions?: StorySubscriptionUpdateManyWithoutUserNestedInput
+    notifications?: NotificationUpdateManyWithoutUserNestedInput
     discussStorys?: DiscussUpdateManyWithoutUserNestedInput
     discussesLikes?: DiscussLikeUpdateManyWithoutUserNestedInput
     ratingStorys?: RatingUpdateManyWithoutUserNestedInput
@@ -30869,6 +40575,7 @@ export namespace Prisma {
     storysFan?: StoryFanUpdateManyWithoutUserNestedInput
     votes?: StoryRecommendationUpdateManyWithoutUserNestedInput
     setting?: UserSettingUpdateOneWithoutUserNestedInput
+    authTokens?: UserAuthTokenUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateInput = {
@@ -30887,8 +40594,14 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     voteTickets?: IntFieldUpdateOperationsInput | number
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    imageUpdatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    authVersion?: IntFieldUpdateOperationsInput | number
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     chaptersRead?: ChapterReadUncheckedUpdateManyWithoutUserNestedInput
+    chapterReadEvents?: ChapterReadEventUncheckedUpdateManyWithoutUserNestedInput
+    readingStates?: UserStoryReadingStateUncheckedUpdateManyWithoutUserNestedInput
+    storySubscriptions?: StorySubscriptionUncheckedUpdateManyWithoutUserNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
     discussStorys?: DiscussUncheckedUpdateManyWithoutUserNestedInput
     discussesLikes?: DiscussLikeUncheckedUpdateManyWithoutUserNestedInput
     ratingStorys?: RatingUncheckedUpdateManyWithoutUserNestedInput
@@ -30901,6 +40614,7 @@ export namespace Prisma {
     storysFan?: StoryFanUncheckedUpdateManyWithoutUserNestedInput
     votes?: StoryRecommendationUncheckedUpdateManyWithoutUserNestedInput
     setting?: UserSettingUncheckedUpdateOneWithoutUserNestedInput
+    authTokens?: UserAuthTokenUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateManyInput = {
@@ -30919,6 +40633,8 @@ export namespace Prisma {
     updatedAt?: Date | string
     voteTickets?: number
     emailVerified?: Date | string | null
+    imageUpdatedAt?: Date | string | null
+    authVersion?: number
   }
 
   export type UserUpdateManyMutationInput = {
@@ -30937,6 +40653,8 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     voteTickets?: IntFieldUpdateOperationsInput | number
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    imageUpdatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    authVersion?: IntFieldUpdateOperationsInput | number
   }
 
   export type UserUncheckedUpdateManyInput = {
@@ -30955,6 +40673,8 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     voteTickets?: IntFieldUpdateOperationsInput | number
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    imageUpdatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    authVersion?: IntFieldUpdateOperationsInput | number
   }
 
   export type AccountCreateInput = {
@@ -31151,11 +40871,144 @@ export namespace Prisma {
     expires?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type UserAuthTokenCreateInput = {
+    id?: string
+    type: $Enums.AuthTokenType
+    tokenHash: string
+    targetEmail?: string | null
+    expiresAt: Date | string
+    usedAt?: Date | string | null
+    createdAt?: Date | string
+    user: UserCreateNestedOneWithoutAuthTokensInput
+  }
+
+  export type UserAuthTokenUncheckedCreateInput = {
+    id?: string
+    userId: string
+    type: $Enums.AuthTokenType
+    tokenHash: string
+    targetEmail?: string | null
+    expiresAt: Date | string
+    usedAt?: Date | string | null
+    createdAt?: Date | string
+  }
+
+  export type UserAuthTokenUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    type?: EnumAuthTokenTypeFieldUpdateOperationsInput | $Enums.AuthTokenType
+    tokenHash?: StringFieldUpdateOperationsInput | string
+    targetEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    usedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutAuthTokensNestedInput
+  }
+
+  export type UserAuthTokenUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    type?: EnumAuthTokenTypeFieldUpdateOperationsInput | $Enums.AuthTokenType
+    tokenHash?: StringFieldUpdateOperationsInput | string
+    targetEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    usedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type UserAuthTokenCreateManyInput = {
+    id?: string
+    userId: string
+    type: $Enums.AuthTokenType
+    tokenHash: string
+    targetEmail?: string | null
+    expiresAt: Date | string
+    usedAt?: Date | string | null
+    createdAt?: Date | string
+  }
+
+  export type UserAuthTokenUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    type?: EnumAuthTokenTypeFieldUpdateOperationsInput | $Enums.AuthTokenType
+    tokenHash?: StringFieldUpdateOperationsInput | string
+    targetEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    usedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type UserAuthTokenUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    type?: EnumAuthTokenTypeFieldUpdateOperationsInput | $Enums.AuthTokenType
+    tokenHash?: StringFieldUpdateOperationsInput | string
+    targetEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    usedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AuthRateLimitCreateInput = {
+    keyHash: string
+    failures?: number
+    windowStartedAt?: Date | string
+    lockedUntil?: Date | string | null
+    updatedAt?: Date | string
+  }
+
+  export type AuthRateLimitUncheckedCreateInput = {
+    keyHash: string
+    failures?: number
+    windowStartedAt?: Date | string
+    lockedUntil?: Date | string | null
+    updatedAt?: Date | string
+  }
+
+  export type AuthRateLimitUpdateInput = {
+    keyHash?: StringFieldUpdateOperationsInput | string
+    failures?: IntFieldUpdateOperationsInput | number
+    windowStartedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    lockedUntil?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AuthRateLimitUncheckedUpdateInput = {
+    keyHash?: StringFieldUpdateOperationsInput | string
+    failures?: IntFieldUpdateOperationsInput | number
+    windowStartedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    lockedUntil?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AuthRateLimitCreateManyInput = {
+    keyHash: string
+    failures?: number
+    windowStartedAt?: Date | string
+    lockedUntil?: Date | string | null
+    updatedAt?: Date | string
+  }
+
+  export type AuthRateLimitUpdateManyMutationInput = {
+    keyHash?: StringFieldUpdateOperationsInput | string
+    failures?: IntFieldUpdateOperationsInput | number
+    windowStartedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    lockedUntil?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AuthRateLimitUncheckedUpdateManyInput = {
+    keyHash?: StringFieldUpdateOperationsInput | string
+    failures?: IntFieldUpdateOperationsInput | number
+    windowStartedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    lockedUntil?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type UserSettingCreateInput = {
     sortReading?: $Enums.SortReadingOption
     sortMarked?: $Enums.SortMarkedOption
     notifyNewChapter?: boolean
     notifyInteraction?: boolean
+    notifyGeneral?: boolean
     user: UserCreateNestedOneWithoutSettingInput
   }
 
@@ -31166,6 +41019,7 @@ export namespace Prisma {
     sortMarked?: $Enums.SortMarkedOption
     notifyNewChapter?: boolean
     notifyInteraction?: boolean
+    notifyGeneral?: boolean
   }
 
   export type UserSettingUpdateInput = {
@@ -31173,6 +41027,7 @@ export namespace Prisma {
     sortMarked?: EnumSortMarkedOptionFieldUpdateOperationsInput | $Enums.SortMarkedOption
     notifyNewChapter?: BoolFieldUpdateOperationsInput | boolean
     notifyInteraction?: BoolFieldUpdateOperationsInput | boolean
+    notifyGeneral?: BoolFieldUpdateOperationsInput | boolean
     user?: UserUpdateOneRequiredWithoutSettingNestedInput
   }
 
@@ -31183,6 +41038,7 @@ export namespace Prisma {
     sortMarked?: EnumSortMarkedOptionFieldUpdateOperationsInput | $Enums.SortMarkedOption
     notifyNewChapter?: BoolFieldUpdateOperationsInput | boolean
     notifyInteraction?: BoolFieldUpdateOperationsInput | boolean
+    notifyGeneral?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type UserSettingCreateManyInput = {
@@ -31192,6 +41048,7 @@ export namespace Prisma {
     sortMarked?: $Enums.SortMarkedOption
     notifyNewChapter?: boolean
     notifyInteraction?: boolean
+    notifyGeneral?: boolean
   }
 
   export type UserSettingUpdateManyMutationInput = {
@@ -31199,6 +41056,7 @@ export namespace Prisma {
     sortMarked?: EnumSortMarkedOptionFieldUpdateOperationsInput | $Enums.SortMarkedOption
     notifyNewChapter?: BoolFieldUpdateOperationsInput | boolean
     notifyInteraction?: BoolFieldUpdateOperationsInput | boolean
+    notifyGeneral?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type UserSettingUncheckedUpdateManyInput = {
@@ -31208,6 +41066,7 @@ export namespace Prisma {
     sortMarked?: EnumSortMarkedOptionFieldUpdateOperationsInput | $Enums.SortMarkedOption
     notifyNewChapter?: BoolFieldUpdateOperationsInput | boolean
     notifyInteraction?: BoolFieldUpdateOperationsInput | boolean
+    notifyGeneral?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type StoryCreateInput = {
@@ -31215,6 +41074,7 @@ export namespace Prisma {
     slug?: string | null
     stringUrl: string
     totalChapters?: number | null
+    latestChapterAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     introduce: string
@@ -31228,7 +41088,12 @@ export namespace Prisma {
     fans?: StoryFanCreateNestedManyWithoutStoryInput
     votes?: StoryRecommendationCreateNestedManyWithoutStoryInput
     stats?: StoryStatsCreateNestedOneWithoutStoryInput
+    dailyStats?: StoryDailyReadStatsCreateNestedManyWithoutStoryInput
     topReads?: TopStoryReadCreateNestedManyWithoutStoryInput
+    readEvents?: ChapterReadEventCreateNestedManyWithoutStoryInput
+    readingStates?: UserStoryReadingStateCreateNestedManyWithoutStoryInput
+    subscriptions?: StorySubscriptionCreateNestedManyWithoutStoryInput
+    notifications?: NotificationCreateNestedManyWithoutStoryInput
     tags?: TagCreateNestedManyWithoutStoriesInput
   }
 
@@ -31238,6 +41103,7 @@ export namespace Prisma {
     slug?: string | null
     stringUrl: string
     totalChapters?: number | null
+    latestChapterAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     uploaderId: string
@@ -31251,7 +41117,12 @@ export namespace Prisma {
     fans?: StoryFanUncheckedCreateNestedManyWithoutStoryInput
     votes?: StoryRecommendationUncheckedCreateNestedManyWithoutStoryInput
     stats?: StoryStatsUncheckedCreateNestedOneWithoutStoryInput
+    dailyStats?: StoryDailyReadStatsUncheckedCreateNestedManyWithoutStoryInput
     topReads?: TopStoryReadUncheckedCreateNestedManyWithoutStoryInput
+    readEvents?: ChapterReadEventUncheckedCreateNestedManyWithoutStoryInput
+    readingStates?: UserStoryReadingStateUncheckedCreateNestedManyWithoutStoryInput
+    subscriptions?: StorySubscriptionUncheckedCreateNestedManyWithoutStoryInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutStoryInput
     tags?: TagUncheckedCreateNestedManyWithoutStoriesInput
   }
 
@@ -31260,6 +41131,7 @@ export namespace Prisma {
     slug?: NullableStringFieldUpdateOperationsInput | string | null
     stringUrl?: StringFieldUpdateOperationsInput | string
     totalChapters?: NullableIntFieldUpdateOperationsInput | number | null
+    latestChapterAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     introduce?: StringFieldUpdateOperationsInput | string
@@ -31273,7 +41145,12 @@ export namespace Prisma {
     fans?: StoryFanUpdateManyWithoutStoryNestedInput
     votes?: StoryRecommendationUpdateManyWithoutStoryNestedInput
     stats?: StoryStatsUpdateOneWithoutStoryNestedInput
+    dailyStats?: StoryDailyReadStatsUpdateManyWithoutStoryNestedInput
     topReads?: TopStoryReadUpdateManyWithoutStoryNestedInput
+    readEvents?: ChapterReadEventUpdateManyWithoutStoryNestedInput
+    readingStates?: UserStoryReadingStateUpdateManyWithoutStoryNestedInput
+    subscriptions?: StorySubscriptionUpdateManyWithoutStoryNestedInput
+    notifications?: NotificationUpdateManyWithoutStoryNestedInput
     tags?: TagUpdateManyWithoutStoriesNestedInput
   }
 
@@ -31283,6 +41160,7 @@ export namespace Prisma {
     slug?: NullableStringFieldUpdateOperationsInput | string | null
     stringUrl?: StringFieldUpdateOperationsInput | string
     totalChapters?: NullableIntFieldUpdateOperationsInput | number | null
+    latestChapterAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     uploaderId?: StringFieldUpdateOperationsInput | string
@@ -31296,7 +41174,12 @@ export namespace Prisma {
     fans?: StoryFanUncheckedUpdateManyWithoutStoryNestedInput
     votes?: StoryRecommendationUncheckedUpdateManyWithoutStoryNestedInput
     stats?: StoryStatsUncheckedUpdateOneWithoutStoryNestedInput
+    dailyStats?: StoryDailyReadStatsUncheckedUpdateManyWithoutStoryNestedInput
     topReads?: TopStoryReadUncheckedUpdateManyWithoutStoryNestedInput
+    readEvents?: ChapterReadEventUncheckedUpdateManyWithoutStoryNestedInput
+    readingStates?: UserStoryReadingStateUncheckedUpdateManyWithoutStoryNestedInput
+    subscriptions?: StorySubscriptionUncheckedUpdateManyWithoutStoryNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutStoryNestedInput
     tags?: TagUncheckedUpdateManyWithoutStoriesNestedInput
   }
 
@@ -31306,6 +41189,7 @@ export namespace Prisma {
     slug?: string | null
     stringUrl: string
     totalChapters?: number | null
+    latestChapterAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     uploaderId: string
@@ -31319,6 +41203,7 @@ export namespace Prisma {
     slug?: NullableStringFieldUpdateOperationsInput | string | null
     stringUrl?: StringFieldUpdateOperationsInput | string
     totalChapters?: NullableIntFieldUpdateOperationsInput | number | null
+    latestChapterAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     introduce?: StringFieldUpdateOperationsInput | string
@@ -31331,6 +41216,7 @@ export namespace Prisma {
     slug?: NullableStringFieldUpdateOperationsInput | string | null
     stringUrl?: StringFieldUpdateOperationsInput | string
     totalChapters?: NullableIntFieldUpdateOperationsInput | number | null
+    latestChapterAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     uploaderId?: StringFieldUpdateOperationsInput | string
@@ -31523,6 +41409,8 @@ export namespace Prisma {
     postedAt?: Date | string
     story: StoryCreateNestedOneWithoutChaptersInput
     reads?: ChapterReadCreateNestedManyWithoutChapterInput
+    readEvents?: ChapterReadEventCreateNestedManyWithoutChapterInput
+    readingStates?: UserStoryReadingStateCreateNestedManyWithoutLastChapterInput
   }
 
   export type ChapterUncheckedCreateInput = {
@@ -31533,6 +41421,8 @@ export namespace Prisma {
     postedAt?: Date | string
     storyId: number
     reads?: ChapterReadUncheckedCreateNestedManyWithoutChapterInput
+    readEvents?: ChapterReadEventUncheckedCreateNestedManyWithoutChapterInput
+    readingStates?: UserStoryReadingStateUncheckedCreateNestedManyWithoutLastChapterInput
   }
 
   export type ChapterUpdateInput = {
@@ -31542,6 +41432,8 @@ export namespace Prisma {
     postedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     story?: StoryUpdateOneRequiredWithoutChaptersNestedInput
     reads?: ChapterReadUpdateManyWithoutChapterNestedInput
+    readEvents?: ChapterReadEventUpdateManyWithoutChapterNestedInput
+    readingStates?: UserStoryReadingStateUpdateManyWithoutLastChapterNestedInput
   }
 
   export type ChapterUncheckedUpdateInput = {
@@ -31552,6 +41444,8 @@ export namespace Prisma {
     postedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     storyId?: IntFieldUpdateOperationsInput | number
     reads?: ChapterReadUncheckedUpdateManyWithoutChapterNestedInput
+    readEvents?: ChapterReadEventUncheckedUpdateManyWithoutChapterNestedInput
+    readingStates?: UserStoryReadingStateUncheckedUpdateManyWithoutLastChapterNestedInput
   }
 
   export type ChapterCreateManyInput = {
@@ -31581,6 +41475,7 @@ export namespace Prisma {
 
   export type ChapterReadCreateInput = {
     readAt?: Date | string
+    updatedAt?: Date | string
     chapter: ChapterCreateNestedOneWithoutReadsInput
     user: UserCreateNestedOneWithoutChaptersReadInput
   }
@@ -31588,12 +41483,14 @@ export namespace Prisma {
   export type ChapterReadUncheckedCreateInput = {
     id?: number
     readAt?: Date | string
+    updatedAt?: Date | string
     userId: string
     chapterId: number
   }
 
   export type ChapterReadUpdateInput = {
     readAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     chapter?: ChapterUpdateOneRequiredWithoutReadsNestedInput
     user?: UserUpdateOneRequiredWithoutChaptersReadNestedInput
   }
@@ -31601,6 +41498,7 @@ export namespace Prisma {
   export type ChapterReadUncheckedUpdateInput = {
     id?: IntFieldUpdateOperationsInput | number
     readAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     userId?: StringFieldUpdateOperationsInput | string
     chapterId?: IntFieldUpdateOperationsInput | number
   }
@@ -31608,25 +41506,137 @@ export namespace Prisma {
   export type ChapterReadCreateManyInput = {
     id?: number
     readAt?: Date | string
+    updatedAt?: Date | string
     userId: string
     chapterId: number
   }
 
   export type ChapterReadUpdateManyMutationInput = {
     readAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type ChapterReadUncheckedUpdateManyInput = {
     id?: IntFieldUpdateOperationsInput | number
     readAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     userId?: StringFieldUpdateOperationsInput | string
     chapterId?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type ChapterReadEventCreateInput = {
+    readAt?: Date | string
+    chapter: ChapterCreateNestedOneWithoutReadEventsInput
+    story: StoryCreateNestedOneWithoutReadEventsInput
+    user: UserCreateNestedOneWithoutChapterReadEventsInput
+  }
+
+  export type ChapterReadEventUncheckedCreateInput = {
+    id?: number
+    readAt?: Date | string
+    userId: string
+    storyId: number
+    chapterId: number
+  }
+
+  export type ChapterReadEventUpdateInput = {
+    readAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    chapter?: ChapterUpdateOneRequiredWithoutReadEventsNestedInput
+    story?: StoryUpdateOneRequiredWithoutReadEventsNestedInput
+    user?: UserUpdateOneRequiredWithoutChapterReadEventsNestedInput
+  }
+
+  export type ChapterReadEventUncheckedUpdateInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    readAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    userId?: StringFieldUpdateOperationsInput | string
+    storyId?: IntFieldUpdateOperationsInput | number
+    chapterId?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type ChapterReadEventCreateManyInput = {
+    id?: number
+    readAt?: Date | string
+    userId: string
+    storyId: number
+    chapterId: number
+  }
+
+  export type ChapterReadEventUpdateManyMutationInput = {
+    readAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ChapterReadEventUncheckedUpdateManyInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    readAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    userId?: StringFieldUpdateOperationsInput | string
+    storyId?: IntFieldUpdateOperationsInput | number
+    chapterId?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type UserStoryReadingStateCreateInput = {
+    lastReadAt?: Date | string
+    hiddenAt?: Date | string | null
+    user: UserCreateNestedOneWithoutReadingStatesInput
+    story: StoryCreateNestedOneWithoutReadingStatesInput
+    lastChapter: ChapterCreateNestedOneWithoutReadingStatesInput
+  }
+
+  export type UserStoryReadingStateUncheckedCreateInput = {
+    id?: number
+    userId: string
+    storyId: number
+    lastChapterId: number
+    lastReadAt?: Date | string
+    hiddenAt?: Date | string | null
+  }
+
+  export type UserStoryReadingStateUpdateInput = {
+    lastReadAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    hiddenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    user?: UserUpdateOneRequiredWithoutReadingStatesNestedInput
+    story?: StoryUpdateOneRequiredWithoutReadingStatesNestedInput
+    lastChapter?: ChapterUpdateOneRequiredWithoutReadingStatesNestedInput
+  }
+
+  export type UserStoryReadingStateUncheckedUpdateInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    userId?: StringFieldUpdateOperationsInput | string
+    storyId?: IntFieldUpdateOperationsInput | number
+    lastChapterId?: IntFieldUpdateOperationsInput | number
+    lastReadAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    hiddenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type UserStoryReadingStateCreateManyInput = {
+    id?: number
+    userId: string
+    storyId: number
+    lastChapterId: number
+    lastReadAt?: Date | string
+    hiddenAt?: Date | string | null
+  }
+
+  export type UserStoryReadingStateUpdateManyMutationInput = {
+    lastReadAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    hiddenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type UserStoryReadingStateUncheckedUpdateManyInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    userId?: StringFieldUpdateOperationsInput | string
+    storyId?: IntFieldUpdateOperationsInput | number
+    lastChapterId?: IntFieldUpdateOperationsInput | number
+    lastReadAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    hiddenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type TopStoryReadCreateInput = {
     readerCount: number
     createdAt?: Date | string
-    duration: number
+    updatedAt?: Date | string
+    windowStart: Date | string
+    windowEnd: Date | string
     story: StoryCreateNestedOneWithoutTopReadsInput
   }
 
@@ -31635,13 +41645,17 @@ export namespace Prisma {
     storyId: number
     readerCount: number
     createdAt?: Date | string
-    duration: number
+    updatedAt?: Date | string
+    windowStart: Date | string
+    windowEnd: Date | string
   }
 
   export type TopStoryReadUpdateInput = {
     readerCount?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    duration?: IntFieldUpdateOperationsInput | number
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    windowStart?: DateTimeFieldUpdateOperationsInput | Date | string
+    windowEnd?: DateTimeFieldUpdateOperationsInput | Date | string
     story?: StoryUpdateOneRequiredWithoutTopReadsNestedInput
   }
 
@@ -31650,7 +41664,9 @@ export namespace Prisma {
     storyId?: IntFieldUpdateOperationsInput | number
     readerCount?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    duration?: IntFieldUpdateOperationsInput | number
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    windowStart?: DateTimeFieldUpdateOperationsInput | Date | string
+    windowEnd?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type TopStoryReadCreateManyInput = {
@@ -31658,13 +41674,17 @@ export namespace Prisma {
     storyId: number
     readerCount: number
     createdAt?: Date | string
-    duration: number
+    updatedAt?: Date | string
+    windowStart: Date | string
+    windowEnd: Date | string
   }
 
   export type TopStoryReadUpdateManyMutationInput = {
     readerCount?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    duration?: IntFieldUpdateOperationsInput | number
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    windowStart?: DateTimeFieldUpdateOperationsInput | Date | string
+    windowEnd?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type TopStoryReadUncheckedUpdateManyInput = {
@@ -31672,7 +41692,54 @@ export namespace Prisma {
     storyId?: IntFieldUpdateOperationsInput | number
     readerCount?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    duration?: IntFieldUpdateOperationsInput | number
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    windowStart?: DateTimeFieldUpdateOperationsInput | Date | string
+    windowEnd?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type StoryDailyReadStatsCreateInput = {
+    date: Date | string
+    readerCount?: number
+    story: StoryCreateNestedOneWithoutDailyStatsInput
+  }
+
+  export type StoryDailyReadStatsUncheckedCreateInput = {
+    id?: number
+    storyId: number
+    date: Date | string
+    readerCount?: number
+  }
+
+  export type StoryDailyReadStatsUpdateInput = {
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    readerCount?: IntFieldUpdateOperationsInput | number
+    story?: StoryUpdateOneRequiredWithoutDailyStatsNestedInput
+  }
+
+  export type StoryDailyReadStatsUncheckedUpdateInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    storyId?: IntFieldUpdateOperationsInput | number
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    readerCount?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type StoryDailyReadStatsCreateManyInput = {
+    id?: number
+    storyId: number
+    date: Date | string
+    readerCount?: number
+  }
+
+  export type StoryDailyReadStatsUpdateManyMutationInput = {
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    readerCount?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type StoryDailyReadStatsUncheckedUpdateManyInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    storyId?: IntFieldUpdateOperationsInput | number
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    readerCount?: IntFieldUpdateOperationsInput | number
   }
 
   export type TagGroupCreateInput = {
@@ -31808,6 +41875,129 @@ export namespace Prisma {
     id?: IntFieldUpdateOperationsInput | number
     userId?: StringFieldUpdateOperationsInput | string
     storyId?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type StorySubscriptionCreateInput = {
+    createdAt?: Date | string
+    user: UserCreateNestedOneWithoutStorySubscriptionsInput
+    story: StoryCreateNestedOneWithoutSubscriptionsInput
+  }
+
+  export type StorySubscriptionUncheckedCreateInput = {
+    id?: number
+    userId: string
+    storyId: number
+    createdAt?: Date | string
+  }
+
+  export type StorySubscriptionUpdateInput = {
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutStorySubscriptionsNestedInput
+    story?: StoryUpdateOneRequiredWithoutSubscriptionsNestedInput
+  }
+
+  export type StorySubscriptionUncheckedUpdateInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    userId?: StringFieldUpdateOperationsInput | string
+    storyId?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type StorySubscriptionCreateManyInput = {
+    id?: number
+    userId: string
+    storyId: number
+    createdAt?: Date | string
+  }
+
+  export type StorySubscriptionUpdateManyMutationInput = {
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type StorySubscriptionUncheckedUpdateManyInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    userId?: StringFieldUpdateOperationsInput | string
+    storyId?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type NotificationCreateInput = {
+    type: $Enums.NotificationType
+    title: string
+    content?: string | null
+    dedupeKey: string
+    readAt?: Date | string | null
+    createdAt?: Date | string
+    user: UserCreateNestedOneWithoutNotificationsInput
+    story?: StoryCreateNestedOneWithoutNotificationsInput
+  }
+
+  export type NotificationUncheckedCreateInput = {
+    id?: number
+    userId: string
+    type: $Enums.NotificationType
+    storyId?: number | null
+    title: string
+    content?: string | null
+    dedupeKey: string
+    readAt?: Date | string | null
+    createdAt?: Date | string
+  }
+
+  export type NotificationUpdateInput = {
+    type?: EnumNotificationTypeFieldUpdateOperationsInput | $Enums.NotificationType
+    title?: StringFieldUpdateOperationsInput | string
+    content?: NullableStringFieldUpdateOperationsInput | string | null
+    dedupeKey?: StringFieldUpdateOperationsInput | string
+    readAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutNotificationsNestedInput
+    story?: StoryUpdateOneWithoutNotificationsNestedInput
+  }
+
+  export type NotificationUncheckedUpdateInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    userId?: StringFieldUpdateOperationsInput | string
+    type?: EnumNotificationTypeFieldUpdateOperationsInput | $Enums.NotificationType
+    storyId?: NullableIntFieldUpdateOperationsInput | number | null
+    title?: StringFieldUpdateOperationsInput | string
+    content?: NullableStringFieldUpdateOperationsInput | string | null
+    dedupeKey?: StringFieldUpdateOperationsInput | string
+    readAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type NotificationCreateManyInput = {
+    id?: number
+    userId: string
+    type: $Enums.NotificationType
+    storyId?: number | null
+    title: string
+    content?: string | null
+    dedupeKey: string
+    readAt?: Date | string | null
+    createdAt?: Date | string
+  }
+
+  export type NotificationUpdateManyMutationInput = {
+    type?: EnumNotificationTypeFieldUpdateOperationsInput | $Enums.NotificationType
+    title?: StringFieldUpdateOperationsInput | string
+    content?: NullableStringFieldUpdateOperationsInput | string | null
+    dedupeKey?: StringFieldUpdateOperationsInput | string
+    readAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type NotificationUncheckedUpdateManyInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    userId?: StringFieldUpdateOperationsInput | string
+    type?: EnumNotificationTypeFieldUpdateOperationsInput | $Enums.NotificationType
+    storyId?: NullableIntFieldUpdateOperationsInput | number | null
+    title?: StringFieldUpdateOperationsInput | string
+    content?: NullableStringFieldUpdateOperationsInput | string | null
+    dedupeKey?: StringFieldUpdateOperationsInput | string
+    readAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -31971,6 +42161,7 @@ export namespace Prisma {
   }
 
   export type RatingCommentCreateInput = {
+    clientSubmissionId?: string | null
     content: string
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -31983,6 +42174,7 @@ export namespace Prisma {
 
   export type RatingCommentUncheckedCreateInput = {
     id?: number
+    clientSubmissionId?: string | null
     content: string
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -31994,6 +42186,7 @@ export namespace Prisma {
   }
 
   export type RatingCommentUpdateInput = {
+    clientSubmissionId?: NullableStringFieldUpdateOperationsInput | string | null
     content?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -32006,6 +42199,7 @@ export namespace Prisma {
 
   export type RatingCommentUncheckedUpdateInput = {
     id?: IntFieldUpdateOperationsInput | number
+    clientSubmissionId?: NullableStringFieldUpdateOperationsInput | string | null
     content?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -32018,6 +42212,7 @@ export namespace Prisma {
 
   export type RatingCommentCreateManyInput = {
     id?: number
+    clientSubmissionId?: string | null
     content: string
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -32027,6 +42222,7 @@ export namespace Prisma {
   }
 
   export type RatingCommentUpdateManyMutationInput = {
+    clientSubmissionId?: NullableStringFieldUpdateOperationsInput | string | null
     content?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -32034,6 +42230,7 @@ export namespace Prisma {
 
   export type RatingCommentUncheckedUpdateManyInput = {
     id?: IntFieldUpdateOperationsInput | number
+    clientSubmissionId?: NullableStringFieldUpdateOperationsInput | string | null
     content?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -32094,12 +42291,15 @@ export namespace Prisma {
   }
 
   export type DiscussCreateInput = {
+    clientSubmissionId?: string | null
     content: string
     createdAt?: Date | string
     updatedAt?: Date | string
     likeCount?: number
     parent?: DiscussCreateNestedOneWithoutRepliesInput
     replies?: DiscussCreateNestedManyWithoutParentInput
+    threadRoot?: DiscussCreateNestedOneWithoutThreadItemsInput
+    threadItems?: DiscussCreateNestedManyWithoutThreadRootInput
     story: StoryCreateNestedOneWithoutDiscussesInput
     user: UserCreateNestedOneWithoutDiscussStorysInput
     likes?: DiscussLikeCreateNestedManyWithoutDiscussInput
@@ -32107,24 +42307,30 @@ export namespace Prisma {
 
   export type DiscussUncheckedCreateInput = {
     id?: number
+    clientSubmissionId?: string | null
     content: string
     createdAt?: Date | string
     updatedAt?: Date | string
     userId: string
     storyId: number
     parentId?: number | null
+    threadRootId?: number | null
     likeCount?: number
     replies?: DiscussUncheckedCreateNestedManyWithoutParentInput
+    threadItems?: DiscussUncheckedCreateNestedManyWithoutThreadRootInput
     likes?: DiscussLikeUncheckedCreateNestedManyWithoutDiscussInput
   }
 
   export type DiscussUpdateInput = {
+    clientSubmissionId?: NullableStringFieldUpdateOperationsInput | string | null
     content?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     likeCount?: IntFieldUpdateOperationsInput | number
     parent?: DiscussUpdateOneWithoutRepliesNestedInput
     replies?: DiscussUpdateManyWithoutParentNestedInput
+    threadRoot?: DiscussUpdateOneWithoutThreadItemsNestedInput
+    threadItems?: DiscussUpdateManyWithoutThreadRootNestedInput
     story?: StoryUpdateOneRequiredWithoutDiscussesNestedInput
     user?: UserUpdateOneRequiredWithoutDiscussStorysNestedInput
     likes?: DiscussLikeUpdateManyWithoutDiscussNestedInput
@@ -32132,29 +42338,35 @@ export namespace Prisma {
 
   export type DiscussUncheckedUpdateInput = {
     id?: IntFieldUpdateOperationsInput | number
+    clientSubmissionId?: NullableStringFieldUpdateOperationsInput | string | null
     content?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     userId?: StringFieldUpdateOperationsInput | string
     storyId?: IntFieldUpdateOperationsInput | number
     parentId?: NullableIntFieldUpdateOperationsInput | number | null
+    threadRootId?: NullableIntFieldUpdateOperationsInput | number | null
     likeCount?: IntFieldUpdateOperationsInput | number
     replies?: DiscussUncheckedUpdateManyWithoutParentNestedInput
+    threadItems?: DiscussUncheckedUpdateManyWithoutThreadRootNestedInput
     likes?: DiscussLikeUncheckedUpdateManyWithoutDiscussNestedInput
   }
 
   export type DiscussCreateManyInput = {
     id?: number
+    clientSubmissionId?: string | null
     content: string
     createdAt?: Date | string
     updatedAt?: Date | string
     userId: string
     storyId: number
     parentId?: number | null
+    threadRootId?: number | null
     likeCount?: number
   }
 
   export type DiscussUpdateManyMutationInput = {
+    clientSubmissionId?: NullableStringFieldUpdateOperationsInput | string | null
     content?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -32163,12 +42375,14 @@ export namespace Prisma {
 
   export type DiscussUncheckedUpdateManyInput = {
     id?: IntFieldUpdateOperationsInput | number
+    clientSubmissionId?: NullableStringFieldUpdateOperationsInput | string | null
     content?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     userId?: StringFieldUpdateOperationsInput | string
     storyId?: IntFieldUpdateOperationsInput | number
     parentId?: NullableIntFieldUpdateOperationsInput | number | null
+    threadRootId?: NullableIntFieldUpdateOperationsInput | number | null
     likeCount?: IntFieldUpdateOperationsInput | number
   }
 
@@ -32381,6 +42595,30 @@ export namespace Prisma {
     none?: ChapterReadWhereInput
   }
 
+  export type ChapterReadEventListRelationFilter = {
+    every?: ChapterReadEventWhereInput
+    some?: ChapterReadEventWhereInput
+    none?: ChapterReadEventWhereInput
+  }
+
+  export type UserStoryReadingStateListRelationFilter = {
+    every?: UserStoryReadingStateWhereInput
+    some?: UserStoryReadingStateWhereInput
+    none?: UserStoryReadingStateWhereInput
+  }
+
+  export type StorySubscriptionListRelationFilter = {
+    every?: StorySubscriptionWhereInput
+    some?: StorySubscriptionWhereInput
+    none?: StorySubscriptionWhereInput
+  }
+
+  export type NotificationListRelationFilter = {
+    every?: NotificationWhereInput
+    some?: NotificationWhereInput
+    none?: NotificationWhereInput
+  }
+
   export type DiscussListRelationFilter = {
     every?: DiscussWhereInput
     some?: DiscussWhereInput
@@ -32452,6 +42690,12 @@ export namespace Prisma {
     isNot?: UserSettingWhereInput | null
   }
 
+  export type UserAuthTokenListRelationFilter = {
+    every?: UserAuthTokenWhereInput
+    some?: UserAuthTokenWhereInput
+    none?: UserAuthTokenWhereInput
+  }
+
   export type SortOrderInput = {
     sort: SortOrder
     nulls?: NullsOrder
@@ -32462,6 +42706,22 @@ export namespace Prisma {
   }
 
   export type ChapterReadOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type ChapterReadEventOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type UserStoryReadingStateOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type StorySubscriptionOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type NotificationOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -32509,6 +42769,10 @@ export namespace Prisma {
     _count?: SortOrder
   }
 
+  export type UserAuthTokenOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
   export type UserCountOrderByAggregateInput = {
     id?: SortOrder
     email?: SortOrder
@@ -32525,6 +42789,8 @@ export namespace Prisma {
     updatedAt?: SortOrder
     voteTickets?: SortOrder
     emailVerified?: SortOrder
+    imageUpdatedAt?: SortOrder
+    authVersion?: SortOrder
   }
 
   export type UserAvgOrderByAggregateInput = {
@@ -32533,6 +42799,7 @@ export namespace Prisma {
     keyTotal?: SortOrder
     potatoToal?: SortOrder
     voteTickets?: SortOrder
+    authVersion?: SortOrder
   }
 
   export type UserMaxOrderByAggregateInput = {
@@ -32551,6 +42818,8 @@ export namespace Prisma {
     updatedAt?: SortOrder
     voteTickets?: SortOrder
     emailVerified?: SortOrder
+    imageUpdatedAt?: SortOrder
+    authVersion?: SortOrder
   }
 
   export type UserMinOrderByAggregateInput = {
@@ -32569,6 +42838,8 @@ export namespace Prisma {
     updatedAt?: SortOrder
     voteTickets?: SortOrder
     emailVerified?: SortOrder
+    imageUpdatedAt?: SortOrder
+    authVersion?: SortOrder
   }
 
   export type UserSumOrderByAggregateInput = {
@@ -32577,6 +42848,7 @@ export namespace Prisma {
     keyTotal?: SortOrder
     potatoToal?: SortOrder
     voteTickets?: SortOrder
+    authVersion?: SortOrder
   }
 
   export type StringWithAggregatesFilter<$PrismaModel = never> = {
@@ -32802,6 +43074,88 @@ export namespace Prisma {
     expires?: SortOrder
   }
 
+  export type EnumAuthTokenTypeFilter<$PrismaModel = never> = {
+    equals?: $Enums.AuthTokenType | EnumAuthTokenTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.AuthTokenType[] | ListEnumAuthTokenTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.AuthTokenType[] | ListEnumAuthTokenTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumAuthTokenTypeFilter<$PrismaModel> | $Enums.AuthTokenType
+  }
+
+  export type UserAuthTokenCountOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    type?: SortOrder
+    tokenHash?: SortOrder
+    targetEmail?: SortOrder
+    expiresAt?: SortOrder
+    usedAt?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type UserAuthTokenMaxOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    type?: SortOrder
+    tokenHash?: SortOrder
+    targetEmail?: SortOrder
+    expiresAt?: SortOrder
+    usedAt?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type UserAuthTokenMinOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    type?: SortOrder
+    tokenHash?: SortOrder
+    targetEmail?: SortOrder
+    expiresAt?: SortOrder
+    usedAt?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type EnumAuthTokenTypeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.AuthTokenType | EnumAuthTokenTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.AuthTokenType[] | ListEnumAuthTokenTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.AuthTokenType[] | ListEnumAuthTokenTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumAuthTokenTypeWithAggregatesFilter<$PrismaModel> | $Enums.AuthTokenType
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumAuthTokenTypeFilter<$PrismaModel>
+    _max?: NestedEnumAuthTokenTypeFilter<$PrismaModel>
+  }
+
+  export type AuthRateLimitCountOrderByAggregateInput = {
+    keyHash?: SortOrder
+    failures?: SortOrder
+    windowStartedAt?: SortOrder
+    lockedUntil?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type AuthRateLimitAvgOrderByAggregateInput = {
+    failures?: SortOrder
+  }
+
+  export type AuthRateLimitMaxOrderByAggregateInput = {
+    keyHash?: SortOrder
+    failures?: SortOrder
+    windowStartedAt?: SortOrder
+    lockedUntil?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type AuthRateLimitMinOrderByAggregateInput = {
+    keyHash?: SortOrder
+    failures?: SortOrder
+    windowStartedAt?: SortOrder
+    lockedUntil?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type AuthRateLimitSumOrderByAggregateInput = {
+    failures?: SortOrder
+  }
+
   export type EnumSortReadingOptionFilter<$PrismaModel = never> = {
     equals?: $Enums.SortReadingOption | EnumSortReadingOptionFieldRefInput<$PrismaModel>
     in?: $Enums.SortReadingOption[] | ListEnumSortReadingOptionFieldRefInput<$PrismaModel>
@@ -32828,6 +43182,7 @@ export namespace Prisma {
     sortMarked?: SortOrder
     notifyNewChapter?: SortOrder
     notifyInteraction?: SortOrder
+    notifyGeneral?: SortOrder
   }
 
   export type UserSettingAvgOrderByAggregateInput = {
@@ -32841,6 +43196,7 @@ export namespace Prisma {
     sortMarked?: SortOrder
     notifyNewChapter?: SortOrder
     notifyInteraction?: SortOrder
+    notifyGeneral?: SortOrder
   }
 
   export type UserSettingMinOrderByAggregateInput = {
@@ -32850,6 +43206,7 @@ export namespace Prisma {
     sortMarked?: SortOrder
     notifyNewChapter?: SortOrder
     notifyInteraction?: SortOrder
+    notifyGeneral?: SortOrder
   }
 
   export type UserSettingSumOrderByAggregateInput = {
@@ -32900,6 +43257,12 @@ export namespace Prisma {
     isNot?: StoryStatsWhereInput | null
   }
 
+  export type StoryDailyReadStatsListRelationFilter = {
+    every?: StoryDailyReadStatsWhereInput
+    some?: StoryDailyReadStatsWhereInput
+    none?: StoryDailyReadStatsWhereInput
+  }
+
   export type TopStoryReadListRelationFilter = {
     every?: TopStoryReadWhereInput
     some?: TopStoryReadWhereInput
@@ -32913,6 +43276,10 @@ export namespace Prisma {
   }
 
   export type ChapterOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type StoryDailyReadStatsOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -32930,6 +43297,7 @@ export namespace Prisma {
     slug?: SortOrder
     stringUrl?: SortOrder
     totalChapters?: SortOrder
+    latestChapterAt?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     uploaderId?: SortOrder
@@ -32951,6 +43319,7 @@ export namespace Prisma {
     slug?: SortOrder
     stringUrl?: SortOrder
     totalChapters?: SortOrder
+    latestChapterAt?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     uploaderId?: SortOrder
@@ -32965,6 +43334,7 @@ export namespace Prisma {
     slug?: SortOrder
     stringUrl?: SortOrder
     totalChapters?: SortOrder
+    latestChapterAt?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     uploaderId?: SortOrder
@@ -33182,6 +43552,7 @@ export namespace Prisma {
   export type ChapterReadCountOrderByAggregateInput = {
     id?: SortOrder
     readAt?: SortOrder
+    updatedAt?: SortOrder
     userId?: SortOrder
     chapterId?: SortOrder
   }
@@ -33194,6 +43565,7 @@ export namespace Prisma {
   export type ChapterReadMaxOrderByAggregateInput = {
     id?: SortOrder
     readAt?: SortOrder
+    updatedAt?: SortOrder
     userId?: SortOrder
     chapterId?: SortOrder
   }
@@ -33201,6 +43573,7 @@ export namespace Prisma {
   export type ChapterReadMinOrderByAggregateInput = {
     id?: SortOrder
     readAt?: SortOrder
+    updatedAt?: SortOrder
     userId?: SortOrder
     chapterId?: SortOrder
   }
@@ -33210,10 +43583,84 @@ export namespace Prisma {
     chapterId?: SortOrder
   }
 
-  export type TopStoryReadStoryIdDurationCreatedAtCompoundUniqueInput = {
+  export type ChapterReadEventCountOrderByAggregateInput = {
+    id?: SortOrder
+    readAt?: SortOrder
+    userId?: SortOrder
+    storyId?: SortOrder
+    chapterId?: SortOrder
+  }
+
+  export type ChapterReadEventAvgOrderByAggregateInput = {
+    id?: SortOrder
+    storyId?: SortOrder
+    chapterId?: SortOrder
+  }
+
+  export type ChapterReadEventMaxOrderByAggregateInput = {
+    id?: SortOrder
+    readAt?: SortOrder
+    userId?: SortOrder
+    storyId?: SortOrder
+    chapterId?: SortOrder
+  }
+
+  export type ChapterReadEventMinOrderByAggregateInput = {
+    id?: SortOrder
+    readAt?: SortOrder
+    userId?: SortOrder
+    storyId?: SortOrder
+    chapterId?: SortOrder
+  }
+
+  export type ChapterReadEventSumOrderByAggregateInput = {
+    id?: SortOrder
+    storyId?: SortOrder
+    chapterId?: SortOrder
+  }
+
+  export type UserStoryReadingStateUserIdStoryIdCompoundUniqueInput = {
+    userId: string
     storyId: number
-    duration: number
-    createdAt: Date | string
+  }
+
+  export type UserStoryReadingStateCountOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    storyId?: SortOrder
+    lastChapterId?: SortOrder
+    lastReadAt?: SortOrder
+    hiddenAt?: SortOrder
+  }
+
+  export type UserStoryReadingStateAvgOrderByAggregateInput = {
+    id?: SortOrder
+    storyId?: SortOrder
+    lastChapterId?: SortOrder
+  }
+
+  export type UserStoryReadingStateMaxOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    storyId?: SortOrder
+    lastChapterId?: SortOrder
+    lastReadAt?: SortOrder
+    hiddenAt?: SortOrder
+  }
+
+  export type UserStoryReadingStateMinOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    storyId?: SortOrder
+    lastChapterId?: SortOrder
+    lastReadAt?: SortOrder
+    hiddenAt?: SortOrder
+  }
+
+  export type UserStoryReadingStateSumOrderByAggregateInput = {
+    id?: SortOrder
+    storyId?: SortOrder
+    lastChapterId?: SortOrder
   }
 
   export type TopStoryReadCountOrderByAggregateInput = {
@@ -33221,14 +43668,15 @@ export namespace Prisma {
     storyId?: SortOrder
     readerCount?: SortOrder
     createdAt?: SortOrder
-    duration?: SortOrder
+    updatedAt?: SortOrder
+    windowStart?: SortOrder
+    windowEnd?: SortOrder
   }
 
   export type TopStoryReadAvgOrderByAggregateInput = {
     id?: SortOrder
     storyId?: SortOrder
     readerCount?: SortOrder
-    duration?: SortOrder
   }
 
   export type TopStoryReadMaxOrderByAggregateInput = {
@@ -33236,7 +43684,9 @@ export namespace Prisma {
     storyId?: SortOrder
     readerCount?: SortOrder
     createdAt?: SortOrder
-    duration?: SortOrder
+    updatedAt?: SortOrder
+    windowStart?: SortOrder
+    windowEnd?: SortOrder
   }
 
   export type TopStoryReadMinOrderByAggregateInput = {
@@ -33244,14 +43694,53 @@ export namespace Prisma {
     storyId?: SortOrder
     readerCount?: SortOrder
     createdAt?: SortOrder
-    duration?: SortOrder
+    updatedAt?: SortOrder
+    windowStart?: SortOrder
+    windowEnd?: SortOrder
   }
 
   export type TopStoryReadSumOrderByAggregateInput = {
     id?: SortOrder
     storyId?: SortOrder
     readerCount?: SortOrder
-    duration?: SortOrder
+  }
+
+  export type StoryDailyReadStatsStoryIdDateCompoundUniqueInput = {
+    storyId: number
+    date: Date | string
+  }
+
+  export type StoryDailyReadStatsCountOrderByAggregateInput = {
+    id?: SortOrder
+    storyId?: SortOrder
+    date?: SortOrder
+    readerCount?: SortOrder
+  }
+
+  export type StoryDailyReadStatsAvgOrderByAggregateInput = {
+    id?: SortOrder
+    storyId?: SortOrder
+    readerCount?: SortOrder
+  }
+
+  export type StoryDailyReadStatsMaxOrderByAggregateInput = {
+    id?: SortOrder
+    storyId?: SortOrder
+    date?: SortOrder
+    readerCount?: SortOrder
+  }
+
+  export type StoryDailyReadStatsMinOrderByAggregateInput = {
+    id?: SortOrder
+    storyId?: SortOrder
+    date?: SortOrder
+    readerCount?: SortOrder
+  }
+
+  export type StoryDailyReadStatsSumOrderByAggregateInput = {
+    id?: SortOrder
+    storyId?: SortOrder
+    readerCount?: SortOrder
   }
 
   export type TagGroupCountOrderByAggregateInput = {
@@ -33350,6 +43839,110 @@ export namespace Prisma {
   export type StoryBookmarkSumOrderByAggregateInput = {
     id?: SortOrder
     storyId?: SortOrder
+  }
+
+  export type StorySubscriptionUserIdStoryIdCompoundUniqueInput = {
+    userId: string
+    storyId: number
+  }
+
+  export type StorySubscriptionCountOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    storyId?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type StorySubscriptionAvgOrderByAggregateInput = {
+    id?: SortOrder
+    storyId?: SortOrder
+  }
+
+  export type StorySubscriptionMaxOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    storyId?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type StorySubscriptionMinOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    storyId?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type StorySubscriptionSumOrderByAggregateInput = {
+    id?: SortOrder
+    storyId?: SortOrder
+  }
+
+  export type EnumNotificationTypeFilter<$PrismaModel = never> = {
+    equals?: $Enums.NotificationType | EnumNotificationTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.NotificationType[] | ListEnumNotificationTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.NotificationType[] | ListEnumNotificationTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumNotificationTypeFilter<$PrismaModel> | $Enums.NotificationType
+  }
+
+  export type StoryNullableScalarRelationFilter = {
+    is?: StoryWhereInput | null
+    isNot?: StoryWhereInput | null
+  }
+
+  export type NotificationCountOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    type?: SortOrder
+    storyId?: SortOrder
+    title?: SortOrder
+    content?: SortOrder
+    dedupeKey?: SortOrder
+    readAt?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type NotificationAvgOrderByAggregateInput = {
+    id?: SortOrder
+    storyId?: SortOrder
+  }
+
+  export type NotificationMaxOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    type?: SortOrder
+    storyId?: SortOrder
+    title?: SortOrder
+    content?: SortOrder
+    dedupeKey?: SortOrder
+    readAt?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type NotificationMinOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    type?: SortOrder
+    storyId?: SortOrder
+    title?: SortOrder
+    content?: SortOrder
+    dedupeKey?: SortOrder
+    readAt?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type NotificationSumOrderByAggregateInput = {
+    id?: SortOrder
+    storyId?: SortOrder
+  }
+
+  export type EnumNotificationTypeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.NotificationType | EnumNotificationTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.NotificationType[] | ListEnumNotificationTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.NotificationType[] | ListEnumNotificationTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumNotificationTypeWithAggregatesFilter<$PrismaModel> | $Enums.NotificationType
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumNotificationTypeFilter<$PrismaModel>
+    _max?: NestedEnumNotificationTypeFilter<$PrismaModel>
   }
 
   export type RatingUserIdStoryIdCompoundUniqueInput = {
@@ -33469,6 +44062,7 @@ export namespace Prisma {
 
   export type RatingCommentCountOrderByAggregateInput = {
     id?: SortOrder
+    clientSubmissionId?: SortOrder
     content?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -33485,6 +44079,7 @@ export namespace Prisma {
 
   export type RatingCommentMaxOrderByAggregateInput = {
     id?: SortOrder
+    clientSubmissionId?: SortOrder
     content?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -33495,6 +44090,7 @@ export namespace Prisma {
 
   export type RatingCommentMinOrderByAggregateInput = {
     id?: SortOrder
+    clientSubmissionId?: SortOrder
     content?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -33560,12 +44156,14 @@ export namespace Prisma {
 
   export type DiscussCountOrderByAggregateInput = {
     id?: SortOrder
+    clientSubmissionId?: SortOrder
     content?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     userId?: SortOrder
     storyId?: SortOrder
     parentId?: SortOrder
+    threadRootId?: SortOrder
     likeCount?: SortOrder
   }
 
@@ -33573,28 +44171,33 @@ export namespace Prisma {
     id?: SortOrder
     storyId?: SortOrder
     parentId?: SortOrder
+    threadRootId?: SortOrder
     likeCount?: SortOrder
   }
 
   export type DiscussMaxOrderByAggregateInput = {
     id?: SortOrder
+    clientSubmissionId?: SortOrder
     content?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     userId?: SortOrder
     storyId?: SortOrder
     parentId?: SortOrder
+    threadRootId?: SortOrder
     likeCount?: SortOrder
   }
 
   export type DiscussMinOrderByAggregateInput = {
     id?: SortOrder
+    clientSubmissionId?: SortOrder
     content?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     userId?: SortOrder
     storyId?: SortOrder
     parentId?: SortOrder
+    threadRootId?: SortOrder
     likeCount?: SortOrder
   }
 
@@ -33602,6 +44205,7 @@ export namespace Prisma {
     id?: SortOrder
     storyId?: SortOrder
     parentId?: SortOrder
+    threadRootId?: SortOrder
     likeCount?: SortOrder
   }
 
@@ -33707,6 +44311,34 @@ export namespace Prisma {
     connect?: ChapterReadWhereUniqueInput | ChapterReadWhereUniqueInput[]
   }
 
+  export type ChapterReadEventCreateNestedManyWithoutUserInput = {
+    create?: XOR<ChapterReadEventCreateWithoutUserInput, ChapterReadEventUncheckedCreateWithoutUserInput> | ChapterReadEventCreateWithoutUserInput[] | ChapterReadEventUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: ChapterReadEventCreateOrConnectWithoutUserInput | ChapterReadEventCreateOrConnectWithoutUserInput[]
+    createMany?: ChapterReadEventCreateManyUserInputEnvelope
+    connect?: ChapterReadEventWhereUniqueInput | ChapterReadEventWhereUniqueInput[]
+  }
+
+  export type UserStoryReadingStateCreateNestedManyWithoutUserInput = {
+    create?: XOR<UserStoryReadingStateCreateWithoutUserInput, UserStoryReadingStateUncheckedCreateWithoutUserInput> | UserStoryReadingStateCreateWithoutUserInput[] | UserStoryReadingStateUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: UserStoryReadingStateCreateOrConnectWithoutUserInput | UserStoryReadingStateCreateOrConnectWithoutUserInput[]
+    createMany?: UserStoryReadingStateCreateManyUserInputEnvelope
+    connect?: UserStoryReadingStateWhereUniqueInput | UserStoryReadingStateWhereUniqueInput[]
+  }
+
+  export type StorySubscriptionCreateNestedManyWithoutUserInput = {
+    create?: XOR<StorySubscriptionCreateWithoutUserInput, StorySubscriptionUncheckedCreateWithoutUserInput> | StorySubscriptionCreateWithoutUserInput[] | StorySubscriptionUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: StorySubscriptionCreateOrConnectWithoutUserInput | StorySubscriptionCreateOrConnectWithoutUserInput[]
+    createMany?: StorySubscriptionCreateManyUserInputEnvelope
+    connect?: StorySubscriptionWhereUniqueInput | StorySubscriptionWhereUniqueInput[]
+  }
+
+  export type NotificationCreateNestedManyWithoutUserInput = {
+    create?: XOR<NotificationCreateWithoutUserInput, NotificationUncheckedCreateWithoutUserInput> | NotificationCreateWithoutUserInput[] | NotificationUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: NotificationCreateOrConnectWithoutUserInput | NotificationCreateOrConnectWithoutUserInput[]
+    createMany?: NotificationCreateManyUserInputEnvelope
+    connect?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
+  }
+
   export type DiscussCreateNestedManyWithoutUserInput = {
     create?: XOR<DiscussCreateWithoutUserInput, DiscussUncheckedCreateWithoutUserInput> | DiscussCreateWithoutUserInput[] | DiscussUncheckedCreateWithoutUserInput[]
     connectOrCreate?: DiscussCreateOrConnectWithoutUserInput | DiscussCreateOrConnectWithoutUserInput[]
@@ -33790,6 +44422,13 @@ export namespace Prisma {
     connect?: UserSettingWhereUniqueInput
   }
 
+  export type UserAuthTokenCreateNestedManyWithoutUserInput = {
+    create?: XOR<UserAuthTokenCreateWithoutUserInput, UserAuthTokenUncheckedCreateWithoutUserInput> | UserAuthTokenCreateWithoutUserInput[] | UserAuthTokenUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: UserAuthTokenCreateOrConnectWithoutUserInput | UserAuthTokenCreateOrConnectWithoutUserInput[]
+    createMany?: UserAuthTokenCreateManyUserInputEnvelope
+    connect?: UserAuthTokenWhereUniqueInput | UserAuthTokenWhereUniqueInput[]
+  }
+
   export type AccountUncheckedCreateNestedManyWithoutUserInput = {
     create?: XOR<AccountCreateWithoutUserInput, AccountUncheckedCreateWithoutUserInput> | AccountCreateWithoutUserInput[] | AccountUncheckedCreateWithoutUserInput[]
     connectOrCreate?: AccountCreateOrConnectWithoutUserInput | AccountCreateOrConnectWithoutUserInput[]
@@ -33802,6 +44441,34 @@ export namespace Prisma {
     connectOrCreate?: ChapterReadCreateOrConnectWithoutUserInput | ChapterReadCreateOrConnectWithoutUserInput[]
     createMany?: ChapterReadCreateManyUserInputEnvelope
     connect?: ChapterReadWhereUniqueInput | ChapterReadWhereUniqueInput[]
+  }
+
+  export type ChapterReadEventUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<ChapterReadEventCreateWithoutUserInput, ChapterReadEventUncheckedCreateWithoutUserInput> | ChapterReadEventCreateWithoutUserInput[] | ChapterReadEventUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: ChapterReadEventCreateOrConnectWithoutUserInput | ChapterReadEventCreateOrConnectWithoutUserInput[]
+    createMany?: ChapterReadEventCreateManyUserInputEnvelope
+    connect?: ChapterReadEventWhereUniqueInput | ChapterReadEventWhereUniqueInput[]
+  }
+
+  export type UserStoryReadingStateUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<UserStoryReadingStateCreateWithoutUserInput, UserStoryReadingStateUncheckedCreateWithoutUserInput> | UserStoryReadingStateCreateWithoutUserInput[] | UserStoryReadingStateUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: UserStoryReadingStateCreateOrConnectWithoutUserInput | UserStoryReadingStateCreateOrConnectWithoutUserInput[]
+    createMany?: UserStoryReadingStateCreateManyUserInputEnvelope
+    connect?: UserStoryReadingStateWhereUniqueInput | UserStoryReadingStateWhereUniqueInput[]
+  }
+
+  export type StorySubscriptionUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<StorySubscriptionCreateWithoutUserInput, StorySubscriptionUncheckedCreateWithoutUserInput> | StorySubscriptionCreateWithoutUserInput[] | StorySubscriptionUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: StorySubscriptionCreateOrConnectWithoutUserInput | StorySubscriptionCreateOrConnectWithoutUserInput[]
+    createMany?: StorySubscriptionCreateManyUserInputEnvelope
+    connect?: StorySubscriptionWhereUniqueInput | StorySubscriptionWhereUniqueInput[]
+  }
+
+  export type NotificationUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<NotificationCreateWithoutUserInput, NotificationUncheckedCreateWithoutUserInput> | NotificationCreateWithoutUserInput[] | NotificationUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: NotificationCreateOrConnectWithoutUserInput | NotificationCreateOrConnectWithoutUserInput[]
+    createMany?: NotificationCreateManyUserInputEnvelope
+    connect?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
   }
 
   export type DiscussUncheckedCreateNestedManyWithoutUserInput = {
@@ -33887,6 +44554,13 @@ export namespace Prisma {
     connect?: UserSettingWhereUniqueInput
   }
 
+  export type UserAuthTokenUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<UserAuthTokenCreateWithoutUserInput, UserAuthTokenUncheckedCreateWithoutUserInput> | UserAuthTokenCreateWithoutUserInput[] | UserAuthTokenUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: UserAuthTokenCreateOrConnectWithoutUserInput | UserAuthTokenCreateOrConnectWithoutUserInput[]
+    createMany?: UserAuthTokenCreateManyUserInputEnvelope
+    connect?: UserAuthTokenWhereUniqueInput | UserAuthTokenWhereUniqueInput[]
+  }
+
   export type StringFieldUpdateOperationsInput = {
     set?: string
   }
@@ -33953,6 +44627,62 @@ export namespace Prisma {
     update?: ChapterReadUpdateWithWhereUniqueWithoutUserInput | ChapterReadUpdateWithWhereUniqueWithoutUserInput[]
     updateMany?: ChapterReadUpdateManyWithWhereWithoutUserInput | ChapterReadUpdateManyWithWhereWithoutUserInput[]
     deleteMany?: ChapterReadScalarWhereInput | ChapterReadScalarWhereInput[]
+  }
+
+  export type ChapterReadEventUpdateManyWithoutUserNestedInput = {
+    create?: XOR<ChapterReadEventCreateWithoutUserInput, ChapterReadEventUncheckedCreateWithoutUserInput> | ChapterReadEventCreateWithoutUserInput[] | ChapterReadEventUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: ChapterReadEventCreateOrConnectWithoutUserInput | ChapterReadEventCreateOrConnectWithoutUserInput[]
+    upsert?: ChapterReadEventUpsertWithWhereUniqueWithoutUserInput | ChapterReadEventUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: ChapterReadEventCreateManyUserInputEnvelope
+    set?: ChapterReadEventWhereUniqueInput | ChapterReadEventWhereUniqueInput[]
+    disconnect?: ChapterReadEventWhereUniqueInput | ChapterReadEventWhereUniqueInput[]
+    delete?: ChapterReadEventWhereUniqueInput | ChapterReadEventWhereUniqueInput[]
+    connect?: ChapterReadEventWhereUniqueInput | ChapterReadEventWhereUniqueInput[]
+    update?: ChapterReadEventUpdateWithWhereUniqueWithoutUserInput | ChapterReadEventUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: ChapterReadEventUpdateManyWithWhereWithoutUserInput | ChapterReadEventUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: ChapterReadEventScalarWhereInput | ChapterReadEventScalarWhereInput[]
+  }
+
+  export type UserStoryReadingStateUpdateManyWithoutUserNestedInput = {
+    create?: XOR<UserStoryReadingStateCreateWithoutUserInput, UserStoryReadingStateUncheckedCreateWithoutUserInput> | UserStoryReadingStateCreateWithoutUserInput[] | UserStoryReadingStateUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: UserStoryReadingStateCreateOrConnectWithoutUserInput | UserStoryReadingStateCreateOrConnectWithoutUserInput[]
+    upsert?: UserStoryReadingStateUpsertWithWhereUniqueWithoutUserInput | UserStoryReadingStateUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: UserStoryReadingStateCreateManyUserInputEnvelope
+    set?: UserStoryReadingStateWhereUniqueInput | UserStoryReadingStateWhereUniqueInput[]
+    disconnect?: UserStoryReadingStateWhereUniqueInput | UserStoryReadingStateWhereUniqueInput[]
+    delete?: UserStoryReadingStateWhereUniqueInput | UserStoryReadingStateWhereUniqueInput[]
+    connect?: UserStoryReadingStateWhereUniqueInput | UserStoryReadingStateWhereUniqueInput[]
+    update?: UserStoryReadingStateUpdateWithWhereUniqueWithoutUserInput | UserStoryReadingStateUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: UserStoryReadingStateUpdateManyWithWhereWithoutUserInput | UserStoryReadingStateUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: UserStoryReadingStateScalarWhereInput | UserStoryReadingStateScalarWhereInput[]
+  }
+
+  export type StorySubscriptionUpdateManyWithoutUserNestedInput = {
+    create?: XOR<StorySubscriptionCreateWithoutUserInput, StorySubscriptionUncheckedCreateWithoutUserInput> | StorySubscriptionCreateWithoutUserInput[] | StorySubscriptionUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: StorySubscriptionCreateOrConnectWithoutUserInput | StorySubscriptionCreateOrConnectWithoutUserInput[]
+    upsert?: StorySubscriptionUpsertWithWhereUniqueWithoutUserInput | StorySubscriptionUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: StorySubscriptionCreateManyUserInputEnvelope
+    set?: StorySubscriptionWhereUniqueInput | StorySubscriptionWhereUniqueInput[]
+    disconnect?: StorySubscriptionWhereUniqueInput | StorySubscriptionWhereUniqueInput[]
+    delete?: StorySubscriptionWhereUniqueInput | StorySubscriptionWhereUniqueInput[]
+    connect?: StorySubscriptionWhereUniqueInput | StorySubscriptionWhereUniqueInput[]
+    update?: StorySubscriptionUpdateWithWhereUniqueWithoutUserInput | StorySubscriptionUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: StorySubscriptionUpdateManyWithWhereWithoutUserInput | StorySubscriptionUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: StorySubscriptionScalarWhereInput | StorySubscriptionScalarWhereInput[]
+  }
+
+  export type NotificationUpdateManyWithoutUserNestedInput = {
+    create?: XOR<NotificationCreateWithoutUserInput, NotificationUncheckedCreateWithoutUserInput> | NotificationCreateWithoutUserInput[] | NotificationUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: NotificationCreateOrConnectWithoutUserInput | NotificationCreateOrConnectWithoutUserInput[]
+    upsert?: NotificationUpsertWithWhereUniqueWithoutUserInput | NotificationUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: NotificationCreateManyUserInputEnvelope
+    set?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
+    disconnect?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
+    delete?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
+    connect?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
+    update?: NotificationUpdateWithWhereUniqueWithoutUserInput | NotificationUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: NotificationUpdateManyWithWhereWithoutUserInput | NotificationUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: NotificationScalarWhereInput | NotificationScalarWhereInput[]
   }
 
   export type DiscussUpdateManyWithoutUserNestedInput = {
@@ -34119,6 +44849,20 @@ export namespace Prisma {
     update?: XOR<XOR<UserSettingUpdateToOneWithWhereWithoutUserInput, UserSettingUpdateWithoutUserInput>, UserSettingUncheckedUpdateWithoutUserInput>
   }
 
+  export type UserAuthTokenUpdateManyWithoutUserNestedInput = {
+    create?: XOR<UserAuthTokenCreateWithoutUserInput, UserAuthTokenUncheckedCreateWithoutUserInput> | UserAuthTokenCreateWithoutUserInput[] | UserAuthTokenUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: UserAuthTokenCreateOrConnectWithoutUserInput | UserAuthTokenCreateOrConnectWithoutUserInput[]
+    upsert?: UserAuthTokenUpsertWithWhereUniqueWithoutUserInput | UserAuthTokenUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: UserAuthTokenCreateManyUserInputEnvelope
+    set?: UserAuthTokenWhereUniqueInput | UserAuthTokenWhereUniqueInput[]
+    disconnect?: UserAuthTokenWhereUniqueInput | UserAuthTokenWhereUniqueInput[]
+    delete?: UserAuthTokenWhereUniqueInput | UserAuthTokenWhereUniqueInput[]
+    connect?: UserAuthTokenWhereUniqueInput | UserAuthTokenWhereUniqueInput[]
+    update?: UserAuthTokenUpdateWithWhereUniqueWithoutUserInput | UserAuthTokenUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: UserAuthTokenUpdateManyWithWhereWithoutUserInput | UserAuthTokenUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: UserAuthTokenScalarWhereInput | UserAuthTokenScalarWhereInput[]
+  }
+
   export type AccountUncheckedUpdateManyWithoutUserNestedInput = {
     create?: XOR<AccountCreateWithoutUserInput, AccountUncheckedCreateWithoutUserInput> | AccountCreateWithoutUserInput[] | AccountUncheckedCreateWithoutUserInput[]
     connectOrCreate?: AccountCreateOrConnectWithoutUserInput | AccountCreateOrConnectWithoutUserInput[]
@@ -34145,6 +44889,62 @@ export namespace Prisma {
     update?: ChapterReadUpdateWithWhereUniqueWithoutUserInput | ChapterReadUpdateWithWhereUniqueWithoutUserInput[]
     updateMany?: ChapterReadUpdateManyWithWhereWithoutUserInput | ChapterReadUpdateManyWithWhereWithoutUserInput[]
     deleteMany?: ChapterReadScalarWhereInput | ChapterReadScalarWhereInput[]
+  }
+
+  export type ChapterReadEventUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<ChapterReadEventCreateWithoutUserInput, ChapterReadEventUncheckedCreateWithoutUserInput> | ChapterReadEventCreateWithoutUserInput[] | ChapterReadEventUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: ChapterReadEventCreateOrConnectWithoutUserInput | ChapterReadEventCreateOrConnectWithoutUserInput[]
+    upsert?: ChapterReadEventUpsertWithWhereUniqueWithoutUserInput | ChapterReadEventUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: ChapterReadEventCreateManyUserInputEnvelope
+    set?: ChapterReadEventWhereUniqueInput | ChapterReadEventWhereUniqueInput[]
+    disconnect?: ChapterReadEventWhereUniqueInput | ChapterReadEventWhereUniqueInput[]
+    delete?: ChapterReadEventWhereUniqueInput | ChapterReadEventWhereUniqueInput[]
+    connect?: ChapterReadEventWhereUniqueInput | ChapterReadEventWhereUniqueInput[]
+    update?: ChapterReadEventUpdateWithWhereUniqueWithoutUserInput | ChapterReadEventUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: ChapterReadEventUpdateManyWithWhereWithoutUserInput | ChapterReadEventUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: ChapterReadEventScalarWhereInput | ChapterReadEventScalarWhereInput[]
+  }
+
+  export type UserStoryReadingStateUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<UserStoryReadingStateCreateWithoutUserInput, UserStoryReadingStateUncheckedCreateWithoutUserInput> | UserStoryReadingStateCreateWithoutUserInput[] | UserStoryReadingStateUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: UserStoryReadingStateCreateOrConnectWithoutUserInput | UserStoryReadingStateCreateOrConnectWithoutUserInput[]
+    upsert?: UserStoryReadingStateUpsertWithWhereUniqueWithoutUserInput | UserStoryReadingStateUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: UserStoryReadingStateCreateManyUserInputEnvelope
+    set?: UserStoryReadingStateWhereUniqueInput | UserStoryReadingStateWhereUniqueInput[]
+    disconnect?: UserStoryReadingStateWhereUniqueInput | UserStoryReadingStateWhereUniqueInput[]
+    delete?: UserStoryReadingStateWhereUniqueInput | UserStoryReadingStateWhereUniqueInput[]
+    connect?: UserStoryReadingStateWhereUniqueInput | UserStoryReadingStateWhereUniqueInput[]
+    update?: UserStoryReadingStateUpdateWithWhereUniqueWithoutUserInput | UserStoryReadingStateUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: UserStoryReadingStateUpdateManyWithWhereWithoutUserInput | UserStoryReadingStateUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: UserStoryReadingStateScalarWhereInput | UserStoryReadingStateScalarWhereInput[]
+  }
+
+  export type StorySubscriptionUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<StorySubscriptionCreateWithoutUserInput, StorySubscriptionUncheckedCreateWithoutUserInput> | StorySubscriptionCreateWithoutUserInput[] | StorySubscriptionUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: StorySubscriptionCreateOrConnectWithoutUserInput | StorySubscriptionCreateOrConnectWithoutUserInput[]
+    upsert?: StorySubscriptionUpsertWithWhereUniqueWithoutUserInput | StorySubscriptionUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: StorySubscriptionCreateManyUserInputEnvelope
+    set?: StorySubscriptionWhereUniqueInput | StorySubscriptionWhereUniqueInput[]
+    disconnect?: StorySubscriptionWhereUniqueInput | StorySubscriptionWhereUniqueInput[]
+    delete?: StorySubscriptionWhereUniqueInput | StorySubscriptionWhereUniqueInput[]
+    connect?: StorySubscriptionWhereUniqueInput | StorySubscriptionWhereUniqueInput[]
+    update?: StorySubscriptionUpdateWithWhereUniqueWithoutUserInput | StorySubscriptionUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: StorySubscriptionUpdateManyWithWhereWithoutUserInput | StorySubscriptionUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: StorySubscriptionScalarWhereInput | StorySubscriptionScalarWhereInput[]
+  }
+
+  export type NotificationUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<NotificationCreateWithoutUserInput, NotificationUncheckedCreateWithoutUserInput> | NotificationCreateWithoutUserInput[] | NotificationUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: NotificationCreateOrConnectWithoutUserInput | NotificationCreateOrConnectWithoutUserInput[]
+    upsert?: NotificationUpsertWithWhereUniqueWithoutUserInput | NotificationUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: NotificationCreateManyUserInputEnvelope
+    set?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
+    disconnect?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
+    delete?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
+    connect?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
+    update?: NotificationUpdateWithWhereUniqueWithoutUserInput | NotificationUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: NotificationUpdateManyWithWhereWithoutUserInput | NotificationUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: NotificationScalarWhereInput | NotificationScalarWhereInput[]
   }
 
   export type DiscussUncheckedUpdateManyWithoutUserNestedInput = {
@@ -34311,6 +45111,20 @@ export namespace Prisma {
     update?: XOR<XOR<UserSettingUpdateToOneWithWhereWithoutUserInput, UserSettingUpdateWithoutUserInput>, UserSettingUncheckedUpdateWithoutUserInput>
   }
 
+  export type UserAuthTokenUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<UserAuthTokenCreateWithoutUserInput, UserAuthTokenUncheckedCreateWithoutUserInput> | UserAuthTokenCreateWithoutUserInput[] | UserAuthTokenUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: UserAuthTokenCreateOrConnectWithoutUserInput | UserAuthTokenCreateOrConnectWithoutUserInput[]
+    upsert?: UserAuthTokenUpsertWithWhereUniqueWithoutUserInput | UserAuthTokenUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: UserAuthTokenCreateManyUserInputEnvelope
+    set?: UserAuthTokenWhereUniqueInput | UserAuthTokenWhereUniqueInput[]
+    disconnect?: UserAuthTokenWhereUniqueInput | UserAuthTokenWhereUniqueInput[]
+    delete?: UserAuthTokenWhereUniqueInput | UserAuthTokenWhereUniqueInput[]
+    connect?: UserAuthTokenWhereUniqueInput | UserAuthTokenWhereUniqueInput[]
+    update?: UserAuthTokenUpdateWithWhereUniqueWithoutUserInput | UserAuthTokenUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: UserAuthTokenUpdateManyWithWhereWithoutUserInput | UserAuthTokenUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: UserAuthTokenScalarWhereInput | UserAuthTokenScalarWhereInput[]
+  }
+
   export type UserCreateNestedOneWithoutAccountsInput = {
     create?: XOR<UserCreateWithoutAccountsInput, UserUncheckedCreateWithoutAccountsInput>
     connectOrCreate?: UserCreateOrConnectWithoutAccountsInput
@@ -34337,6 +45151,24 @@ export namespace Prisma {
     upsert?: UserUpsertWithoutSessionsInput
     connect?: UserWhereUniqueInput
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutSessionsInput, UserUpdateWithoutSessionsInput>, UserUncheckedUpdateWithoutSessionsInput>
+  }
+
+  export type UserCreateNestedOneWithoutAuthTokensInput = {
+    create?: XOR<UserCreateWithoutAuthTokensInput, UserUncheckedCreateWithoutAuthTokensInput>
+    connectOrCreate?: UserCreateOrConnectWithoutAuthTokensInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type EnumAuthTokenTypeFieldUpdateOperationsInput = {
+    set?: $Enums.AuthTokenType
+  }
+
+  export type UserUpdateOneRequiredWithoutAuthTokensNestedInput = {
+    create?: XOR<UserCreateWithoutAuthTokensInput, UserUncheckedCreateWithoutAuthTokensInput>
+    connectOrCreate?: UserCreateOrConnectWithoutAuthTokensInput
+    upsert?: UserUpsertWithoutAuthTokensInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutAuthTokensInput, UserUpdateWithoutAuthTokensInput>, UserUncheckedUpdateWithoutAuthTokensInput>
   }
 
   export type UserCreateNestedOneWithoutSettingInput = {
@@ -34425,11 +45257,46 @@ export namespace Prisma {
     connect?: StoryStatsWhereUniqueInput
   }
 
+  export type StoryDailyReadStatsCreateNestedManyWithoutStoryInput = {
+    create?: XOR<StoryDailyReadStatsCreateWithoutStoryInput, StoryDailyReadStatsUncheckedCreateWithoutStoryInput> | StoryDailyReadStatsCreateWithoutStoryInput[] | StoryDailyReadStatsUncheckedCreateWithoutStoryInput[]
+    connectOrCreate?: StoryDailyReadStatsCreateOrConnectWithoutStoryInput | StoryDailyReadStatsCreateOrConnectWithoutStoryInput[]
+    createMany?: StoryDailyReadStatsCreateManyStoryInputEnvelope
+    connect?: StoryDailyReadStatsWhereUniqueInput | StoryDailyReadStatsWhereUniqueInput[]
+  }
+
   export type TopStoryReadCreateNestedManyWithoutStoryInput = {
     create?: XOR<TopStoryReadCreateWithoutStoryInput, TopStoryReadUncheckedCreateWithoutStoryInput> | TopStoryReadCreateWithoutStoryInput[] | TopStoryReadUncheckedCreateWithoutStoryInput[]
     connectOrCreate?: TopStoryReadCreateOrConnectWithoutStoryInput | TopStoryReadCreateOrConnectWithoutStoryInput[]
     createMany?: TopStoryReadCreateManyStoryInputEnvelope
     connect?: TopStoryReadWhereUniqueInput | TopStoryReadWhereUniqueInput[]
+  }
+
+  export type ChapterReadEventCreateNestedManyWithoutStoryInput = {
+    create?: XOR<ChapterReadEventCreateWithoutStoryInput, ChapterReadEventUncheckedCreateWithoutStoryInput> | ChapterReadEventCreateWithoutStoryInput[] | ChapterReadEventUncheckedCreateWithoutStoryInput[]
+    connectOrCreate?: ChapterReadEventCreateOrConnectWithoutStoryInput | ChapterReadEventCreateOrConnectWithoutStoryInput[]
+    createMany?: ChapterReadEventCreateManyStoryInputEnvelope
+    connect?: ChapterReadEventWhereUniqueInput | ChapterReadEventWhereUniqueInput[]
+  }
+
+  export type UserStoryReadingStateCreateNestedManyWithoutStoryInput = {
+    create?: XOR<UserStoryReadingStateCreateWithoutStoryInput, UserStoryReadingStateUncheckedCreateWithoutStoryInput> | UserStoryReadingStateCreateWithoutStoryInput[] | UserStoryReadingStateUncheckedCreateWithoutStoryInput[]
+    connectOrCreate?: UserStoryReadingStateCreateOrConnectWithoutStoryInput | UserStoryReadingStateCreateOrConnectWithoutStoryInput[]
+    createMany?: UserStoryReadingStateCreateManyStoryInputEnvelope
+    connect?: UserStoryReadingStateWhereUniqueInput | UserStoryReadingStateWhereUniqueInput[]
+  }
+
+  export type StorySubscriptionCreateNestedManyWithoutStoryInput = {
+    create?: XOR<StorySubscriptionCreateWithoutStoryInput, StorySubscriptionUncheckedCreateWithoutStoryInput> | StorySubscriptionCreateWithoutStoryInput[] | StorySubscriptionUncheckedCreateWithoutStoryInput[]
+    connectOrCreate?: StorySubscriptionCreateOrConnectWithoutStoryInput | StorySubscriptionCreateOrConnectWithoutStoryInput[]
+    createMany?: StorySubscriptionCreateManyStoryInputEnvelope
+    connect?: StorySubscriptionWhereUniqueInput | StorySubscriptionWhereUniqueInput[]
+  }
+
+  export type NotificationCreateNestedManyWithoutStoryInput = {
+    create?: XOR<NotificationCreateWithoutStoryInput, NotificationUncheckedCreateWithoutStoryInput> | NotificationCreateWithoutStoryInput[] | NotificationUncheckedCreateWithoutStoryInput[]
+    connectOrCreate?: NotificationCreateOrConnectWithoutStoryInput | NotificationCreateOrConnectWithoutStoryInput[]
+    createMany?: NotificationCreateManyStoryInputEnvelope
+    connect?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
   }
 
   export type TagCreateNestedManyWithoutStoriesInput = {
@@ -34486,11 +45353,46 @@ export namespace Prisma {
     connect?: StoryStatsWhereUniqueInput
   }
 
+  export type StoryDailyReadStatsUncheckedCreateNestedManyWithoutStoryInput = {
+    create?: XOR<StoryDailyReadStatsCreateWithoutStoryInput, StoryDailyReadStatsUncheckedCreateWithoutStoryInput> | StoryDailyReadStatsCreateWithoutStoryInput[] | StoryDailyReadStatsUncheckedCreateWithoutStoryInput[]
+    connectOrCreate?: StoryDailyReadStatsCreateOrConnectWithoutStoryInput | StoryDailyReadStatsCreateOrConnectWithoutStoryInput[]
+    createMany?: StoryDailyReadStatsCreateManyStoryInputEnvelope
+    connect?: StoryDailyReadStatsWhereUniqueInput | StoryDailyReadStatsWhereUniqueInput[]
+  }
+
   export type TopStoryReadUncheckedCreateNestedManyWithoutStoryInput = {
     create?: XOR<TopStoryReadCreateWithoutStoryInput, TopStoryReadUncheckedCreateWithoutStoryInput> | TopStoryReadCreateWithoutStoryInput[] | TopStoryReadUncheckedCreateWithoutStoryInput[]
     connectOrCreate?: TopStoryReadCreateOrConnectWithoutStoryInput | TopStoryReadCreateOrConnectWithoutStoryInput[]
     createMany?: TopStoryReadCreateManyStoryInputEnvelope
     connect?: TopStoryReadWhereUniqueInput | TopStoryReadWhereUniqueInput[]
+  }
+
+  export type ChapterReadEventUncheckedCreateNestedManyWithoutStoryInput = {
+    create?: XOR<ChapterReadEventCreateWithoutStoryInput, ChapterReadEventUncheckedCreateWithoutStoryInput> | ChapterReadEventCreateWithoutStoryInput[] | ChapterReadEventUncheckedCreateWithoutStoryInput[]
+    connectOrCreate?: ChapterReadEventCreateOrConnectWithoutStoryInput | ChapterReadEventCreateOrConnectWithoutStoryInput[]
+    createMany?: ChapterReadEventCreateManyStoryInputEnvelope
+    connect?: ChapterReadEventWhereUniqueInput | ChapterReadEventWhereUniqueInput[]
+  }
+
+  export type UserStoryReadingStateUncheckedCreateNestedManyWithoutStoryInput = {
+    create?: XOR<UserStoryReadingStateCreateWithoutStoryInput, UserStoryReadingStateUncheckedCreateWithoutStoryInput> | UserStoryReadingStateCreateWithoutStoryInput[] | UserStoryReadingStateUncheckedCreateWithoutStoryInput[]
+    connectOrCreate?: UserStoryReadingStateCreateOrConnectWithoutStoryInput | UserStoryReadingStateCreateOrConnectWithoutStoryInput[]
+    createMany?: UserStoryReadingStateCreateManyStoryInputEnvelope
+    connect?: UserStoryReadingStateWhereUniqueInput | UserStoryReadingStateWhereUniqueInput[]
+  }
+
+  export type StorySubscriptionUncheckedCreateNestedManyWithoutStoryInput = {
+    create?: XOR<StorySubscriptionCreateWithoutStoryInput, StorySubscriptionUncheckedCreateWithoutStoryInput> | StorySubscriptionCreateWithoutStoryInput[] | StorySubscriptionUncheckedCreateWithoutStoryInput[]
+    connectOrCreate?: StorySubscriptionCreateOrConnectWithoutStoryInput | StorySubscriptionCreateOrConnectWithoutStoryInput[]
+    createMany?: StorySubscriptionCreateManyStoryInputEnvelope
+    connect?: StorySubscriptionWhereUniqueInput | StorySubscriptionWhereUniqueInput[]
+  }
+
+  export type NotificationUncheckedCreateNestedManyWithoutStoryInput = {
+    create?: XOR<NotificationCreateWithoutStoryInput, NotificationUncheckedCreateWithoutStoryInput> | NotificationCreateWithoutStoryInput[] | NotificationUncheckedCreateWithoutStoryInput[]
+    connectOrCreate?: NotificationCreateOrConnectWithoutStoryInput | NotificationCreateOrConnectWithoutStoryInput[]
+    createMany?: NotificationCreateManyStoryInputEnvelope
+    connect?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
   }
 
   export type TagUncheckedCreateNestedManyWithoutStoriesInput = {
@@ -34609,6 +45511,20 @@ export namespace Prisma {
     update?: XOR<XOR<StoryStatsUpdateToOneWithWhereWithoutStoryInput, StoryStatsUpdateWithoutStoryInput>, StoryStatsUncheckedUpdateWithoutStoryInput>
   }
 
+  export type StoryDailyReadStatsUpdateManyWithoutStoryNestedInput = {
+    create?: XOR<StoryDailyReadStatsCreateWithoutStoryInput, StoryDailyReadStatsUncheckedCreateWithoutStoryInput> | StoryDailyReadStatsCreateWithoutStoryInput[] | StoryDailyReadStatsUncheckedCreateWithoutStoryInput[]
+    connectOrCreate?: StoryDailyReadStatsCreateOrConnectWithoutStoryInput | StoryDailyReadStatsCreateOrConnectWithoutStoryInput[]
+    upsert?: StoryDailyReadStatsUpsertWithWhereUniqueWithoutStoryInput | StoryDailyReadStatsUpsertWithWhereUniqueWithoutStoryInput[]
+    createMany?: StoryDailyReadStatsCreateManyStoryInputEnvelope
+    set?: StoryDailyReadStatsWhereUniqueInput | StoryDailyReadStatsWhereUniqueInput[]
+    disconnect?: StoryDailyReadStatsWhereUniqueInput | StoryDailyReadStatsWhereUniqueInput[]
+    delete?: StoryDailyReadStatsWhereUniqueInput | StoryDailyReadStatsWhereUniqueInput[]
+    connect?: StoryDailyReadStatsWhereUniqueInput | StoryDailyReadStatsWhereUniqueInput[]
+    update?: StoryDailyReadStatsUpdateWithWhereUniqueWithoutStoryInput | StoryDailyReadStatsUpdateWithWhereUniqueWithoutStoryInput[]
+    updateMany?: StoryDailyReadStatsUpdateManyWithWhereWithoutStoryInput | StoryDailyReadStatsUpdateManyWithWhereWithoutStoryInput[]
+    deleteMany?: StoryDailyReadStatsScalarWhereInput | StoryDailyReadStatsScalarWhereInput[]
+  }
+
   export type TopStoryReadUpdateManyWithoutStoryNestedInput = {
     create?: XOR<TopStoryReadCreateWithoutStoryInput, TopStoryReadUncheckedCreateWithoutStoryInput> | TopStoryReadCreateWithoutStoryInput[] | TopStoryReadUncheckedCreateWithoutStoryInput[]
     connectOrCreate?: TopStoryReadCreateOrConnectWithoutStoryInput | TopStoryReadCreateOrConnectWithoutStoryInput[]
@@ -34621,6 +45537,62 @@ export namespace Prisma {
     update?: TopStoryReadUpdateWithWhereUniqueWithoutStoryInput | TopStoryReadUpdateWithWhereUniqueWithoutStoryInput[]
     updateMany?: TopStoryReadUpdateManyWithWhereWithoutStoryInput | TopStoryReadUpdateManyWithWhereWithoutStoryInput[]
     deleteMany?: TopStoryReadScalarWhereInput | TopStoryReadScalarWhereInput[]
+  }
+
+  export type ChapterReadEventUpdateManyWithoutStoryNestedInput = {
+    create?: XOR<ChapterReadEventCreateWithoutStoryInput, ChapterReadEventUncheckedCreateWithoutStoryInput> | ChapterReadEventCreateWithoutStoryInput[] | ChapterReadEventUncheckedCreateWithoutStoryInput[]
+    connectOrCreate?: ChapterReadEventCreateOrConnectWithoutStoryInput | ChapterReadEventCreateOrConnectWithoutStoryInput[]
+    upsert?: ChapterReadEventUpsertWithWhereUniqueWithoutStoryInput | ChapterReadEventUpsertWithWhereUniqueWithoutStoryInput[]
+    createMany?: ChapterReadEventCreateManyStoryInputEnvelope
+    set?: ChapterReadEventWhereUniqueInput | ChapterReadEventWhereUniqueInput[]
+    disconnect?: ChapterReadEventWhereUniqueInput | ChapterReadEventWhereUniqueInput[]
+    delete?: ChapterReadEventWhereUniqueInput | ChapterReadEventWhereUniqueInput[]
+    connect?: ChapterReadEventWhereUniqueInput | ChapterReadEventWhereUniqueInput[]
+    update?: ChapterReadEventUpdateWithWhereUniqueWithoutStoryInput | ChapterReadEventUpdateWithWhereUniqueWithoutStoryInput[]
+    updateMany?: ChapterReadEventUpdateManyWithWhereWithoutStoryInput | ChapterReadEventUpdateManyWithWhereWithoutStoryInput[]
+    deleteMany?: ChapterReadEventScalarWhereInput | ChapterReadEventScalarWhereInput[]
+  }
+
+  export type UserStoryReadingStateUpdateManyWithoutStoryNestedInput = {
+    create?: XOR<UserStoryReadingStateCreateWithoutStoryInput, UserStoryReadingStateUncheckedCreateWithoutStoryInput> | UserStoryReadingStateCreateWithoutStoryInput[] | UserStoryReadingStateUncheckedCreateWithoutStoryInput[]
+    connectOrCreate?: UserStoryReadingStateCreateOrConnectWithoutStoryInput | UserStoryReadingStateCreateOrConnectWithoutStoryInput[]
+    upsert?: UserStoryReadingStateUpsertWithWhereUniqueWithoutStoryInput | UserStoryReadingStateUpsertWithWhereUniqueWithoutStoryInput[]
+    createMany?: UserStoryReadingStateCreateManyStoryInputEnvelope
+    set?: UserStoryReadingStateWhereUniqueInput | UserStoryReadingStateWhereUniqueInput[]
+    disconnect?: UserStoryReadingStateWhereUniqueInput | UserStoryReadingStateWhereUniqueInput[]
+    delete?: UserStoryReadingStateWhereUniqueInput | UserStoryReadingStateWhereUniqueInput[]
+    connect?: UserStoryReadingStateWhereUniqueInput | UserStoryReadingStateWhereUniqueInput[]
+    update?: UserStoryReadingStateUpdateWithWhereUniqueWithoutStoryInput | UserStoryReadingStateUpdateWithWhereUniqueWithoutStoryInput[]
+    updateMany?: UserStoryReadingStateUpdateManyWithWhereWithoutStoryInput | UserStoryReadingStateUpdateManyWithWhereWithoutStoryInput[]
+    deleteMany?: UserStoryReadingStateScalarWhereInput | UserStoryReadingStateScalarWhereInput[]
+  }
+
+  export type StorySubscriptionUpdateManyWithoutStoryNestedInput = {
+    create?: XOR<StorySubscriptionCreateWithoutStoryInput, StorySubscriptionUncheckedCreateWithoutStoryInput> | StorySubscriptionCreateWithoutStoryInput[] | StorySubscriptionUncheckedCreateWithoutStoryInput[]
+    connectOrCreate?: StorySubscriptionCreateOrConnectWithoutStoryInput | StorySubscriptionCreateOrConnectWithoutStoryInput[]
+    upsert?: StorySubscriptionUpsertWithWhereUniqueWithoutStoryInput | StorySubscriptionUpsertWithWhereUniqueWithoutStoryInput[]
+    createMany?: StorySubscriptionCreateManyStoryInputEnvelope
+    set?: StorySubscriptionWhereUniqueInput | StorySubscriptionWhereUniqueInput[]
+    disconnect?: StorySubscriptionWhereUniqueInput | StorySubscriptionWhereUniqueInput[]
+    delete?: StorySubscriptionWhereUniqueInput | StorySubscriptionWhereUniqueInput[]
+    connect?: StorySubscriptionWhereUniqueInput | StorySubscriptionWhereUniqueInput[]
+    update?: StorySubscriptionUpdateWithWhereUniqueWithoutStoryInput | StorySubscriptionUpdateWithWhereUniqueWithoutStoryInput[]
+    updateMany?: StorySubscriptionUpdateManyWithWhereWithoutStoryInput | StorySubscriptionUpdateManyWithWhereWithoutStoryInput[]
+    deleteMany?: StorySubscriptionScalarWhereInput | StorySubscriptionScalarWhereInput[]
+  }
+
+  export type NotificationUpdateManyWithoutStoryNestedInput = {
+    create?: XOR<NotificationCreateWithoutStoryInput, NotificationUncheckedCreateWithoutStoryInput> | NotificationCreateWithoutStoryInput[] | NotificationUncheckedCreateWithoutStoryInput[]
+    connectOrCreate?: NotificationCreateOrConnectWithoutStoryInput | NotificationCreateOrConnectWithoutStoryInput[]
+    upsert?: NotificationUpsertWithWhereUniqueWithoutStoryInput | NotificationUpsertWithWhereUniqueWithoutStoryInput[]
+    createMany?: NotificationCreateManyStoryInputEnvelope
+    set?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
+    disconnect?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
+    delete?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
+    connect?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
+    update?: NotificationUpdateWithWhereUniqueWithoutStoryInput | NotificationUpdateWithWhereUniqueWithoutStoryInput[]
+    updateMany?: NotificationUpdateManyWithWhereWithoutStoryInput | NotificationUpdateManyWithWhereWithoutStoryInput[]
+    deleteMany?: NotificationScalarWhereInput | NotificationScalarWhereInput[]
   }
 
   export type TagUpdateManyWithoutStoriesNestedInput = {
@@ -34730,6 +45702,20 @@ export namespace Prisma {
     update?: XOR<XOR<StoryStatsUpdateToOneWithWhereWithoutStoryInput, StoryStatsUpdateWithoutStoryInput>, StoryStatsUncheckedUpdateWithoutStoryInput>
   }
 
+  export type StoryDailyReadStatsUncheckedUpdateManyWithoutStoryNestedInput = {
+    create?: XOR<StoryDailyReadStatsCreateWithoutStoryInput, StoryDailyReadStatsUncheckedCreateWithoutStoryInput> | StoryDailyReadStatsCreateWithoutStoryInput[] | StoryDailyReadStatsUncheckedCreateWithoutStoryInput[]
+    connectOrCreate?: StoryDailyReadStatsCreateOrConnectWithoutStoryInput | StoryDailyReadStatsCreateOrConnectWithoutStoryInput[]
+    upsert?: StoryDailyReadStatsUpsertWithWhereUniqueWithoutStoryInput | StoryDailyReadStatsUpsertWithWhereUniqueWithoutStoryInput[]
+    createMany?: StoryDailyReadStatsCreateManyStoryInputEnvelope
+    set?: StoryDailyReadStatsWhereUniqueInput | StoryDailyReadStatsWhereUniqueInput[]
+    disconnect?: StoryDailyReadStatsWhereUniqueInput | StoryDailyReadStatsWhereUniqueInput[]
+    delete?: StoryDailyReadStatsWhereUniqueInput | StoryDailyReadStatsWhereUniqueInput[]
+    connect?: StoryDailyReadStatsWhereUniqueInput | StoryDailyReadStatsWhereUniqueInput[]
+    update?: StoryDailyReadStatsUpdateWithWhereUniqueWithoutStoryInput | StoryDailyReadStatsUpdateWithWhereUniqueWithoutStoryInput[]
+    updateMany?: StoryDailyReadStatsUpdateManyWithWhereWithoutStoryInput | StoryDailyReadStatsUpdateManyWithWhereWithoutStoryInput[]
+    deleteMany?: StoryDailyReadStatsScalarWhereInput | StoryDailyReadStatsScalarWhereInput[]
+  }
+
   export type TopStoryReadUncheckedUpdateManyWithoutStoryNestedInput = {
     create?: XOR<TopStoryReadCreateWithoutStoryInput, TopStoryReadUncheckedCreateWithoutStoryInput> | TopStoryReadCreateWithoutStoryInput[] | TopStoryReadUncheckedCreateWithoutStoryInput[]
     connectOrCreate?: TopStoryReadCreateOrConnectWithoutStoryInput | TopStoryReadCreateOrConnectWithoutStoryInput[]
@@ -34742,6 +45728,62 @@ export namespace Prisma {
     update?: TopStoryReadUpdateWithWhereUniqueWithoutStoryInput | TopStoryReadUpdateWithWhereUniqueWithoutStoryInput[]
     updateMany?: TopStoryReadUpdateManyWithWhereWithoutStoryInput | TopStoryReadUpdateManyWithWhereWithoutStoryInput[]
     deleteMany?: TopStoryReadScalarWhereInput | TopStoryReadScalarWhereInput[]
+  }
+
+  export type ChapterReadEventUncheckedUpdateManyWithoutStoryNestedInput = {
+    create?: XOR<ChapterReadEventCreateWithoutStoryInput, ChapterReadEventUncheckedCreateWithoutStoryInput> | ChapterReadEventCreateWithoutStoryInput[] | ChapterReadEventUncheckedCreateWithoutStoryInput[]
+    connectOrCreate?: ChapterReadEventCreateOrConnectWithoutStoryInput | ChapterReadEventCreateOrConnectWithoutStoryInput[]
+    upsert?: ChapterReadEventUpsertWithWhereUniqueWithoutStoryInput | ChapterReadEventUpsertWithWhereUniqueWithoutStoryInput[]
+    createMany?: ChapterReadEventCreateManyStoryInputEnvelope
+    set?: ChapterReadEventWhereUniqueInput | ChapterReadEventWhereUniqueInput[]
+    disconnect?: ChapterReadEventWhereUniqueInput | ChapterReadEventWhereUniqueInput[]
+    delete?: ChapterReadEventWhereUniqueInput | ChapterReadEventWhereUniqueInput[]
+    connect?: ChapterReadEventWhereUniqueInput | ChapterReadEventWhereUniqueInput[]
+    update?: ChapterReadEventUpdateWithWhereUniqueWithoutStoryInput | ChapterReadEventUpdateWithWhereUniqueWithoutStoryInput[]
+    updateMany?: ChapterReadEventUpdateManyWithWhereWithoutStoryInput | ChapterReadEventUpdateManyWithWhereWithoutStoryInput[]
+    deleteMany?: ChapterReadEventScalarWhereInput | ChapterReadEventScalarWhereInput[]
+  }
+
+  export type UserStoryReadingStateUncheckedUpdateManyWithoutStoryNestedInput = {
+    create?: XOR<UserStoryReadingStateCreateWithoutStoryInput, UserStoryReadingStateUncheckedCreateWithoutStoryInput> | UserStoryReadingStateCreateWithoutStoryInput[] | UserStoryReadingStateUncheckedCreateWithoutStoryInput[]
+    connectOrCreate?: UserStoryReadingStateCreateOrConnectWithoutStoryInput | UserStoryReadingStateCreateOrConnectWithoutStoryInput[]
+    upsert?: UserStoryReadingStateUpsertWithWhereUniqueWithoutStoryInput | UserStoryReadingStateUpsertWithWhereUniqueWithoutStoryInput[]
+    createMany?: UserStoryReadingStateCreateManyStoryInputEnvelope
+    set?: UserStoryReadingStateWhereUniqueInput | UserStoryReadingStateWhereUniqueInput[]
+    disconnect?: UserStoryReadingStateWhereUniqueInput | UserStoryReadingStateWhereUniqueInput[]
+    delete?: UserStoryReadingStateWhereUniqueInput | UserStoryReadingStateWhereUniqueInput[]
+    connect?: UserStoryReadingStateWhereUniqueInput | UserStoryReadingStateWhereUniqueInput[]
+    update?: UserStoryReadingStateUpdateWithWhereUniqueWithoutStoryInput | UserStoryReadingStateUpdateWithWhereUniqueWithoutStoryInput[]
+    updateMany?: UserStoryReadingStateUpdateManyWithWhereWithoutStoryInput | UserStoryReadingStateUpdateManyWithWhereWithoutStoryInput[]
+    deleteMany?: UserStoryReadingStateScalarWhereInput | UserStoryReadingStateScalarWhereInput[]
+  }
+
+  export type StorySubscriptionUncheckedUpdateManyWithoutStoryNestedInput = {
+    create?: XOR<StorySubscriptionCreateWithoutStoryInput, StorySubscriptionUncheckedCreateWithoutStoryInput> | StorySubscriptionCreateWithoutStoryInput[] | StorySubscriptionUncheckedCreateWithoutStoryInput[]
+    connectOrCreate?: StorySubscriptionCreateOrConnectWithoutStoryInput | StorySubscriptionCreateOrConnectWithoutStoryInput[]
+    upsert?: StorySubscriptionUpsertWithWhereUniqueWithoutStoryInput | StorySubscriptionUpsertWithWhereUniqueWithoutStoryInput[]
+    createMany?: StorySubscriptionCreateManyStoryInputEnvelope
+    set?: StorySubscriptionWhereUniqueInput | StorySubscriptionWhereUniqueInput[]
+    disconnect?: StorySubscriptionWhereUniqueInput | StorySubscriptionWhereUniqueInput[]
+    delete?: StorySubscriptionWhereUniqueInput | StorySubscriptionWhereUniqueInput[]
+    connect?: StorySubscriptionWhereUniqueInput | StorySubscriptionWhereUniqueInput[]
+    update?: StorySubscriptionUpdateWithWhereUniqueWithoutStoryInput | StorySubscriptionUpdateWithWhereUniqueWithoutStoryInput[]
+    updateMany?: StorySubscriptionUpdateManyWithWhereWithoutStoryInput | StorySubscriptionUpdateManyWithWhereWithoutStoryInput[]
+    deleteMany?: StorySubscriptionScalarWhereInput | StorySubscriptionScalarWhereInput[]
+  }
+
+  export type NotificationUncheckedUpdateManyWithoutStoryNestedInput = {
+    create?: XOR<NotificationCreateWithoutStoryInput, NotificationUncheckedCreateWithoutStoryInput> | NotificationCreateWithoutStoryInput[] | NotificationUncheckedCreateWithoutStoryInput[]
+    connectOrCreate?: NotificationCreateOrConnectWithoutStoryInput | NotificationCreateOrConnectWithoutStoryInput[]
+    upsert?: NotificationUpsertWithWhereUniqueWithoutStoryInput | NotificationUpsertWithWhereUniqueWithoutStoryInput[]
+    createMany?: NotificationCreateManyStoryInputEnvelope
+    set?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
+    disconnect?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
+    delete?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
+    connect?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
+    update?: NotificationUpdateWithWhereUniqueWithoutStoryInput | NotificationUpdateWithWhereUniqueWithoutStoryInput[]
+    updateMany?: NotificationUpdateManyWithWhereWithoutStoryInput | NotificationUpdateManyWithWhereWithoutStoryInput[]
+    deleteMany?: NotificationScalarWhereInput | NotificationScalarWhereInput[]
   }
 
   export type TagUncheckedUpdateManyWithoutStoriesNestedInput = {
@@ -34862,11 +45904,39 @@ export namespace Prisma {
     connect?: ChapterReadWhereUniqueInput | ChapterReadWhereUniqueInput[]
   }
 
+  export type ChapterReadEventCreateNestedManyWithoutChapterInput = {
+    create?: XOR<ChapterReadEventCreateWithoutChapterInput, ChapterReadEventUncheckedCreateWithoutChapterInput> | ChapterReadEventCreateWithoutChapterInput[] | ChapterReadEventUncheckedCreateWithoutChapterInput[]
+    connectOrCreate?: ChapterReadEventCreateOrConnectWithoutChapterInput | ChapterReadEventCreateOrConnectWithoutChapterInput[]
+    createMany?: ChapterReadEventCreateManyChapterInputEnvelope
+    connect?: ChapterReadEventWhereUniqueInput | ChapterReadEventWhereUniqueInput[]
+  }
+
+  export type UserStoryReadingStateCreateNestedManyWithoutLastChapterInput = {
+    create?: XOR<UserStoryReadingStateCreateWithoutLastChapterInput, UserStoryReadingStateUncheckedCreateWithoutLastChapterInput> | UserStoryReadingStateCreateWithoutLastChapterInput[] | UserStoryReadingStateUncheckedCreateWithoutLastChapterInput[]
+    connectOrCreate?: UserStoryReadingStateCreateOrConnectWithoutLastChapterInput | UserStoryReadingStateCreateOrConnectWithoutLastChapterInput[]
+    createMany?: UserStoryReadingStateCreateManyLastChapterInputEnvelope
+    connect?: UserStoryReadingStateWhereUniqueInput | UserStoryReadingStateWhereUniqueInput[]
+  }
+
   export type ChapterReadUncheckedCreateNestedManyWithoutChapterInput = {
     create?: XOR<ChapterReadCreateWithoutChapterInput, ChapterReadUncheckedCreateWithoutChapterInput> | ChapterReadCreateWithoutChapterInput[] | ChapterReadUncheckedCreateWithoutChapterInput[]
     connectOrCreate?: ChapterReadCreateOrConnectWithoutChapterInput | ChapterReadCreateOrConnectWithoutChapterInput[]
     createMany?: ChapterReadCreateManyChapterInputEnvelope
     connect?: ChapterReadWhereUniqueInput | ChapterReadWhereUniqueInput[]
+  }
+
+  export type ChapterReadEventUncheckedCreateNestedManyWithoutChapterInput = {
+    create?: XOR<ChapterReadEventCreateWithoutChapterInput, ChapterReadEventUncheckedCreateWithoutChapterInput> | ChapterReadEventCreateWithoutChapterInput[] | ChapterReadEventUncheckedCreateWithoutChapterInput[]
+    connectOrCreate?: ChapterReadEventCreateOrConnectWithoutChapterInput | ChapterReadEventCreateOrConnectWithoutChapterInput[]
+    createMany?: ChapterReadEventCreateManyChapterInputEnvelope
+    connect?: ChapterReadEventWhereUniqueInput | ChapterReadEventWhereUniqueInput[]
+  }
+
+  export type UserStoryReadingStateUncheckedCreateNestedManyWithoutLastChapterInput = {
+    create?: XOR<UserStoryReadingStateCreateWithoutLastChapterInput, UserStoryReadingStateUncheckedCreateWithoutLastChapterInput> | UserStoryReadingStateCreateWithoutLastChapterInput[] | UserStoryReadingStateUncheckedCreateWithoutLastChapterInput[]
+    connectOrCreate?: UserStoryReadingStateCreateOrConnectWithoutLastChapterInput | UserStoryReadingStateCreateOrConnectWithoutLastChapterInput[]
+    createMany?: UserStoryReadingStateCreateManyLastChapterInputEnvelope
+    connect?: UserStoryReadingStateWhereUniqueInput | UserStoryReadingStateWhereUniqueInput[]
   }
 
   export type StoryUpdateOneRequiredWithoutChaptersNestedInput = {
@@ -34891,6 +45961,34 @@ export namespace Prisma {
     deleteMany?: ChapterReadScalarWhereInput | ChapterReadScalarWhereInput[]
   }
 
+  export type ChapterReadEventUpdateManyWithoutChapterNestedInput = {
+    create?: XOR<ChapterReadEventCreateWithoutChapterInput, ChapterReadEventUncheckedCreateWithoutChapterInput> | ChapterReadEventCreateWithoutChapterInput[] | ChapterReadEventUncheckedCreateWithoutChapterInput[]
+    connectOrCreate?: ChapterReadEventCreateOrConnectWithoutChapterInput | ChapterReadEventCreateOrConnectWithoutChapterInput[]
+    upsert?: ChapterReadEventUpsertWithWhereUniqueWithoutChapterInput | ChapterReadEventUpsertWithWhereUniqueWithoutChapterInput[]
+    createMany?: ChapterReadEventCreateManyChapterInputEnvelope
+    set?: ChapterReadEventWhereUniqueInput | ChapterReadEventWhereUniqueInput[]
+    disconnect?: ChapterReadEventWhereUniqueInput | ChapterReadEventWhereUniqueInput[]
+    delete?: ChapterReadEventWhereUniqueInput | ChapterReadEventWhereUniqueInput[]
+    connect?: ChapterReadEventWhereUniqueInput | ChapterReadEventWhereUniqueInput[]
+    update?: ChapterReadEventUpdateWithWhereUniqueWithoutChapterInput | ChapterReadEventUpdateWithWhereUniqueWithoutChapterInput[]
+    updateMany?: ChapterReadEventUpdateManyWithWhereWithoutChapterInput | ChapterReadEventUpdateManyWithWhereWithoutChapterInput[]
+    deleteMany?: ChapterReadEventScalarWhereInput | ChapterReadEventScalarWhereInput[]
+  }
+
+  export type UserStoryReadingStateUpdateManyWithoutLastChapterNestedInput = {
+    create?: XOR<UserStoryReadingStateCreateWithoutLastChapterInput, UserStoryReadingStateUncheckedCreateWithoutLastChapterInput> | UserStoryReadingStateCreateWithoutLastChapterInput[] | UserStoryReadingStateUncheckedCreateWithoutLastChapterInput[]
+    connectOrCreate?: UserStoryReadingStateCreateOrConnectWithoutLastChapterInput | UserStoryReadingStateCreateOrConnectWithoutLastChapterInput[]
+    upsert?: UserStoryReadingStateUpsertWithWhereUniqueWithoutLastChapterInput | UserStoryReadingStateUpsertWithWhereUniqueWithoutLastChapterInput[]
+    createMany?: UserStoryReadingStateCreateManyLastChapterInputEnvelope
+    set?: UserStoryReadingStateWhereUniqueInput | UserStoryReadingStateWhereUniqueInput[]
+    disconnect?: UserStoryReadingStateWhereUniqueInput | UserStoryReadingStateWhereUniqueInput[]
+    delete?: UserStoryReadingStateWhereUniqueInput | UserStoryReadingStateWhereUniqueInput[]
+    connect?: UserStoryReadingStateWhereUniqueInput | UserStoryReadingStateWhereUniqueInput[]
+    update?: UserStoryReadingStateUpdateWithWhereUniqueWithoutLastChapterInput | UserStoryReadingStateUpdateWithWhereUniqueWithoutLastChapterInput[]
+    updateMany?: UserStoryReadingStateUpdateManyWithWhereWithoutLastChapterInput | UserStoryReadingStateUpdateManyWithWhereWithoutLastChapterInput[]
+    deleteMany?: UserStoryReadingStateScalarWhereInput | UserStoryReadingStateScalarWhereInput[]
+  }
+
   export type ChapterReadUncheckedUpdateManyWithoutChapterNestedInput = {
     create?: XOR<ChapterReadCreateWithoutChapterInput, ChapterReadUncheckedCreateWithoutChapterInput> | ChapterReadCreateWithoutChapterInput[] | ChapterReadUncheckedCreateWithoutChapterInput[]
     connectOrCreate?: ChapterReadCreateOrConnectWithoutChapterInput | ChapterReadCreateOrConnectWithoutChapterInput[]
@@ -34903,6 +46001,34 @@ export namespace Prisma {
     update?: ChapterReadUpdateWithWhereUniqueWithoutChapterInput | ChapterReadUpdateWithWhereUniqueWithoutChapterInput[]
     updateMany?: ChapterReadUpdateManyWithWhereWithoutChapterInput | ChapterReadUpdateManyWithWhereWithoutChapterInput[]
     deleteMany?: ChapterReadScalarWhereInput | ChapterReadScalarWhereInput[]
+  }
+
+  export type ChapterReadEventUncheckedUpdateManyWithoutChapterNestedInput = {
+    create?: XOR<ChapterReadEventCreateWithoutChapterInput, ChapterReadEventUncheckedCreateWithoutChapterInput> | ChapterReadEventCreateWithoutChapterInput[] | ChapterReadEventUncheckedCreateWithoutChapterInput[]
+    connectOrCreate?: ChapterReadEventCreateOrConnectWithoutChapterInput | ChapterReadEventCreateOrConnectWithoutChapterInput[]
+    upsert?: ChapterReadEventUpsertWithWhereUniqueWithoutChapterInput | ChapterReadEventUpsertWithWhereUniqueWithoutChapterInput[]
+    createMany?: ChapterReadEventCreateManyChapterInputEnvelope
+    set?: ChapterReadEventWhereUniqueInput | ChapterReadEventWhereUniqueInput[]
+    disconnect?: ChapterReadEventWhereUniqueInput | ChapterReadEventWhereUniqueInput[]
+    delete?: ChapterReadEventWhereUniqueInput | ChapterReadEventWhereUniqueInput[]
+    connect?: ChapterReadEventWhereUniqueInput | ChapterReadEventWhereUniqueInput[]
+    update?: ChapterReadEventUpdateWithWhereUniqueWithoutChapterInput | ChapterReadEventUpdateWithWhereUniqueWithoutChapterInput[]
+    updateMany?: ChapterReadEventUpdateManyWithWhereWithoutChapterInput | ChapterReadEventUpdateManyWithWhereWithoutChapterInput[]
+    deleteMany?: ChapterReadEventScalarWhereInput | ChapterReadEventScalarWhereInput[]
+  }
+
+  export type UserStoryReadingStateUncheckedUpdateManyWithoutLastChapterNestedInput = {
+    create?: XOR<UserStoryReadingStateCreateWithoutLastChapterInput, UserStoryReadingStateUncheckedCreateWithoutLastChapterInput> | UserStoryReadingStateCreateWithoutLastChapterInput[] | UserStoryReadingStateUncheckedCreateWithoutLastChapterInput[]
+    connectOrCreate?: UserStoryReadingStateCreateOrConnectWithoutLastChapterInput | UserStoryReadingStateCreateOrConnectWithoutLastChapterInput[]
+    upsert?: UserStoryReadingStateUpsertWithWhereUniqueWithoutLastChapterInput | UserStoryReadingStateUpsertWithWhereUniqueWithoutLastChapterInput[]
+    createMany?: UserStoryReadingStateCreateManyLastChapterInputEnvelope
+    set?: UserStoryReadingStateWhereUniqueInput | UserStoryReadingStateWhereUniqueInput[]
+    disconnect?: UserStoryReadingStateWhereUniqueInput | UserStoryReadingStateWhereUniqueInput[]
+    delete?: UserStoryReadingStateWhereUniqueInput | UserStoryReadingStateWhereUniqueInput[]
+    connect?: UserStoryReadingStateWhereUniqueInput | UserStoryReadingStateWhereUniqueInput[]
+    update?: UserStoryReadingStateUpdateWithWhereUniqueWithoutLastChapterInput | UserStoryReadingStateUpdateWithWhereUniqueWithoutLastChapterInput[]
+    updateMany?: UserStoryReadingStateUpdateManyWithWhereWithoutLastChapterInput | UserStoryReadingStateUpdateManyWithWhereWithoutLastChapterInput[]
+    deleteMany?: UserStoryReadingStateScalarWhereInput | UserStoryReadingStateScalarWhereInput[]
   }
 
   export type ChapterCreateNestedOneWithoutReadsInput = {
@@ -34933,6 +46059,90 @@ export namespace Prisma {
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutChaptersReadInput, UserUpdateWithoutChaptersReadInput>, UserUncheckedUpdateWithoutChaptersReadInput>
   }
 
+  export type ChapterCreateNestedOneWithoutReadEventsInput = {
+    create?: XOR<ChapterCreateWithoutReadEventsInput, ChapterUncheckedCreateWithoutReadEventsInput>
+    connectOrCreate?: ChapterCreateOrConnectWithoutReadEventsInput
+    connect?: ChapterWhereUniqueInput
+  }
+
+  export type StoryCreateNestedOneWithoutReadEventsInput = {
+    create?: XOR<StoryCreateWithoutReadEventsInput, StoryUncheckedCreateWithoutReadEventsInput>
+    connectOrCreate?: StoryCreateOrConnectWithoutReadEventsInput
+    connect?: StoryWhereUniqueInput
+  }
+
+  export type UserCreateNestedOneWithoutChapterReadEventsInput = {
+    create?: XOR<UserCreateWithoutChapterReadEventsInput, UserUncheckedCreateWithoutChapterReadEventsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutChapterReadEventsInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type ChapterUpdateOneRequiredWithoutReadEventsNestedInput = {
+    create?: XOR<ChapterCreateWithoutReadEventsInput, ChapterUncheckedCreateWithoutReadEventsInput>
+    connectOrCreate?: ChapterCreateOrConnectWithoutReadEventsInput
+    upsert?: ChapterUpsertWithoutReadEventsInput
+    connect?: ChapterWhereUniqueInput
+    update?: XOR<XOR<ChapterUpdateToOneWithWhereWithoutReadEventsInput, ChapterUpdateWithoutReadEventsInput>, ChapterUncheckedUpdateWithoutReadEventsInput>
+  }
+
+  export type StoryUpdateOneRequiredWithoutReadEventsNestedInput = {
+    create?: XOR<StoryCreateWithoutReadEventsInput, StoryUncheckedCreateWithoutReadEventsInput>
+    connectOrCreate?: StoryCreateOrConnectWithoutReadEventsInput
+    upsert?: StoryUpsertWithoutReadEventsInput
+    connect?: StoryWhereUniqueInput
+    update?: XOR<XOR<StoryUpdateToOneWithWhereWithoutReadEventsInput, StoryUpdateWithoutReadEventsInput>, StoryUncheckedUpdateWithoutReadEventsInput>
+  }
+
+  export type UserUpdateOneRequiredWithoutChapterReadEventsNestedInput = {
+    create?: XOR<UserCreateWithoutChapterReadEventsInput, UserUncheckedCreateWithoutChapterReadEventsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutChapterReadEventsInput
+    upsert?: UserUpsertWithoutChapterReadEventsInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutChapterReadEventsInput, UserUpdateWithoutChapterReadEventsInput>, UserUncheckedUpdateWithoutChapterReadEventsInput>
+  }
+
+  export type UserCreateNestedOneWithoutReadingStatesInput = {
+    create?: XOR<UserCreateWithoutReadingStatesInput, UserUncheckedCreateWithoutReadingStatesInput>
+    connectOrCreate?: UserCreateOrConnectWithoutReadingStatesInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type StoryCreateNestedOneWithoutReadingStatesInput = {
+    create?: XOR<StoryCreateWithoutReadingStatesInput, StoryUncheckedCreateWithoutReadingStatesInput>
+    connectOrCreate?: StoryCreateOrConnectWithoutReadingStatesInput
+    connect?: StoryWhereUniqueInput
+  }
+
+  export type ChapterCreateNestedOneWithoutReadingStatesInput = {
+    create?: XOR<ChapterCreateWithoutReadingStatesInput, ChapterUncheckedCreateWithoutReadingStatesInput>
+    connectOrCreate?: ChapterCreateOrConnectWithoutReadingStatesInput
+    connect?: ChapterWhereUniqueInput
+  }
+
+  export type UserUpdateOneRequiredWithoutReadingStatesNestedInput = {
+    create?: XOR<UserCreateWithoutReadingStatesInput, UserUncheckedCreateWithoutReadingStatesInput>
+    connectOrCreate?: UserCreateOrConnectWithoutReadingStatesInput
+    upsert?: UserUpsertWithoutReadingStatesInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutReadingStatesInput, UserUpdateWithoutReadingStatesInput>, UserUncheckedUpdateWithoutReadingStatesInput>
+  }
+
+  export type StoryUpdateOneRequiredWithoutReadingStatesNestedInput = {
+    create?: XOR<StoryCreateWithoutReadingStatesInput, StoryUncheckedCreateWithoutReadingStatesInput>
+    connectOrCreate?: StoryCreateOrConnectWithoutReadingStatesInput
+    upsert?: StoryUpsertWithoutReadingStatesInput
+    connect?: StoryWhereUniqueInput
+    update?: XOR<XOR<StoryUpdateToOneWithWhereWithoutReadingStatesInput, StoryUpdateWithoutReadingStatesInput>, StoryUncheckedUpdateWithoutReadingStatesInput>
+  }
+
+  export type ChapterUpdateOneRequiredWithoutReadingStatesNestedInput = {
+    create?: XOR<ChapterCreateWithoutReadingStatesInput, ChapterUncheckedCreateWithoutReadingStatesInput>
+    connectOrCreate?: ChapterCreateOrConnectWithoutReadingStatesInput
+    upsert?: ChapterUpsertWithoutReadingStatesInput
+    connect?: ChapterWhereUniqueInput
+    update?: XOR<XOR<ChapterUpdateToOneWithWhereWithoutReadingStatesInput, ChapterUpdateWithoutReadingStatesInput>, ChapterUncheckedUpdateWithoutReadingStatesInput>
+  }
+
   export type StoryCreateNestedOneWithoutTopReadsInput = {
     create?: XOR<StoryCreateWithoutTopReadsInput, StoryUncheckedCreateWithoutTopReadsInput>
     connectOrCreate?: StoryCreateOrConnectWithoutTopReadsInput
@@ -34945,6 +46155,20 @@ export namespace Prisma {
     upsert?: StoryUpsertWithoutTopReadsInput
     connect?: StoryWhereUniqueInput
     update?: XOR<XOR<StoryUpdateToOneWithWhereWithoutTopReadsInput, StoryUpdateWithoutTopReadsInput>, StoryUncheckedUpdateWithoutTopReadsInput>
+  }
+
+  export type StoryCreateNestedOneWithoutDailyStatsInput = {
+    create?: XOR<StoryCreateWithoutDailyStatsInput, StoryUncheckedCreateWithoutDailyStatsInput>
+    connectOrCreate?: StoryCreateOrConnectWithoutDailyStatsInput
+    connect?: StoryWhereUniqueInput
+  }
+
+  export type StoryUpdateOneRequiredWithoutDailyStatsNestedInput = {
+    create?: XOR<StoryCreateWithoutDailyStatsInput, StoryUncheckedCreateWithoutDailyStatsInput>
+    connectOrCreate?: StoryCreateOrConnectWithoutDailyStatsInput
+    upsert?: StoryUpsertWithoutDailyStatsInput
+    connect?: StoryWhereUniqueInput
+    update?: XOR<XOR<StoryUpdateToOneWithWhereWithoutDailyStatsInput, StoryUpdateWithoutDailyStatsInput>, StoryUncheckedUpdateWithoutDailyStatsInput>
   }
 
   export type TagCreateNestedManyWithoutGroupInput = {
@@ -35067,6 +46291,68 @@ export namespace Prisma {
     upsert?: UserUpsertWithoutStoryBookmarksInput
     connect?: UserWhereUniqueInput
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutStoryBookmarksInput, UserUpdateWithoutStoryBookmarksInput>, UserUncheckedUpdateWithoutStoryBookmarksInput>
+  }
+
+  export type UserCreateNestedOneWithoutStorySubscriptionsInput = {
+    create?: XOR<UserCreateWithoutStorySubscriptionsInput, UserUncheckedCreateWithoutStorySubscriptionsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutStorySubscriptionsInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type StoryCreateNestedOneWithoutSubscriptionsInput = {
+    create?: XOR<StoryCreateWithoutSubscriptionsInput, StoryUncheckedCreateWithoutSubscriptionsInput>
+    connectOrCreate?: StoryCreateOrConnectWithoutSubscriptionsInput
+    connect?: StoryWhereUniqueInput
+  }
+
+  export type UserUpdateOneRequiredWithoutStorySubscriptionsNestedInput = {
+    create?: XOR<UserCreateWithoutStorySubscriptionsInput, UserUncheckedCreateWithoutStorySubscriptionsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutStorySubscriptionsInput
+    upsert?: UserUpsertWithoutStorySubscriptionsInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutStorySubscriptionsInput, UserUpdateWithoutStorySubscriptionsInput>, UserUncheckedUpdateWithoutStorySubscriptionsInput>
+  }
+
+  export type StoryUpdateOneRequiredWithoutSubscriptionsNestedInput = {
+    create?: XOR<StoryCreateWithoutSubscriptionsInput, StoryUncheckedCreateWithoutSubscriptionsInput>
+    connectOrCreate?: StoryCreateOrConnectWithoutSubscriptionsInput
+    upsert?: StoryUpsertWithoutSubscriptionsInput
+    connect?: StoryWhereUniqueInput
+    update?: XOR<XOR<StoryUpdateToOneWithWhereWithoutSubscriptionsInput, StoryUpdateWithoutSubscriptionsInput>, StoryUncheckedUpdateWithoutSubscriptionsInput>
+  }
+
+  export type UserCreateNestedOneWithoutNotificationsInput = {
+    create?: XOR<UserCreateWithoutNotificationsInput, UserUncheckedCreateWithoutNotificationsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutNotificationsInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type StoryCreateNestedOneWithoutNotificationsInput = {
+    create?: XOR<StoryCreateWithoutNotificationsInput, StoryUncheckedCreateWithoutNotificationsInput>
+    connectOrCreate?: StoryCreateOrConnectWithoutNotificationsInput
+    connect?: StoryWhereUniqueInput
+  }
+
+  export type EnumNotificationTypeFieldUpdateOperationsInput = {
+    set?: $Enums.NotificationType
+  }
+
+  export type UserUpdateOneRequiredWithoutNotificationsNestedInput = {
+    create?: XOR<UserCreateWithoutNotificationsInput, UserUncheckedCreateWithoutNotificationsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutNotificationsInput
+    upsert?: UserUpsertWithoutNotificationsInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutNotificationsInput, UserUpdateWithoutNotificationsInput>, UserUncheckedUpdateWithoutNotificationsInput>
+  }
+
+  export type StoryUpdateOneWithoutNotificationsNestedInput = {
+    create?: XOR<StoryCreateWithoutNotificationsInput, StoryUncheckedCreateWithoutNotificationsInput>
+    connectOrCreate?: StoryCreateOrConnectWithoutNotificationsInput
+    upsert?: StoryUpsertWithoutNotificationsInput
+    disconnect?: StoryWhereInput | boolean
+    delete?: StoryWhereInput | boolean
+    connect?: StoryWhereUniqueInput
+    update?: XOR<XOR<StoryUpdateToOneWithWhereWithoutNotificationsInput, StoryUpdateWithoutNotificationsInput>, StoryUncheckedUpdateWithoutNotificationsInput>
   }
 
   export type StoryCreateNestedOneWithoutRatingsInput = {
@@ -35378,6 +46664,19 @@ export namespace Prisma {
     connect?: DiscussWhereUniqueInput | DiscussWhereUniqueInput[]
   }
 
+  export type DiscussCreateNestedOneWithoutThreadItemsInput = {
+    create?: XOR<DiscussCreateWithoutThreadItemsInput, DiscussUncheckedCreateWithoutThreadItemsInput>
+    connectOrCreate?: DiscussCreateOrConnectWithoutThreadItemsInput
+    connect?: DiscussWhereUniqueInput
+  }
+
+  export type DiscussCreateNestedManyWithoutThreadRootInput = {
+    create?: XOR<DiscussCreateWithoutThreadRootInput, DiscussUncheckedCreateWithoutThreadRootInput> | DiscussCreateWithoutThreadRootInput[] | DiscussUncheckedCreateWithoutThreadRootInput[]
+    connectOrCreate?: DiscussCreateOrConnectWithoutThreadRootInput | DiscussCreateOrConnectWithoutThreadRootInput[]
+    createMany?: DiscussCreateManyThreadRootInputEnvelope
+    connect?: DiscussWhereUniqueInput | DiscussWhereUniqueInput[]
+  }
+
   export type StoryCreateNestedOneWithoutDiscussesInput = {
     create?: XOR<StoryCreateWithoutDiscussesInput, StoryUncheckedCreateWithoutDiscussesInput>
     connectOrCreate?: StoryCreateOrConnectWithoutDiscussesInput
@@ -35401,6 +46700,13 @@ export namespace Prisma {
     create?: XOR<DiscussCreateWithoutParentInput, DiscussUncheckedCreateWithoutParentInput> | DiscussCreateWithoutParentInput[] | DiscussUncheckedCreateWithoutParentInput[]
     connectOrCreate?: DiscussCreateOrConnectWithoutParentInput | DiscussCreateOrConnectWithoutParentInput[]
     createMany?: DiscussCreateManyParentInputEnvelope
+    connect?: DiscussWhereUniqueInput | DiscussWhereUniqueInput[]
+  }
+
+  export type DiscussUncheckedCreateNestedManyWithoutThreadRootInput = {
+    create?: XOR<DiscussCreateWithoutThreadRootInput, DiscussUncheckedCreateWithoutThreadRootInput> | DiscussCreateWithoutThreadRootInput[] | DiscussUncheckedCreateWithoutThreadRootInput[]
+    connectOrCreate?: DiscussCreateOrConnectWithoutThreadRootInput | DiscussCreateOrConnectWithoutThreadRootInput[]
+    createMany?: DiscussCreateManyThreadRootInputEnvelope
     connect?: DiscussWhereUniqueInput | DiscussWhereUniqueInput[]
   }
 
@@ -35432,6 +46738,30 @@ export namespace Prisma {
     connect?: DiscussWhereUniqueInput | DiscussWhereUniqueInput[]
     update?: DiscussUpdateWithWhereUniqueWithoutParentInput | DiscussUpdateWithWhereUniqueWithoutParentInput[]
     updateMany?: DiscussUpdateManyWithWhereWithoutParentInput | DiscussUpdateManyWithWhereWithoutParentInput[]
+    deleteMany?: DiscussScalarWhereInput | DiscussScalarWhereInput[]
+  }
+
+  export type DiscussUpdateOneWithoutThreadItemsNestedInput = {
+    create?: XOR<DiscussCreateWithoutThreadItemsInput, DiscussUncheckedCreateWithoutThreadItemsInput>
+    connectOrCreate?: DiscussCreateOrConnectWithoutThreadItemsInput
+    upsert?: DiscussUpsertWithoutThreadItemsInput
+    disconnect?: DiscussWhereInput | boolean
+    delete?: DiscussWhereInput | boolean
+    connect?: DiscussWhereUniqueInput
+    update?: XOR<XOR<DiscussUpdateToOneWithWhereWithoutThreadItemsInput, DiscussUpdateWithoutThreadItemsInput>, DiscussUncheckedUpdateWithoutThreadItemsInput>
+  }
+
+  export type DiscussUpdateManyWithoutThreadRootNestedInput = {
+    create?: XOR<DiscussCreateWithoutThreadRootInput, DiscussUncheckedCreateWithoutThreadRootInput> | DiscussCreateWithoutThreadRootInput[] | DiscussUncheckedCreateWithoutThreadRootInput[]
+    connectOrCreate?: DiscussCreateOrConnectWithoutThreadRootInput | DiscussCreateOrConnectWithoutThreadRootInput[]
+    upsert?: DiscussUpsertWithWhereUniqueWithoutThreadRootInput | DiscussUpsertWithWhereUniqueWithoutThreadRootInput[]
+    createMany?: DiscussCreateManyThreadRootInputEnvelope
+    set?: DiscussWhereUniqueInput | DiscussWhereUniqueInput[]
+    disconnect?: DiscussWhereUniqueInput | DiscussWhereUniqueInput[]
+    delete?: DiscussWhereUniqueInput | DiscussWhereUniqueInput[]
+    connect?: DiscussWhereUniqueInput | DiscussWhereUniqueInput[]
+    update?: DiscussUpdateWithWhereUniqueWithoutThreadRootInput | DiscussUpdateWithWhereUniqueWithoutThreadRootInput[]
+    updateMany?: DiscussUpdateManyWithWhereWithoutThreadRootInput | DiscussUpdateManyWithWhereWithoutThreadRootInput[]
     deleteMany?: DiscussScalarWhereInput | DiscussScalarWhereInput[]
   }
 
@@ -35476,6 +46806,20 @@ export namespace Prisma {
     connect?: DiscussWhereUniqueInput | DiscussWhereUniqueInput[]
     update?: DiscussUpdateWithWhereUniqueWithoutParentInput | DiscussUpdateWithWhereUniqueWithoutParentInput[]
     updateMany?: DiscussUpdateManyWithWhereWithoutParentInput | DiscussUpdateManyWithWhereWithoutParentInput[]
+    deleteMany?: DiscussScalarWhereInput | DiscussScalarWhereInput[]
+  }
+
+  export type DiscussUncheckedUpdateManyWithoutThreadRootNestedInput = {
+    create?: XOR<DiscussCreateWithoutThreadRootInput, DiscussUncheckedCreateWithoutThreadRootInput> | DiscussCreateWithoutThreadRootInput[] | DiscussUncheckedCreateWithoutThreadRootInput[]
+    connectOrCreate?: DiscussCreateOrConnectWithoutThreadRootInput | DiscussCreateOrConnectWithoutThreadRootInput[]
+    upsert?: DiscussUpsertWithWhereUniqueWithoutThreadRootInput | DiscussUpsertWithWhereUniqueWithoutThreadRootInput[]
+    createMany?: DiscussCreateManyThreadRootInputEnvelope
+    set?: DiscussWhereUniqueInput | DiscussWhereUniqueInput[]
+    disconnect?: DiscussWhereUniqueInput | DiscussWhereUniqueInput[]
+    delete?: DiscussWhereUniqueInput | DiscussWhereUniqueInput[]
+    connect?: DiscussWhereUniqueInput | DiscussWhereUniqueInput[]
+    update?: DiscussUpdateWithWhereUniqueWithoutThreadRootInput | DiscussUpdateWithWhereUniqueWithoutThreadRootInput[]
+    updateMany?: DiscussUpdateManyWithWhereWithoutThreadRootInput | DiscussUpdateManyWithWhereWithoutThreadRootInput[]
     deleteMany?: DiscussScalarWhereInput | DiscussScalarWhereInput[]
   }
 
@@ -35771,6 +47115,23 @@ export namespace Prisma {
     _max?: NestedDateTimeNullableFilter<$PrismaModel>
   }
 
+  export type NestedEnumAuthTokenTypeFilter<$PrismaModel = never> = {
+    equals?: $Enums.AuthTokenType | EnumAuthTokenTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.AuthTokenType[] | ListEnumAuthTokenTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.AuthTokenType[] | ListEnumAuthTokenTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumAuthTokenTypeFilter<$PrismaModel> | $Enums.AuthTokenType
+  }
+
+  export type NestedEnumAuthTokenTypeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.AuthTokenType | EnumAuthTokenTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.AuthTokenType[] | ListEnumAuthTokenTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.AuthTokenType[] | ListEnumAuthTokenTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumAuthTokenTypeWithAggregatesFilter<$PrismaModel> | $Enums.AuthTokenType
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumAuthTokenTypeFilter<$PrismaModel>
+    _max?: NestedEnumAuthTokenTypeFilter<$PrismaModel>
+  }
+
   export type NestedEnumSortReadingOptionFilter<$PrismaModel = never> = {
     equals?: $Enums.SortReadingOption | EnumSortReadingOptionFieldRefInput<$PrismaModel>
     in?: $Enums.SortReadingOption[] | ListEnumSortReadingOptionFieldRefInput<$PrismaModel>
@@ -35834,6 +47195,23 @@ export namespace Prisma {
     _max?: NestedFloatFilter<$PrismaModel>
   }
 
+  export type NestedEnumNotificationTypeFilter<$PrismaModel = never> = {
+    equals?: $Enums.NotificationType | EnumNotificationTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.NotificationType[] | ListEnumNotificationTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.NotificationType[] | ListEnumNotificationTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumNotificationTypeFilter<$PrismaModel> | $Enums.NotificationType
+  }
+
+  export type NestedEnumNotificationTypeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.NotificationType | EnumNotificationTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.NotificationType[] | ListEnumNotificationTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.NotificationType[] | ListEnumNotificationTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumNotificationTypeWithAggregatesFilter<$PrismaModel> | $Enums.NotificationType
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumNotificationTypeFilter<$PrismaModel>
+    _max?: NestedEnumNotificationTypeFilter<$PrismaModel>
+  }
+
   export type AccountCreateWithoutUserInput = {
     id?: string
     type: string
@@ -35874,12 +47252,14 @@ export namespace Prisma {
 
   export type ChapterReadCreateWithoutUserInput = {
     readAt?: Date | string
+    updatedAt?: Date | string
     chapter: ChapterCreateNestedOneWithoutReadsInput
   }
 
   export type ChapterReadUncheckedCreateWithoutUserInput = {
     id?: number
     readAt?: Date | string
+    updatedAt?: Date | string
     chapterId: number
   }
 
@@ -35893,26 +47273,132 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type ChapterReadEventCreateWithoutUserInput = {
+    readAt?: Date | string
+    chapter: ChapterCreateNestedOneWithoutReadEventsInput
+    story: StoryCreateNestedOneWithoutReadEventsInput
+  }
+
+  export type ChapterReadEventUncheckedCreateWithoutUserInput = {
+    id?: number
+    readAt?: Date | string
+    storyId: number
+    chapterId: number
+  }
+
+  export type ChapterReadEventCreateOrConnectWithoutUserInput = {
+    where: ChapterReadEventWhereUniqueInput
+    create: XOR<ChapterReadEventCreateWithoutUserInput, ChapterReadEventUncheckedCreateWithoutUserInput>
+  }
+
+  export type ChapterReadEventCreateManyUserInputEnvelope = {
+    data: ChapterReadEventCreateManyUserInput | ChapterReadEventCreateManyUserInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type UserStoryReadingStateCreateWithoutUserInput = {
+    lastReadAt?: Date | string
+    hiddenAt?: Date | string | null
+    story: StoryCreateNestedOneWithoutReadingStatesInput
+    lastChapter: ChapterCreateNestedOneWithoutReadingStatesInput
+  }
+
+  export type UserStoryReadingStateUncheckedCreateWithoutUserInput = {
+    id?: number
+    storyId: number
+    lastChapterId: number
+    lastReadAt?: Date | string
+    hiddenAt?: Date | string | null
+  }
+
+  export type UserStoryReadingStateCreateOrConnectWithoutUserInput = {
+    where: UserStoryReadingStateWhereUniqueInput
+    create: XOR<UserStoryReadingStateCreateWithoutUserInput, UserStoryReadingStateUncheckedCreateWithoutUserInput>
+  }
+
+  export type UserStoryReadingStateCreateManyUserInputEnvelope = {
+    data: UserStoryReadingStateCreateManyUserInput | UserStoryReadingStateCreateManyUserInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type StorySubscriptionCreateWithoutUserInput = {
+    createdAt?: Date | string
+    story: StoryCreateNestedOneWithoutSubscriptionsInput
+  }
+
+  export type StorySubscriptionUncheckedCreateWithoutUserInput = {
+    id?: number
+    storyId: number
+    createdAt?: Date | string
+  }
+
+  export type StorySubscriptionCreateOrConnectWithoutUserInput = {
+    where: StorySubscriptionWhereUniqueInput
+    create: XOR<StorySubscriptionCreateWithoutUserInput, StorySubscriptionUncheckedCreateWithoutUserInput>
+  }
+
+  export type StorySubscriptionCreateManyUserInputEnvelope = {
+    data: StorySubscriptionCreateManyUserInput | StorySubscriptionCreateManyUserInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type NotificationCreateWithoutUserInput = {
+    type: $Enums.NotificationType
+    title: string
+    content?: string | null
+    dedupeKey: string
+    readAt?: Date | string | null
+    createdAt?: Date | string
+    story?: StoryCreateNestedOneWithoutNotificationsInput
+  }
+
+  export type NotificationUncheckedCreateWithoutUserInput = {
+    id?: number
+    type: $Enums.NotificationType
+    storyId?: number | null
+    title: string
+    content?: string | null
+    dedupeKey: string
+    readAt?: Date | string | null
+    createdAt?: Date | string
+  }
+
+  export type NotificationCreateOrConnectWithoutUserInput = {
+    where: NotificationWhereUniqueInput
+    create: XOR<NotificationCreateWithoutUserInput, NotificationUncheckedCreateWithoutUserInput>
+  }
+
+  export type NotificationCreateManyUserInputEnvelope = {
+    data: NotificationCreateManyUserInput | NotificationCreateManyUserInput[]
+    skipDuplicates?: boolean
+  }
+
   export type DiscussCreateWithoutUserInput = {
+    clientSubmissionId?: string | null
     content: string
     createdAt?: Date | string
     updatedAt?: Date | string
     likeCount?: number
     parent?: DiscussCreateNestedOneWithoutRepliesInput
     replies?: DiscussCreateNestedManyWithoutParentInput
+    threadRoot?: DiscussCreateNestedOneWithoutThreadItemsInput
+    threadItems?: DiscussCreateNestedManyWithoutThreadRootInput
     story: StoryCreateNestedOneWithoutDiscussesInput
     likes?: DiscussLikeCreateNestedManyWithoutDiscussInput
   }
 
   export type DiscussUncheckedCreateWithoutUserInput = {
     id?: number
+    clientSubmissionId?: string | null
     content: string
     createdAt?: Date | string
     updatedAt?: Date | string
     storyId: number
     parentId?: number | null
+    threadRootId?: number | null
     likeCount?: number
     replies?: DiscussUncheckedCreateNestedManyWithoutParentInput
+    threadItems?: DiscussUncheckedCreateNestedManyWithoutThreadRootInput
     likes?: DiscussLikeUncheckedCreateNestedManyWithoutDiscussInput
   }
 
@@ -35991,6 +47477,7 @@ export namespace Prisma {
   }
 
   export type RatingCommentCreateWithoutUserInput = {
+    clientSubmissionId?: string | null
     content: string
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -36002,6 +47489,7 @@ export namespace Prisma {
 
   export type RatingCommentUncheckedCreateWithoutUserInput = {
     id?: number
+    clientSubmissionId?: string | null
     content: string
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -36094,6 +47582,7 @@ export namespace Prisma {
     slug?: string | null
     stringUrl: string
     totalChapters?: number | null
+    latestChapterAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     introduce: string
@@ -36106,7 +47595,12 @@ export namespace Prisma {
     fans?: StoryFanCreateNestedManyWithoutStoryInput
     votes?: StoryRecommendationCreateNestedManyWithoutStoryInput
     stats?: StoryStatsCreateNestedOneWithoutStoryInput
+    dailyStats?: StoryDailyReadStatsCreateNestedManyWithoutStoryInput
     topReads?: TopStoryReadCreateNestedManyWithoutStoryInput
+    readEvents?: ChapterReadEventCreateNestedManyWithoutStoryInput
+    readingStates?: UserStoryReadingStateCreateNestedManyWithoutStoryInput
+    subscriptions?: StorySubscriptionCreateNestedManyWithoutStoryInput
+    notifications?: NotificationCreateNestedManyWithoutStoryInput
     tags?: TagCreateNestedManyWithoutStoriesInput
   }
 
@@ -36116,6 +47610,7 @@ export namespace Prisma {
     slug?: string | null
     stringUrl: string
     totalChapters?: number | null
+    latestChapterAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     authorId: number
@@ -36128,7 +47623,12 @@ export namespace Prisma {
     fans?: StoryFanUncheckedCreateNestedManyWithoutStoryInput
     votes?: StoryRecommendationUncheckedCreateNestedManyWithoutStoryInput
     stats?: StoryStatsUncheckedCreateNestedOneWithoutStoryInput
+    dailyStats?: StoryDailyReadStatsUncheckedCreateNestedManyWithoutStoryInput
     topReads?: TopStoryReadUncheckedCreateNestedManyWithoutStoryInput
+    readEvents?: ChapterReadEventUncheckedCreateNestedManyWithoutStoryInput
+    readingStates?: UserStoryReadingStateUncheckedCreateNestedManyWithoutStoryInput
+    subscriptions?: StorySubscriptionUncheckedCreateNestedManyWithoutStoryInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutStoryInput
     tags?: TagUncheckedCreateNestedManyWithoutStoriesInput
   }
 
@@ -36214,6 +47714,7 @@ export namespace Prisma {
     sortMarked?: $Enums.SortMarkedOption
     notifyNewChapter?: boolean
     notifyInteraction?: boolean
+    notifyGeneral?: boolean
   }
 
   export type UserSettingUncheckedCreateWithoutUserInput = {
@@ -36222,11 +47723,42 @@ export namespace Prisma {
     sortMarked?: $Enums.SortMarkedOption
     notifyNewChapter?: boolean
     notifyInteraction?: boolean
+    notifyGeneral?: boolean
   }
 
   export type UserSettingCreateOrConnectWithoutUserInput = {
     where: UserSettingWhereUniqueInput
     create: XOR<UserSettingCreateWithoutUserInput, UserSettingUncheckedCreateWithoutUserInput>
+  }
+
+  export type UserAuthTokenCreateWithoutUserInput = {
+    id?: string
+    type: $Enums.AuthTokenType
+    tokenHash: string
+    targetEmail?: string | null
+    expiresAt: Date | string
+    usedAt?: Date | string | null
+    createdAt?: Date | string
+  }
+
+  export type UserAuthTokenUncheckedCreateWithoutUserInput = {
+    id?: string
+    type: $Enums.AuthTokenType
+    tokenHash: string
+    targetEmail?: string | null
+    expiresAt: Date | string
+    usedAt?: Date | string | null
+    createdAt?: Date | string
+  }
+
+  export type UserAuthTokenCreateOrConnectWithoutUserInput = {
+    where: UserAuthTokenWhereUniqueInput
+    create: XOR<UserAuthTokenCreateWithoutUserInput, UserAuthTokenUncheckedCreateWithoutUserInput>
+  }
+
+  export type UserAuthTokenCreateManyUserInputEnvelope = {
+    data: UserAuthTokenCreateManyUserInput | UserAuthTokenCreateManyUserInput[]
+    skipDuplicates?: boolean
   }
 
   export type AccountUpsertWithWhereUniqueWithoutUserInput = {
@@ -36285,8 +47817,121 @@ export namespace Prisma {
     NOT?: ChapterReadScalarWhereInput | ChapterReadScalarWhereInput[]
     id?: IntFilter<"ChapterRead"> | number
     readAt?: DateTimeFilter<"ChapterRead"> | Date | string
+    updatedAt?: DateTimeFilter<"ChapterRead"> | Date | string
     userId?: StringFilter<"ChapterRead"> | string
     chapterId?: IntFilter<"ChapterRead"> | number
+  }
+
+  export type ChapterReadEventUpsertWithWhereUniqueWithoutUserInput = {
+    where: ChapterReadEventWhereUniqueInput
+    update: XOR<ChapterReadEventUpdateWithoutUserInput, ChapterReadEventUncheckedUpdateWithoutUserInput>
+    create: XOR<ChapterReadEventCreateWithoutUserInput, ChapterReadEventUncheckedCreateWithoutUserInput>
+  }
+
+  export type ChapterReadEventUpdateWithWhereUniqueWithoutUserInput = {
+    where: ChapterReadEventWhereUniqueInput
+    data: XOR<ChapterReadEventUpdateWithoutUserInput, ChapterReadEventUncheckedUpdateWithoutUserInput>
+  }
+
+  export type ChapterReadEventUpdateManyWithWhereWithoutUserInput = {
+    where: ChapterReadEventScalarWhereInput
+    data: XOR<ChapterReadEventUpdateManyMutationInput, ChapterReadEventUncheckedUpdateManyWithoutUserInput>
+  }
+
+  export type ChapterReadEventScalarWhereInput = {
+    AND?: ChapterReadEventScalarWhereInput | ChapterReadEventScalarWhereInput[]
+    OR?: ChapterReadEventScalarWhereInput[]
+    NOT?: ChapterReadEventScalarWhereInput | ChapterReadEventScalarWhereInput[]
+    id?: IntFilter<"ChapterReadEvent"> | number
+    readAt?: DateTimeFilter<"ChapterReadEvent"> | Date | string
+    userId?: StringFilter<"ChapterReadEvent"> | string
+    storyId?: IntFilter<"ChapterReadEvent"> | number
+    chapterId?: IntFilter<"ChapterReadEvent"> | number
+  }
+
+  export type UserStoryReadingStateUpsertWithWhereUniqueWithoutUserInput = {
+    where: UserStoryReadingStateWhereUniqueInput
+    update: XOR<UserStoryReadingStateUpdateWithoutUserInput, UserStoryReadingStateUncheckedUpdateWithoutUserInput>
+    create: XOR<UserStoryReadingStateCreateWithoutUserInput, UserStoryReadingStateUncheckedCreateWithoutUserInput>
+  }
+
+  export type UserStoryReadingStateUpdateWithWhereUniqueWithoutUserInput = {
+    where: UserStoryReadingStateWhereUniqueInput
+    data: XOR<UserStoryReadingStateUpdateWithoutUserInput, UserStoryReadingStateUncheckedUpdateWithoutUserInput>
+  }
+
+  export type UserStoryReadingStateUpdateManyWithWhereWithoutUserInput = {
+    where: UserStoryReadingStateScalarWhereInput
+    data: XOR<UserStoryReadingStateUpdateManyMutationInput, UserStoryReadingStateUncheckedUpdateManyWithoutUserInput>
+  }
+
+  export type UserStoryReadingStateScalarWhereInput = {
+    AND?: UserStoryReadingStateScalarWhereInput | UserStoryReadingStateScalarWhereInput[]
+    OR?: UserStoryReadingStateScalarWhereInput[]
+    NOT?: UserStoryReadingStateScalarWhereInput | UserStoryReadingStateScalarWhereInput[]
+    id?: IntFilter<"UserStoryReadingState"> | number
+    userId?: StringFilter<"UserStoryReadingState"> | string
+    storyId?: IntFilter<"UserStoryReadingState"> | number
+    lastChapterId?: IntFilter<"UserStoryReadingState"> | number
+    lastReadAt?: DateTimeFilter<"UserStoryReadingState"> | Date | string
+    hiddenAt?: DateTimeNullableFilter<"UserStoryReadingState"> | Date | string | null
+  }
+
+  export type StorySubscriptionUpsertWithWhereUniqueWithoutUserInput = {
+    where: StorySubscriptionWhereUniqueInput
+    update: XOR<StorySubscriptionUpdateWithoutUserInput, StorySubscriptionUncheckedUpdateWithoutUserInput>
+    create: XOR<StorySubscriptionCreateWithoutUserInput, StorySubscriptionUncheckedCreateWithoutUserInput>
+  }
+
+  export type StorySubscriptionUpdateWithWhereUniqueWithoutUserInput = {
+    where: StorySubscriptionWhereUniqueInput
+    data: XOR<StorySubscriptionUpdateWithoutUserInput, StorySubscriptionUncheckedUpdateWithoutUserInput>
+  }
+
+  export type StorySubscriptionUpdateManyWithWhereWithoutUserInput = {
+    where: StorySubscriptionScalarWhereInput
+    data: XOR<StorySubscriptionUpdateManyMutationInput, StorySubscriptionUncheckedUpdateManyWithoutUserInput>
+  }
+
+  export type StorySubscriptionScalarWhereInput = {
+    AND?: StorySubscriptionScalarWhereInput | StorySubscriptionScalarWhereInput[]
+    OR?: StorySubscriptionScalarWhereInput[]
+    NOT?: StorySubscriptionScalarWhereInput | StorySubscriptionScalarWhereInput[]
+    id?: IntFilter<"StorySubscription"> | number
+    userId?: StringFilter<"StorySubscription"> | string
+    storyId?: IntFilter<"StorySubscription"> | number
+    createdAt?: DateTimeFilter<"StorySubscription"> | Date | string
+  }
+
+  export type NotificationUpsertWithWhereUniqueWithoutUserInput = {
+    where: NotificationWhereUniqueInput
+    update: XOR<NotificationUpdateWithoutUserInput, NotificationUncheckedUpdateWithoutUserInput>
+    create: XOR<NotificationCreateWithoutUserInput, NotificationUncheckedCreateWithoutUserInput>
+  }
+
+  export type NotificationUpdateWithWhereUniqueWithoutUserInput = {
+    where: NotificationWhereUniqueInput
+    data: XOR<NotificationUpdateWithoutUserInput, NotificationUncheckedUpdateWithoutUserInput>
+  }
+
+  export type NotificationUpdateManyWithWhereWithoutUserInput = {
+    where: NotificationScalarWhereInput
+    data: XOR<NotificationUpdateManyMutationInput, NotificationUncheckedUpdateManyWithoutUserInput>
+  }
+
+  export type NotificationScalarWhereInput = {
+    AND?: NotificationScalarWhereInput | NotificationScalarWhereInput[]
+    OR?: NotificationScalarWhereInput[]
+    NOT?: NotificationScalarWhereInput | NotificationScalarWhereInput[]
+    id?: IntFilter<"Notification"> | number
+    userId?: StringFilter<"Notification"> | string
+    type?: EnumNotificationTypeFilter<"Notification"> | $Enums.NotificationType
+    storyId?: IntNullableFilter<"Notification"> | number | null
+    title?: StringFilter<"Notification"> | string
+    content?: StringNullableFilter<"Notification"> | string | null
+    dedupeKey?: StringFilter<"Notification"> | string
+    readAt?: DateTimeNullableFilter<"Notification"> | Date | string | null
+    createdAt?: DateTimeFilter<"Notification"> | Date | string
   }
 
   export type DiscussUpsertWithWhereUniqueWithoutUserInput = {
@@ -36310,12 +47955,14 @@ export namespace Prisma {
     OR?: DiscussScalarWhereInput[]
     NOT?: DiscussScalarWhereInput | DiscussScalarWhereInput[]
     id?: IntFilter<"Discuss"> | number
+    clientSubmissionId?: StringNullableFilter<"Discuss"> | string | null
     content?: StringFilter<"Discuss"> | string
     createdAt?: DateTimeFilter<"Discuss"> | Date | string
     updatedAt?: DateTimeFilter<"Discuss"> | Date | string
     userId?: StringFilter<"Discuss"> | string
     storyId?: IntFilter<"Discuss"> | number
     parentId?: IntNullableFilter<"Discuss"> | number | null
+    threadRootId?: IntNullableFilter<"Discuss"> | number | null
     likeCount?: IntFilter<"Discuss"> | number
   }
 
@@ -36401,6 +48048,7 @@ export namespace Prisma {
     OR?: RatingCommentScalarWhereInput[]
     NOT?: RatingCommentScalarWhereInput | RatingCommentScalarWhereInput[]
     id?: IntFilter<"RatingComment"> | number
+    clientSubmissionId?: StringNullableFilter<"RatingComment"> | string | null
     content?: StringFilter<"RatingComment"> | string
     createdAt?: DateTimeFilter<"RatingComment"> | Date | string
     updatedAt?: DateTimeFilter<"RatingComment"> | Date | string
@@ -36514,6 +48162,7 @@ export namespace Prisma {
     slug?: StringNullableFilter<"Story"> | string | null
     stringUrl?: StringFilter<"Story"> | string
     totalChapters?: IntNullableFilter<"Story"> | number | null
+    latestChapterAt?: DateTimeNullableFilter<"Story"> | Date | string | null
     createdAt?: DateTimeFilter<"Story"> | Date | string
     updatedAt?: DateTimeFilter<"Story"> | Date | string
     uploaderId?: StringFilter<"Story"> | string
@@ -36618,6 +48267,7 @@ export namespace Prisma {
     sortMarked?: EnumSortMarkedOptionFieldUpdateOperationsInput | $Enums.SortMarkedOption
     notifyNewChapter?: BoolFieldUpdateOperationsInput | boolean
     notifyInteraction?: BoolFieldUpdateOperationsInput | boolean
+    notifyGeneral?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type UserSettingUncheckedUpdateWithoutUserInput = {
@@ -36626,6 +48276,37 @@ export namespace Prisma {
     sortMarked?: EnumSortMarkedOptionFieldUpdateOperationsInput | $Enums.SortMarkedOption
     notifyNewChapter?: BoolFieldUpdateOperationsInput | boolean
     notifyInteraction?: BoolFieldUpdateOperationsInput | boolean
+    notifyGeneral?: BoolFieldUpdateOperationsInput | boolean
+  }
+
+  export type UserAuthTokenUpsertWithWhereUniqueWithoutUserInput = {
+    where: UserAuthTokenWhereUniqueInput
+    update: XOR<UserAuthTokenUpdateWithoutUserInput, UserAuthTokenUncheckedUpdateWithoutUserInput>
+    create: XOR<UserAuthTokenCreateWithoutUserInput, UserAuthTokenUncheckedCreateWithoutUserInput>
+  }
+
+  export type UserAuthTokenUpdateWithWhereUniqueWithoutUserInput = {
+    where: UserAuthTokenWhereUniqueInput
+    data: XOR<UserAuthTokenUpdateWithoutUserInput, UserAuthTokenUncheckedUpdateWithoutUserInput>
+  }
+
+  export type UserAuthTokenUpdateManyWithWhereWithoutUserInput = {
+    where: UserAuthTokenScalarWhereInput
+    data: XOR<UserAuthTokenUpdateManyMutationInput, UserAuthTokenUncheckedUpdateManyWithoutUserInput>
+  }
+
+  export type UserAuthTokenScalarWhereInput = {
+    AND?: UserAuthTokenScalarWhereInput | UserAuthTokenScalarWhereInput[]
+    OR?: UserAuthTokenScalarWhereInput[]
+    NOT?: UserAuthTokenScalarWhereInput | UserAuthTokenScalarWhereInput[]
+    id?: StringFilter<"UserAuthToken"> | string
+    userId?: StringFilter<"UserAuthToken"> | string
+    type?: EnumAuthTokenTypeFilter<"UserAuthToken"> | $Enums.AuthTokenType
+    tokenHash?: StringFilter<"UserAuthToken"> | string
+    targetEmail?: StringNullableFilter<"UserAuthToken"> | string | null
+    expiresAt?: DateTimeFilter<"UserAuthToken"> | Date | string
+    usedAt?: DateTimeNullableFilter<"UserAuthToken"> | Date | string | null
+    createdAt?: DateTimeFilter<"UserAuthToken"> | Date | string
   }
 
   export type UserCreateWithoutAccountsInput = {
@@ -36644,7 +48325,13 @@ export namespace Prisma {
     updatedAt?: Date | string
     voteTickets?: number
     emailVerified?: Date | string | null
+    imageUpdatedAt?: Date | string | null
+    authVersion?: number
     chaptersRead?: ChapterReadCreateNestedManyWithoutUserInput
+    chapterReadEvents?: ChapterReadEventCreateNestedManyWithoutUserInput
+    readingStates?: UserStoryReadingStateCreateNestedManyWithoutUserInput
+    storySubscriptions?: StorySubscriptionCreateNestedManyWithoutUserInput
+    notifications?: NotificationCreateNestedManyWithoutUserInput
     discussStorys?: DiscussCreateNestedManyWithoutUserInput
     discussesLikes?: DiscussLikeCreateNestedManyWithoutUserInput
     ratingStorys?: RatingCreateNestedManyWithoutUserInput
@@ -36657,6 +48344,7 @@ export namespace Prisma {
     storysFan?: StoryFanCreateNestedManyWithoutUserInput
     votes?: StoryRecommendationCreateNestedManyWithoutUserInput
     setting?: UserSettingCreateNestedOneWithoutUserInput
+    authTokens?: UserAuthTokenCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutAccountsInput = {
@@ -36675,7 +48363,13 @@ export namespace Prisma {
     updatedAt?: Date | string
     voteTickets?: number
     emailVerified?: Date | string | null
+    imageUpdatedAt?: Date | string | null
+    authVersion?: number
     chaptersRead?: ChapterReadUncheckedCreateNestedManyWithoutUserInput
+    chapterReadEvents?: ChapterReadEventUncheckedCreateNestedManyWithoutUserInput
+    readingStates?: UserStoryReadingStateUncheckedCreateNestedManyWithoutUserInput
+    storySubscriptions?: StorySubscriptionUncheckedCreateNestedManyWithoutUserInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
     discussStorys?: DiscussUncheckedCreateNestedManyWithoutUserInput
     discussesLikes?: DiscussLikeUncheckedCreateNestedManyWithoutUserInput
     ratingStorys?: RatingUncheckedCreateNestedManyWithoutUserInput
@@ -36688,6 +48382,7 @@ export namespace Prisma {
     storysFan?: StoryFanUncheckedCreateNestedManyWithoutUserInput
     votes?: StoryRecommendationUncheckedCreateNestedManyWithoutUserInput
     setting?: UserSettingUncheckedCreateNestedOneWithoutUserInput
+    authTokens?: UserAuthTokenUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutAccountsInput = {
@@ -36722,7 +48417,13 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     voteTickets?: IntFieldUpdateOperationsInput | number
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    imageUpdatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    authVersion?: IntFieldUpdateOperationsInput | number
     chaptersRead?: ChapterReadUpdateManyWithoutUserNestedInput
+    chapterReadEvents?: ChapterReadEventUpdateManyWithoutUserNestedInput
+    readingStates?: UserStoryReadingStateUpdateManyWithoutUserNestedInput
+    storySubscriptions?: StorySubscriptionUpdateManyWithoutUserNestedInput
+    notifications?: NotificationUpdateManyWithoutUserNestedInput
     discussStorys?: DiscussUpdateManyWithoutUserNestedInput
     discussesLikes?: DiscussLikeUpdateManyWithoutUserNestedInput
     ratingStorys?: RatingUpdateManyWithoutUserNestedInput
@@ -36735,6 +48436,7 @@ export namespace Prisma {
     storysFan?: StoryFanUpdateManyWithoutUserNestedInput
     votes?: StoryRecommendationUpdateManyWithoutUserNestedInput
     setting?: UserSettingUpdateOneWithoutUserNestedInput
+    authTokens?: UserAuthTokenUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutAccountsInput = {
@@ -36753,7 +48455,13 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     voteTickets?: IntFieldUpdateOperationsInput | number
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    imageUpdatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    authVersion?: IntFieldUpdateOperationsInput | number
     chaptersRead?: ChapterReadUncheckedUpdateManyWithoutUserNestedInput
+    chapterReadEvents?: ChapterReadEventUncheckedUpdateManyWithoutUserNestedInput
+    readingStates?: UserStoryReadingStateUncheckedUpdateManyWithoutUserNestedInput
+    storySubscriptions?: StorySubscriptionUncheckedUpdateManyWithoutUserNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
     discussStorys?: DiscussUncheckedUpdateManyWithoutUserNestedInput
     discussesLikes?: DiscussLikeUncheckedUpdateManyWithoutUserNestedInput
     ratingStorys?: RatingUncheckedUpdateManyWithoutUserNestedInput
@@ -36766,6 +48474,7 @@ export namespace Prisma {
     storysFan?: StoryFanUncheckedUpdateManyWithoutUserNestedInput
     votes?: StoryRecommendationUncheckedUpdateManyWithoutUserNestedInput
     setting?: UserSettingUncheckedUpdateOneWithoutUserNestedInput
+    authTokens?: UserAuthTokenUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutSessionsInput = {
@@ -36784,8 +48493,14 @@ export namespace Prisma {
     updatedAt?: Date | string
     voteTickets?: number
     emailVerified?: Date | string | null
+    imageUpdatedAt?: Date | string | null
+    authVersion?: number
     accounts?: AccountCreateNestedManyWithoutUserInput
     chaptersRead?: ChapterReadCreateNestedManyWithoutUserInput
+    chapterReadEvents?: ChapterReadEventCreateNestedManyWithoutUserInput
+    readingStates?: UserStoryReadingStateCreateNestedManyWithoutUserInput
+    storySubscriptions?: StorySubscriptionCreateNestedManyWithoutUserInput
+    notifications?: NotificationCreateNestedManyWithoutUserInput
     discussStorys?: DiscussCreateNestedManyWithoutUserInput
     discussesLikes?: DiscussLikeCreateNestedManyWithoutUserInput
     ratingStorys?: RatingCreateNestedManyWithoutUserInput
@@ -36797,6 +48512,7 @@ export namespace Prisma {
     storysFan?: StoryFanCreateNestedManyWithoutUserInput
     votes?: StoryRecommendationCreateNestedManyWithoutUserInput
     setting?: UserSettingCreateNestedOneWithoutUserInput
+    authTokens?: UserAuthTokenCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutSessionsInput = {
@@ -36815,8 +48531,14 @@ export namespace Prisma {
     updatedAt?: Date | string
     voteTickets?: number
     emailVerified?: Date | string | null
+    imageUpdatedAt?: Date | string | null
+    authVersion?: number
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     chaptersRead?: ChapterReadUncheckedCreateNestedManyWithoutUserInput
+    chapterReadEvents?: ChapterReadEventUncheckedCreateNestedManyWithoutUserInput
+    readingStates?: UserStoryReadingStateUncheckedCreateNestedManyWithoutUserInput
+    storySubscriptions?: StorySubscriptionUncheckedCreateNestedManyWithoutUserInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
     discussStorys?: DiscussUncheckedCreateNestedManyWithoutUserInput
     discussesLikes?: DiscussLikeUncheckedCreateNestedManyWithoutUserInput
     ratingStorys?: RatingUncheckedCreateNestedManyWithoutUserInput
@@ -36828,6 +48550,7 @@ export namespace Prisma {
     storysFan?: StoryFanUncheckedCreateNestedManyWithoutUserInput
     votes?: StoryRecommendationUncheckedCreateNestedManyWithoutUserInput
     setting?: UserSettingUncheckedCreateNestedOneWithoutUserInput
+    authTokens?: UserAuthTokenUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutSessionsInput = {
@@ -36862,8 +48585,14 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     voteTickets?: IntFieldUpdateOperationsInput | number
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    imageUpdatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    authVersion?: IntFieldUpdateOperationsInput | number
     accounts?: AccountUpdateManyWithoutUserNestedInput
     chaptersRead?: ChapterReadUpdateManyWithoutUserNestedInput
+    chapterReadEvents?: ChapterReadEventUpdateManyWithoutUserNestedInput
+    readingStates?: UserStoryReadingStateUpdateManyWithoutUserNestedInput
+    storySubscriptions?: StorySubscriptionUpdateManyWithoutUserNestedInput
+    notifications?: NotificationUpdateManyWithoutUserNestedInput
     discussStorys?: DiscussUpdateManyWithoutUserNestedInput
     discussesLikes?: DiscussLikeUpdateManyWithoutUserNestedInput
     ratingStorys?: RatingUpdateManyWithoutUserNestedInput
@@ -36875,6 +48604,7 @@ export namespace Prisma {
     storysFan?: StoryFanUpdateManyWithoutUserNestedInput
     votes?: StoryRecommendationUpdateManyWithoutUserNestedInput
     setting?: UserSettingUpdateOneWithoutUserNestedInput
+    authTokens?: UserAuthTokenUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutSessionsInput = {
@@ -36893,14 +48623,189 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     voteTickets?: IntFieldUpdateOperationsInput | number
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    imageUpdatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    authVersion?: IntFieldUpdateOperationsInput | number
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     chaptersRead?: ChapterReadUncheckedUpdateManyWithoutUserNestedInput
+    chapterReadEvents?: ChapterReadEventUncheckedUpdateManyWithoutUserNestedInput
+    readingStates?: UserStoryReadingStateUncheckedUpdateManyWithoutUserNestedInput
+    storySubscriptions?: StorySubscriptionUncheckedUpdateManyWithoutUserNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
     discussStorys?: DiscussUncheckedUpdateManyWithoutUserNestedInput
     discussesLikes?: DiscussLikeUncheckedUpdateManyWithoutUserNestedInput
     ratingStorys?: RatingUncheckedUpdateManyWithoutUserNestedInput
     ratingComments?: RatingCommentUncheckedUpdateManyWithoutUserNestedInput
     ratingCommentsLikes?: RatingCommentLikeUncheckedUpdateManyWithoutUserNestedInput
     ratingLikes?: RatingLikeUncheckedUpdateManyWithoutUserNestedInput
+    uploadedStories?: StoryUncheckedUpdateManyWithoutUploaderNestedInput
+    storyBookmarks?: StoryBookmarkUncheckedUpdateManyWithoutUserNestedInput
+    storysFan?: StoryFanUncheckedUpdateManyWithoutUserNestedInput
+    votes?: StoryRecommendationUncheckedUpdateManyWithoutUserNestedInput
+    setting?: UserSettingUncheckedUpdateOneWithoutUserNestedInput
+    authTokens?: UserAuthTokenUncheckedUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserCreateWithoutAuthTokensInput = {
+    id?: string
+    email?: string | null
+    password?: string | null
+    image?: string | null
+    name?: string | null
+    birthYear?: number | null
+    sex?: $Enums.Sex | null
+    role?: $Enums.Role
+    candyTotal?: number
+    createdAt?: Date | string
+    keyTotal?: number
+    potatoToal?: number
+    updatedAt?: Date | string
+    voteTickets?: number
+    emailVerified?: Date | string | null
+    imageUpdatedAt?: Date | string | null
+    authVersion?: number
+    accounts?: AccountCreateNestedManyWithoutUserInput
+    chaptersRead?: ChapterReadCreateNestedManyWithoutUserInput
+    chapterReadEvents?: ChapterReadEventCreateNestedManyWithoutUserInput
+    readingStates?: UserStoryReadingStateCreateNestedManyWithoutUserInput
+    storySubscriptions?: StorySubscriptionCreateNestedManyWithoutUserInput
+    notifications?: NotificationCreateNestedManyWithoutUserInput
+    discussStorys?: DiscussCreateNestedManyWithoutUserInput
+    discussesLikes?: DiscussLikeCreateNestedManyWithoutUserInput
+    ratingStorys?: RatingCreateNestedManyWithoutUserInput
+    ratingComments?: RatingCommentCreateNestedManyWithoutUserInput
+    ratingCommentsLikes?: RatingCommentLikeCreateNestedManyWithoutUserInput
+    ratingLikes?: RatingLikeCreateNestedManyWithoutUserInput
+    sessions?: SessionCreateNestedManyWithoutUserInput
+    uploadedStories?: StoryCreateNestedManyWithoutUploaderInput
+    storyBookmarks?: StoryBookmarkCreateNestedManyWithoutUserInput
+    storysFan?: StoryFanCreateNestedManyWithoutUserInput
+    votes?: StoryRecommendationCreateNestedManyWithoutUserInput
+    setting?: UserSettingCreateNestedOneWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutAuthTokensInput = {
+    id?: string
+    email?: string | null
+    password?: string | null
+    image?: string | null
+    name?: string | null
+    birthYear?: number | null
+    sex?: $Enums.Sex | null
+    role?: $Enums.Role
+    candyTotal?: number
+    createdAt?: Date | string
+    keyTotal?: number
+    potatoToal?: number
+    updatedAt?: Date | string
+    voteTickets?: number
+    emailVerified?: Date | string | null
+    imageUpdatedAt?: Date | string | null
+    authVersion?: number
+    accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
+    chaptersRead?: ChapterReadUncheckedCreateNestedManyWithoutUserInput
+    chapterReadEvents?: ChapterReadEventUncheckedCreateNestedManyWithoutUserInput
+    readingStates?: UserStoryReadingStateUncheckedCreateNestedManyWithoutUserInput
+    storySubscriptions?: StorySubscriptionUncheckedCreateNestedManyWithoutUserInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
+    discussStorys?: DiscussUncheckedCreateNestedManyWithoutUserInput
+    discussesLikes?: DiscussLikeUncheckedCreateNestedManyWithoutUserInput
+    ratingStorys?: RatingUncheckedCreateNestedManyWithoutUserInput
+    ratingComments?: RatingCommentUncheckedCreateNestedManyWithoutUserInput
+    ratingCommentsLikes?: RatingCommentLikeUncheckedCreateNestedManyWithoutUserInput
+    ratingLikes?: RatingLikeUncheckedCreateNestedManyWithoutUserInput
+    sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
+    uploadedStories?: StoryUncheckedCreateNestedManyWithoutUploaderInput
+    storyBookmarks?: StoryBookmarkUncheckedCreateNestedManyWithoutUserInput
+    storysFan?: StoryFanUncheckedCreateNestedManyWithoutUserInput
+    votes?: StoryRecommendationUncheckedCreateNestedManyWithoutUserInput
+    setting?: UserSettingUncheckedCreateNestedOneWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutAuthTokensInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutAuthTokensInput, UserUncheckedCreateWithoutAuthTokensInput>
+  }
+
+  export type UserUpsertWithoutAuthTokensInput = {
+    update: XOR<UserUpdateWithoutAuthTokensInput, UserUncheckedUpdateWithoutAuthTokensInput>
+    create: XOR<UserCreateWithoutAuthTokensInput, UserUncheckedCreateWithoutAuthTokensInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutAuthTokensInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutAuthTokensInput, UserUncheckedUpdateWithoutAuthTokensInput>
+  }
+
+  export type UserUpdateWithoutAuthTokensInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    password?: NullableStringFieldUpdateOperationsInput | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    birthYear?: NullableIntFieldUpdateOperationsInput | number | null
+    sex?: NullableEnumSexFieldUpdateOperationsInput | $Enums.Sex | null
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    candyTotal?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    keyTotal?: IntFieldUpdateOperationsInput | number
+    potatoToal?: IntFieldUpdateOperationsInput | number
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    voteTickets?: IntFieldUpdateOperationsInput | number
+    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    imageUpdatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    authVersion?: IntFieldUpdateOperationsInput | number
+    accounts?: AccountUpdateManyWithoutUserNestedInput
+    chaptersRead?: ChapterReadUpdateManyWithoutUserNestedInput
+    chapterReadEvents?: ChapterReadEventUpdateManyWithoutUserNestedInput
+    readingStates?: UserStoryReadingStateUpdateManyWithoutUserNestedInput
+    storySubscriptions?: StorySubscriptionUpdateManyWithoutUserNestedInput
+    notifications?: NotificationUpdateManyWithoutUserNestedInput
+    discussStorys?: DiscussUpdateManyWithoutUserNestedInput
+    discussesLikes?: DiscussLikeUpdateManyWithoutUserNestedInput
+    ratingStorys?: RatingUpdateManyWithoutUserNestedInput
+    ratingComments?: RatingCommentUpdateManyWithoutUserNestedInput
+    ratingCommentsLikes?: RatingCommentLikeUpdateManyWithoutUserNestedInput
+    ratingLikes?: RatingLikeUpdateManyWithoutUserNestedInput
+    sessions?: SessionUpdateManyWithoutUserNestedInput
+    uploadedStories?: StoryUpdateManyWithoutUploaderNestedInput
+    storyBookmarks?: StoryBookmarkUpdateManyWithoutUserNestedInput
+    storysFan?: StoryFanUpdateManyWithoutUserNestedInput
+    votes?: StoryRecommendationUpdateManyWithoutUserNestedInput
+    setting?: UserSettingUpdateOneWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutAuthTokensInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    password?: NullableStringFieldUpdateOperationsInput | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    birthYear?: NullableIntFieldUpdateOperationsInput | number | null
+    sex?: NullableEnumSexFieldUpdateOperationsInput | $Enums.Sex | null
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    candyTotal?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    keyTotal?: IntFieldUpdateOperationsInput | number
+    potatoToal?: IntFieldUpdateOperationsInput | number
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    voteTickets?: IntFieldUpdateOperationsInput | number
+    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    imageUpdatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    authVersion?: IntFieldUpdateOperationsInput | number
+    accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
+    chaptersRead?: ChapterReadUncheckedUpdateManyWithoutUserNestedInput
+    chapterReadEvents?: ChapterReadEventUncheckedUpdateManyWithoutUserNestedInput
+    readingStates?: UserStoryReadingStateUncheckedUpdateManyWithoutUserNestedInput
+    storySubscriptions?: StorySubscriptionUncheckedUpdateManyWithoutUserNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
+    discussStorys?: DiscussUncheckedUpdateManyWithoutUserNestedInput
+    discussesLikes?: DiscussLikeUncheckedUpdateManyWithoutUserNestedInput
+    ratingStorys?: RatingUncheckedUpdateManyWithoutUserNestedInput
+    ratingComments?: RatingCommentUncheckedUpdateManyWithoutUserNestedInput
+    ratingCommentsLikes?: RatingCommentLikeUncheckedUpdateManyWithoutUserNestedInput
+    ratingLikes?: RatingLikeUncheckedUpdateManyWithoutUserNestedInput
+    sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
     uploadedStories?: StoryUncheckedUpdateManyWithoutUploaderNestedInput
     storyBookmarks?: StoryBookmarkUncheckedUpdateManyWithoutUserNestedInput
     storysFan?: StoryFanUncheckedUpdateManyWithoutUserNestedInput
@@ -36924,8 +48829,14 @@ export namespace Prisma {
     updatedAt?: Date | string
     voteTickets?: number
     emailVerified?: Date | string | null
+    imageUpdatedAt?: Date | string | null
+    authVersion?: number
     accounts?: AccountCreateNestedManyWithoutUserInput
     chaptersRead?: ChapterReadCreateNestedManyWithoutUserInput
+    chapterReadEvents?: ChapterReadEventCreateNestedManyWithoutUserInput
+    readingStates?: UserStoryReadingStateCreateNestedManyWithoutUserInput
+    storySubscriptions?: StorySubscriptionCreateNestedManyWithoutUserInput
+    notifications?: NotificationCreateNestedManyWithoutUserInput
     discussStorys?: DiscussCreateNestedManyWithoutUserInput
     discussesLikes?: DiscussLikeCreateNestedManyWithoutUserInput
     ratingStorys?: RatingCreateNestedManyWithoutUserInput
@@ -36937,6 +48848,7 @@ export namespace Prisma {
     storyBookmarks?: StoryBookmarkCreateNestedManyWithoutUserInput
     storysFan?: StoryFanCreateNestedManyWithoutUserInput
     votes?: StoryRecommendationCreateNestedManyWithoutUserInput
+    authTokens?: UserAuthTokenCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutSettingInput = {
@@ -36955,8 +48867,14 @@ export namespace Prisma {
     updatedAt?: Date | string
     voteTickets?: number
     emailVerified?: Date | string | null
+    imageUpdatedAt?: Date | string | null
+    authVersion?: number
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     chaptersRead?: ChapterReadUncheckedCreateNestedManyWithoutUserInput
+    chapterReadEvents?: ChapterReadEventUncheckedCreateNestedManyWithoutUserInput
+    readingStates?: UserStoryReadingStateUncheckedCreateNestedManyWithoutUserInput
+    storySubscriptions?: StorySubscriptionUncheckedCreateNestedManyWithoutUserInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
     discussStorys?: DiscussUncheckedCreateNestedManyWithoutUserInput
     discussesLikes?: DiscussLikeUncheckedCreateNestedManyWithoutUserInput
     ratingStorys?: RatingUncheckedCreateNestedManyWithoutUserInput
@@ -36968,6 +48886,7 @@ export namespace Prisma {
     storyBookmarks?: StoryBookmarkUncheckedCreateNestedManyWithoutUserInput
     storysFan?: StoryFanUncheckedCreateNestedManyWithoutUserInput
     votes?: StoryRecommendationUncheckedCreateNestedManyWithoutUserInput
+    authTokens?: UserAuthTokenUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutSettingInput = {
@@ -37002,8 +48921,14 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     voteTickets?: IntFieldUpdateOperationsInput | number
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    imageUpdatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    authVersion?: IntFieldUpdateOperationsInput | number
     accounts?: AccountUpdateManyWithoutUserNestedInput
     chaptersRead?: ChapterReadUpdateManyWithoutUserNestedInput
+    chapterReadEvents?: ChapterReadEventUpdateManyWithoutUserNestedInput
+    readingStates?: UserStoryReadingStateUpdateManyWithoutUserNestedInput
+    storySubscriptions?: StorySubscriptionUpdateManyWithoutUserNestedInput
+    notifications?: NotificationUpdateManyWithoutUserNestedInput
     discussStorys?: DiscussUpdateManyWithoutUserNestedInput
     discussesLikes?: DiscussLikeUpdateManyWithoutUserNestedInput
     ratingStorys?: RatingUpdateManyWithoutUserNestedInput
@@ -37015,6 +48940,7 @@ export namespace Prisma {
     storyBookmarks?: StoryBookmarkUpdateManyWithoutUserNestedInput
     storysFan?: StoryFanUpdateManyWithoutUserNestedInput
     votes?: StoryRecommendationUpdateManyWithoutUserNestedInput
+    authTokens?: UserAuthTokenUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutSettingInput = {
@@ -37033,8 +48959,14 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     voteTickets?: IntFieldUpdateOperationsInput | number
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    imageUpdatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    authVersion?: IntFieldUpdateOperationsInput | number
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     chaptersRead?: ChapterReadUncheckedUpdateManyWithoutUserNestedInput
+    chapterReadEvents?: ChapterReadEventUncheckedUpdateManyWithoutUserNestedInput
+    readingStates?: UserStoryReadingStateUncheckedUpdateManyWithoutUserNestedInput
+    storySubscriptions?: StorySubscriptionUncheckedUpdateManyWithoutUserNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
     discussStorys?: DiscussUncheckedUpdateManyWithoutUserNestedInput
     discussesLikes?: DiscussLikeUncheckedUpdateManyWithoutUserNestedInput
     ratingStorys?: RatingUncheckedUpdateManyWithoutUserNestedInput
@@ -37046,6 +48978,7 @@ export namespace Prisma {
     storyBookmarks?: StoryBookmarkUncheckedUpdateManyWithoutUserNestedInput
     storysFan?: StoryFanUncheckedUpdateManyWithoutUserNestedInput
     votes?: StoryRecommendationUncheckedUpdateManyWithoutUserNestedInput
+    authTokens?: UserAuthTokenUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type ChapterCreateWithoutStoryInput = {
@@ -37054,6 +48987,8 @@ export namespace Prisma {
     content: string
     postedAt?: Date | string
     reads?: ChapterReadCreateNestedManyWithoutChapterInput
+    readEvents?: ChapterReadEventCreateNestedManyWithoutChapterInput
+    readingStates?: UserStoryReadingStateCreateNestedManyWithoutLastChapterInput
   }
 
   export type ChapterUncheckedCreateWithoutStoryInput = {
@@ -37063,6 +48998,8 @@ export namespace Prisma {
     content: string
     postedAt?: Date | string
     reads?: ChapterReadUncheckedCreateNestedManyWithoutChapterInput
+    readEvents?: ChapterReadEventUncheckedCreateNestedManyWithoutChapterInput
+    readingStates?: UserStoryReadingStateUncheckedCreateNestedManyWithoutLastChapterInput
   }
 
   export type ChapterCreateOrConnectWithoutStoryInput = {
@@ -37076,25 +49013,31 @@ export namespace Prisma {
   }
 
   export type DiscussCreateWithoutStoryInput = {
+    clientSubmissionId?: string | null
     content: string
     createdAt?: Date | string
     updatedAt?: Date | string
     likeCount?: number
     parent?: DiscussCreateNestedOneWithoutRepliesInput
     replies?: DiscussCreateNestedManyWithoutParentInput
+    threadRoot?: DiscussCreateNestedOneWithoutThreadItemsInput
+    threadItems?: DiscussCreateNestedManyWithoutThreadRootInput
     user: UserCreateNestedOneWithoutDiscussStorysInput
     likes?: DiscussLikeCreateNestedManyWithoutDiscussInput
   }
 
   export type DiscussUncheckedCreateWithoutStoryInput = {
     id?: number
+    clientSubmissionId?: string | null
     content: string
     createdAt?: Date | string
     updatedAt?: Date | string
     userId: string
     parentId?: number | null
+    threadRootId?: number | null
     likeCount?: number
     replies?: DiscussUncheckedCreateNestedManyWithoutParentInput
+    threadItems?: DiscussUncheckedCreateNestedManyWithoutThreadRootInput
     likes?: DiscussLikeUncheckedCreateNestedManyWithoutDiscussInput
   }
 
@@ -37181,8 +49124,14 @@ export namespace Prisma {
     updatedAt?: Date | string
     voteTickets?: number
     emailVerified?: Date | string | null
+    imageUpdatedAt?: Date | string | null
+    authVersion?: number
     accounts?: AccountCreateNestedManyWithoutUserInput
     chaptersRead?: ChapterReadCreateNestedManyWithoutUserInput
+    chapterReadEvents?: ChapterReadEventCreateNestedManyWithoutUserInput
+    readingStates?: UserStoryReadingStateCreateNestedManyWithoutUserInput
+    storySubscriptions?: StorySubscriptionCreateNestedManyWithoutUserInput
+    notifications?: NotificationCreateNestedManyWithoutUserInput
     discussStorys?: DiscussCreateNestedManyWithoutUserInput
     discussesLikes?: DiscussLikeCreateNestedManyWithoutUserInput
     ratingStorys?: RatingCreateNestedManyWithoutUserInput
@@ -37194,6 +49143,7 @@ export namespace Prisma {
     storysFan?: StoryFanCreateNestedManyWithoutUserInput
     votes?: StoryRecommendationCreateNestedManyWithoutUserInput
     setting?: UserSettingCreateNestedOneWithoutUserInput
+    authTokens?: UserAuthTokenCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutUploadedStoriesInput = {
@@ -37212,8 +49162,14 @@ export namespace Prisma {
     updatedAt?: Date | string
     voteTickets?: number
     emailVerified?: Date | string | null
+    imageUpdatedAt?: Date | string | null
+    authVersion?: number
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     chaptersRead?: ChapterReadUncheckedCreateNestedManyWithoutUserInput
+    chapterReadEvents?: ChapterReadEventUncheckedCreateNestedManyWithoutUserInput
+    readingStates?: UserStoryReadingStateUncheckedCreateNestedManyWithoutUserInput
+    storySubscriptions?: StorySubscriptionUncheckedCreateNestedManyWithoutUserInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
     discussStorys?: DiscussUncheckedCreateNestedManyWithoutUserInput
     discussesLikes?: DiscussLikeUncheckedCreateNestedManyWithoutUserInput
     ratingStorys?: RatingUncheckedCreateNestedManyWithoutUserInput
@@ -37225,6 +49181,7 @@ export namespace Prisma {
     storysFan?: StoryFanUncheckedCreateNestedManyWithoutUserInput
     votes?: StoryRecommendationUncheckedCreateNestedManyWithoutUserInput
     setting?: UserSettingUncheckedCreateNestedOneWithoutUserInput
+    authTokens?: UserAuthTokenUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutUploadedStoriesInput = {
@@ -37328,17 +49285,42 @@ export namespace Prisma {
     create: XOR<StoryStatsCreateWithoutStoryInput, StoryStatsUncheckedCreateWithoutStoryInput>
   }
 
+  export type StoryDailyReadStatsCreateWithoutStoryInput = {
+    date: Date | string
+    readerCount?: number
+  }
+
+  export type StoryDailyReadStatsUncheckedCreateWithoutStoryInput = {
+    id?: number
+    date: Date | string
+    readerCount?: number
+  }
+
+  export type StoryDailyReadStatsCreateOrConnectWithoutStoryInput = {
+    where: StoryDailyReadStatsWhereUniqueInput
+    create: XOR<StoryDailyReadStatsCreateWithoutStoryInput, StoryDailyReadStatsUncheckedCreateWithoutStoryInput>
+  }
+
+  export type StoryDailyReadStatsCreateManyStoryInputEnvelope = {
+    data: StoryDailyReadStatsCreateManyStoryInput | StoryDailyReadStatsCreateManyStoryInput[]
+    skipDuplicates?: boolean
+  }
+
   export type TopStoryReadCreateWithoutStoryInput = {
     readerCount: number
     createdAt?: Date | string
-    duration: number
+    updatedAt?: Date | string
+    windowStart: Date | string
+    windowEnd: Date | string
   }
 
   export type TopStoryReadUncheckedCreateWithoutStoryInput = {
     id?: number
     readerCount: number
     createdAt?: Date | string
-    duration: number
+    updatedAt?: Date | string
+    windowStart: Date | string
+    windowEnd: Date | string
   }
 
   export type TopStoryReadCreateOrConnectWithoutStoryInput = {
@@ -37348,6 +49330,106 @@ export namespace Prisma {
 
   export type TopStoryReadCreateManyStoryInputEnvelope = {
     data: TopStoryReadCreateManyStoryInput | TopStoryReadCreateManyStoryInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type ChapterReadEventCreateWithoutStoryInput = {
+    readAt?: Date | string
+    chapter: ChapterCreateNestedOneWithoutReadEventsInput
+    user: UserCreateNestedOneWithoutChapterReadEventsInput
+  }
+
+  export type ChapterReadEventUncheckedCreateWithoutStoryInput = {
+    id?: number
+    readAt?: Date | string
+    userId: string
+    chapterId: number
+  }
+
+  export type ChapterReadEventCreateOrConnectWithoutStoryInput = {
+    where: ChapterReadEventWhereUniqueInput
+    create: XOR<ChapterReadEventCreateWithoutStoryInput, ChapterReadEventUncheckedCreateWithoutStoryInput>
+  }
+
+  export type ChapterReadEventCreateManyStoryInputEnvelope = {
+    data: ChapterReadEventCreateManyStoryInput | ChapterReadEventCreateManyStoryInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type UserStoryReadingStateCreateWithoutStoryInput = {
+    lastReadAt?: Date | string
+    hiddenAt?: Date | string | null
+    user: UserCreateNestedOneWithoutReadingStatesInput
+    lastChapter: ChapterCreateNestedOneWithoutReadingStatesInput
+  }
+
+  export type UserStoryReadingStateUncheckedCreateWithoutStoryInput = {
+    id?: number
+    userId: string
+    lastChapterId: number
+    lastReadAt?: Date | string
+    hiddenAt?: Date | string | null
+  }
+
+  export type UserStoryReadingStateCreateOrConnectWithoutStoryInput = {
+    where: UserStoryReadingStateWhereUniqueInput
+    create: XOR<UserStoryReadingStateCreateWithoutStoryInput, UserStoryReadingStateUncheckedCreateWithoutStoryInput>
+  }
+
+  export type UserStoryReadingStateCreateManyStoryInputEnvelope = {
+    data: UserStoryReadingStateCreateManyStoryInput | UserStoryReadingStateCreateManyStoryInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type StorySubscriptionCreateWithoutStoryInput = {
+    createdAt?: Date | string
+    user: UserCreateNestedOneWithoutStorySubscriptionsInput
+  }
+
+  export type StorySubscriptionUncheckedCreateWithoutStoryInput = {
+    id?: number
+    userId: string
+    createdAt?: Date | string
+  }
+
+  export type StorySubscriptionCreateOrConnectWithoutStoryInput = {
+    where: StorySubscriptionWhereUniqueInput
+    create: XOR<StorySubscriptionCreateWithoutStoryInput, StorySubscriptionUncheckedCreateWithoutStoryInput>
+  }
+
+  export type StorySubscriptionCreateManyStoryInputEnvelope = {
+    data: StorySubscriptionCreateManyStoryInput | StorySubscriptionCreateManyStoryInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type NotificationCreateWithoutStoryInput = {
+    type: $Enums.NotificationType
+    title: string
+    content?: string | null
+    dedupeKey: string
+    readAt?: Date | string | null
+    createdAt?: Date | string
+    user: UserCreateNestedOneWithoutNotificationsInput
+  }
+
+  export type NotificationUncheckedCreateWithoutStoryInput = {
+    id?: number
+    userId: string
+    type: $Enums.NotificationType
+    title: string
+    content?: string | null
+    dedupeKey: string
+    readAt?: Date | string | null
+    createdAt?: Date | string
+  }
+
+  export type NotificationCreateOrConnectWithoutStoryInput = {
+    where: NotificationWhereUniqueInput
+    create: XOR<NotificationCreateWithoutStoryInput, NotificationUncheckedCreateWithoutStoryInput>
+  }
+
+  export type NotificationCreateManyStoryInputEnvelope = {
+    data: NotificationCreateManyStoryInput | NotificationCreateManyStoryInput[]
     skipDuplicates?: boolean
   }
 
@@ -37478,8 +49560,14 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     voteTickets?: IntFieldUpdateOperationsInput | number
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    imageUpdatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    authVersion?: IntFieldUpdateOperationsInput | number
     accounts?: AccountUpdateManyWithoutUserNestedInput
     chaptersRead?: ChapterReadUpdateManyWithoutUserNestedInput
+    chapterReadEvents?: ChapterReadEventUpdateManyWithoutUserNestedInput
+    readingStates?: UserStoryReadingStateUpdateManyWithoutUserNestedInput
+    storySubscriptions?: StorySubscriptionUpdateManyWithoutUserNestedInput
+    notifications?: NotificationUpdateManyWithoutUserNestedInput
     discussStorys?: DiscussUpdateManyWithoutUserNestedInput
     discussesLikes?: DiscussLikeUpdateManyWithoutUserNestedInput
     ratingStorys?: RatingUpdateManyWithoutUserNestedInput
@@ -37491,6 +49579,7 @@ export namespace Prisma {
     storysFan?: StoryFanUpdateManyWithoutUserNestedInput
     votes?: StoryRecommendationUpdateManyWithoutUserNestedInput
     setting?: UserSettingUpdateOneWithoutUserNestedInput
+    authTokens?: UserAuthTokenUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutUploadedStoriesInput = {
@@ -37509,8 +49598,14 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     voteTickets?: IntFieldUpdateOperationsInput | number
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    imageUpdatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    authVersion?: IntFieldUpdateOperationsInput | number
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     chaptersRead?: ChapterReadUncheckedUpdateManyWithoutUserNestedInput
+    chapterReadEvents?: ChapterReadEventUncheckedUpdateManyWithoutUserNestedInput
+    readingStates?: UserStoryReadingStateUncheckedUpdateManyWithoutUserNestedInput
+    storySubscriptions?: StorySubscriptionUncheckedUpdateManyWithoutUserNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
     discussStorys?: DiscussUncheckedUpdateManyWithoutUserNestedInput
     discussesLikes?: DiscussLikeUncheckedUpdateManyWithoutUserNestedInput
     ratingStorys?: RatingUncheckedUpdateManyWithoutUserNestedInput
@@ -37522,6 +49617,7 @@ export namespace Prisma {
     storysFan?: StoryFanUncheckedUpdateManyWithoutUserNestedInput
     votes?: StoryRecommendationUncheckedUpdateManyWithoutUserNestedInput
     setting?: UserSettingUncheckedUpdateOneWithoutUserNestedInput
+    authTokens?: UserAuthTokenUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type StoryBookmarkUpsertWithWhereUniqueWithoutStoryInput = {
@@ -37607,6 +49703,32 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type StoryDailyReadStatsUpsertWithWhereUniqueWithoutStoryInput = {
+    where: StoryDailyReadStatsWhereUniqueInput
+    update: XOR<StoryDailyReadStatsUpdateWithoutStoryInput, StoryDailyReadStatsUncheckedUpdateWithoutStoryInput>
+    create: XOR<StoryDailyReadStatsCreateWithoutStoryInput, StoryDailyReadStatsUncheckedCreateWithoutStoryInput>
+  }
+
+  export type StoryDailyReadStatsUpdateWithWhereUniqueWithoutStoryInput = {
+    where: StoryDailyReadStatsWhereUniqueInput
+    data: XOR<StoryDailyReadStatsUpdateWithoutStoryInput, StoryDailyReadStatsUncheckedUpdateWithoutStoryInput>
+  }
+
+  export type StoryDailyReadStatsUpdateManyWithWhereWithoutStoryInput = {
+    where: StoryDailyReadStatsScalarWhereInput
+    data: XOR<StoryDailyReadStatsUpdateManyMutationInput, StoryDailyReadStatsUncheckedUpdateManyWithoutStoryInput>
+  }
+
+  export type StoryDailyReadStatsScalarWhereInput = {
+    AND?: StoryDailyReadStatsScalarWhereInput | StoryDailyReadStatsScalarWhereInput[]
+    OR?: StoryDailyReadStatsScalarWhereInput[]
+    NOT?: StoryDailyReadStatsScalarWhereInput | StoryDailyReadStatsScalarWhereInput[]
+    id?: IntFilter<"StoryDailyReadStats"> | number
+    storyId?: IntFilter<"StoryDailyReadStats"> | number
+    date?: DateTimeFilter<"StoryDailyReadStats"> | Date | string
+    readerCount?: IntFilter<"StoryDailyReadStats"> | number
+  }
+
   export type TopStoryReadUpsertWithWhereUniqueWithoutStoryInput = {
     where: TopStoryReadWhereUniqueInput
     update: XOR<TopStoryReadUpdateWithoutStoryInput, TopStoryReadUncheckedUpdateWithoutStoryInput>
@@ -37631,7 +49753,73 @@ export namespace Prisma {
     storyId?: IntFilter<"TopStoryRead"> | number
     readerCount?: IntFilter<"TopStoryRead"> | number
     createdAt?: DateTimeFilter<"TopStoryRead"> | Date | string
-    duration?: IntFilter<"TopStoryRead"> | number
+    updatedAt?: DateTimeFilter<"TopStoryRead"> | Date | string
+    windowStart?: DateTimeFilter<"TopStoryRead"> | Date | string
+    windowEnd?: DateTimeFilter<"TopStoryRead"> | Date | string
+  }
+
+  export type ChapterReadEventUpsertWithWhereUniqueWithoutStoryInput = {
+    where: ChapterReadEventWhereUniqueInput
+    update: XOR<ChapterReadEventUpdateWithoutStoryInput, ChapterReadEventUncheckedUpdateWithoutStoryInput>
+    create: XOR<ChapterReadEventCreateWithoutStoryInput, ChapterReadEventUncheckedCreateWithoutStoryInput>
+  }
+
+  export type ChapterReadEventUpdateWithWhereUniqueWithoutStoryInput = {
+    where: ChapterReadEventWhereUniqueInput
+    data: XOR<ChapterReadEventUpdateWithoutStoryInput, ChapterReadEventUncheckedUpdateWithoutStoryInput>
+  }
+
+  export type ChapterReadEventUpdateManyWithWhereWithoutStoryInput = {
+    where: ChapterReadEventScalarWhereInput
+    data: XOR<ChapterReadEventUpdateManyMutationInput, ChapterReadEventUncheckedUpdateManyWithoutStoryInput>
+  }
+
+  export type UserStoryReadingStateUpsertWithWhereUniqueWithoutStoryInput = {
+    where: UserStoryReadingStateWhereUniqueInput
+    update: XOR<UserStoryReadingStateUpdateWithoutStoryInput, UserStoryReadingStateUncheckedUpdateWithoutStoryInput>
+    create: XOR<UserStoryReadingStateCreateWithoutStoryInput, UserStoryReadingStateUncheckedCreateWithoutStoryInput>
+  }
+
+  export type UserStoryReadingStateUpdateWithWhereUniqueWithoutStoryInput = {
+    where: UserStoryReadingStateWhereUniqueInput
+    data: XOR<UserStoryReadingStateUpdateWithoutStoryInput, UserStoryReadingStateUncheckedUpdateWithoutStoryInput>
+  }
+
+  export type UserStoryReadingStateUpdateManyWithWhereWithoutStoryInput = {
+    where: UserStoryReadingStateScalarWhereInput
+    data: XOR<UserStoryReadingStateUpdateManyMutationInput, UserStoryReadingStateUncheckedUpdateManyWithoutStoryInput>
+  }
+
+  export type StorySubscriptionUpsertWithWhereUniqueWithoutStoryInput = {
+    where: StorySubscriptionWhereUniqueInput
+    update: XOR<StorySubscriptionUpdateWithoutStoryInput, StorySubscriptionUncheckedUpdateWithoutStoryInput>
+    create: XOR<StorySubscriptionCreateWithoutStoryInput, StorySubscriptionUncheckedCreateWithoutStoryInput>
+  }
+
+  export type StorySubscriptionUpdateWithWhereUniqueWithoutStoryInput = {
+    where: StorySubscriptionWhereUniqueInput
+    data: XOR<StorySubscriptionUpdateWithoutStoryInput, StorySubscriptionUncheckedUpdateWithoutStoryInput>
+  }
+
+  export type StorySubscriptionUpdateManyWithWhereWithoutStoryInput = {
+    where: StorySubscriptionScalarWhereInput
+    data: XOR<StorySubscriptionUpdateManyMutationInput, StorySubscriptionUncheckedUpdateManyWithoutStoryInput>
+  }
+
+  export type NotificationUpsertWithWhereUniqueWithoutStoryInput = {
+    where: NotificationWhereUniqueInput
+    update: XOR<NotificationUpdateWithoutStoryInput, NotificationUncheckedUpdateWithoutStoryInput>
+    create: XOR<NotificationCreateWithoutStoryInput, NotificationUncheckedCreateWithoutStoryInput>
+  }
+
+  export type NotificationUpdateWithWhereUniqueWithoutStoryInput = {
+    where: NotificationWhereUniqueInput
+    data: XOR<NotificationUpdateWithoutStoryInput, NotificationUncheckedUpdateWithoutStoryInput>
+  }
+
+  export type NotificationUpdateManyWithWhereWithoutStoryInput = {
+    where: NotificationScalarWhereInput
+    data: XOR<NotificationUpdateManyMutationInput, NotificationUncheckedUpdateManyWithoutStoryInput>
   }
 
   export type TagUpsertWithWhereUniqueWithoutStoriesInput = {
@@ -37665,6 +49853,7 @@ export namespace Prisma {
     slug?: string | null
     stringUrl: string
     totalChapters?: number | null
+    latestChapterAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     introduce: string
@@ -37677,7 +49866,12 @@ export namespace Prisma {
     bookmarks?: StoryBookmarkCreateNestedManyWithoutStoryInput
     fans?: StoryFanCreateNestedManyWithoutStoryInput
     stats?: StoryStatsCreateNestedOneWithoutStoryInput
+    dailyStats?: StoryDailyReadStatsCreateNestedManyWithoutStoryInput
     topReads?: TopStoryReadCreateNestedManyWithoutStoryInput
+    readEvents?: ChapterReadEventCreateNestedManyWithoutStoryInput
+    readingStates?: UserStoryReadingStateCreateNestedManyWithoutStoryInput
+    subscriptions?: StorySubscriptionCreateNestedManyWithoutStoryInput
+    notifications?: NotificationCreateNestedManyWithoutStoryInput
     tags?: TagCreateNestedManyWithoutStoriesInput
   }
 
@@ -37687,6 +49881,7 @@ export namespace Prisma {
     slug?: string | null
     stringUrl: string
     totalChapters?: number | null
+    latestChapterAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     uploaderId: string
@@ -37699,7 +49894,12 @@ export namespace Prisma {
     bookmarks?: StoryBookmarkUncheckedCreateNestedManyWithoutStoryInput
     fans?: StoryFanUncheckedCreateNestedManyWithoutStoryInput
     stats?: StoryStatsUncheckedCreateNestedOneWithoutStoryInput
+    dailyStats?: StoryDailyReadStatsUncheckedCreateNestedManyWithoutStoryInput
     topReads?: TopStoryReadUncheckedCreateNestedManyWithoutStoryInput
+    readEvents?: ChapterReadEventUncheckedCreateNestedManyWithoutStoryInput
+    readingStates?: UserStoryReadingStateUncheckedCreateNestedManyWithoutStoryInput
+    subscriptions?: StorySubscriptionUncheckedCreateNestedManyWithoutStoryInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutStoryInput
     tags?: TagUncheckedCreateNestedManyWithoutStoriesInput
   }
 
@@ -37724,8 +49924,14 @@ export namespace Prisma {
     updatedAt?: Date | string
     voteTickets?: number
     emailVerified?: Date | string | null
+    imageUpdatedAt?: Date | string | null
+    authVersion?: number
     accounts?: AccountCreateNestedManyWithoutUserInput
     chaptersRead?: ChapterReadCreateNestedManyWithoutUserInput
+    chapterReadEvents?: ChapterReadEventCreateNestedManyWithoutUserInput
+    readingStates?: UserStoryReadingStateCreateNestedManyWithoutUserInput
+    storySubscriptions?: StorySubscriptionCreateNestedManyWithoutUserInput
+    notifications?: NotificationCreateNestedManyWithoutUserInput
     discussStorys?: DiscussCreateNestedManyWithoutUserInput
     discussesLikes?: DiscussLikeCreateNestedManyWithoutUserInput
     ratingStorys?: RatingCreateNestedManyWithoutUserInput
@@ -37737,6 +49943,7 @@ export namespace Prisma {
     storyBookmarks?: StoryBookmarkCreateNestedManyWithoutUserInput
     storysFan?: StoryFanCreateNestedManyWithoutUserInput
     setting?: UserSettingCreateNestedOneWithoutUserInput
+    authTokens?: UserAuthTokenCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutVotesInput = {
@@ -37755,8 +49962,14 @@ export namespace Prisma {
     updatedAt?: Date | string
     voteTickets?: number
     emailVerified?: Date | string | null
+    imageUpdatedAt?: Date | string | null
+    authVersion?: number
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     chaptersRead?: ChapterReadUncheckedCreateNestedManyWithoutUserInput
+    chapterReadEvents?: ChapterReadEventUncheckedCreateNestedManyWithoutUserInput
+    readingStates?: UserStoryReadingStateUncheckedCreateNestedManyWithoutUserInput
+    storySubscriptions?: StorySubscriptionUncheckedCreateNestedManyWithoutUserInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
     discussStorys?: DiscussUncheckedCreateNestedManyWithoutUserInput
     discussesLikes?: DiscussLikeUncheckedCreateNestedManyWithoutUserInput
     ratingStorys?: RatingUncheckedCreateNestedManyWithoutUserInput
@@ -37768,6 +49981,7 @@ export namespace Prisma {
     storyBookmarks?: StoryBookmarkUncheckedCreateNestedManyWithoutUserInput
     storysFan?: StoryFanUncheckedCreateNestedManyWithoutUserInput
     setting?: UserSettingUncheckedCreateNestedOneWithoutUserInput
+    authTokens?: UserAuthTokenUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutVotesInput = {
@@ -37791,6 +50005,7 @@ export namespace Prisma {
     slug?: NullableStringFieldUpdateOperationsInput | string | null
     stringUrl?: StringFieldUpdateOperationsInput | string
     totalChapters?: NullableIntFieldUpdateOperationsInput | number | null
+    latestChapterAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     introduce?: StringFieldUpdateOperationsInput | string
@@ -37803,7 +50018,12 @@ export namespace Prisma {
     bookmarks?: StoryBookmarkUpdateManyWithoutStoryNestedInput
     fans?: StoryFanUpdateManyWithoutStoryNestedInput
     stats?: StoryStatsUpdateOneWithoutStoryNestedInput
+    dailyStats?: StoryDailyReadStatsUpdateManyWithoutStoryNestedInput
     topReads?: TopStoryReadUpdateManyWithoutStoryNestedInput
+    readEvents?: ChapterReadEventUpdateManyWithoutStoryNestedInput
+    readingStates?: UserStoryReadingStateUpdateManyWithoutStoryNestedInput
+    subscriptions?: StorySubscriptionUpdateManyWithoutStoryNestedInput
+    notifications?: NotificationUpdateManyWithoutStoryNestedInput
     tags?: TagUpdateManyWithoutStoriesNestedInput
   }
 
@@ -37813,6 +50033,7 @@ export namespace Prisma {
     slug?: NullableStringFieldUpdateOperationsInput | string | null
     stringUrl?: StringFieldUpdateOperationsInput | string
     totalChapters?: NullableIntFieldUpdateOperationsInput | number | null
+    latestChapterAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     uploaderId?: StringFieldUpdateOperationsInput | string
@@ -37825,7 +50046,12 @@ export namespace Prisma {
     bookmarks?: StoryBookmarkUncheckedUpdateManyWithoutStoryNestedInput
     fans?: StoryFanUncheckedUpdateManyWithoutStoryNestedInput
     stats?: StoryStatsUncheckedUpdateOneWithoutStoryNestedInput
+    dailyStats?: StoryDailyReadStatsUncheckedUpdateManyWithoutStoryNestedInput
     topReads?: TopStoryReadUncheckedUpdateManyWithoutStoryNestedInput
+    readEvents?: ChapterReadEventUncheckedUpdateManyWithoutStoryNestedInput
+    readingStates?: UserStoryReadingStateUncheckedUpdateManyWithoutStoryNestedInput
+    subscriptions?: StorySubscriptionUncheckedUpdateManyWithoutStoryNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutStoryNestedInput
     tags?: TagUncheckedUpdateManyWithoutStoriesNestedInput
   }
 
@@ -37856,8 +50082,14 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     voteTickets?: IntFieldUpdateOperationsInput | number
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    imageUpdatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    authVersion?: IntFieldUpdateOperationsInput | number
     accounts?: AccountUpdateManyWithoutUserNestedInput
     chaptersRead?: ChapterReadUpdateManyWithoutUserNestedInput
+    chapterReadEvents?: ChapterReadEventUpdateManyWithoutUserNestedInput
+    readingStates?: UserStoryReadingStateUpdateManyWithoutUserNestedInput
+    storySubscriptions?: StorySubscriptionUpdateManyWithoutUserNestedInput
+    notifications?: NotificationUpdateManyWithoutUserNestedInput
     discussStorys?: DiscussUpdateManyWithoutUserNestedInput
     discussesLikes?: DiscussLikeUpdateManyWithoutUserNestedInput
     ratingStorys?: RatingUpdateManyWithoutUserNestedInput
@@ -37869,6 +50101,7 @@ export namespace Prisma {
     storyBookmarks?: StoryBookmarkUpdateManyWithoutUserNestedInput
     storysFan?: StoryFanUpdateManyWithoutUserNestedInput
     setting?: UserSettingUpdateOneWithoutUserNestedInput
+    authTokens?: UserAuthTokenUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutVotesInput = {
@@ -37887,8 +50120,14 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     voteTickets?: IntFieldUpdateOperationsInput | number
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    imageUpdatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    authVersion?: IntFieldUpdateOperationsInput | number
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     chaptersRead?: ChapterReadUncheckedUpdateManyWithoutUserNestedInput
+    chapterReadEvents?: ChapterReadEventUncheckedUpdateManyWithoutUserNestedInput
+    readingStates?: UserStoryReadingStateUncheckedUpdateManyWithoutUserNestedInput
+    storySubscriptions?: StorySubscriptionUncheckedUpdateManyWithoutUserNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
     discussStorys?: DiscussUncheckedUpdateManyWithoutUserNestedInput
     discussesLikes?: DiscussLikeUncheckedUpdateManyWithoutUserNestedInput
     ratingStorys?: RatingUncheckedUpdateManyWithoutUserNestedInput
@@ -37900,6 +50139,7 @@ export namespace Prisma {
     storyBookmarks?: StoryBookmarkUncheckedUpdateManyWithoutUserNestedInput
     storysFan?: StoryFanUncheckedUpdateManyWithoutUserNestedInput
     setting?: UserSettingUncheckedUpdateOneWithoutUserNestedInput
+    authTokens?: UserAuthTokenUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type StoryCreateWithoutAuthorInput = {
@@ -37907,6 +50147,7 @@ export namespace Prisma {
     slug?: string | null
     stringUrl: string
     totalChapters?: number | null
+    latestChapterAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     introduce: string
@@ -37919,7 +50160,12 @@ export namespace Prisma {
     fans?: StoryFanCreateNestedManyWithoutStoryInput
     votes?: StoryRecommendationCreateNestedManyWithoutStoryInput
     stats?: StoryStatsCreateNestedOneWithoutStoryInput
+    dailyStats?: StoryDailyReadStatsCreateNestedManyWithoutStoryInput
     topReads?: TopStoryReadCreateNestedManyWithoutStoryInput
+    readEvents?: ChapterReadEventCreateNestedManyWithoutStoryInput
+    readingStates?: UserStoryReadingStateCreateNestedManyWithoutStoryInput
+    subscriptions?: StorySubscriptionCreateNestedManyWithoutStoryInput
+    notifications?: NotificationCreateNestedManyWithoutStoryInput
     tags?: TagCreateNestedManyWithoutStoriesInput
   }
 
@@ -37929,6 +50175,7 @@ export namespace Prisma {
     slug?: string | null
     stringUrl: string
     totalChapters?: number | null
+    latestChapterAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     uploaderId: string
@@ -37941,7 +50188,12 @@ export namespace Prisma {
     fans?: StoryFanUncheckedCreateNestedManyWithoutStoryInput
     votes?: StoryRecommendationUncheckedCreateNestedManyWithoutStoryInput
     stats?: StoryStatsUncheckedCreateNestedOneWithoutStoryInput
+    dailyStats?: StoryDailyReadStatsUncheckedCreateNestedManyWithoutStoryInput
     topReads?: TopStoryReadUncheckedCreateNestedManyWithoutStoryInput
+    readEvents?: ChapterReadEventUncheckedCreateNestedManyWithoutStoryInput
+    readingStates?: UserStoryReadingStateUncheckedCreateNestedManyWithoutStoryInput
+    subscriptions?: StorySubscriptionUncheckedCreateNestedManyWithoutStoryInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutStoryInput
     tags?: TagUncheckedCreateNestedManyWithoutStoriesInput
   }
 
@@ -37976,6 +50228,7 @@ export namespace Prisma {
     slug?: string | null
     stringUrl: string
     totalChapters?: number | null
+    latestChapterAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     introduce: string
@@ -37988,7 +50241,12 @@ export namespace Prisma {
     bookmarks?: StoryBookmarkCreateNestedManyWithoutStoryInput
     fans?: StoryFanCreateNestedManyWithoutStoryInput
     votes?: StoryRecommendationCreateNestedManyWithoutStoryInput
+    dailyStats?: StoryDailyReadStatsCreateNestedManyWithoutStoryInput
     topReads?: TopStoryReadCreateNestedManyWithoutStoryInput
+    readEvents?: ChapterReadEventCreateNestedManyWithoutStoryInput
+    readingStates?: UserStoryReadingStateCreateNestedManyWithoutStoryInput
+    subscriptions?: StorySubscriptionCreateNestedManyWithoutStoryInput
+    notifications?: NotificationCreateNestedManyWithoutStoryInput
     tags?: TagCreateNestedManyWithoutStoriesInput
   }
 
@@ -37998,6 +50256,7 @@ export namespace Prisma {
     slug?: string | null
     stringUrl: string
     totalChapters?: number | null
+    latestChapterAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     uploaderId: string
@@ -38010,7 +50269,12 @@ export namespace Prisma {
     bookmarks?: StoryBookmarkUncheckedCreateNestedManyWithoutStoryInput
     fans?: StoryFanUncheckedCreateNestedManyWithoutStoryInput
     votes?: StoryRecommendationUncheckedCreateNestedManyWithoutStoryInput
+    dailyStats?: StoryDailyReadStatsUncheckedCreateNestedManyWithoutStoryInput
     topReads?: TopStoryReadUncheckedCreateNestedManyWithoutStoryInput
+    readEvents?: ChapterReadEventUncheckedCreateNestedManyWithoutStoryInput
+    readingStates?: UserStoryReadingStateUncheckedCreateNestedManyWithoutStoryInput
+    subscriptions?: StorySubscriptionUncheckedCreateNestedManyWithoutStoryInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutStoryInput
     tags?: TagUncheckedCreateNestedManyWithoutStoriesInput
   }
 
@@ -38035,6 +50299,7 @@ export namespace Prisma {
     slug?: NullableStringFieldUpdateOperationsInput | string | null
     stringUrl?: StringFieldUpdateOperationsInput | string
     totalChapters?: NullableIntFieldUpdateOperationsInput | number | null
+    latestChapterAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     introduce?: StringFieldUpdateOperationsInput | string
@@ -38047,7 +50312,12 @@ export namespace Prisma {
     bookmarks?: StoryBookmarkUpdateManyWithoutStoryNestedInput
     fans?: StoryFanUpdateManyWithoutStoryNestedInput
     votes?: StoryRecommendationUpdateManyWithoutStoryNestedInput
+    dailyStats?: StoryDailyReadStatsUpdateManyWithoutStoryNestedInput
     topReads?: TopStoryReadUpdateManyWithoutStoryNestedInput
+    readEvents?: ChapterReadEventUpdateManyWithoutStoryNestedInput
+    readingStates?: UserStoryReadingStateUpdateManyWithoutStoryNestedInput
+    subscriptions?: StorySubscriptionUpdateManyWithoutStoryNestedInput
+    notifications?: NotificationUpdateManyWithoutStoryNestedInput
     tags?: TagUpdateManyWithoutStoriesNestedInput
   }
 
@@ -38057,6 +50327,7 @@ export namespace Prisma {
     slug?: NullableStringFieldUpdateOperationsInput | string | null
     stringUrl?: StringFieldUpdateOperationsInput | string
     totalChapters?: NullableIntFieldUpdateOperationsInput | number | null
+    latestChapterAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     uploaderId?: StringFieldUpdateOperationsInput | string
@@ -38069,7 +50340,12 @@ export namespace Prisma {
     bookmarks?: StoryBookmarkUncheckedUpdateManyWithoutStoryNestedInput
     fans?: StoryFanUncheckedUpdateManyWithoutStoryNestedInput
     votes?: StoryRecommendationUncheckedUpdateManyWithoutStoryNestedInput
+    dailyStats?: StoryDailyReadStatsUncheckedUpdateManyWithoutStoryNestedInput
     topReads?: TopStoryReadUncheckedUpdateManyWithoutStoryNestedInput
+    readEvents?: ChapterReadEventUncheckedUpdateManyWithoutStoryNestedInput
+    readingStates?: UserStoryReadingStateUncheckedUpdateManyWithoutStoryNestedInput
+    subscriptions?: StorySubscriptionUncheckedUpdateManyWithoutStoryNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutStoryNestedInput
     tags?: TagUncheckedUpdateManyWithoutStoriesNestedInput
   }
 
@@ -38078,6 +50354,7 @@ export namespace Prisma {
     slug?: string | null
     stringUrl: string
     totalChapters?: number | null
+    latestChapterAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     introduce: string
@@ -38090,7 +50367,12 @@ export namespace Prisma {
     fans?: StoryFanCreateNestedManyWithoutStoryInput
     votes?: StoryRecommendationCreateNestedManyWithoutStoryInput
     stats?: StoryStatsCreateNestedOneWithoutStoryInput
+    dailyStats?: StoryDailyReadStatsCreateNestedManyWithoutStoryInput
     topReads?: TopStoryReadCreateNestedManyWithoutStoryInput
+    readEvents?: ChapterReadEventCreateNestedManyWithoutStoryInput
+    readingStates?: UserStoryReadingStateCreateNestedManyWithoutStoryInput
+    subscriptions?: StorySubscriptionCreateNestedManyWithoutStoryInput
+    notifications?: NotificationCreateNestedManyWithoutStoryInput
     tags?: TagCreateNestedManyWithoutStoriesInput
   }
 
@@ -38100,6 +50382,7 @@ export namespace Prisma {
     slug?: string | null
     stringUrl: string
     totalChapters?: number | null
+    latestChapterAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     uploaderId: string
@@ -38112,7 +50395,12 @@ export namespace Prisma {
     fans?: StoryFanUncheckedCreateNestedManyWithoutStoryInput
     votes?: StoryRecommendationUncheckedCreateNestedManyWithoutStoryInput
     stats?: StoryStatsUncheckedCreateNestedOneWithoutStoryInput
+    dailyStats?: StoryDailyReadStatsUncheckedCreateNestedManyWithoutStoryInput
     topReads?: TopStoryReadUncheckedCreateNestedManyWithoutStoryInput
+    readEvents?: ChapterReadEventUncheckedCreateNestedManyWithoutStoryInput
+    readingStates?: UserStoryReadingStateUncheckedCreateNestedManyWithoutStoryInput
+    subscriptions?: StorySubscriptionUncheckedCreateNestedManyWithoutStoryInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutStoryInput
     tags?: TagUncheckedCreateNestedManyWithoutStoriesInput
   }
 
@@ -38123,12 +50411,14 @@ export namespace Prisma {
 
   export type ChapterReadCreateWithoutChapterInput = {
     readAt?: Date | string
+    updatedAt?: Date | string
     user: UserCreateNestedOneWithoutChaptersReadInput
   }
 
   export type ChapterReadUncheckedCreateWithoutChapterInput = {
     id?: number
     readAt?: Date | string
+    updatedAt?: Date | string
     userId: string
   }
 
@@ -38139,6 +50429,54 @@ export namespace Prisma {
 
   export type ChapterReadCreateManyChapterInputEnvelope = {
     data: ChapterReadCreateManyChapterInput | ChapterReadCreateManyChapterInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type ChapterReadEventCreateWithoutChapterInput = {
+    readAt?: Date | string
+    story: StoryCreateNestedOneWithoutReadEventsInput
+    user: UserCreateNestedOneWithoutChapterReadEventsInput
+  }
+
+  export type ChapterReadEventUncheckedCreateWithoutChapterInput = {
+    id?: number
+    readAt?: Date | string
+    userId: string
+    storyId: number
+  }
+
+  export type ChapterReadEventCreateOrConnectWithoutChapterInput = {
+    where: ChapterReadEventWhereUniqueInput
+    create: XOR<ChapterReadEventCreateWithoutChapterInput, ChapterReadEventUncheckedCreateWithoutChapterInput>
+  }
+
+  export type ChapterReadEventCreateManyChapterInputEnvelope = {
+    data: ChapterReadEventCreateManyChapterInput | ChapterReadEventCreateManyChapterInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type UserStoryReadingStateCreateWithoutLastChapterInput = {
+    lastReadAt?: Date | string
+    hiddenAt?: Date | string | null
+    user: UserCreateNestedOneWithoutReadingStatesInput
+    story: StoryCreateNestedOneWithoutReadingStatesInput
+  }
+
+  export type UserStoryReadingStateUncheckedCreateWithoutLastChapterInput = {
+    id?: number
+    userId: string
+    storyId: number
+    lastReadAt?: Date | string
+    hiddenAt?: Date | string | null
+  }
+
+  export type UserStoryReadingStateCreateOrConnectWithoutLastChapterInput = {
+    where: UserStoryReadingStateWhereUniqueInput
+    create: XOR<UserStoryReadingStateCreateWithoutLastChapterInput, UserStoryReadingStateUncheckedCreateWithoutLastChapterInput>
+  }
+
+  export type UserStoryReadingStateCreateManyLastChapterInputEnvelope = {
+    data: UserStoryReadingStateCreateManyLastChapterInput | UserStoryReadingStateCreateManyLastChapterInput[]
     skipDuplicates?: boolean
   }
 
@@ -38158,6 +50496,7 @@ export namespace Prisma {
     slug?: NullableStringFieldUpdateOperationsInput | string | null
     stringUrl?: StringFieldUpdateOperationsInput | string
     totalChapters?: NullableIntFieldUpdateOperationsInput | number | null
+    latestChapterAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     introduce?: StringFieldUpdateOperationsInput | string
@@ -38170,7 +50509,12 @@ export namespace Prisma {
     fans?: StoryFanUpdateManyWithoutStoryNestedInput
     votes?: StoryRecommendationUpdateManyWithoutStoryNestedInput
     stats?: StoryStatsUpdateOneWithoutStoryNestedInput
+    dailyStats?: StoryDailyReadStatsUpdateManyWithoutStoryNestedInput
     topReads?: TopStoryReadUpdateManyWithoutStoryNestedInput
+    readEvents?: ChapterReadEventUpdateManyWithoutStoryNestedInput
+    readingStates?: UserStoryReadingStateUpdateManyWithoutStoryNestedInput
+    subscriptions?: StorySubscriptionUpdateManyWithoutStoryNestedInput
+    notifications?: NotificationUpdateManyWithoutStoryNestedInput
     tags?: TagUpdateManyWithoutStoriesNestedInput
   }
 
@@ -38180,6 +50524,7 @@ export namespace Prisma {
     slug?: NullableStringFieldUpdateOperationsInput | string | null
     stringUrl?: StringFieldUpdateOperationsInput | string
     totalChapters?: NullableIntFieldUpdateOperationsInput | number | null
+    latestChapterAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     uploaderId?: StringFieldUpdateOperationsInput | string
@@ -38192,7 +50537,12 @@ export namespace Prisma {
     fans?: StoryFanUncheckedUpdateManyWithoutStoryNestedInput
     votes?: StoryRecommendationUncheckedUpdateManyWithoutStoryNestedInput
     stats?: StoryStatsUncheckedUpdateOneWithoutStoryNestedInput
+    dailyStats?: StoryDailyReadStatsUncheckedUpdateManyWithoutStoryNestedInput
     topReads?: TopStoryReadUncheckedUpdateManyWithoutStoryNestedInput
+    readEvents?: ChapterReadEventUncheckedUpdateManyWithoutStoryNestedInput
+    readingStates?: UserStoryReadingStateUncheckedUpdateManyWithoutStoryNestedInput
+    subscriptions?: StorySubscriptionUncheckedUpdateManyWithoutStoryNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutStoryNestedInput
     tags?: TagUncheckedUpdateManyWithoutStoriesNestedInput
   }
 
@@ -38212,12 +50562,46 @@ export namespace Prisma {
     data: XOR<ChapterReadUpdateManyMutationInput, ChapterReadUncheckedUpdateManyWithoutChapterInput>
   }
 
+  export type ChapterReadEventUpsertWithWhereUniqueWithoutChapterInput = {
+    where: ChapterReadEventWhereUniqueInput
+    update: XOR<ChapterReadEventUpdateWithoutChapterInput, ChapterReadEventUncheckedUpdateWithoutChapterInput>
+    create: XOR<ChapterReadEventCreateWithoutChapterInput, ChapterReadEventUncheckedCreateWithoutChapterInput>
+  }
+
+  export type ChapterReadEventUpdateWithWhereUniqueWithoutChapterInput = {
+    where: ChapterReadEventWhereUniqueInput
+    data: XOR<ChapterReadEventUpdateWithoutChapterInput, ChapterReadEventUncheckedUpdateWithoutChapterInput>
+  }
+
+  export type ChapterReadEventUpdateManyWithWhereWithoutChapterInput = {
+    where: ChapterReadEventScalarWhereInput
+    data: XOR<ChapterReadEventUpdateManyMutationInput, ChapterReadEventUncheckedUpdateManyWithoutChapterInput>
+  }
+
+  export type UserStoryReadingStateUpsertWithWhereUniqueWithoutLastChapterInput = {
+    where: UserStoryReadingStateWhereUniqueInput
+    update: XOR<UserStoryReadingStateUpdateWithoutLastChapterInput, UserStoryReadingStateUncheckedUpdateWithoutLastChapterInput>
+    create: XOR<UserStoryReadingStateCreateWithoutLastChapterInput, UserStoryReadingStateUncheckedCreateWithoutLastChapterInput>
+  }
+
+  export type UserStoryReadingStateUpdateWithWhereUniqueWithoutLastChapterInput = {
+    where: UserStoryReadingStateWhereUniqueInput
+    data: XOR<UserStoryReadingStateUpdateWithoutLastChapterInput, UserStoryReadingStateUncheckedUpdateWithoutLastChapterInput>
+  }
+
+  export type UserStoryReadingStateUpdateManyWithWhereWithoutLastChapterInput = {
+    where: UserStoryReadingStateScalarWhereInput
+    data: XOR<UserStoryReadingStateUpdateManyMutationInput, UserStoryReadingStateUncheckedUpdateManyWithoutLastChapterInput>
+  }
+
   export type ChapterCreateWithoutReadsInput = {
     name: string
     number: number
     content: string
     postedAt?: Date | string
     story: StoryCreateNestedOneWithoutChaptersInput
+    readEvents?: ChapterReadEventCreateNestedManyWithoutChapterInput
+    readingStates?: UserStoryReadingStateCreateNestedManyWithoutLastChapterInput
   }
 
   export type ChapterUncheckedCreateWithoutReadsInput = {
@@ -38227,6 +50611,8 @@ export namespace Prisma {
     content: string
     postedAt?: Date | string
     storyId: number
+    readEvents?: ChapterReadEventUncheckedCreateNestedManyWithoutChapterInput
+    readingStates?: UserStoryReadingStateUncheckedCreateNestedManyWithoutLastChapterInput
   }
 
   export type ChapterCreateOrConnectWithoutReadsInput = {
@@ -38250,7 +50636,13 @@ export namespace Prisma {
     updatedAt?: Date | string
     voteTickets?: number
     emailVerified?: Date | string | null
+    imageUpdatedAt?: Date | string | null
+    authVersion?: number
     accounts?: AccountCreateNestedManyWithoutUserInput
+    chapterReadEvents?: ChapterReadEventCreateNestedManyWithoutUserInput
+    readingStates?: UserStoryReadingStateCreateNestedManyWithoutUserInput
+    storySubscriptions?: StorySubscriptionCreateNestedManyWithoutUserInput
+    notifications?: NotificationCreateNestedManyWithoutUserInput
     discussStorys?: DiscussCreateNestedManyWithoutUserInput
     discussesLikes?: DiscussLikeCreateNestedManyWithoutUserInput
     ratingStorys?: RatingCreateNestedManyWithoutUserInput
@@ -38263,6 +50655,7 @@ export namespace Prisma {
     storysFan?: StoryFanCreateNestedManyWithoutUserInput
     votes?: StoryRecommendationCreateNestedManyWithoutUserInput
     setting?: UserSettingCreateNestedOneWithoutUserInput
+    authTokens?: UserAuthTokenCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutChaptersReadInput = {
@@ -38281,7 +50674,13 @@ export namespace Prisma {
     updatedAt?: Date | string
     voteTickets?: number
     emailVerified?: Date | string | null
+    imageUpdatedAt?: Date | string | null
+    authVersion?: number
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
+    chapterReadEvents?: ChapterReadEventUncheckedCreateNestedManyWithoutUserInput
+    readingStates?: UserStoryReadingStateUncheckedCreateNestedManyWithoutUserInput
+    storySubscriptions?: StorySubscriptionUncheckedCreateNestedManyWithoutUserInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
     discussStorys?: DiscussUncheckedCreateNestedManyWithoutUserInput
     discussesLikes?: DiscussLikeUncheckedCreateNestedManyWithoutUserInput
     ratingStorys?: RatingUncheckedCreateNestedManyWithoutUserInput
@@ -38294,6 +50693,7 @@ export namespace Prisma {
     storysFan?: StoryFanUncheckedCreateNestedManyWithoutUserInput
     votes?: StoryRecommendationUncheckedCreateNestedManyWithoutUserInput
     setting?: UserSettingUncheckedCreateNestedOneWithoutUserInput
+    authTokens?: UserAuthTokenUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutChaptersReadInput = {
@@ -38318,6 +50718,8 @@ export namespace Prisma {
     content?: StringFieldUpdateOperationsInput | string
     postedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     story?: StoryUpdateOneRequiredWithoutChaptersNestedInput
+    readEvents?: ChapterReadEventUpdateManyWithoutChapterNestedInput
+    readingStates?: UserStoryReadingStateUpdateManyWithoutLastChapterNestedInput
   }
 
   export type ChapterUncheckedUpdateWithoutReadsInput = {
@@ -38327,6 +50729,8 @@ export namespace Prisma {
     content?: StringFieldUpdateOperationsInput | string
     postedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     storyId?: IntFieldUpdateOperationsInput | number
+    readEvents?: ChapterReadEventUncheckedUpdateManyWithoutChapterNestedInput
+    readingStates?: UserStoryReadingStateUncheckedUpdateManyWithoutLastChapterNestedInput
   }
 
   export type UserUpsertWithoutChaptersReadInput = {
@@ -38356,7 +50760,13 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     voteTickets?: IntFieldUpdateOperationsInput | number
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    imageUpdatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    authVersion?: IntFieldUpdateOperationsInput | number
     accounts?: AccountUpdateManyWithoutUserNestedInput
+    chapterReadEvents?: ChapterReadEventUpdateManyWithoutUserNestedInput
+    readingStates?: UserStoryReadingStateUpdateManyWithoutUserNestedInput
+    storySubscriptions?: StorySubscriptionUpdateManyWithoutUserNestedInput
+    notifications?: NotificationUpdateManyWithoutUserNestedInput
     discussStorys?: DiscussUpdateManyWithoutUserNestedInput
     discussesLikes?: DiscussLikeUpdateManyWithoutUserNestedInput
     ratingStorys?: RatingUpdateManyWithoutUserNestedInput
@@ -38369,6 +50779,7 @@ export namespace Prisma {
     storysFan?: StoryFanUpdateManyWithoutUserNestedInput
     votes?: StoryRecommendationUpdateManyWithoutUserNestedInput
     setting?: UserSettingUpdateOneWithoutUserNestedInput
+    authTokens?: UserAuthTokenUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutChaptersReadInput = {
@@ -38387,7 +50798,13 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     voteTickets?: IntFieldUpdateOperationsInput | number
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    imageUpdatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    authVersion?: IntFieldUpdateOperationsInput | number
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
+    chapterReadEvents?: ChapterReadEventUncheckedUpdateManyWithoutUserNestedInput
+    readingStates?: UserStoryReadingStateUncheckedUpdateManyWithoutUserNestedInput
+    storySubscriptions?: StorySubscriptionUncheckedUpdateManyWithoutUserNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
     discussStorys?: DiscussUncheckedUpdateManyWithoutUserNestedInput
     discussesLikes?: DiscussLikeUncheckedUpdateManyWithoutUserNestedInput
     ratingStorys?: RatingUncheckedUpdateManyWithoutUserNestedInput
@@ -38400,13 +50817,41 @@ export namespace Prisma {
     storysFan?: StoryFanUncheckedUpdateManyWithoutUserNestedInput
     votes?: StoryRecommendationUncheckedUpdateManyWithoutUserNestedInput
     setting?: UserSettingUncheckedUpdateOneWithoutUserNestedInput
+    authTokens?: UserAuthTokenUncheckedUpdateManyWithoutUserNestedInput
   }
 
-  export type StoryCreateWithoutTopReadsInput = {
+  export type ChapterCreateWithoutReadEventsInput = {
+    name: string
+    number: number
+    content: string
+    postedAt?: Date | string
+    story: StoryCreateNestedOneWithoutChaptersInput
+    reads?: ChapterReadCreateNestedManyWithoutChapterInput
+    readingStates?: UserStoryReadingStateCreateNestedManyWithoutLastChapterInput
+  }
+
+  export type ChapterUncheckedCreateWithoutReadEventsInput = {
+    id?: number
+    name: string
+    number: number
+    content: string
+    postedAt?: Date | string
+    storyId: number
+    reads?: ChapterReadUncheckedCreateNestedManyWithoutChapterInput
+    readingStates?: UserStoryReadingStateUncheckedCreateNestedManyWithoutLastChapterInput
+  }
+
+  export type ChapterCreateOrConnectWithoutReadEventsInput = {
+    where: ChapterWhereUniqueInput
+    create: XOR<ChapterCreateWithoutReadEventsInput, ChapterUncheckedCreateWithoutReadEventsInput>
+  }
+
+  export type StoryCreateWithoutReadEventsInput = {
     title: string
     slug?: string | null
     stringUrl: string
     totalChapters?: number | null
+    latestChapterAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     introduce: string
@@ -38420,15 +50865,21 @@ export namespace Prisma {
     fans?: StoryFanCreateNestedManyWithoutStoryInput
     votes?: StoryRecommendationCreateNestedManyWithoutStoryInput
     stats?: StoryStatsCreateNestedOneWithoutStoryInput
+    dailyStats?: StoryDailyReadStatsCreateNestedManyWithoutStoryInput
+    topReads?: TopStoryReadCreateNestedManyWithoutStoryInput
+    readingStates?: UserStoryReadingStateCreateNestedManyWithoutStoryInput
+    subscriptions?: StorySubscriptionCreateNestedManyWithoutStoryInput
+    notifications?: NotificationCreateNestedManyWithoutStoryInput
     tags?: TagCreateNestedManyWithoutStoriesInput
   }
 
-  export type StoryUncheckedCreateWithoutTopReadsInput = {
+  export type StoryUncheckedCreateWithoutReadEventsInput = {
     id?: number
     title: string
     slug?: string | null
     stringUrl: string
     totalChapters?: number | null
+    latestChapterAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     uploaderId: string
@@ -38442,6 +50893,689 @@ export namespace Prisma {
     fans?: StoryFanUncheckedCreateNestedManyWithoutStoryInput
     votes?: StoryRecommendationUncheckedCreateNestedManyWithoutStoryInput
     stats?: StoryStatsUncheckedCreateNestedOneWithoutStoryInput
+    dailyStats?: StoryDailyReadStatsUncheckedCreateNestedManyWithoutStoryInput
+    topReads?: TopStoryReadUncheckedCreateNestedManyWithoutStoryInput
+    readingStates?: UserStoryReadingStateUncheckedCreateNestedManyWithoutStoryInput
+    subscriptions?: StorySubscriptionUncheckedCreateNestedManyWithoutStoryInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutStoryInput
+    tags?: TagUncheckedCreateNestedManyWithoutStoriesInput
+  }
+
+  export type StoryCreateOrConnectWithoutReadEventsInput = {
+    where: StoryWhereUniqueInput
+    create: XOR<StoryCreateWithoutReadEventsInput, StoryUncheckedCreateWithoutReadEventsInput>
+  }
+
+  export type UserCreateWithoutChapterReadEventsInput = {
+    id?: string
+    email?: string | null
+    password?: string | null
+    image?: string | null
+    name?: string | null
+    birthYear?: number | null
+    sex?: $Enums.Sex | null
+    role?: $Enums.Role
+    candyTotal?: number
+    createdAt?: Date | string
+    keyTotal?: number
+    potatoToal?: number
+    updatedAt?: Date | string
+    voteTickets?: number
+    emailVerified?: Date | string | null
+    imageUpdatedAt?: Date | string | null
+    authVersion?: number
+    accounts?: AccountCreateNestedManyWithoutUserInput
+    chaptersRead?: ChapterReadCreateNestedManyWithoutUserInput
+    readingStates?: UserStoryReadingStateCreateNestedManyWithoutUserInput
+    storySubscriptions?: StorySubscriptionCreateNestedManyWithoutUserInput
+    notifications?: NotificationCreateNestedManyWithoutUserInput
+    discussStorys?: DiscussCreateNestedManyWithoutUserInput
+    discussesLikes?: DiscussLikeCreateNestedManyWithoutUserInput
+    ratingStorys?: RatingCreateNestedManyWithoutUserInput
+    ratingComments?: RatingCommentCreateNestedManyWithoutUserInput
+    ratingCommentsLikes?: RatingCommentLikeCreateNestedManyWithoutUserInput
+    ratingLikes?: RatingLikeCreateNestedManyWithoutUserInput
+    sessions?: SessionCreateNestedManyWithoutUserInput
+    uploadedStories?: StoryCreateNestedManyWithoutUploaderInput
+    storyBookmarks?: StoryBookmarkCreateNestedManyWithoutUserInput
+    storysFan?: StoryFanCreateNestedManyWithoutUserInput
+    votes?: StoryRecommendationCreateNestedManyWithoutUserInput
+    setting?: UserSettingCreateNestedOneWithoutUserInput
+    authTokens?: UserAuthTokenCreateNestedManyWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutChapterReadEventsInput = {
+    id?: string
+    email?: string | null
+    password?: string | null
+    image?: string | null
+    name?: string | null
+    birthYear?: number | null
+    sex?: $Enums.Sex | null
+    role?: $Enums.Role
+    candyTotal?: number
+    createdAt?: Date | string
+    keyTotal?: number
+    potatoToal?: number
+    updatedAt?: Date | string
+    voteTickets?: number
+    emailVerified?: Date | string | null
+    imageUpdatedAt?: Date | string | null
+    authVersion?: number
+    accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
+    chaptersRead?: ChapterReadUncheckedCreateNestedManyWithoutUserInput
+    readingStates?: UserStoryReadingStateUncheckedCreateNestedManyWithoutUserInput
+    storySubscriptions?: StorySubscriptionUncheckedCreateNestedManyWithoutUserInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
+    discussStorys?: DiscussUncheckedCreateNestedManyWithoutUserInput
+    discussesLikes?: DiscussLikeUncheckedCreateNestedManyWithoutUserInput
+    ratingStorys?: RatingUncheckedCreateNestedManyWithoutUserInput
+    ratingComments?: RatingCommentUncheckedCreateNestedManyWithoutUserInput
+    ratingCommentsLikes?: RatingCommentLikeUncheckedCreateNestedManyWithoutUserInput
+    ratingLikes?: RatingLikeUncheckedCreateNestedManyWithoutUserInput
+    sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
+    uploadedStories?: StoryUncheckedCreateNestedManyWithoutUploaderInput
+    storyBookmarks?: StoryBookmarkUncheckedCreateNestedManyWithoutUserInput
+    storysFan?: StoryFanUncheckedCreateNestedManyWithoutUserInput
+    votes?: StoryRecommendationUncheckedCreateNestedManyWithoutUserInput
+    setting?: UserSettingUncheckedCreateNestedOneWithoutUserInput
+    authTokens?: UserAuthTokenUncheckedCreateNestedManyWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutChapterReadEventsInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutChapterReadEventsInput, UserUncheckedCreateWithoutChapterReadEventsInput>
+  }
+
+  export type ChapterUpsertWithoutReadEventsInput = {
+    update: XOR<ChapterUpdateWithoutReadEventsInput, ChapterUncheckedUpdateWithoutReadEventsInput>
+    create: XOR<ChapterCreateWithoutReadEventsInput, ChapterUncheckedCreateWithoutReadEventsInput>
+    where?: ChapterWhereInput
+  }
+
+  export type ChapterUpdateToOneWithWhereWithoutReadEventsInput = {
+    where?: ChapterWhereInput
+    data: XOR<ChapterUpdateWithoutReadEventsInput, ChapterUncheckedUpdateWithoutReadEventsInput>
+  }
+
+  export type ChapterUpdateWithoutReadEventsInput = {
+    name?: StringFieldUpdateOperationsInput | string
+    number?: IntFieldUpdateOperationsInput | number
+    content?: StringFieldUpdateOperationsInput | string
+    postedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    story?: StoryUpdateOneRequiredWithoutChaptersNestedInput
+    reads?: ChapterReadUpdateManyWithoutChapterNestedInput
+    readingStates?: UserStoryReadingStateUpdateManyWithoutLastChapterNestedInput
+  }
+
+  export type ChapterUncheckedUpdateWithoutReadEventsInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    name?: StringFieldUpdateOperationsInput | string
+    number?: IntFieldUpdateOperationsInput | number
+    content?: StringFieldUpdateOperationsInput | string
+    postedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    storyId?: IntFieldUpdateOperationsInput | number
+    reads?: ChapterReadUncheckedUpdateManyWithoutChapterNestedInput
+    readingStates?: UserStoryReadingStateUncheckedUpdateManyWithoutLastChapterNestedInput
+  }
+
+  export type StoryUpsertWithoutReadEventsInput = {
+    update: XOR<StoryUpdateWithoutReadEventsInput, StoryUncheckedUpdateWithoutReadEventsInput>
+    create: XOR<StoryCreateWithoutReadEventsInput, StoryUncheckedCreateWithoutReadEventsInput>
+    where?: StoryWhereInput
+  }
+
+  export type StoryUpdateToOneWithWhereWithoutReadEventsInput = {
+    where?: StoryWhereInput
+    data: XOR<StoryUpdateWithoutReadEventsInput, StoryUncheckedUpdateWithoutReadEventsInput>
+  }
+
+  export type StoryUpdateWithoutReadEventsInput = {
+    title?: StringFieldUpdateOperationsInput | string
+    slug?: NullableStringFieldUpdateOperationsInput | string | null
+    stringUrl?: StringFieldUpdateOperationsInput | string
+    totalChapters?: NullableIntFieldUpdateOperationsInput | number | null
+    latestChapterAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    introduce?: StringFieldUpdateOperationsInput | string
+    manager_pick?: IntFieldUpdateOperationsInput | number
+    chapters?: ChapterUpdateManyWithoutStoryNestedInput
+    discusses?: DiscussUpdateManyWithoutStoryNestedInput
+    ratings?: RatingUpdateManyWithoutStoryNestedInput
+    author?: AuthorUpdateOneRequiredWithoutStoriesNestedInput
+    uploader?: UserUpdateOneRequiredWithoutUploadedStoriesNestedInput
+    bookmarks?: StoryBookmarkUpdateManyWithoutStoryNestedInput
+    fans?: StoryFanUpdateManyWithoutStoryNestedInput
+    votes?: StoryRecommendationUpdateManyWithoutStoryNestedInput
+    stats?: StoryStatsUpdateOneWithoutStoryNestedInput
+    dailyStats?: StoryDailyReadStatsUpdateManyWithoutStoryNestedInput
+    topReads?: TopStoryReadUpdateManyWithoutStoryNestedInput
+    readingStates?: UserStoryReadingStateUpdateManyWithoutStoryNestedInput
+    subscriptions?: StorySubscriptionUpdateManyWithoutStoryNestedInput
+    notifications?: NotificationUpdateManyWithoutStoryNestedInput
+    tags?: TagUpdateManyWithoutStoriesNestedInput
+  }
+
+  export type StoryUncheckedUpdateWithoutReadEventsInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    title?: StringFieldUpdateOperationsInput | string
+    slug?: NullableStringFieldUpdateOperationsInput | string | null
+    stringUrl?: StringFieldUpdateOperationsInput | string
+    totalChapters?: NullableIntFieldUpdateOperationsInput | number | null
+    latestChapterAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    uploaderId?: StringFieldUpdateOperationsInput | string
+    authorId?: IntFieldUpdateOperationsInput | number
+    introduce?: StringFieldUpdateOperationsInput | string
+    manager_pick?: IntFieldUpdateOperationsInput | number
+    chapters?: ChapterUncheckedUpdateManyWithoutStoryNestedInput
+    discusses?: DiscussUncheckedUpdateManyWithoutStoryNestedInput
+    ratings?: RatingUncheckedUpdateManyWithoutStoryNestedInput
+    bookmarks?: StoryBookmarkUncheckedUpdateManyWithoutStoryNestedInput
+    fans?: StoryFanUncheckedUpdateManyWithoutStoryNestedInput
+    votes?: StoryRecommendationUncheckedUpdateManyWithoutStoryNestedInput
+    stats?: StoryStatsUncheckedUpdateOneWithoutStoryNestedInput
+    dailyStats?: StoryDailyReadStatsUncheckedUpdateManyWithoutStoryNestedInput
+    topReads?: TopStoryReadUncheckedUpdateManyWithoutStoryNestedInput
+    readingStates?: UserStoryReadingStateUncheckedUpdateManyWithoutStoryNestedInput
+    subscriptions?: StorySubscriptionUncheckedUpdateManyWithoutStoryNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutStoryNestedInput
+    tags?: TagUncheckedUpdateManyWithoutStoriesNestedInput
+  }
+
+  export type UserUpsertWithoutChapterReadEventsInput = {
+    update: XOR<UserUpdateWithoutChapterReadEventsInput, UserUncheckedUpdateWithoutChapterReadEventsInput>
+    create: XOR<UserCreateWithoutChapterReadEventsInput, UserUncheckedCreateWithoutChapterReadEventsInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutChapterReadEventsInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutChapterReadEventsInput, UserUncheckedUpdateWithoutChapterReadEventsInput>
+  }
+
+  export type UserUpdateWithoutChapterReadEventsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    password?: NullableStringFieldUpdateOperationsInput | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    birthYear?: NullableIntFieldUpdateOperationsInput | number | null
+    sex?: NullableEnumSexFieldUpdateOperationsInput | $Enums.Sex | null
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    candyTotal?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    keyTotal?: IntFieldUpdateOperationsInput | number
+    potatoToal?: IntFieldUpdateOperationsInput | number
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    voteTickets?: IntFieldUpdateOperationsInput | number
+    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    imageUpdatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    authVersion?: IntFieldUpdateOperationsInput | number
+    accounts?: AccountUpdateManyWithoutUserNestedInput
+    chaptersRead?: ChapterReadUpdateManyWithoutUserNestedInput
+    readingStates?: UserStoryReadingStateUpdateManyWithoutUserNestedInput
+    storySubscriptions?: StorySubscriptionUpdateManyWithoutUserNestedInput
+    notifications?: NotificationUpdateManyWithoutUserNestedInput
+    discussStorys?: DiscussUpdateManyWithoutUserNestedInput
+    discussesLikes?: DiscussLikeUpdateManyWithoutUserNestedInput
+    ratingStorys?: RatingUpdateManyWithoutUserNestedInput
+    ratingComments?: RatingCommentUpdateManyWithoutUserNestedInput
+    ratingCommentsLikes?: RatingCommentLikeUpdateManyWithoutUserNestedInput
+    ratingLikes?: RatingLikeUpdateManyWithoutUserNestedInput
+    sessions?: SessionUpdateManyWithoutUserNestedInput
+    uploadedStories?: StoryUpdateManyWithoutUploaderNestedInput
+    storyBookmarks?: StoryBookmarkUpdateManyWithoutUserNestedInput
+    storysFan?: StoryFanUpdateManyWithoutUserNestedInput
+    votes?: StoryRecommendationUpdateManyWithoutUserNestedInput
+    setting?: UserSettingUpdateOneWithoutUserNestedInput
+    authTokens?: UserAuthTokenUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutChapterReadEventsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    password?: NullableStringFieldUpdateOperationsInput | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    birthYear?: NullableIntFieldUpdateOperationsInput | number | null
+    sex?: NullableEnumSexFieldUpdateOperationsInput | $Enums.Sex | null
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    candyTotal?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    keyTotal?: IntFieldUpdateOperationsInput | number
+    potatoToal?: IntFieldUpdateOperationsInput | number
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    voteTickets?: IntFieldUpdateOperationsInput | number
+    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    imageUpdatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    authVersion?: IntFieldUpdateOperationsInput | number
+    accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
+    chaptersRead?: ChapterReadUncheckedUpdateManyWithoutUserNestedInput
+    readingStates?: UserStoryReadingStateUncheckedUpdateManyWithoutUserNestedInput
+    storySubscriptions?: StorySubscriptionUncheckedUpdateManyWithoutUserNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
+    discussStorys?: DiscussUncheckedUpdateManyWithoutUserNestedInput
+    discussesLikes?: DiscussLikeUncheckedUpdateManyWithoutUserNestedInput
+    ratingStorys?: RatingUncheckedUpdateManyWithoutUserNestedInput
+    ratingComments?: RatingCommentUncheckedUpdateManyWithoutUserNestedInput
+    ratingCommentsLikes?: RatingCommentLikeUncheckedUpdateManyWithoutUserNestedInput
+    ratingLikes?: RatingLikeUncheckedUpdateManyWithoutUserNestedInput
+    sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
+    uploadedStories?: StoryUncheckedUpdateManyWithoutUploaderNestedInput
+    storyBookmarks?: StoryBookmarkUncheckedUpdateManyWithoutUserNestedInput
+    storysFan?: StoryFanUncheckedUpdateManyWithoutUserNestedInput
+    votes?: StoryRecommendationUncheckedUpdateManyWithoutUserNestedInput
+    setting?: UserSettingUncheckedUpdateOneWithoutUserNestedInput
+    authTokens?: UserAuthTokenUncheckedUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserCreateWithoutReadingStatesInput = {
+    id?: string
+    email?: string | null
+    password?: string | null
+    image?: string | null
+    name?: string | null
+    birthYear?: number | null
+    sex?: $Enums.Sex | null
+    role?: $Enums.Role
+    candyTotal?: number
+    createdAt?: Date | string
+    keyTotal?: number
+    potatoToal?: number
+    updatedAt?: Date | string
+    voteTickets?: number
+    emailVerified?: Date | string | null
+    imageUpdatedAt?: Date | string | null
+    authVersion?: number
+    accounts?: AccountCreateNestedManyWithoutUserInput
+    chaptersRead?: ChapterReadCreateNestedManyWithoutUserInput
+    chapterReadEvents?: ChapterReadEventCreateNestedManyWithoutUserInput
+    storySubscriptions?: StorySubscriptionCreateNestedManyWithoutUserInput
+    notifications?: NotificationCreateNestedManyWithoutUserInput
+    discussStorys?: DiscussCreateNestedManyWithoutUserInput
+    discussesLikes?: DiscussLikeCreateNestedManyWithoutUserInput
+    ratingStorys?: RatingCreateNestedManyWithoutUserInput
+    ratingComments?: RatingCommentCreateNestedManyWithoutUserInput
+    ratingCommentsLikes?: RatingCommentLikeCreateNestedManyWithoutUserInput
+    ratingLikes?: RatingLikeCreateNestedManyWithoutUserInput
+    sessions?: SessionCreateNestedManyWithoutUserInput
+    uploadedStories?: StoryCreateNestedManyWithoutUploaderInput
+    storyBookmarks?: StoryBookmarkCreateNestedManyWithoutUserInput
+    storysFan?: StoryFanCreateNestedManyWithoutUserInput
+    votes?: StoryRecommendationCreateNestedManyWithoutUserInput
+    setting?: UserSettingCreateNestedOneWithoutUserInput
+    authTokens?: UserAuthTokenCreateNestedManyWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutReadingStatesInput = {
+    id?: string
+    email?: string | null
+    password?: string | null
+    image?: string | null
+    name?: string | null
+    birthYear?: number | null
+    sex?: $Enums.Sex | null
+    role?: $Enums.Role
+    candyTotal?: number
+    createdAt?: Date | string
+    keyTotal?: number
+    potatoToal?: number
+    updatedAt?: Date | string
+    voteTickets?: number
+    emailVerified?: Date | string | null
+    imageUpdatedAt?: Date | string | null
+    authVersion?: number
+    accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
+    chaptersRead?: ChapterReadUncheckedCreateNestedManyWithoutUserInput
+    chapterReadEvents?: ChapterReadEventUncheckedCreateNestedManyWithoutUserInput
+    storySubscriptions?: StorySubscriptionUncheckedCreateNestedManyWithoutUserInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
+    discussStorys?: DiscussUncheckedCreateNestedManyWithoutUserInput
+    discussesLikes?: DiscussLikeUncheckedCreateNestedManyWithoutUserInput
+    ratingStorys?: RatingUncheckedCreateNestedManyWithoutUserInput
+    ratingComments?: RatingCommentUncheckedCreateNestedManyWithoutUserInput
+    ratingCommentsLikes?: RatingCommentLikeUncheckedCreateNestedManyWithoutUserInput
+    ratingLikes?: RatingLikeUncheckedCreateNestedManyWithoutUserInput
+    sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
+    uploadedStories?: StoryUncheckedCreateNestedManyWithoutUploaderInput
+    storyBookmarks?: StoryBookmarkUncheckedCreateNestedManyWithoutUserInput
+    storysFan?: StoryFanUncheckedCreateNestedManyWithoutUserInput
+    votes?: StoryRecommendationUncheckedCreateNestedManyWithoutUserInput
+    setting?: UserSettingUncheckedCreateNestedOneWithoutUserInput
+    authTokens?: UserAuthTokenUncheckedCreateNestedManyWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutReadingStatesInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutReadingStatesInput, UserUncheckedCreateWithoutReadingStatesInput>
+  }
+
+  export type StoryCreateWithoutReadingStatesInput = {
+    title: string
+    slug?: string | null
+    stringUrl: string
+    totalChapters?: number | null
+    latestChapterAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    introduce: string
+    manager_pick?: number
+    chapters?: ChapterCreateNestedManyWithoutStoryInput
+    discusses?: DiscussCreateNestedManyWithoutStoryInput
+    ratings?: RatingCreateNestedManyWithoutStoryInput
+    author: AuthorCreateNestedOneWithoutStoriesInput
+    uploader: UserCreateNestedOneWithoutUploadedStoriesInput
+    bookmarks?: StoryBookmarkCreateNestedManyWithoutStoryInput
+    fans?: StoryFanCreateNestedManyWithoutStoryInput
+    votes?: StoryRecommendationCreateNestedManyWithoutStoryInput
+    stats?: StoryStatsCreateNestedOneWithoutStoryInput
+    dailyStats?: StoryDailyReadStatsCreateNestedManyWithoutStoryInput
+    topReads?: TopStoryReadCreateNestedManyWithoutStoryInput
+    readEvents?: ChapterReadEventCreateNestedManyWithoutStoryInput
+    subscriptions?: StorySubscriptionCreateNestedManyWithoutStoryInput
+    notifications?: NotificationCreateNestedManyWithoutStoryInput
+    tags?: TagCreateNestedManyWithoutStoriesInput
+  }
+
+  export type StoryUncheckedCreateWithoutReadingStatesInput = {
+    id?: number
+    title: string
+    slug?: string | null
+    stringUrl: string
+    totalChapters?: number | null
+    latestChapterAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    uploaderId: string
+    authorId: number
+    introduce: string
+    manager_pick?: number
+    chapters?: ChapterUncheckedCreateNestedManyWithoutStoryInput
+    discusses?: DiscussUncheckedCreateNestedManyWithoutStoryInput
+    ratings?: RatingUncheckedCreateNestedManyWithoutStoryInput
+    bookmarks?: StoryBookmarkUncheckedCreateNestedManyWithoutStoryInput
+    fans?: StoryFanUncheckedCreateNestedManyWithoutStoryInput
+    votes?: StoryRecommendationUncheckedCreateNestedManyWithoutStoryInput
+    stats?: StoryStatsUncheckedCreateNestedOneWithoutStoryInput
+    dailyStats?: StoryDailyReadStatsUncheckedCreateNestedManyWithoutStoryInput
+    topReads?: TopStoryReadUncheckedCreateNestedManyWithoutStoryInput
+    readEvents?: ChapterReadEventUncheckedCreateNestedManyWithoutStoryInput
+    subscriptions?: StorySubscriptionUncheckedCreateNestedManyWithoutStoryInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutStoryInput
+    tags?: TagUncheckedCreateNestedManyWithoutStoriesInput
+  }
+
+  export type StoryCreateOrConnectWithoutReadingStatesInput = {
+    where: StoryWhereUniqueInput
+    create: XOR<StoryCreateWithoutReadingStatesInput, StoryUncheckedCreateWithoutReadingStatesInput>
+  }
+
+  export type ChapterCreateWithoutReadingStatesInput = {
+    name: string
+    number: number
+    content: string
+    postedAt?: Date | string
+    story: StoryCreateNestedOneWithoutChaptersInput
+    reads?: ChapterReadCreateNestedManyWithoutChapterInput
+    readEvents?: ChapterReadEventCreateNestedManyWithoutChapterInput
+  }
+
+  export type ChapterUncheckedCreateWithoutReadingStatesInput = {
+    id?: number
+    name: string
+    number: number
+    content: string
+    postedAt?: Date | string
+    storyId: number
+    reads?: ChapterReadUncheckedCreateNestedManyWithoutChapterInput
+    readEvents?: ChapterReadEventUncheckedCreateNestedManyWithoutChapterInput
+  }
+
+  export type ChapterCreateOrConnectWithoutReadingStatesInput = {
+    where: ChapterWhereUniqueInput
+    create: XOR<ChapterCreateWithoutReadingStatesInput, ChapterUncheckedCreateWithoutReadingStatesInput>
+  }
+
+  export type UserUpsertWithoutReadingStatesInput = {
+    update: XOR<UserUpdateWithoutReadingStatesInput, UserUncheckedUpdateWithoutReadingStatesInput>
+    create: XOR<UserCreateWithoutReadingStatesInput, UserUncheckedCreateWithoutReadingStatesInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutReadingStatesInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutReadingStatesInput, UserUncheckedUpdateWithoutReadingStatesInput>
+  }
+
+  export type UserUpdateWithoutReadingStatesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    password?: NullableStringFieldUpdateOperationsInput | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    birthYear?: NullableIntFieldUpdateOperationsInput | number | null
+    sex?: NullableEnumSexFieldUpdateOperationsInput | $Enums.Sex | null
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    candyTotal?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    keyTotal?: IntFieldUpdateOperationsInput | number
+    potatoToal?: IntFieldUpdateOperationsInput | number
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    voteTickets?: IntFieldUpdateOperationsInput | number
+    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    imageUpdatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    authVersion?: IntFieldUpdateOperationsInput | number
+    accounts?: AccountUpdateManyWithoutUserNestedInput
+    chaptersRead?: ChapterReadUpdateManyWithoutUserNestedInput
+    chapterReadEvents?: ChapterReadEventUpdateManyWithoutUserNestedInput
+    storySubscriptions?: StorySubscriptionUpdateManyWithoutUserNestedInput
+    notifications?: NotificationUpdateManyWithoutUserNestedInput
+    discussStorys?: DiscussUpdateManyWithoutUserNestedInput
+    discussesLikes?: DiscussLikeUpdateManyWithoutUserNestedInput
+    ratingStorys?: RatingUpdateManyWithoutUserNestedInput
+    ratingComments?: RatingCommentUpdateManyWithoutUserNestedInput
+    ratingCommentsLikes?: RatingCommentLikeUpdateManyWithoutUserNestedInput
+    ratingLikes?: RatingLikeUpdateManyWithoutUserNestedInput
+    sessions?: SessionUpdateManyWithoutUserNestedInput
+    uploadedStories?: StoryUpdateManyWithoutUploaderNestedInput
+    storyBookmarks?: StoryBookmarkUpdateManyWithoutUserNestedInput
+    storysFan?: StoryFanUpdateManyWithoutUserNestedInput
+    votes?: StoryRecommendationUpdateManyWithoutUserNestedInput
+    setting?: UserSettingUpdateOneWithoutUserNestedInput
+    authTokens?: UserAuthTokenUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutReadingStatesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    password?: NullableStringFieldUpdateOperationsInput | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    birthYear?: NullableIntFieldUpdateOperationsInput | number | null
+    sex?: NullableEnumSexFieldUpdateOperationsInput | $Enums.Sex | null
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    candyTotal?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    keyTotal?: IntFieldUpdateOperationsInput | number
+    potatoToal?: IntFieldUpdateOperationsInput | number
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    voteTickets?: IntFieldUpdateOperationsInput | number
+    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    imageUpdatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    authVersion?: IntFieldUpdateOperationsInput | number
+    accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
+    chaptersRead?: ChapterReadUncheckedUpdateManyWithoutUserNestedInput
+    chapterReadEvents?: ChapterReadEventUncheckedUpdateManyWithoutUserNestedInput
+    storySubscriptions?: StorySubscriptionUncheckedUpdateManyWithoutUserNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
+    discussStorys?: DiscussUncheckedUpdateManyWithoutUserNestedInput
+    discussesLikes?: DiscussLikeUncheckedUpdateManyWithoutUserNestedInput
+    ratingStorys?: RatingUncheckedUpdateManyWithoutUserNestedInput
+    ratingComments?: RatingCommentUncheckedUpdateManyWithoutUserNestedInput
+    ratingCommentsLikes?: RatingCommentLikeUncheckedUpdateManyWithoutUserNestedInput
+    ratingLikes?: RatingLikeUncheckedUpdateManyWithoutUserNestedInput
+    sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
+    uploadedStories?: StoryUncheckedUpdateManyWithoutUploaderNestedInput
+    storyBookmarks?: StoryBookmarkUncheckedUpdateManyWithoutUserNestedInput
+    storysFan?: StoryFanUncheckedUpdateManyWithoutUserNestedInput
+    votes?: StoryRecommendationUncheckedUpdateManyWithoutUserNestedInput
+    setting?: UserSettingUncheckedUpdateOneWithoutUserNestedInput
+    authTokens?: UserAuthTokenUncheckedUpdateManyWithoutUserNestedInput
+  }
+
+  export type StoryUpsertWithoutReadingStatesInput = {
+    update: XOR<StoryUpdateWithoutReadingStatesInput, StoryUncheckedUpdateWithoutReadingStatesInput>
+    create: XOR<StoryCreateWithoutReadingStatesInput, StoryUncheckedCreateWithoutReadingStatesInput>
+    where?: StoryWhereInput
+  }
+
+  export type StoryUpdateToOneWithWhereWithoutReadingStatesInput = {
+    where?: StoryWhereInput
+    data: XOR<StoryUpdateWithoutReadingStatesInput, StoryUncheckedUpdateWithoutReadingStatesInput>
+  }
+
+  export type StoryUpdateWithoutReadingStatesInput = {
+    title?: StringFieldUpdateOperationsInput | string
+    slug?: NullableStringFieldUpdateOperationsInput | string | null
+    stringUrl?: StringFieldUpdateOperationsInput | string
+    totalChapters?: NullableIntFieldUpdateOperationsInput | number | null
+    latestChapterAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    introduce?: StringFieldUpdateOperationsInput | string
+    manager_pick?: IntFieldUpdateOperationsInput | number
+    chapters?: ChapterUpdateManyWithoutStoryNestedInput
+    discusses?: DiscussUpdateManyWithoutStoryNestedInput
+    ratings?: RatingUpdateManyWithoutStoryNestedInput
+    author?: AuthorUpdateOneRequiredWithoutStoriesNestedInput
+    uploader?: UserUpdateOneRequiredWithoutUploadedStoriesNestedInput
+    bookmarks?: StoryBookmarkUpdateManyWithoutStoryNestedInput
+    fans?: StoryFanUpdateManyWithoutStoryNestedInput
+    votes?: StoryRecommendationUpdateManyWithoutStoryNestedInput
+    stats?: StoryStatsUpdateOneWithoutStoryNestedInput
+    dailyStats?: StoryDailyReadStatsUpdateManyWithoutStoryNestedInput
+    topReads?: TopStoryReadUpdateManyWithoutStoryNestedInput
+    readEvents?: ChapterReadEventUpdateManyWithoutStoryNestedInput
+    subscriptions?: StorySubscriptionUpdateManyWithoutStoryNestedInput
+    notifications?: NotificationUpdateManyWithoutStoryNestedInput
+    tags?: TagUpdateManyWithoutStoriesNestedInput
+  }
+
+  export type StoryUncheckedUpdateWithoutReadingStatesInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    title?: StringFieldUpdateOperationsInput | string
+    slug?: NullableStringFieldUpdateOperationsInput | string | null
+    stringUrl?: StringFieldUpdateOperationsInput | string
+    totalChapters?: NullableIntFieldUpdateOperationsInput | number | null
+    latestChapterAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    uploaderId?: StringFieldUpdateOperationsInput | string
+    authorId?: IntFieldUpdateOperationsInput | number
+    introduce?: StringFieldUpdateOperationsInput | string
+    manager_pick?: IntFieldUpdateOperationsInput | number
+    chapters?: ChapterUncheckedUpdateManyWithoutStoryNestedInput
+    discusses?: DiscussUncheckedUpdateManyWithoutStoryNestedInput
+    ratings?: RatingUncheckedUpdateManyWithoutStoryNestedInput
+    bookmarks?: StoryBookmarkUncheckedUpdateManyWithoutStoryNestedInput
+    fans?: StoryFanUncheckedUpdateManyWithoutStoryNestedInput
+    votes?: StoryRecommendationUncheckedUpdateManyWithoutStoryNestedInput
+    stats?: StoryStatsUncheckedUpdateOneWithoutStoryNestedInput
+    dailyStats?: StoryDailyReadStatsUncheckedUpdateManyWithoutStoryNestedInput
+    topReads?: TopStoryReadUncheckedUpdateManyWithoutStoryNestedInput
+    readEvents?: ChapterReadEventUncheckedUpdateManyWithoutStoryNestedInput
+    subscriptions?: StorySubscriptionUncheckedUpdateManyWithoutStoryNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutStoryNestedInput
+    tags?: TagUncheckedUpdateManyWithoutStoriesNestedInput
+  }
+
+  export type ChapterUpsertWithoutReadingStatesInput = {
+    update: XOR<ChapterUpdateWithoutReadingStatesInput, ChapterUncheckedUpdateWithoutReadingStatesInput>
+    create: XOR<ChapterCreateWithoutReadingStatesInput, ChapterUncheckedCreateWithoutReadingStatesInput>
+    where?: ChapterWhereInput
+  }
+
+  export type ChapterUpdateToOneWithWhereWithoutReadingStatesInput = {
+    where?: ChapterWhereInput
+    data: XOR<ChapterUpdateWithoutReadingStatesInput, ChapterUncheckedUpdateWithoutReadingStatesInput>
+  }
+
+  export type ChapterUpdateWithoutReadingStatesInput = {
+    name?: StringFieldUpdateOperationsInput | string
+    number?: IntFieldUpdateOperationsInput | number
+    content?: StringFieldUpdateOperationsInput | string
+    postedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    story?: StoryUpdateOneRequiredWithoutChaptersNestedInput
+    reads?: ChapterReadUpdateManyWithoutChapterNestedInput
+    readEvents?: ChapterReadEventUpdateManyWithoutChapterNestedInput
+  }
+
+  export type ChapterUncheckedUpdateWithoutReadingStatesInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    name?: StringFieldUpdateOperationsInput | string
+    number?: IntFieldUpdateOperationsInput | number
+    content?: StringFieldUpdateOperationsInput | string
+    postedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    storyId?: IntFieldUpdateOperationsInput | number
+    reads?: ChapterReadUncheckedUpdateManyWithoutChapterNestedInput
+    readEvents?: ChapterReadEventUncheckedUpdateManyWithoutChapterNestedInput
+  }
+
+  export type StoryCreateWithoutTopReadsInput = {
+    title: string
+    slug?: string | null
+    stringUrl: string
+    totalChapters?: number | null
+    latestChapterAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    introduce: string
+    manager_pick?: number
+    chapters?: ChapterCreateNestedManyWithoutStoryInput
+    discusses?: DiscussCreateNestedManyWithoutStoryInput
+    ratings?: RatingCreateNestedManyWithoutStoryInput
+    author: AuthorCreateNestedOneWithoutStoriesInput
+    uploader: UserCreateNestedOneWithoutUploadedStoriesInput
+    bookmarks?: StoryBookmarkCreateNestedManyWithoutStoryInput
+    fans?: StoryFanCreateNestedManyWithoutStoryInput
+    votes?: StoryRecommendationCreateNestedManyWithoutStoryInput
+    stats?: StoryStatsCreateNestedOneWithoutStoryInput
+    dailyStats?: StoryDailyReadStatsCreateNestedManyWithoutStoryInput
+    readEvents?: ChapterReadEventCreateNestedManyWithoutStoryInput
+    readingStates?: UserStoryReadingStateCreateNestedManyWithoutStoryInput
+    subscriptions?: StorySubscriptionCreateNestedManyWithoutStoryInput
+    notifications?: NotificationCreateNestedManyWithoutStoryInput
+    tags?: TagCreateNestedManyWithoutStoriesInput
+  }
+
+  export type StoryUncheckedCreateWithoutTopReadsInput = {
+    id?: number
+    title: string
+    slug?: string | null
+    stringUrl: string
+    totalChapters?: number | null
+    latestChapterAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    uploaderId: string
+    authorId: number
+    introduce: string
+    manager_pick?: number
+    chapters?: ChapterUncheckedCreateNestedManyWithoutStoryInput
+    discusses?: DiscussUncheckedCreateNestedManyWithoutStoryInput
+    ratings?: RatingUncheckedCreateNestedManyWithoutStoryInput
+    bookmarks?: StoryBookmarkUncheckedCreateNestedManyWithoutStoryInput
+    fans?: StoryFanUncheckedCreateNestedManyWithoutStoryInput
+    votes?: StoryRecommendationUncheckedCreateNestedManyWithoutStoryInput
+    stats?: StoryStatsUncheckedCreateNestedOneWithoutStoryInput
+    dailyStats?: StoryDailyReadStatsUncheckedCreateNestedManyWithoutStoryInput
+    readEvents?: ChapterReadEventUncheckedCreateNestedManyWithoutStoryInput
+    readingStates?: UserStoryReadingStateUncheckedCreateNestedManyWithoutStoryInput
+    subscriptions?: StorySubscriptionUncheckedCreateNestedManyWithoutStoryInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutStoryInput
     tags?: TagUncheckedCreateNestedManyWithoutStoriesInput
   }
 
@@ -38466,6 +51600,7 @@ export namespace Prisma {
     slug?: NullableStringFieldUpdateOperationsInput | string | null
     stringUrl?: StringFieldUpdateOperationsInput | string
     totalChapters?: NullableIntFieldUpdateOperationsInput | number | null
+    latestChapterAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     introduce?: StringFieldUpdateOperationsInput | string
@@ -38479,6 +51614,11 @@ export namespace Prisma {
     fans?: StoryFanUpdateManyWithoutStoryNestedInput
     votes?: StoryRecommendationUpdateManyWithoutStoryNestedInput
     stats?: StoryStatsUpdateOneWithoutStoryNestedInput
+    dailyStats?: StoryDailyReadStatsUpdateManyWithoutStoryNestedInput
+    readEvents?: ChapterReadEventUpdateManyWithoutStoryNestedInput
+    readingStates?: UserStoryReadingStateUpdateManyWithoutStoryNestedInput
+    subscriptions?: StorySubscriptionUpdateManyWithoutStoryNestedInput
+    notifications?: NotificationUpdateManyWithoutStoryNestedInput
     tags?: TagUpdateManyWithoutStoriesNestedInput
   }
 
@@ -38488,6 +51628,7 @@ export namespace Prisma {
     slug?: NullableStringFieldUpdateOperationsInput | string | null
     stringUrl?: StringFieldUpdateOperationsInput | string
     totalChapters?: NullableIntFieldUpdateOperationsInput | number | null
+    latestChapterAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     uploaderId?: StringFieldUpdateOperationsInput | string
@@ -38501,6 +51642,137 @@ export namespace Prisma {
     fans?: StoryFanUncheckedUpdateManyWithoutStoryNestedInput
     votes?: StoryRecommendationUncheckedUpdateManyWithoutStoryNestedInput
     stats?: StoryStatsUncheckedUpdateOneWithoutStoryNestedInput
+    dailyStats?: StoryDailyReadStatsUncheckedUpdateManyWithoutStoryNestedInput
+    readEvents?: ChapterReadEventUncheckedUpdateManyWithoutStoryNestedInput
+    readingStates?: UserStoryReadingStateUncheckedUpdateManyWithoutStoryNestedInput
+    subscriptions?: StorySubscriptionUncheckedUpdateManyWithoutStoryNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutStoryNestedInput
+    tags?: TagUncheckedUpdateManyWithoutStoriesNestedInput
+  }
+
+  export type StoryCreateWithoutDailyStatsInput = {
+    title: string
+    slug?: string | null
+    stringUrl: string
+    totalChapters?: number | null
+    latestChapterAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    introduce: string
+    manager_pick?: number
+    chapters?: ChapterCreateNestedManyWithoutStoryInput
+    discusses?: DiscussCreateNestedManyWithoutStoryInput
+    ratings?: RatingCreateNestedManyWithoutStoryInput
+    author: AuthorCreateNestedOneWithoutStoriesInput
+    uploader: UserCreateNestedOneWithoutUploadedStoriesInput
+    bookmarks?: StoryBookmarkCreateNestedManyWithoutStoryInput
+    fans?: StoryFanCreateNestedManyWithoutStoryInput
+    votes?: StoryRecommendationCreateNestedManyWithoutStoryInput
+    stats?: StoryStatsCreateNestedOneWithoutStoryInput
+    topReads?: TopStoryReadCreateNestedManyWithoutStoryInput
+    readEvents?: ChapterReadEventCreateNestedManyWithoutStoryInput
+    readingStates?: UserStoryReadingStateCreateNestedManyWithoutStoryInput
+    subscriptions?: StorySubscriptionCreateNestedManyWithoutStoryInput
+    notifications?: NotificationCreateNestedManyWithoutStoryInput
+    tags?: TagCreateNestedManyWithoutStoriesInput
+  }
+
+  export type StoryUncheckedCreateWithoutDailyStatsInput = {
+    id?: number
+    title: string
+    slug?: string | null
+    stringUrl: string
+    totalChapters?: number | null
+    latestChapterAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    uploaderId: string
+    authorId: number
+    introduce: string
+    manager_pick?: number
+    chapters?: ChapterUncheckedCreateNestedManyWithoutStoryInput
+    discusses?: DiscussUncheckedCreateNestedManyWithoutStoryInput
+    ratings?: RatingUncheckedCreateNestedManyWithoutStoryInput
+    bookmarks?: StoryBookmarkUncheckedCreateNestedManyWithoutStoryInput
+    fans?: StoryFanUncheckedCreateNestedManyWithoutStoryInput
+    votes?: StoryRecommendationUncheckedCreateNestedManyWithoutStoryInput
+    stats?: StoryStatsUncheckedCreateNestedOneWithoutStoryInput
+    topReads?: TopStoryReadUncheckedCreateNestedManyWithoutStoryInput
+    readEvents?: ChapterReadEventUncheckedCreateNestedManyWithoutStoryInput
+    readingStates?: UserStoryReadingStateUncheckedCreateNestedManyWithoutStoryInput
+    subscriptions?: StorySubscriptionUncheckedCreateNestedManyWithoutStoryInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutStoryInput
+    tags?: TagUncheckedCreateNestedManyWithoutStoriesInput
+  }
+
+  export type StoryCreateOrConnectWithoutDailyStatsInput = {
+    where: StoryWhereUniqueInput
+    create: XOR<StoryCreateWithoutDailyStatsInput, StoryUncheckedCreateWithoutDailyStatsInput>
+  }
+
+  export type StoryUpsertWithoutDailyStatsInput = {
+    update: XOR<StoryUpdateWithoutDailyStatsInput, StoryUncheckedUpdateWithoutDailyStatsInput>
+    create: XOR<StoryCreateWithoutDailyStatsInput, StoryUncheckedCreateWithoutDailyStatsInput>
+    where?: StoryWhereInput
+  }
+
+  export type StoryUpdateToOneWithWhereWithoutDailyStatsInput = {
+    where?: StoryWhereInput
+    data: XOR<StoryUpdateWithoutDailyStatsInput, StoryUncheckedUpdateWithoutDailyStatsInput>
+  }
+
+  export type StoryUpdateWithoutDailyStatsInput = {
+    title?: StringFieldUpdateOperationsInput | string
+    slug?: NullableStringFieldUpdateOperationsInput | string | null
+    stringUrl?: StringFieldUpdateOperationsInput | string
+    totalChapters?: NullableIntFieldUpdateOperationsInput | number | null
+    latestChapterAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    introduce?: StringFieldUpdateOperationsInput | string
+    manager_pick?: IntFieldUpdateOperationsInput | number
+    chapters?: ChapterUpdateManyWithoutStoryNestedInput
+    discusses?: DiscussUpdateManyWithoutStoryNestedInput
+    ratings?: RatingUpdateManyWithoutStoryNestedInput
+    author?: AuthorUpdateOneRequiredWithoutStoriesNestedInput
+    uploader?: UserUpdateOneRequiredWithoutUploadedStoriesNestedInput
+    bookmarks?: StoryBookmarkUpdateManyWithoutStoryNestedInput
+    fans?: StoryFanUpdateManyWithoutStoryNestedInput
+    votes?: StoryRecommendationUpdateManyWithoutStoryNestedInput
+    stats?: StoryStatsUpdateOneWithoutStoryNestedInput
+    topReads?: TopStoryReadUpdateManyWithoutStoryNestedInput
+    readEvents?: ChapterReadEventUpdateManyWithoutStoryNestedInput
+    readingStates?: UserStoryReadingStateUpdateManyWithoutStoryNestedInput
+    subscriptions?: StorySubscriptionUpdateManyWithoutStoryNestedInput
+    notifications?: NotificationUpdateManyWithoutStoryNestedInput
+    tags?: TagUpdateManyWithoutStoriesNestedInput
+  }
+
+  export type StoryUncheckedUpdateWithoutDailyStatsInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    title?: StringFieldUpdateOperationsInput | string
+    slug?: NullableStringFieldUpdateOperationsInput | string | null
+    stringUrl?: StringFieldUpdateOperationsInput | string
+    totalChapters?: NullableIntFieldUpdateOperationsInput | number | null
+    latestChapterAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    uploaderId?: StringFieldUpdateOperationsInput | string
+    authorId?: IntFieldUpdateOperationsInput | number
+    introduce?: StringFieldUpdateOperationsInput | string
+    manager_pick?: IntFieldUpdateOperationsInput | number
+    chapters?: ChapterUncheckedUpdateManyWithoutStoryNestedInput
+    discusses?: DiscussUncheckedUpdateManyWithoutStoryNestedInput
+    ratings?: RatingUncheckedUpdateManyWithoutStoryNestedInput
+    bookmarks?: StoryBookmarkUncheckedUpdateManyWithoutStoryNestedInput
+    fans?: StoryFanUncheckedUpdateManyWithoutStoryNestedInput
+    votes?: StoryRecommendationUncheckedUpdateManyWithoutStoryNestedInput
+    stats?: StoryStatsUncheckedUpdateOneWithoutStoryNestedInput
+    topReads?: TopStoryReadUncheckedUpdateManyWithoutStoryNestedInput
+    readEvents?: ChapterReadEventUncheckedUpdateManyWithoutStoryNestedInput
+    readingStates?: UserStoryReadingStateUncheckedUpdateManyWithoutStoryNestedInput
+    subscriptions?: StorySubscriptionUncheckedUpdateManyWithoutStoryNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutStoryNestedInput
     tags?: TagUncheckedUpdateManyWithoutStoriesNestedInput
   }
 
@@ -38564,6 +51836,7 @@ export namespace Prisma {
     slug?: string | null
     stringUrl: string
     totalChapters?: number | null
+    latestChapterAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     introduce: string
@@ -38577,7 +51850,12 @@ export namespace Prisma {
     fans?: StoryFanCreateNestedManyWithoutStoryInput
     votes?: StoryRecommendationCreateNestedManyWithoutStoryInput
     stats?: StoryStatsCreateNestedOneWithoutStoryInput
+    dailyStats?: StoryDailyReadStatsCreateNestedManyWithoutStoryInput
     topReads?: TopStoryReadCreateNestedManyWithoutStoryInput
+    readEvents?: ChapterReadEventCreateNestedManyWithoutStoryInput
+    readingStates?: UserStoryReadingStateCreateNestedManyWithoutStoryInput
+    subscriptions?: StorySubscriptionCreateNestedManyWithoutStoryInput
+    notifications?: NotificationCreateNestedManyWithoutStoryInput
   }
 
   export type StoryUncheckedCreateWithoutTagsInput = {
@@ -38586,6 +51864,7 @@ export namespace Prisma {
     slug?: string | null
     stringUrl: string
     totalChapters?: number | null
+    latestChapterAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     uploaderId: string
@@ -38599,7 +51878,12 @@ export namespace Prisma {
     fans?: StoryFanUncheckedCreateNestedManyWithoutStoryInput
     votes?: StoryRecommendationUncheckedCreateNestedManyWithoutStoryInput
     stats?: StoryStatsUncheckedCreateNestedOneWithoutStoryInput
+    dailyStats?: StoryDailyReadStatsUncheckedCreateNestedManyWithoutStoryInput
     topReads?: TopStoryReadUncheckedCreateNestedManyWithoutStoryInput
+    readEvents?: ChapterReadEventUncheckedCreateNestedManyWithoutStoryInput
+    readingStates?: UserStoryReadingStateUncheckedCreateNestedManyWithoutStoryInput
+    subscriptions?: StorySubscriptionUncheckedCreateNestedManyWithoutStoryInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutStoryInput
   }
 
   export type StoryCreateOrConnectWithoutTagsInput = {
@@ -38650,6 +51934,7 @@ export namespace Prisma {
     slug?: string | null
     stringUrl: string
     totalChapters?: number | null
+    latestChapterAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     introduce: string
@@ -38662,7 +51947,12 @@ export namespace Prisma {
     fans?: StoryFanCreateNestedManyWithoutStoryInput
     votes?: StoryRecommendationCreateNestedManyWithoutStoryInput
     stats?: StoryStatsCreateNestedOneWithoutStoryInput
+    dailyStats?: StoryDailyReadStatsCreateNestedManyWithoutStoryInput
     topReads?: TopStoryReadCreateNestedManyWithoutStoryInput
+    readEvents?: ChapterReadEventCreateNestedManyWithoutStoryInput
+    readingStates?: UserStoryReadingStateCreateNestedManyWithoutStoryInput
+    subscriptions?: StorySubscriptionCreateNestedManyWithoutStoryInput
+    notifications?: NotificationCreateNestedManyWithoutStoryInput
     tags?: TagCreateNestedManyWithoutStoriesInput
   }
 
@@ -38672,6 +51962,7 @@ export namespace Prisma {
     slug?: string | null
     stringUrl: string
     totalChapters?: number | null
+    latestChapterAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     uploaderId: string
@@ -38684,7 +51975,12 @@ export namespace Prisma {
     fans?: StoryFanUncheckedCreateNestedManyWithoutStoryInput
     votes?: StoryRecommendationUncheckedCreateNestedManyWithoutStoryInput
     stats?: StoryStatsUncheckedCreateNestedOneWithoutStoryInput
+    dailyStats?: StoryDailyReadStatsUncheckedCreateNestedManyWithoutStoryInput
     topReads?: TopStoryReadUncheckedCreateNestedManyWithoutStoryInput
+    readEvents?: ChapterReadEventUncheckedCreateNestedManyWithoutStoryInput
+    readingStates?: UserStoryReadingStateUncheckedCreateNestedManyWithoutStoryInput
+    subscriptions?: StorySubscriptionUncheckedCreateNestedManyWithoutStoryInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutStoryInput
     tags?: TagUncheckedCreateNestedManyWithoutStoriesInput
   }
 
@@ -38709,8 +52005,14 @@ export namespace Prisma {
     updatedAt?: Date | string
     voteTickets?: number
     emailVerified?: Date | string | null
+    imageUpdatedAt?: Date | string | null
+    authVersion?: number
     accounts?: AccountCreateNestedManyWithoutUserInput
     chaptersRead?: ChapterReadCreateNestedManyWithoutUserInput
+    chapterReadEvents?: ChapterReadEventCreateNestedManyWithoutUserInput
+    readingStates?: UserStoryReadingStateCreateNestedManyWithoutUserInput
+    storySubscriptions?: StorySubscriptionCreateNestedManyWithoutUserInput
+    notifications?: NotificationCreateNestedManyWithoutUserInput
     discussStorys?: DiscussCreateNestedManyWithoutUserInput
     discussesLikes?: DiscussLikeCreateNestedManyWithoutUserInput
     ratingStorys?: RatingCreateNestedManyWithoutUserInput
@@ -38722,6 +52024,7 @@ export namespace Prisma {
     storysFan?: StoryFanCreateNestedManyWithoutUserInput
     votes?: StoryRecommendationCreateNestedManyWithoutUserInput
     setting?: UserSettingCreateNestedOneWithoutUserInput
+    authTokens?: UserAuthTokenCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutStoryBookmarksInput = {
@@ -38740,8 +52043,14 @@ export namespace Prisma {
     updatedAt?: Date | string
     voteTickets?: number
     emailVerified?: Date | string | null
+    imageUpdatedAt?: Date | string | null
+    authVersion?: number
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     chaptersRead?: ChapterReadUncheckedCreateNestedManyWithoutUserInput
+    chapterReadEvents?: ChapterReadEventUncheckedCreateNestedManyWithoutUserInput
+    readingStates?: UserStoryReadingStateUncheckedCreateNestedManyWithoutUserInput
+    storySubscriptions?: StorySubscriptionUncheckedCreateNestedManyWithoutUserInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
     discussStorys?: DiscussUncheckedCreateNestedManyWithoutUserInput
     discussesLikes?: DiscussLikeUncheckedCreateNestedManyWithoutUserInput
     ratingStorys?: RatingUncheckedCreateNestedManyWithoutUserInput
@@ -38753,6 +52062,7 @@ export namespace Prisma {
     storysFan?: StoryFanUncheckedCreateNestedManyWithoutUserInput
     votes?: StoryRecommendationUncheckedCreateNestedManyWithoutUserInput
     setting?: UserSettingUncheckedCreateNestedOneWithoutUserInput
+    authTokens?: UserAuthTokenUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutStoryBookmarksInput = {
@@ -38776,6 +52086,7 @@ export namespace Prisma {
     slug?: NullableStringFieldUpdateOperationsInput | string | null
     stringUrl?: StringFieldUpdateOperationsInput | string
     totalChapters?: NullableIntFieldUpdateOperationsInput | number | null
+    latestChapterAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     introduce?: StringFieldUpdateOperationsInput | string
@@ -38788,7 +52099,12 @@ export namespace Prisma {
     fans?: StoryFanUpdateManyWithoutStoryNestedInput
     votes?: StoryRecommendationUpdateManyWithoutStoryNestedInput
     stats?: StoryStatsUpdateOneWithoutStoryNestedInput
+    dailyStats?: StoryDailyReadStatsUpdateManyWithoutStoryNestedInput
     topReads?: TopStoryReadUpdateManyWithoutStoryNestedInput
+    readEvents?: ChapterReadEventUpdateManyWithoutStoryNestedInput
+    readingStates?: UserStoryReadingStateUpdateManyWithoutStoryNestedInput
+    subscriptions?: StorySubscriptionUpdateManyWithoutStoryNestedInput
+    notifications?: NotificationUpdateManyWithoutStoryNestedInput
     tags?: TagUpdateManyWithoutStoriesNestedInput
   }
 
@@ -38798,6 +52114,7 @@ export namespace Prisma {
     slug?: NullableStringFieldUpdateOperationsInput | string | null
     stringUrl?: StringFieldUpdateOperationsInput | string
     totalChapters?: NullableIntFieldUpdateOperationsInput | number | null
+    latestChapterAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     uploaderId?: StringFieldUpdateOperationsInput | string
@@ -38810,7 +52127,12 @@ export namespace Prisma {
     fans?: StoryFanUncheckedUpdateManyWithoutStoryNestedInput
     votes?: StoryRecommendationUncheckedUpdateManyWithoutStoryNestedInput
     stats?: StoryStatsUncheckedUpdateOneWithoutStoryNestedInput
+    dailyStats?: StoryDailyReadStatsUncheckedUpdateManyWithoutStoryNestedInput
     topReads?: TopStoryReadUncheckedUpdateManyWithoutStoryNestedInput
+    readEvents?: ChapterReadEventUncheckedUpdateManyWithoutStoryNestedInput
+    readingStates?: UserStoryReadingStateUncheckedUpdateManyWithoutStoryNestedInput
+    subscriptions?: StorySubscriptionUncheckedUpdateManyWithoutStoryNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutStoryNestedInput
     tags?: TagUncheckedUpdateManyWithoutStoriesNestedInput
   }
 
@@ -38841,8 +52163,14 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     voteTickets?: IntFieldUpdateOperationsInput | number
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    imageUpdatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    authVersion?: IntFieldUpdateOperationsInput | number
     accounts?: AccountUpdateManyWithoutUserNestedInput
     chaptersRead?: ChapterReadUpdateManyWithoutUserNestedInput
+    chapterReadEvents?: ChapterReadEventUpdateManyWithoutUserNestedInput
+    readingStates?: UserStoryReadingStateUpdateManyWithoutUserNestedInput
+    storySubscriptions?: StorySubscriptionUpdateManyWithoutUserNestedInput
+    notifications?: NotificationUpdateManyWithoutUserNestedInput
     discussStorys?: DiscussUpdateManyWithoutUserNestedInput
     discussesLikes?: DiscussLikeUpdateManyWithoutUserNestedInput
     ratingStorys?: RatingUpdateManyWithoutUserNestedInput
@@ -38854,6 +52182,7 @@ export namespace Prisma {
     storysFan?: StoryFanUpdateManyWithoutUserNestedInput
     votes?: StoryRecommendationUpdateManyWithoutUserNestedInput
     setting?: UserSettingUpdateOneWithoutUserNestedInput
+    authTokens?: UserAuthTokenUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutStoryBookmarksInput = {
@@ -38872,8 +52201,14 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     voteTickets?: IntFieldUpdateOperationsInput | number
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    imageUpdatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    authVersion?: IntFieldUpdateOperationsInput | number
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     chaptersRead?: ChapterReadUncheckedUpdateManyWithoutUserNestedInput
+    chapterReadEvents?: ChapterReadEventUncheckedUpdateManyWithoutUserNestedInput
+    readingStates?: UserStoryReadingStateUncheckedUpdateManyWithoutUserNestedInput
+    storySubscriptions?: StorySubscriptionUncheckedUpdateManyWithoutUserNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
     discussStorys?: DiscussUncheckedUpdateManyWithoutUserNestedInput
     discussesLikes?: DiscussLikeUncheckedUpdateManyWithoutUserNestedInput
     ratingStorys?: RatingUncheckedUpdateManyWithoutUserNestedInput
@@ -38885,6 +52220,595 @@ export namespace Prisma {
     storysFan?: StoryFanUncheckedUpdateManyWithoutUserNestedInput
     votes?: StoryRecommendationUncheckedUpdateManyWithoutUserNestedInput
     setting?: UserSettingUncheckedUpdateOneWithoutUserNestedInput
+    authTokens?: UserAuthTokenUncheckedUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserCreateWithoutStorySubscriptionsInput = {
+    id?: string
+    email?: string | null
+    password?: string | null
+    image?: string | null
+    name?: string | null
+    birthYear?: number | null
+    sex?: $Enums.Sex | null
+    role?: $Enums.Role
+    candyTotal?: number
+    createdAt?: Date | string
+    keyTotal?: number
+    potatoToal?: number
+    updatedAt?: Date | string
+    voteTickets?: number
+    emailVerified?: Date | string | null
+    imageUpdatedAt?: Date | string | null
+    authVersion?: number
+    accounts?: AccountCreateNestedManyWithoutUserInput
+    chaptersRead?: ChapterReadCreateNestedManyWithoutUserInput
+    chapterReadEvents?: ChapterReadEventCreateNestedManyWithoutUserInput
+    readingStates?: UserStoryReadingStateCreateNestedManyWithoutUserInput
+    notifications?: NotificationCreateNestedManyWithoutUserInput
+    discussStorys?: DiscussCreateNestedManyWithoutUserInput
+    discussesLikes?: DiscussLikeCreateNestedManyWithoutUserInput
+    ratingStorys?: RatingCreateNestedManyWithoutUserInput
+    ratingComments?: RatingCommentCreateNestedManyWithoutUserInput
+    ratingCommentsLikes?: RatingCommentLikeCreateNestedManyWithoutUserInput
+    ratingLikes?: RatingLikeCreateNestedManyWithoutUserInput
+    sessions?: SessionCreateNestedManyWithoutUserInput
+    uploadedStories?: StoryCreateNestedManyWithoutUploaderInput
+    storyBookmarks?: StoryBookmarkCreateNestedManyWithoutUserInput
+    storysFan?: StoryFanCreateNestedManyWithoutUserInput
+    votes?: StoryRecommendationCreateNestedManyWithoutUserInput
+    setting?: UserSettingCreateNestedOneWithoutUserInput
+    authTokens?: UserAuthTokenCreateNestedManyWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutStorySubscriptionsInput = {
+    id?: string
+    email?: string | null
+    password?: string | null
+    image?: string | null
+    name?: string | null
+    birthYear?: number | null
+    sex?: $Enums.Sex | null
+    role?: $Enums.Role
+    candyTotal?: number
+    createdAt?: Date | string
+    keyTotal?: number
+    potatoToal?: number
+    updatedAt?: Date | string
+    voteTickets?: number
+    emailVerified?: Date | string | null
+    imageUpdatedAt?: Date | string | null
+    authVersion?: number
+    accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
+    chaptersRead?: ChapterReadUncheckedCreateNestedManyWithoutUserInput
+    chapterReadEvents?: ChapterReadEventUncheckedCreateNestedManyWithoutUserInput
+    readingStates?: UserStoryReadingStateUncheckedCreateNestedManyWithoutUserInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
+    discussStorys?: DiscussUncheckedCreateNestedManyWithoutUserInput
+    discussesLikes?: DiscussLikeUncheckedCreateNestedManyWithoutUserInput
+    ratingStorys?: RatingUncheckedCreateNestedManyWithoutUserInput
+    ratingComments?: RatingCommentUncheckedCreateNestedManyWithoutUserInput
+    ratingCommentsLikes?: RatingCommentLikeUncheckedCreateNestedManyWithoutUserInput
+    ratingLikes?: RatingLikeUncheckedCreateNestedManyWithoutUserInput
+    sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
+    uploadedStories?: StoryUncheckedCreateNestedManyWithoutUploaderInput
+    storyBookmarks?: StoryBookmarkUncheckedCreateNestedManyWithoutUserInput
+    storysFan?: StoryFanUncheckedCreateNestedManyWithoutUserInput
+    votes?: StoryRecommendationUncheckedCreateNestedManyWithoutUserInput
+    setting?: UserSettingUncheckedCreateNestedOneWithoutUserInput
+    authTokens?: UserAuthTokenUncheckedCreateNestedManyWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutStorySubscriptionsInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutStorySubscriptionsInput, UserUncheckedCreateWithoutStorySubscriptionsInput>
+  }
+
+  export type StoryCreateWithoutSubscriptionsInput = {
+    title: string
+    slug?: string | null
+    stringUrl: string
+    totalChapters?: number | null
+    latestChapterAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    introduce: string
+    manager_pick?: number
+    chapters?: ChapterCreateNestedManyWithoutStoryInput
+    discusses?: DiscussCreateNestedManyWithoutStoryInput
+    ratings?: RatingCreateNestedManyWithoutStoryInput
+    author: AuthorCreateNestedOneWithoutStoriesInput
+    uploader: UserCreateNestedOneWithoutUploadedStoriesInput
+    bookmarks?: StoryBookmarkCreateNestedManyWithoutStoryInput
+    fans?: StoryFanCreateNestedManyWithoutStoryInput
+    votes?: StoryRecommendationCreateNestedManyWithoutStoryInput
+    stats?: StoryStatsCreateNestedOneWithoutStoryInput
+    dailyStats?: StoryDailyReadStatsCreateNestedManyWithoutStoryInput
+    topReads?: TopStoryReadCreateNestedManyWithoutStoryInput
+    readEvents?: ChapterReadEventCreateNestedManyWithoutStoryInput
+    readingStates?: UserStoryReadingStateCreateNestedManyWithoutStoryInput
+    notifications?: NotificationCreateNestedManyWithoutStoryInput
+    tags?: TagCreateNestedManyWithoutStoriesInput
+  }
+
+  export type StoryUncheckedCreateWithoutSubscriptionsInput = {
+    id?: number
+    title: string
+    slug?: string | null
+    stringUrl: string
+    totalChapters?: number | null
+    latestChapterAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    uploaderId: string
+    authorId: number
+    introduce: string
+    manager_pick?: number
+    chapters?: ChapterUncheckedCreateNestedManyWithoutStoryInput
+    discusses?: DiscussUncheckedCreateNestedManyWithoutStoryInput
+    ratings?: RatingUncheckedCreateNestedManyWithoutStoryInput
+    bookmarks?: StoryBookmarkUncheckedCreateNestedManyWithoutStoryInput
+    fans?: StoryFanUncheckedCreateNestedManyWithoutStoryInput
+    votes?: StoryRecommendationUncheckedCreateNestedManyWithoutStoryInput
+    stats?: StoryStatsUncheckedCreateNestedOneWithoutStoryInput
+    dailyStats?: StoryDailyReadStatsUncheckedCreateNestedManyWithoutStoryInput
+    topReads?: TopStoryReadUncheckedCreateNestedManyWithoutStoryInput
+    readEvents?: ChapterReadEventUncheckedCreateNestedManyWithoutStoryInput
+    readingStates?: UserStoryReadingStateUncheckedCreateNestedManyWithoutStoryInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutStoryInput
+    tags?: TagUncheckedCreateNestedManyWithoutStoriesInput
+  }
+
+  export type StoryCreateOrConnectWithoutSubscriptionsInput = {
+    where: StoryWhereUniqueInput
+    create: XOR<StoryCreateWithoutSubscriptionsInput, StoryUncheckedCreateWithoutSubscriptionsInput>
+  }
+
+  export type UserUpsertWithoutStorySubscriptionsInput = {
+    update: XOR<UserUpdateWithoutStorySubscriptionsInput, UserUncheckedUpdateWithoutStorySubscriptionsInput>
+    create: XOR<UserCreateWithoutStorySubscriptionsInput, UserUncheckedCreateWithoutStorySubscriptionsInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutStorySubscriptionsInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutStorySubscriptionsInput, UserUncheckedUpdateWithoutStorySubscriptionsInput>
+  }
+
+  export type UserUpdateWithoutStorySubscriptionsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    password?: NullableStringFieldUpdateOperationsInput | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    birthYear?: NullableIntFieldUpdateOperationsInput | number | null
+    sex?: NullableEnumSexFieldUpdateOperationsInput | $Enums.Sex | null
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    candyTotal?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    keyTotal?: IntFieldUpdateOperationsInput | number
+    potatoToal?: IntFieldUpdateOperationsInput | number
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    voteTickets?: IntFieldUpdateOperationsInput | number
+    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    imageUpdatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    authVersion?: IntFieldUpdateOperationsInput | number
+    accounts?: AccountUpdateManyWithoutUserNestedInput
+    chaptersRead?: ChapterReadUpdateManyWithoutUserNestedInput
+    chapterReadEvents?: ChapterReadEventUpdateManyWithoutUserNestedInput
+    readingStates?: UserStoryReadingStateUpdateManyWithoutUserNestedInput
+    notifications?: NotificationUpdateManyWithoutUserNestedInput
+    discussStorys?: DiscussUpdateManyWithoutUserNestedInput
+    discussesLikes?: DiscussLikeUpdateManyWithoutUserNestedInput
+    ratingStorys?: RatingUpdateManyWithoutUserNestedInput
+    ratingComments?: RatingCommentUpdateManyWithoutUserNestedInput
+    ratingCommentsLikes?: RatingCommentLikeUpdateManyWithoutUserNestedInput
+    ratingLikes?: RatingLikeUpdateManyWithoutUserNestedInput
+    sessions?: SessionUpdateManyWithoutUserNestedInput
+    uploadedStories?: StoryUpdateManyWithoutUploaderNestedInput
+    storyBookmarks?: StoryBookmarkUpdateManyWithoutUserNestedInput
+    storysFan?: StoryFanUpdateManyWithoutUserNestedInput
+    votes?: StoryRecommendationUpdateManyWithoutUserNestedInput
+    setting?: UserSettingUpdateOneWithoutUserNestedInput
+    authTokens?: UserAuthTokenUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutStorySubscriptionsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    password?: NullableStringFieldUpdateOperationsInput | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    birthYear?: NullableIntFieldUpdateOperationsInput | number | null
+    sex?: NullableEnumSexFieldUpdateOperationsInput | $Enums.Sex | null
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    candyTotal?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    keyTotal?: IntFieldUpdateOperationsInput | number
+    potatoToal?: IntFieldUpdateOperationsInput | number
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    voteTickets?: IntFieldUpdateOperationsInput | number
+    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    imageUpdatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    authVersion?: IntFieldUpdateOperationsInput | number
+    accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
+    chaptersRead?: ChapterReadUncheckedUpdateManyWithoutUserNestedInput
+    chapterReadEvents?: ChapterReadEventUncheckedUpdateManyWithoutUserNestedInput
+    readingStates?: UserStoryReadingStateUncheckedUpdateManyWithoutUserNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
+    discussStorys?: DiscussUncheckedUpdateManyWithoutUserNestedInput
+    discussesLikes?: DiscussLikeUncheckedUpdateManyWithoutUserNestedInput
+    ratingStorys?: RatingUncheckedUpdateManyWithoutUserNestedInput
+    ratingComments?: RatingCommentUncheckedUpdateManyWithoutUserNestedInput
+    ratingCommentsLikes?: RatingCommentLikeUncheckedUpdateManyWithoutUserNestedInput
+    ratingLikes?: RatingLikeUncheckedUpdateManyWithoutUserNestedInput
+    sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
+    uploadedStories?: StoryUncheckedUpdateManyWithoutUploaderNestedInput
+    storyBookmarks?: StoryBookmarkUncheckedUpdateManyWithoutUserNestedInput
+    storysFan?: StoryFanUncheckedUpdateManyWithoutUserNestedInput
+    votes?: StoryRecommendationUncheckedUpdateManyWithoutUserNestedInput
+    setting?: UserSettingUncheckedUpdateOneWithoutUserNestedInput
+    authTokens?: UserAuthTokenUncheckedUpdateManyWithoutUserNestedInput
+  }
+
+  export type StoryUpsertWithoutSubscriptionsInput = {
+    update: XOR<StoryUpdateWithoutSubscriptionsInput, StoryUncheckedUpdateWithoutSubscriptionsInput>
+    create: XOR<StoryCreateWithoutSubscriptionsInput, StoryUncheckedCreateWithoutSubscriptionsInput>
+    where?: StoryWhereInput
+  }
+
+  export type StoryUpdateToOneWithWhereWithoutSubscriptionsInput = {
+    where?: StoryWhereInput
+    data: XOR<StoryUpdateWithoutSubscriptionsInput, StoryUncheckedUpdateWithoutSubscriptionsInput>
+  }
+
+  export type StoryUpdateWithoutSubscriptionsInput = {
+    title?: StringFieldUpdateOperationsInput | string
+    slug?: NullableStringFieldUpdateOperationsInput | string | null
+    stringUrl?: StringFieldUpdateOperationsInput | string
+    totalChapters?: NullableIntFieldUpdateOperationsInput | number | null
+    latestChapterAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    introduce?: StringFieldUpdateOperationsInput | string
+    manager_pick?: IntFieldUpdateOperationsInput | number
+    chapters?: ChapterUpdateManyWithoutStoryNestedInput
+    discusses?: DiscussUpdateManyWithoutStoryNestedInput
+    ratings?: RatingUpdateManyWithoutStoryNestedInput
+    author?: AuthorUpdateOneRequiredWithoutStoriesNestedInput
+    uploader?: UserUpdateOneRequiredWithoutUploadedStoriesNestedInput
+    bookmarks?: StoryBookmarkUpdateManyWithoutStoryNestedInput
+    fans?: StoryFanUpdateManyWithoutStoryNestedInput
+    votes?: StoryRecommendationUpdateManyWithoutStoryNestedInput
+    stats?: StoryStatsUpdateOneWithoutStoryNestedInput
+    dailyStats?: StoryDailyReadStatsUpdateManyWithoutStoryNestedInput
+    topReads?: TopStoryReadUpdateManyWithoutStoryNestedInput
+    readEvents?: ChapterReadEventUpdateManyWithoutStoryNestedInput
+    readingStates?: UserStoryReadingStateUpdateManyWithoutStoryNestedInput
+    notifications?: NotificationUpdateManyWithoutStoryNestedInput
+    tags?: TagUpdateManyWithoutStoriesNestedInput
+  }
+
+  export type StoryUncheckedUpdateWithoutSubscriptionsInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    title?: StringFieldUpdateOperationsInput | string
+    slug?: NullableStringFieldUpdateOperationsInput | string | null
+    stringUrl?: StringFieldUpdateOperationsInput | string
+    totalChapters?: NullableIntFieldUpdateOperationsInput | number | null
+    latestChapterAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    uploaderId?: StringFieldUpdateOperationsInput | string
+    authorId?: IntFieldUpdateOperationsInput | number
+    introduce?: StringFieldUpdateOperationsInput | string
+    manager_pick?: IntFieldUpdateOperationsInput | number
+    chapters?: ChapterUncheckedUpdateManyWithoutStoryNestedInput
+    discusses?: DiscussUncheckedUpdateManyWithoutStoryNestedInput
+    ratings?: RatingUncheckedUpdateManyWithoutStoryNestedInput
+    bookmarks?: StoryBookmarkUncheckedUpdateManyWithoutStoryNestedInput
+    fans?: StoryFanUncheckedUpdateManyWithoutStoryNestedInput
+    votes?: StoryRecommendationUncheckedUpdateManyWithoutStoryNestedInput
+    stats?: StoryStatsUncheckedUpdateOneWithoutStoryNestedInput
+    dailyStats?: StoryDailyReadStatsUncheckedUpdateManyWithoutStoryNestedInput
+    topReads?: TopStoryReadUncheckedUpdateManyWithoutStoryNestedInput
+    readEvents?: ChapterReadEventUncheckedUpdateManyWithoutStoryNestedInput
+    readingStates?: UserStoryReadingStateUncheckedUpdateManyWithoutStoryNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutStoryNestedInput
+    tags?: TagUncheckedUpdateManyWithoutStoriesNestedInput
+  }
+
+  export type UserCreateWithoutNotificationsInput = {
+    id?: string
+    email?: string | null
+    password?: string | null
+    image?: string | null
+    name?: string | null
+    birthYear?: number | null
+    sex?: $Enums.Sex | null
+    role?: $Enums.Role
+    candyTotal?: number
+    createdAt?: Date | string
+    keyTotal?: number
+    potatoToal?: number
+    updatedAt?: Date | string
+    voteTickets?: number
+    emailVerified?: Date | string | null
+    imageUpdatedAt?: Date | string | null
+    authVersion?: number
+    accounts?: AccountCreateNestedManyWithoutUserInput
+    chaptersRead?: ChapterReadCreateNestedManyWithoutUserInput
+    chapterReadEvents?: ChapterReadEventCreateNestedManyWithoutUserInput
+    readingStates?: UserStoryReadingStateCreateNestedManyWithoutUserInput
+    storySubscriptions?: StorySubscriptionCreateNestedManyWithoutUserInput
+    discussStorys?: DiscussCreateNestedManyWithoutUserInput
+    discussesLikes?: DiscussLikeCreateNestedManyWithoutUserInput
+    ratingStorys?: RatingCreateNestedManyWithoutUserInput
+    ratingComments?: RatingCommentCreateNestedManyWithoutUserInput
+    ratingCommentsLikes?: RatingCommentLikeCreateNestedManyWithoutUserInput
+    ratingLikes?: RatingLikeCreateNestedManyWithoutUserInput
+    sessions?: SessionCreateNestedManyWithoutUserInput
+    uploadedStories?: StoryCreateNestedManyWithoutUploaderInput
+    storyBookmarks?: StoryBookmarkCreateNestedManyWithoutUserInput
+    storysFan?: StoryFanCreateNestedManyWithoutUserInput
+    votes?: StoryRecommendationCreateNestedManyWithoutUserInput
+    setting?: UserSettingCreateNestedOneWithoutUserInput
+    authTokens?: UserAuthTokenCreateNestedManyWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutNotificationsInput = {
+    id?: string
+    email?: string | null
+    password?: string | null
+    image?: string | null
+    name?: string | null
+    birthYear?: number | null
+    sex?: $Enums.Sex | null
+    role?: $Enums.Role
+    candyTotal?: number
+    createdAt?: Date | string
+    keyTotal?: number
+    potatoToal?: number
+    updatedAt?: Date | string
+    voteTickets?: number
+    emailVerified?: Date | string | null
+    imageUpdatedAt?: Date | string | null
+    authVersion?: number
+    accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
+    chaptersRead?: ChapterReadUncheckedCreateNestedManyWithoutUserInput
+    chapterReadEvents?: ChapterReadEventUncheckedCreateNestedManyWithoutUserInput
+    readingStates?: UserStoryReadingStateUncheckedCreateNestedManyWithoutUserInput
+    storySubscriptions?: StorySubscriptionUncheckedCreateNestedManyWithoutUserInput
+    discussStorys?: DiscussUncheckedCreateNestedManyWithoutUserInput
+    discussesLikes?: DiscussLikeUncheckedCreateNestedManyWithoutUserInput
+    ratingStorys?: RatingUncheckedCreateNestedManyWithoutUserInput
+    ratingComments?: RatingCommentUncheckedCreateNestedManyWithoutUserInput
+    ratingCommentsLikes?: RatingCommentLikeUncheckedCreateNestedManyWithoutUserInput
+    ratingLikes?: RatingLikeUncheckedCreateNestedManyWithoutUserInput
+    sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
+    uploadedStories?: StoryUncheckedCreateNestedManyWithoutUploaderInput
+    storyBookmarks?: StoryBookmarkUncheckedCreateNestedManyWithoutUserInput
+    storysFan?: StoryFanUncheckedCreateNestedManyWithoutUserInput
+    votes?: StoryRecommendationUncheckedCreateNestedManyWithoutUserInput
+    setting?: UserSettingUncheckedCreateNestedOneWithoutUserInput
+    authTokens?: UserAuthTokenUncheckedCreateNestedManyWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutNotificationsInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutNotificationsInput, UserUncheckedCreateWithoutNotificationsInput>
+  }
+
+  export type StoryCreateWithoutNotificationsInput = {
+    title: string
+    slug?: string | null
+    stringUrl: string
+    totalChapters?: number | null
+    latestChapterAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    introduce: string
+    manager_pick?: number
+    chapters?: ChapterCreateNestedManyWithoutStoryInput
+    discusses?: DiscussCreateNestedManyWithoutStoryInput
+    ratings?: RatingCreateNestedManyWithoutStoryInput
+    author: AuthorCreateNestedOneWithoutStoriesInput
+    uploader: UserCreateNestedOneWithoutUploadedStoriesInput
+    bookmarks?: StoryBookmarkCreateNestedManyWithoutStoryInput
+    fans?: StoryFanCreateNestedManyWithoutStoryInput
+    votes?: StoryRecommendationCreateNestedManyWithoutStoryInput
+    stats?: StoryStatsCreateNestedOneWithoutStoryInput
+    dailyStats?: StoryDailyReadStatsCreateNestedManyWithoutStoryInput
+    topReads?: TopStoryReadCreateNestedManyWithoutStoryInput
+    readEvents?: ChapterReadEventCreateNestedManyWithoutStoryInput
+    readingStates?: UserStoryReadingStateCreateNestedManyWithoutStoryInput
+    subscriptions?: StorySubscriptionCreateNestedManyWithoutStoryInput
+    tags?: TagCreateNestedManyWithoutStoriesInput
+  }
+
+  export type StoryUncheckedCreateWithoutNotificationsInput = {
+    id?: number
+    title: string
+    slug?: string | null
+    stringUrl: string
+    totalChapters?: number | null
+    latestChapterAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    uploaderId: string
+    authorId: number
+    introduce: string
+    manager_pick?: number
+    chapters?: ChapterUncheckedCreateNestedManyWithoutStoryInput
+    discusses?: DiscussUncheckedCreateNestedManyWithoutStoryInput
+    ratings?: RatingUncheckedCreateNestedManyWithoutStoryInput
+    bookmarks?: StoryBookmarkUncheckedCreateNestedManyWithoutStoryInput
+    fans?: StoryFanUncheckedCreateNestedManyWithoutStoryInput
+    votes?: StoryRecommendationUncheckedCreateNestedManyWithoutStoryInput
+    stats?: StoryStatsUncheckedCreateNestedOneWithoutStoryInput
+    dailyStats?: StoryDailyReadStatsUncheckedCreateNestedManyWithoutStoryInput
+    topReads?: TopStoryReadUncheckedCreateNestedManyWithoutStoryInput
+    readEvents?: ChapterReadEventUncheckedCreateNestedManyWithoutStoryInput
+    readingStates?: UserStoryReadingStateUncheckedCreateNestedManyWithoutStoryInput
+    subscriptions?: StorySubscriptionUncheckedCreateNestedManyWithoutStoryInput
+    tags?: TagUncheckedCreateNestedManyWithoutStoriesInput
+  }
+
+  export type StoryCreateOrConnectWithoutNotificationsInput = {
+    where: StoryWhereUniqueInput
+    create: XOR<StoryCreateWithoutNotificationsInput, StoryUncheckedCreateWithoutNotificationsInput>
+  }
+
+  export type UserUpsertWithoutNotificationsInput = {
+    update: XOR<UserUpdateWithoutNotificationsInput, UserUncheckedUpdateWithoutNotificationsInput>
+    create: XOR<UserCreateWithoutNotificationsInput, UserUncheckedCreateWithoutNotificationsInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutNotificationsInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutNotificationsInput, UserUncheckedUpdateWithoutNotificationsInput>
+  }
+
+  export type UserUpdateWithoutNotificationsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    password?: NullableStringFieldUpdateOperationsInput | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    birthYear?: NullableIntFieldUpdateOperationsInput | number | null
+    sex?: NullableEnumSexFieldUpdateOperationsInput | $Enums.Sex | null
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    candyTotal?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    keyTotal?: IntFieldUpdateOperationsInput | number
+    potatoToal?: IntFieldUpdateOperationsInput | number
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    voteTickets?: IntFieldUpdateOperationsInput | number
+    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    imageUpdatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    authVersion?: IntFieldUpdateOperationsInput | number
+    accounts?: AccountUpdateManyWithoutUserNestedInput
+    chaptersRead?: ChapterReadUpdateManyWithoutUserNestedInput
+    chapterReadEvents?: ChapterReadEventUpdateManyWithoutUserNestedInput
+    readingStates?: UserStoryReadingStateUpdateManyWithoutUserNestedInput
+    storySubscriptions?: StorySubscriptionUpdateManyWithoutUserNestedInput
+    discussStorys?: DiscussUpdateManyWithoutUserNestedInput
+    discussesLikes?: DiscussLikeUpdateManyWithoutUserNestedInput
+    ratingStorys?: RatingUpdateManyWithoutUserNestedInput
+    ratingComments?: RatingCommentUpdateManyWithoutUserNestedInput
+    ratingCommentsLikes?: RatingCommentLikeUpdateManyWithoutUserNestedInput
+    ratingLikes?: RatingLikeUpdateManyWithoutUserNestedInput
+    sessions?: SessionUpdateManyWithoutUserNestedInput
+    uploadedStories?: StoryUpdateManyWithoutUploaderNestedInput
+    storyBookmarks?: StoryBookmarkUpdateManyWithoutUserNestedInput
+    storysFan?: StoryFanUpdateManyWithoutUserNestedInput
+    votes?: StoryRecommendationUpdateManyWithoutUserNestedInput
+    setting?: UserSettingUpdateOneWithoutUserNestedInput
+    authTokens?: UserAuthTokenUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutNotificationsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    password?: NullableStringFieldUpdateOperationsInput | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    birthYear?: NullableIntFieldUpdateOperationsInput | number | null
+    sex?: NullableEnumSexFieldUpdateOperationsInput | $Enums.Sex | null
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    candyTotal?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    keyTotal?: IntFieldUpdateOperationsInput | number
+    potatoToal?: IntFieldUpdateOperationsInput | number
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    voteTickets?: IntFieldUpdateOperationsInput | number
+    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    imageUpdatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    authVersion?: IntFieldUpdateOperationsInput | number
+    accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
+    chaptersRead?: ChapterReadUncheckedUpdateManyWithoutUserNestedInput
+    chapterReadEvents?: ChapterReadEventUncheckedUpdateManyWithoutUserNestedInput
+    readingStates?: UserStoryReadingStateUncheckedUpdateManyWithoutUserNestedInput
+    storySubscriptions?: StorySubscriptionUncheckedUpdateManyWithoutUserNestedInput
+    discussStorys?: DiscussUncheckedUpdateManyWithoutUserNestedInput
+    discussesLikes?: DiscussLikeUncheckedUpdateManyWithoutUserNestedInput
+    ratingStorys?: RatingUncheckedUpdateManyWithoutUserNestedInput
+    ratingComments?: RatingCommentUncheckedUpdateManyWithoutUserNestedInput
+    ratingCommentsLikes?: RatingCommentLikeUncheckedUpdateManyWithoutUserNestedInput
+    ratingLikes?: RatingLikeUncheckedUpdateManyWithoutUserNestedInput
+    sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
+    uploadedStories?: StoryUncheckedUpdateManyWithoutUploaderNestedInput
+    storyBookmarks?: StoryBookmarkUncheckedUpdateManyWithoutUserNestedInput
+    storysFan?: StoryFanUncheckedUpdateManyWithoutUserNestedInput
+    votes?: StoryRecommendationUncheckedUpdateManyWithoutUserNestedInput
+    setting?: UserSettingUncheckedUpdateOneWithoutUserNestedInput
+    authTokens?: UserAuthTokenUncheckedUpdateManyWithoutUserNestedInput
+  }
+
+  export type StoryUpsertWithoutNotificationsInput = {
+    update: XOR<StoryUpdateWithoutNotificationsInput, StoryUncheckedUpdateWithoutNotificationsInput>
+    create: XOR<StoryCreateWithoutNotificationsInput, StoryUncheckedCreateWithoutNotificationsInput>
+    where?: StoryWhereInput
+  }
+
+  export type StoryUpdateToOneWithWhereWithoutNotificationsInput = {
+    where?: StoryWhereInput
+    data: XOR<StoryUpdateWithoutNotificationsInput, StoryUncheckedUpdateWithoutNotificationsInput>
+  }
+
+  export type StoryUpdateWithoutNotificationsInput = {
+    title?: StringFieldUpdateOperationsInput | string
+    slug?: NullableStringFieldUpdateOperationsInput | string | null
+    stringUrl?: StringFieldUpdateOperationsInput | string
+    totalChapters?: NullableIntFieldUpdateOperationsInput | number | null
+    latestChapterAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    introduce?: StringFieldUpdateOperationsInput | string
+    manager_pick?: IntFieldUpdateOperationsInput | number
+    chapters?: ChapterUpdateManyWithoutStoryNestedInput
+    discusses?: DiscussUpdateManyWithoutStoryNestedInput
+    ratings?: RatingUpdateManyWithoutStoryNestedInput
+    author?: AuthorUpdateOneRequiredWithoutStoriesNestedInput
+    uploader?: UserUpdateOneRequiredWithoutUploadedStoriesNestedInput
+    bookmarks?: StoryBookmarkUpdateManyWithoutStoryNestedInput
+    fans?: StoryFanUpdateManyWithoutStoryNestedInput
+    votes?: StoryRecommendationUpdateManyWithoutStoryNestedInput
+    stats?: StoryStatsUpdateOneWithoutStoryNestedInput
+    dailyStats?: StoryDailyReadStatsUpdateManyWithoutStoryNestedInput
+    topReads?: TopStoryReadUpdateManyWithoutStoryNestedInput
+    readEvents?: ChapterReadEventUpdateManyWithoutStoryNestedInput
+    readingStates?: UserStoryReadingStateUpdateManyWithoutStoryNestedInput
+    subscriptions?: StorySubscriptionUpdateManyWithoutStoryNestedInput
+    tags?: TagUpdateManyWithoutStoriesNestedInput
+  }
+
+  export type StoryUncheckedUpdateWithoutNotificationsInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    title?: StringFieldUpdateOperationsInput | string
+    slug?: NullableStringFieldUpdateOperationsInput | string | null
+    stringUrl?: StringFieldUpdateOperationsInput | string
+    totalChapters?: NullableIntFieldUpdateOperationsInput | number | null
+    latestChapterAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    uploaderId?: StringFieldUpdateOperationsInput | string
+    authorId?: IntFieldUpdateOperationsInput | number
+    introduce?: StringFieldUpdateOperationsInput | string
+    manager_pick?: IntFieldUpdateOperationsInput | number
+    chapters?: ChapterUncheckedUpdateManyWithoutStoryNestedInput
+    discusses?: DiscussUncheckedUpdateManyWithoutStoryNestedInput
+    ratings?: RatingUncheckedUpdateManyWithoutStoryNestedInput
+    bookmarks?: StoryBookmarkUncheckedUpdateManyWithoutStoryNestedInput
+    fans?: StoryFanUncheckedUpdateManyWithoutStoryNestedInput
+    votes?: StoryRecommendationUncheckedUpdateManyWithoutStoryNestedInput
+    stats?: StoryStatsUncheckedUpdateOneWithoutStoryNestedInput
+    dailyStats?: StoryDailyReadStatsUncheckedUpdateManyWithoutStoryNestedInput
+    topReads?: TopStoryReadUncheckedUpdateManyWithoutStoryNestedInput
+    readEvents?: ChapterReadEventUncheckedUpdateManyWithoutStoryNestedInput
+    readingStates?: UserStoryReadingStateUncheckedUpdateManyWithoutStoryNestedInput
+    subscriptions?: StorySubscriptionUncheckedUpdateManyWithoutStoryNestedInput
+    tags?: TagUncheckedUpdateManyWithoutStoriesNestedInput
   }
 
   export type StoryCreateWithoutRatingsInput = {
@@ -38892,6 +52816,7 @@ export namespace Prisma {
     slug?: string | null
     stringUrl: string
     totalChapters?: number | null
+    latestChapterAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     introduce: string
@@ -38904,7 +52829,12 @@ export namespace Prisma {
     fans?: StoryFanCreateNestedManyWithoutStoryInput
     votes?: StoryRecommendationCreateNestedManyWithoutStoryInput
     stats?: StoryStatsCreateNestedOneWithoutStoryInput
+    dailyStats?: StoryDailyReadStatsCreateNestedManyWithoutStoryInput
     topReads?: TopStoryReadCreateNestedManyWithoutStoryInput
+    readEvents?: ChapterReadEventCreateNestedManyWithoutStoryInput
+    readingStates?: UserStoryReadingStateCreateNestedManyWithoutStoryInput
+    subscriptions?: StorySubscriptionCreateNestedManyWithoutStoryInput
+    notifications?: NotificationCreateNestedManyWithoutStoryInput
     tags?: TagCreateNestedManyWithoutStoriesInput
   }
 
@@ -38914,6 +52844,7 @@ export namespace Prisma {
     slug?: string | null
     stringUrl: string
     totalChapters?: number | null
+    latestChapterAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     uploaderId: string
@@ -38926,7 +52857,12 @@ export namespace Prisma {
     fans?: StoryFanUncheckedCreateNestedManyWithoutStoryInput
     votes?: StoryRecommendationUncheckedCreateNestedManyWithoutStoryInput
     stats?: StoryStatsUncheckedCreateNestedOneWithoutStoryInput
+    dailyStats?: StoryDailyReadStatsUncheckedCreateNestedManyWithoutStoryInput
     topReads?: TopStoryReadUncheckedCreateNestedManyWithoutStoryInput
+    readEvents?: ChapterReadEventUncheckedCreateNestedManyWithoutStoryInput
+    readingStates?: UserStoryReadingStateUncheckedCreateNestedManyWithoutStoryInput
+    subscriptions?: StorySubscriptionUncheckedCreateNestedManyWithoutStoryInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutStoryInput
     tags?: TagUncheckedCreateNestedManyWithoutStoriesInput
   }
 
@@ -38951,8 +52887,14 @@ export namespace Prisma {
     updatedAt?: Date | string
     voteTickets?: number
     emailVerified?: Date | string | null
+    imageUpdatedAt?: Date | string | null
+    authVersion?: number
     accounts?: AccountCreateNestedManyWithoutUserInput
     chaptersRead?: ChapterReadCreateNestedManyWithoutUserInput
+    chapterReadEvents?: ChapterReadEventCreateNestedManyWithoutUserInput
+    readingStates?: UserStoryReadingStateCreateNestedManyWithoutUserInput
+    storySubscriptions?: StorySubscriptionCreateNestedManyWithoutUserInput
+    notifications?: NotificationCreateNestedManyWithoutUserInput
     discussStorys?: DiscussCreateNestedManyWithoutUserInput
     discussesLikes?: DiscussLikeCreateNestedManyWithoutUserInput
     ratingComments?: RatingCommentCreateNestedManyWithoutUserInput
@@ -38964,6 +52906,7 @@ export namespace Prisma {
     storysFan?: StoryFanCreateNestedManyWithoutUserInput
     votes?: StoryRecommendationCreateNestedManyWithoutUserInput
     setting?: UserSettingCreateNestedOneWithoutUserInput
+    authTokens?: UserAuthTokenCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutRatingStorysInput = {
@@ -38982,8 +52925,14 @@ export namespace Prisma {
     updatedAt?: Date | string
     voteTickets?: number
     emailVerified?: Date | string | null
+    imageUpdatedAt?: Date | string | null
+    authVersion?: number
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     chaptersRead?: ChapterReadUncheckedCreateNestedManyWithoutUserInput
+    chapterReadEvents?: ChapterReadEventUncheckedCreateNestedManyWithoutUserInput
+    readingStates?: UserStoryReadingStateUncheckedCreateNestedManyWithoutUserInput
+    storySubscriptions?: StorySubscriptionUncheckedCreateNestedManyWithoutUserInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
     discussStorys?: DiscussUncheckedCreateNestedManyWithoutUserInput
     discussesLikes?: DiscussLikeUncheckedCreateNestedManyWithoutUserInput
     ratingComments?: RatingCommentUncheckedCreateNestedManyWithoutUserInput
@@ -38995,6 +52944,7 @@ export namespace Prisma {
     storysFan?: StoryFanUncheckedCreateNestedManyWithoutUserInput
     votes?: StoryRecommendationUncheckedCreateNestedManyWithoutUserInput
     setting?: UserSettingUncheckedCreateNestedOneWithoutUserInput
+    authTokens?: UserAuthTokenUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutRatingStorysInput = {
@@ -39003,6 +52953,7 @@ export namespace Prisma {
   }
 
   export type RatingCommentCreateWithoutRatingInput = {
+    clientSubmissionId?: string | null
     content: string
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -39014,6 +52965,7 @@ export namespace Prisma {
 
   export type RatingCommentUncheckedCreateWithoutRatingInput = {
     id?: number
+    clientSubmissionId?: string | null
     content: string
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -39072,6 +53024,7 @@ export namespace Prisma {
     slug?: NullableStringFieldUpdateOperationsInput | string | null
     stringUrl?: StringFieldUpdateOperationsInput | string
     totalChapters?: NullableIntFieldUpdateOperationsInput | number | null
+    latestChapterAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     introduce?: StringFieldUpdateOperationsInput | string
@@ -39084,7 +53037,12 @@ export namespace Prisma {
     fans?: StoryFanUpdateManyWithoutStoryNestedInput
     votes?: StoryRecommendationUpdateManyWithoutStoryNestedInput
     stats?: StoryStatsUpdateOneWithoutStoryNestedInput
+    dailyStats?: StoryDailyReadStatsUpdateManyWithoutStoryNestedInput
     topReads?: TopStoryReadUpdateManyWithoutStoryNestedInput
+    readEvents?: ChapterReadEventUpdateManyWithoutStoryNestedInput
+    readingStates?: UserStoryReadingStateUpdateManyWithoutStoryNestedInput
+    subscriptions?: StorySubscriptionUpdateManyWithoutStoryNestedInput
+    notifications?: NotificationUpdateManyWithoutStoryNestedInput
     tags?: TagUpdateManyWithoutStoriesNestedInput
   }
 
@@ -39094,6 +53052,7 @@ export namespace Prisma {
     slug?: NullableStringFieldUpdateOperationsInput | string | null
     stringUrl?: StringFieldUpdateOperationsInput | string
     totalChapters?: NullableIntFieldUpdateOperationsInput | number | null
+    latestChapterAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     uploaderId?: StringFieldUpdateOperationsInput | string
@@ -39106,7 +53065,12 @@ export namespace Prisma {
     fans?: StoryFanUncheckedUpdateManyWithoutStoryNestedInput
     votes?: StoryRecommendationUncheckedUpdateManyWithoutStoryNestedInput
     stats?: StoryStatsUncheckedUpdateOneWithoutStoryNestedInput
+    dailyStats?: StoryDailyReadStatsUncheckedUpdateManyWithoutStoryNestedInput
     topReads?: TopStoryReadUncheckedUpdateManyWithoutStoryNestedInput
+    readEvents?: ChapterReadEventUncheckedUpdateManyWithoutStoryNestedInput
+    readingStates?: UserStoryReadingStateUncheckedUpdateManyWithoutStoryNestedInput
+    subscriptions?: StorySubscriptionUncheckedUpdateManyWithoutStoryNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutStoryNestedInput
     tags?: TagUncheckedUpdateManyWithoutStoriesNestedInput
   }
 
@@ -39137,8 +53101,14 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     voteTickets?: IntFieldUpdateOperationsInput | number
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    imageUpdatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    authVersion?: IntFieldUpdateOperationsInput | number
     accounts?: AccountUpdateManyWithoutUserNestedInput
     chaptersRead?: ChapterReadUpdateManyWithoutUserNestedInput
+    chapterReadEvents?: ChapterReadEventUpdateManyWithoutUserNestedInput
+    readingStates?: UserStoryReadingStateUpdateManyWithoutUserNestedInput
+    storySubscriptions?: StorySubscriptionUpdateManyWithoutUserNestedInput
+    notifications?: NotificationUpdateManyWithoutUserNestedInput
     discussStorys?: DiscussUpdateManyWithoutUserNestedInput
     discussesLikes?: DiscussLikeUpdateManyWithoutUserNestedInput
     ratingComments?: RatingCommentUpdateManyWithoutUserNestedInput
@@ -39150,6 +53120,7 @@ export namespace Prisma {
     storysFan?: StoryFanUpdateManyWithoutUserNestedInput
     votes?: StoryRecommendationUpdateManyWithoutUserNestedInput
     setting?: UserSettingUpdateOneWithoutUserNestedInput
+    authTokens?: UserAuthTokenUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutRatingStorysInput = {
@@ -39168,8 +53139,14 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     voteTickets?: IntFieldUpdateOperationsInput | number
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    imageUpdatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    authVersion?: IntFieldUpdateOperationsInput | number
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     chaptersRead?: ChapterReadUncheckedUpdateManyWithoutUserNestedInput
+    chapterReadEvents?: ChapterReadEventUncheckedUpdateManyWithoutUserNestedInput
+    readingStates?: UserStoryReadingStateUncheckedUpdateManyWithoutUserNestedInput
+    storySubscriptions?: StorySubscriptionUncheckedUpdateManyWithoutUserNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
     discussStorys?: DiscussUncheckedUpdateManyWithoutUserNestedInput
     discussesLikes?: DiscussLikeUncheckedUpdateManyWithoutUserNestedInput
     ratingComments?: RatingCommentUncheckedUpdateManyWithoutUserNestedInput
@@ -39181,6 +53158,7 @@ export namespace Prisma {
     storysFan?: StoryFanUncheckedUpdateManyWithoutUserNestedInput
     votes?: StoryRecommendationUncheckedUpdateManyWithoutUserNestedInput
     setting?: UserSettingUncheckedUpdateOneWithoutUserNestedInput
+    authTokens?: UserAuthTokenUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type RatingCommentUpsertWithWhereUniqueWithoutRatingInput = {
@@ -39267,8 +53245,14 @@ export namespace Prisma {
     updatedAt?: Date | string
     voteTickets?: number
     emailVerified?: Date | string | null
+    imageUpdatedAt?: Date | string | null
+    authVersion?: number
     accounts?: AccountCreateNestedManyWithoutUserInput
     chaptersRead?: ChapterReadCreateNestedManyWithoutUserInput
+    chapterReadEvents?: ChapterReadEventCreateNestedManyWithoutUserInput
+    readingStates?: UserStoryReadingStateCreateNestedManyWithoutUserInput
+    storySubscriptions?: StorySubscriptionCreateNestedManyWithoutUserInput
+    notifications?: NotificationCreateNestedManyWithoutUserInput
     discussStorys?: DiscussCreateNestedManyWithoutUserInput
     discussesLikes?: DiscussLikeCreateNestedManyWithoutUserInput
     ratingStorys?: RatingCreateNestedManyWithoutUserInput
@@ -39280,6 +53264,7 @@ export namespace Prisma {
     storysFan?: StoryFanCreateNestedManyWithoutUserInput
     votes?: StoryRecommendationCreateNestedManyWithoutUserInput
     setting?: UserSettingCreateNestedOneWithoutUserInput
+    authTokens?: UserAuthTokenCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutRatingLikesInput = {
@@ -39298,8 +53283,14 @@ export namespace Prisma {
     updatedAt?: Date | string
     voteTickets?: number
     emailVerified?: Date | string | null
+    imageUpdatedAt?: Date | string | null
+    authVersion?: number
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     chaptersRead?: ChapterReadUncheckedCreateNestedManyWithoutUserInput
+    chapterReadEvents?: ChapterReadEventUncheckedCreateNestedManyWithoutUserInput
+    readingStates?: UserStoryReadingStateUncheckedCreateNestedManyWithoutUserInput
+    storySubscriptions?: StorySubscriptionUncheckedCreateNestedManyWithoutUserInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
     discussStorys?: DiscussUncheckedCreateNestedManyWithoutUserInput
     discussesLikes?: DiscussLikeUncheckedCreateNestedManyWithoutUserInput
     ratingStorys?: RatingUncheckedCreateNestedManyWithoutUserInput
@@ -39311,6 +53302,7 @@ export namespace Prisma {
     storysFan?: StoryFanUncheckedCreateNestedManyWithoutUserInput
     votes?: StoryRecommendationUncheckedCreateNestedManyWithoutUserInput
     setting?: UserSettingUncheckedCreateNestedOneWithoutUserInput
+    authTokens?: UserAuthTokenUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutRatingLikesInput = {
@@ -39387,8 +53379,14 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     voteTickets?: IntFieldUpdateOperationsInput | number
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    imageUpdatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    authVersion?: IntFieldUpdateOperationsInput | number
     accounts?: AccountUpdateManyWithoutUserNestedInput
     chaptersRead?: ChapterReadUpdateManyWithoutUserNestedInput
+    chapterReadEvents?: ChapterReadEventUpdateManyWithoutUserNestedInput
+    readingStates?: UserStoryReadingStateUpdateManyWithoutUserNestedInput
+    storySubscriptions?: StorySubscriptionUpdateManyWithoutUserNestedInput
+    notifications?: NotificationUpdateManyWithoutUserNestedInput
     discussStorys?: DiscussUpdateManyWithoutUserNestedInput
     discussesLikes?: DiscussLikeUpdateManyWithoutUserNestedInput
     ratingStorys?: RatingUpdateManyWithoutUserNestedInput
@@ -39400,6 +53398,7 @@ export namespace Prisma {
     storysFan?: StoryFanUpdateManyWithoutUserNestedInput
     votes?: StoryRecommendationUpdateManyWithoutUserNestedInput
     setting?: UserSettingUpdateOneWithoutUserNestedInput
+    authTokens?: UserAuthTokenUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutRatingLikesInput = {
@@ -39418,8 +53417,14 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     voteTickets?: IntFieldUpdateOperationsInput | number
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    imageUpdatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    authVersion?: IntFieldUpdateOperationsInput | number
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     chaptersRead?: ChapterReadUncheckedUpdateManyWithoutUserNestedInput
+    chapterReadEvents?: ChapterReadEventUncheckedUpdateManyWithoutUserNestedInput
+    readingStates?: UserStoryReadingStateUncheckedUpdateManyWithoutUserNestedInput
+    storySubscriptions?: StorySubscriptionUncheckedUpdateManyWithoutUserNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
     discussStorys?: DiscussUncheckedUpdateManyWithoutUserNestedInput
     discussesLikes?: DiscussLikeUncheckedUpdateManyWithoutUserNestedInput
     ratingStorys?: RatingUncheckedUpdateManyWithoutUserNestedInput
@@ -39431,9 +53436,11 @@ export namespace Prisma {
     storysFan?: StoryFanUncheckedUpdateManyWithoutUserNestedInput
     votes?: StoryRecommendationUncheckedUpdateManyWithoutUserNestedInput
     setting?: UserSettingUncheckedUpdateOneWithoutUserNestedInput
+    authTokens?: UserAuthTokenUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type RatingCommentCreateWithoutRepliesInput = {
+    clientSubmissionId?: string | null
     content: string
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -39445,6 +53452,7 @@ export namespace Prisma {
 
   export type RatingCommentUncheckedCreateWithoutRepliesInput = {
     id?: number
+    clientSubmissionId?: string | null
     content: string
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -39460,6 +53468,7 @@ export namespace Prisma {
   }
 
   export type RatingCommentCreateWithoutParentInput = {
+    clientSubmissionId?: string | null
     content: string
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -39471,6 +53480,7 @@ export namespace Prisma {
 
   export type RatingCommentUncheckedCreateWithoutParentInput = {
     id?: number
+    clientSubmissionId?: string | null
     content: string
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -39542,8 +53552,14 @@ export namespace Prisma {
     updatedAt?: Date | string
     voteTickets?: number
     emailVerified?: Date | string | null
+    imageUpdatedAt?: Date | string | null
+    authVersion?: number
     accounts?: AccountCreateNestedManyWithoutUserInput
     chaptersRead?: ChapterReadCreateNestedManyWithoutUserInput
+    chapterReadEvents?: ChapterReadEventCreateNestedManyWithoutUserInput
+    readingStates?: UserStoryReadingStateCreateNestedManyWithoutUserInput
+    storySubscriptions?: StorySubscriptionCreateNestedManyWithoutUserInput
+    notifications?: NotificationCreateNestedManyWithoutUserInput
     discussStorys?: DiscussCreateNestedManyWithoutUserInput
     discussesLikes?: DiscussLikeCreateNestedManyWithoutUserInput
     ratingStorys?: RatingCreateNestedManyWithoutUserInput
@@ -39555,6 +53571,7 @@ export namespace Prisma {
     storysFan?: StoryFanCreateNestedManyWithoutUserInput
     votes?: StoryRecommendationCreateNestedManyWithoutUserInput
     setting?: UserSettingCreateNestedOneWithoutUserInput
+    authTokens?: UserAuthTokenCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutRatingCommentsInput = {
@@ -39573,8 +53590,14 @@ export namespace Prisma {
     updatedAt?: Date | string
     voteTickets?: number
     emailVerified?: Date | string | null
+    imageUpdatedAt?: Date | string | null
+    authVersion?: number
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     chaptersRead?: ChapterReadUncheckedCreateNestedManyWithoutUserInput
+    chapterReadEvents?: ChapterReadEventUncheckedCreateNestedManyWithoutUserInput
+    readingStates?: UserStoryReadingStateUncheckedCreateNestedManyWithoutUserInput
+    storySubscriptions?: StorySubscriptionUncheckedCreateNestedManyWithoutUserInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
     discussStorys?: DiscussUncheckedCreateNestedManyWithoutUserInput
     discussesLikes?: DiscussLikeUncheckedCreateNestedManyWithoutUserInput
     ratingStorys?: RatingUncheckedCreateNestedManyWithoutUserInput
@@ -39586,6 +53609,7 @@ export namespace Prisma {
     storysFan?: StoryFanUncheckedCreateNestedManyWithoutUserInput
     votes?: StoryRecommendationUncheckedCreateNestedManyWithoutUserInput
     setting?: UserSettingUncheckedCreateNestedOneWithoutUserInput
+    authTokens?: UserAuthTokenUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutRatingCommentsInput = {
@@ -39628,6 +53652,7 @@ export namespace Prisma {
   }
 
   export type RatingCommentUpdateWithoutRepliesInput = {
+    clientSubmissionId?: NullableStringFieldUpdateOperationsInput | string | null
     content?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -39639,6 +53664,7 @@ export namespace Prisma {
 
   export type RatingCommentUncheckedUpdateWithoutRepliesInput = {
     id?: IntFieldUpdateOperationsInput | number
+    clientSubmissionId?: NullableStringFieldUpdateOperationsInput | string | null
     content?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -39733,8 +53759,14 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     voteTickets?: IntFieldUpdateOperationsInput | number
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    imageUpdatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    authVersion?: IntFieldUpdateOperationsInput | number
     accounts?: AccountUpdateManyWithoutUserNestedInput
     chaptersRead?: ChapterReadUpdateManyWithoutUserNestedInput
+    chapterReadEvents?: ChapterReadEventUpdateManyWithoutUserNestedInput
+    readingStates?: UserStoryReadingStateUpdateManyWithoutUserNestedInput
+    storySubscriptions?: StorySubscriptionUpdateManyWithoutUserNestedInput
+    notifications?: NotificationUpdateManyWithoutUserNestedInput
     discussStorys?: DiscussUpdateManyWithoutUserNestedInput
     discussesLikes?: DiscussLikeUpdateManyWithoutUserNestedInput
     ratingStorys?: RatingUpdateManyWithoutUserNestedInput
@@ -39746,6 +53778,7 @@ export namespace Prisma {
     storysFan?: StoryFanUpdateManyWithoutUserNestedInput
     votes?: StoryRecommendationUpdateManyWithoutUserNestedInput
     setting?: UserSettingUpdateOneWithoutUserNestedInput
+    authTokens?: UserAuthTokenUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutRatingCommentsInput = {
@@ -39764,8 +53797,14 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     voteTickets?: IntFieldUpdateOperationsInput | number
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    imageUpdatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    authVersion?: IntFieldUpdateOperationsInput | number
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     chaptersRead?: ChapterReadUncheckedUpdateManyWithoutUserNestedInput
+    chapterReadEvents?: ChapterReadEventUncheckedUpdateManyWithoutUserNestedInput
+    readingStates?: UserStoryReadingStateUncheckedUpdateManyWithoutUserNestedInput
+    storySubscriptions?: StorySubscriptionUncheckedUpdateManyWithoutUserNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
     discussStorys?: DiscussUncheckedUpdateManyWithoutUserNestedInput
     discussesLikes?: DiscussLikeUncheckedUpdateManyWithoutUserNestedInput
     ratingStorys?: RatingUncheckedUpdateManyWithoutUserNestedInput
@@ -39777,6 +53816,7 @@ export namespace Prisma {
     storysFan?: StoryFanUncheckedUpdateManyWithoutUserNestedInput
     votes?: StoryRecommendationUncheckedUpdateManyWithoutUserNestedInput
     setting?: UserSettingUncheckedUpdateOneWithoutUserNestedInput
+    authTokens?: UserAuthTokenUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type RatingCommentLikeUpsertWithWhereUniqueWithoutRatingCommentInput = {
@@ -39796,6 +53836,7 @@ export namespace Prisma {
   }
 
   export type RatingCommentCreateWithoutUserLikesInput = {
+    clientSubmissionId?: string | null
     content: string
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -39807,6 +53848,7 @@ export namespace Prisma {
 
   export type RatingCommentUncheckedCreateWithoutUserLikesInput = {
     id?: number
+    clientSubmissionId?: string | null
     content: string
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -39837,8 +53879,14 @@ export namespace Prisma {
     updatedAt?: Date | string
     voteTickets?: number
     emailVerified?: Date | string | null
+    imageUpdatedAt?: Date | string | null
+    authVersion?: number
     accounts?: AccountCreateNestedManyWithoutUserInput
     chaptersRead?: ChapterReadCreateNestedManyWithoutUserInput
+    chapterReadEvents?: ChapterReadEventCreateNestedManyWithoutUserInput
+    readingStates?: UserStoryReadingStateCreateNestedManyWithoutUserInput
+    storySubscriptions?: StorySubscriptionCreateNestedManyWithoutUserInput
+    notifications?: NotificationCreateNestedManyWithoutUserInput
     discussStorys?: DiscussCreateNestedManyWithoutUserInput
     discussesLikes?: DiscussLikeCreateNestedManyWithoutUserInput
     ratingStorys?: RatingCreateNestedManyWithoutUserInput
@@ -39850,6 +53898,7 @@ export namespace Prisma {
     storysFan?: StoryFanCreateNestedManyWithoutUserInput
     votes?: StoryRecommendationCreateNestedManyWithoutUserInput
     setting?: UserSettingCreateNestedOneWithoutUserInput
+    authTokens?: UserAuthTokenCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutRatingCommentsLikesInput = {
@@ -39868,8 +53917,14 @@ export namespace Prisma {
     updatedAt?: Date | string
     voteTickets?: number
     emailVerified?: Date | string | null
+    imageUpdatedAt?: Date | string | null
+    authVersion?: number
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     chaptersRead?: ChapterReadUncheckedCreateNestedManyWithoutUserInput
+    chapterReadEvents?: ChapterReadEventUncheckedCreateNestedManyWithoutUserInput
+    readingStates?: UserStoryReadingStateUncheckedCreateNestedManyWithoutUserInput
+    storySubscriptions?: StorySubscriptionUncheckedCreateNestedManyWithoutUserInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
     discussStorys?: DiscussUncheckedCreateNestedManyWithoutUserInput
     discussesLikes?: DiscussLikeUncheckedCreateNestedManyWithoutUserInput
     ratingStorys?: RatingUncheckedCreateNestedManyWithoutUserInput
@@ -39881,6 +53936,7 @@ export namespace Prisma {
     storysFan?: StoryFanUncheckedCreateNestedManyWithoutUserInput
     votes?: StoryRecommendationUncheckedCreateNestedManyWithoutUserInput
     setting?: UserSettingUncheckedCreateNestedOneWithoutUserInput
+    authTokens?: UserAuthTokenUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutRatingCommentsLikesInput = {
@@ -39900,6 +53956,7 @@ export namespace Prisma {
   }
 
   export type RatingCommentUpdateWithoutUserLikesInput = {
+    clientSubmissionId?: NullableStringFieldUpdateOperationsInput | string | null
     content?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -39911,6 +53968,7 @@ export namespace Prisma {
 
   export type RatingCommentUncheckedUpdateWithoutUserLikesInput = {
     id?: IntFieldUpdateOperationsInput | number
+    clientSubmissionId?: NullableStringFieldUpdateOperationsInput | string | null
     content?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -39947,8 +54005,14 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     voteTickets?: IntFieldUpdateOperationsInput | number
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    imageUpdatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    authVersion?: IntFieldUpdateOperationsInput | number
     accounts?: AccountUpdateManyWithoutUserNestedInput
     chaptersRead?: ChapterReadUpdateManyWithoutUserNestedInput
+    chapterReadEvents?: ChapterReadEventUpdateManyWithoutUserNestedInput
+    readingStates?: UserStoryReadingStateUpdateManyWithoutUserNestedInput
+    storySubscriptions?: StorySubscriptionUpdateManyWithoutUserNestedInput
+    notifications?: NotificationUpdateManyWithoutUserNestedInput
     discussStorys?: DiscussUpdateManyWithoutUserNestedInput
     discussesLikes?: DiscussLikeUpdateManyWithoutUserNestedInput
     ratingStorys?: RatingUpdateManyWithoutUserNestedInput
@@ -39960,6 +54024,7 @@ export namespace Prisma {
     storysFan?: StoryFanUpdateManyWithoutUserNestedInput
     votes?: StoryRecommendationUpdateManyWithoutUserNestedInput
     setting?: UserSettingUpdateOneWithoutUserNestedInput
+    authTokens?: UserAuthTokenUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutRatingCommentsLikesInput = {
@@ -39978,8 +54043,14 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     voteTickets?: IntFieldUpdateOperationsInput | number
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    imageUpdatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    authVersion?: IntFieldUpdateOperationsInput | number
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     chaptersRead?: ChapterReadUncheckedUpdateManyWithoutUserNestedInput
+    chapterReadEvents?: ChapterReadEventUncheckedUpdateManyWithoutUserNestedInput
+    readingStates?: UserStoryReadingStateUncheckedUpdateManyWithoutUserNestedInput
+    storySubscriptions?: StorySubscriptionUncheckedUpdateManyWithoutUserNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
     discussStorys?: DiscussUncheckedUpdateManyWithoutUserNestedInput
     discussesLikes?: DiscussLikeUncheckedUpdateManyWithoutUserNestedInput
     ratingStorys?: RatingUncheckedUpdateManyWithoutUserNestedInput
@@ -39991,14 +54062,18 @@ export namespace Prisma {
     storysFan?: StoryFanUncheckedUpdateManyWithoutUserNestedInput
     votes?: StoryRecommendationUncheckedUpdateManyWithoutUserNestedInput
     setting?: UserSettingUncheckedUpdateOneWithoutUserNestedInput
+    authTokens?: UserAuthTokenUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type DiscussCreateWithoutRepliesInput = {
+    clientSubmissionId?: string | null
     content: string
     createdAt?: Date | string
     updatedAt?: Date | string
     likeCount?: number
     parent?: DiscussCreateNestedOneWithoutRepliesInput
+    threadRoot?: DiscussCreateNestedOneWithoutThreadItemsInput
+    threadItems?: DiscussCreateNestedManyWithoutThreadRootInput
     story: StoryCreateNestedOneWithoutDiscussesInput
     user: UserCreateNestedOneWithoutDiscussStorysInput
     likes?: DiscussLikeCreateNestedManyWithoutDiscussInput
@@ -40006,13 +54081,16 @@ export namespace Prisma {
 
   export type DiscussUncheckedCreateWithoutRepliesInput = {
     id?: number
+    clientSubmissionId?: string | null
     content: string
     createdAt?: Date | string
     updatedAt?: Date | string
     userId: string
     storyId: number
     parentId?: number | null
+    threadRootId?: number | null
     likeCount?: number
+    threadItems?: DiscussUncheckedCreateNestedManyWithoutThreadRootInput
     likes?: DiscussLikeUncheckedCreateNestedManyWithoutDiscussInput
   }
 
@@ -40022,11 +54100,14 @@ export namespace Prisma {
   }
 
   export type DiscussCreateWithoutParentInput = {
+    clientSubmissionId?: string | null
     content: string
     createdAt?: Date | string
     updatedAt?: Date | string
     likeCount?: number
     replies?: DiscussCreateNestedManyWithoutParentInput
+    threadRoot?: DiscussCreateNestedOneWithoutThreadItemsInput
+    threadItems?: DiscussCreateNestedManyWithoutThreadRootInput
     story: StoryCreateNestedOneWithoutDiscussesInput
     user: UserCreateNestedOneWithoutDiscussStorysInput
     likes?: DiscussLikeCreateNestedManyWithoutDiscussInput
@@ -40034,13 +54115,16 @@ export namespace Prisma {
 
   export type DiscussUncheckedCreateWithoutParentInput = {
     id?: number
+    clientSubmissionId?: string | null
     content: string
     createdAt?: Date | string
     updatedAt?: Date | string
     userId: string
     storyId: number
+    threadRootId?: number | null
     likeCount?: number
     replies?: DiscussUncheckedCreateNestedManyWithoutParentInput
+    threadItems?: DiscussUncheckedCreateNestedManyWithoutThreadRootInput
     likes?: DiscussLikeUncheckedCreateNestedManyWithoutDiscussInput
   }
 
@@ -40054,11 +54138,85 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type DiscussCreateWithoutThreadItemsInput = {
+    clientSubmissionId?: string | null
+    content: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    likeCount?: number
+    parent?: DiscussCreateNestedOneWithoutRepliesInput
+    replies?: DiscussCreateNestedManyWithoutParentInput
+    threadRoot?: DiscussCreateNestedOneWithoutThreadItemsInput
+    story: StoryCreateNestedOneWithoutDiscussesInput
+    user: UserCreateNestedOneWithoutDiscussStorysInput
+    likes?: DiscussLikeCreateNestedManyWithoutDiscussInput
+  }
+
+  export type DiscussUncheckedCreateWithoutThreadItemsInput = {
+    id?: number
+    clientSubmissionId?: string | null
+    content: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    userId: string
+    storyId: number
+    parentId?: number | null
+    threadRootId?: number | null
+    likeCount?: number
+    replies?: DiscussUncheckedCreateNestedManyWithoutParentInput
+    likes?: DiscussLikeUncheckedCreateNestedManyWithoutDiscussInput
+  }
+
+  export type DiscussCreateOrConnectWithoutThreadItemsInput = {
+    where: DiscussWhereUniqueInput
+    create: XOR<DiscussCreateWithoutThreadItemsInput, DiscussUncheckedCreateWithoutThreadItemsInput>
+  }
+
+  export type DiscussCreateWithoutThreadRootInput = {
+    clientSubmissionId?: string | null
+    content: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    likeCount?: number
+    parent?: DiscussCreateNestedOneWithoutRepliesInput
+    replies?: DiscussCreateNestedManyWithoutParentInput
+    threadItems?: DiscussCreateNestedManyWithoutThreadRootInput
+    story: StoryCreateNestedOneWithoutDiscussesInput
+    user: UserCreateNestedOneWithoutDiscussStorysInput
+    likes?: DiscussLikeCreateNestedManyWithoutDiscussInput
+  }
+
+  export type DiscussUncheckedCreateWithoutThreadRootInput = {
+    id?: number
+    clientSubmissionId?: string | null
+    content: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    userId: string
+    storyId: number
+    parentId?: number | null
+    likeCount?: number
+    replies?: DiscussUncheckedCreateNestedManyWithoutParentInput
+    threadItems?: DiscussUncheckedCreateNestedManyWithoutThreadRootInput
+    likes?: DiscussLikeUncheckedCreateNestedManyWithoutDiscussInput
+  }
+
+  export type DiscussCreateOrConnectWithoutThreadRootInput = {
+    where: DiscussWhereUniqueInput
+    create: XOR<DiscussCreateWithoutThreadRootInput, DiscussUncheckedCreateWithoutThreadRootInput>
+  }
+
+  export type DiscussCreateManyThreadRootInputEnvelope = {
+    data: DiscussCreateManyThreadRootInput | DiscussCreateManyThreadRootInput[]
+    skipDuplicates?: boolean
+  }
+
   export type StoryCreateWithoutDiscussesInput = {
     title: string
     slug?: string | null
     stringUrl: string
     totalChapters?: number | null
+    latestChapterAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     introduce: string
@@ -40071,7 +54229,12 @@ export namespace Prisma {
     fans?: StoryFanCreateNestedManyWithoutStoryInput
     votes?: StoryRecommendationCreateNestedManyWithoutStoryInput
     stats?: StoryStatsCreateNestedOneWithoutStoryInput
+    dailyStats?: StoryDailyReadStatsCreateNestedManyWithoutStoryInput
     topReads?: TopStoryReadCreateNestedManyWithoutStoryInput
+    readEvents?: ChapterReadEventCreateNestedManyWithoutStoryInput
+    readingStates?: UserStoryReadingStateCreateNestedManyWithoutStoryInput
+    subscriptions?: StorySubscriptionCreateNestedManyWithoutStoryInput
+    notifications?: NotificationCreateNestedManyWithoutStoryInput
     tags?: TagCreateNestedManyWithoutStoriesInput
   }
 
@@ -40081,6 +54244,7 @@ export namespace Prisma {
     slug?: string | null
     stringUrl: string
     totalChapters?: number | null
+    latestChapterAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     uploaderId: string
@@ -40093,7 +54257,12 @@ export namespace Prisma {
     fans?: StoryFanUncheckedCreateNestedManyWithoutStoryInput
     votes?: StoryRecommendationUncheckedCreateNestedManyWithoutStoryInput
     stats?: StoryStatsUncheckedCreateNestedOneWithoutStoryInput
+    dailyStats?: StoryDailyReadStatsUncheckedCreateNestedManyWithoutStoryInput
     topReads?: TopStoryReadUncheckedCreateNestedManyWithoutStoryInput
+    readEvents?: ChapterReadEventUncheckedCreateNestedManyWithoutStoryInput
+    readingStates?: UserStoryReadingStateUncheckedCreateNestedManyWithoutStoryInput
+    subscriptions?: StorySubscriptionUncheckedCreateNestedManyWithoutStoryInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutStoryInput
     tags?: TagUncheckedCreateNestedManyWithoutStoriesInput
   }
 
@@ -40118,8 +54287,14 @@ export namespace Prisma {
     updatedAt?: Date | string
     voteTickets?: number
     emailVerified?: Date | string | null
+    imageUpdatedAt?: Date | string | null
+    authVersion?: number
     accounts?: AccountCreateNestedManyWithoutUserInput
     chaptersRead?: ChapterReadCreateNestedManyWithoutUserInput
+    chapterReadEvents?: ChapterReadEventCreateNestedManyWithoutUserInput
+    readingStates?: UserStoryReadingStateCreateNestedManyWithoutUserInput
+    storySubscriptions?: StorySubscriptionCreateNestedManyWithoutUserInput
+    notifications?: NotificationCreateNestedManyWithoutUserInput
     discussesLikes?: DiscussLikeCreateNestedManyWithoutUserInput
     ratingStorys?: RatingCreateNestedManyWithoutUserInput
     ratingComments?: RatingCommentCreateNestedManyWithoutUserInput
@@ -40131,6 +54306,7 @@ export namespace Prisma {
     storysFan?: StoryFanCreateNestedManyWithoutUserInput
     votes?: StoryRecommendationCreateNestedManyWithoutUserInput
     setting?: UserSettingCreateNestedOneWithoutUserInput
+    authTokens?: UserAuthTokenCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutDiscussStorysInput = {
@@ -40149,8 +54325,14 @@ export namespace Prisma {
     updatedAt?: Date | string
     voteTickets?: number
     emailVerified?: Date | string | null
+    imageUpdatedAt?: Date | string | null
+    authVersion?: number
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     chaptersRead?: ChapterReadUncheckedCreateNestedManyWithoutUserInput
+    chapterReadEvents?: ChapterReadEventUncheckedCreateNestedManyWithoutUserInput
+    readingStates?: UserStoryReadingStateUncheckedCreateNestedManyWithoutUserInput
+    storySubscriptions?: StorySubscriptionUncheckedCreateNestedManyWithoutUserInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
     discussesLikes?: DiscussLikeUncheckedCreateNestedManyWithoutUserInput
     ratingStorys?: RatingUncheckedCreateNestedManyWithoutUserInput
     ratingComments?: RatingCommentUncheckedCreateNestedManyWithoutUserInput
@@ -40162,6 +54344,7 @@ export namespace Prisma {
     storysFan?: StoryFanUncheckedCreateNestedManyWithoutUserInput
     votes?: StoryRecommendationUncheckedCreateNestedManyWithoutUserInput
     setting?: UserSettingUncheckedCreateNestedOneWithoutUserInput
+    authTokens?: UserAuthTokenUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutDiscussStorysInput = {
@@ -40204,11 +54387,14 @@ export namespace Prisma {
   }
 
   export type DiscussUpdateWithoutRepliesInput = {
+    clientSubmissionId?: NullableStringFieldUpdateOperationsInput | string | null
     content?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     likeCount?: IntFieldUpdateOperationsInput | number
     parent?: DiscussUpdateOneWithoutRepliesNestedInput
+    threadRoot?: DiscussUpdateOneWithoutThreadItemsNestedInput
+    threadItems?: DiscussUpdateManyWithoutThreadRootNestedInput
     story?: StoryUpdateOneRequiredWithoutDiscussesNestedInput
     user?: UserUpdateOneRequiredWithoutDiscussStorysNestedInput
     likes?: DiscussLikeUpdateManyWithoutDiscussNestedInput
@@ -40216,13 +54402,16 @@ export namespace Prisma {
 
   export type DiscussUncheckedUpdateWithoutRepliesInput = {
     id?: IntFieldUpdateOperationsInput | number
+    clientSubmissionId?: NullableStringFieldUpdateOperationsInput | string | null
     content?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     userId?: StringFieldUpdateOperationsInput | string
     storyId?: IntFieldUpdateOperationsInput | number
     parentId?: NullableIntFieldUpdateOperationsInput | number | null
+    threadRootId?: NullableIntFieldUpdateOperationsInput | number | null
     likeCount?: IntFieldUpdateOperationsInput | number
+    threadItems?: DiscussUncheckedUpdateManyWithoutThreadRootNestedInput
     likes?: DiscussLikeUncheckedUpdateManyWithoutDiscussNestedInput
   }
 
@@ -40242,6 +54431,62 @@ export namespace Prisma {
     data: XOR<DiscussUpdateManyMutationInput, DiscussUncheckedUpdateManyWithoutParentInput>
   }
 
+  export type DiscussUpsertWithoutThreadItemsInput = {
+    update: XOR<DiscussUpdateWithoutThreadItemsInput, DiscussUncheckedUpdateWithoutThreadItemsInput>
+    create: XOR<DiscussCreateWithoutThreadItemsInput, DiscussUncheckedCreateWithoutThreadItemsInput>
+    where?: DiscussWhereInput
+  }
+
+  export type DiscussUpdateToOneWithWhereWithoutThreadItemsInput = {
+    where?: DiscussWhereInput
+    data: XOR<DiscussUpdateWithoutThreadItemsInput, DiscussUncheckedUpdateWithoutThreadItemsInput>
+  }
+
+  export type DiscussUpdateWithoutThreadItemsInput = {
+    clientSubmissionId?: NullableStringFieldUpdateOperationsInput | string | null
+    content?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    likeCount?: IntFieldUpdateOperationsInput | number
+    parent?: DiscussUpdateOneWithoutRepliesNestedInput
+    replies?: DiscussUpdateManyWithoutParentNestedInput
+    threadRoot?: DiscussUpdateOneWithoutThreadItemsNestedInput
+    story?: StoryUpdateOneRequiredWithoutDiscussesNestedInput
+    user?: UserUpdateOneRequiredWithoutDiscussStorysNestedInput
+    likes?: DiscussLikeUpdateManyWithoutDiscussNestedInput
+  }
+
+  export type DiscussUncheckedUpdateWithoutThreadItemsInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    clientSubmissionId?: NullableStringFieldUpdateOperationsInput | string | null
+    content?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    userId?: StringFieldUpdateOperationsInput | string
+    storyId?: IntFieldUpdateOperationsInput | number
+    parentId?: NullableIntFieldUpdateOperationsInput | number | null
+    threadRootId?: NullableIntFieldUpdateOperationsInput | number | null
+    likeCount?: IntFieldUpdateOperationsInput | number
+    replies?: DiscussUncheckedUpdateManyWithoutParentNestedInput
+    likes?: DiscussLikeUncheckedUpdateManyWithoutDiscussNestedInput
+  }
+
+  export type DiscussUpsertWithWhereUniqueWithoutThreadRootInput = {
+    where: DiscussWhereUniqueInput
+    update: XOR<DiscussUpdateWithoutThreadRootInput, DiscussUncheckedUpdateWithoutThreadRootInput>
+    create: XOR<DiscussCreateWithoutThreadRootInput, DiscussUncheckedCreateWithoutThreadRootInput>
+  }
+
+  export type DiscussUpdateWithWhereUniqueWithoutThreadRootInput = {
+    where: DiscussWhereUniqueInput
+    data: XOR<DiscussUpdateWithoutThreadRootInput, DiscussUncheckedUpdateWithoutThreadRootInput>
+  }
+
+  export type DiscussUpdateManyWithWhereWithoutThreadRootInput = {
+    where: DiscussScalarWhereInput
+    data: XOR<DiscussUpdateManyMutationInput, DiscussUncheckedUpdateManyWithoutThreadRootInput>
+  }
+
   export type StoryUpsertWithoutDiscussesInput = {
     update: XOR<StoryUpdateWithoutDiscussesInput, StoryUncheckedUpdateWithoutDiscussesInput>
     create: XOR<StoryCreateWithoutDiscussesInput, StoryUncheckedCreateWithoutDiscussesInput>
@@ -40258,6 +54503,7 @@ export namespace Prisma {
     slug?: NullableStringFieldUpdateOperationsInput | string | null
     stringUrl?: StringFieldUpdateOperationsInput | string
     totalChapters?: NullableIntFieldUpdateOperationsInput | number | null
+    latestChapterAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     introduce?: StringFieldUpdateOperationsInput | string
@@ -40270,7 +54516,12 @@ export namespace Prisma {
     fans?: StoryFanUpdateManyWithoutStoryNestedInput
     votes?: StoryRecommendationUpdateManyWithoutStoryNestedInput
     stats?: StoryStatsUpdateOneWithoutStoryNestedInput
+    dailyStats?: StoryDailyReadStatsUpdateManyWithoutStoryNestedInput
     topReads?: TopStoryReadUpdateManyWithoutStoryNestedInput
+    readEvents?: ChapterReadEventUpdateManyWithoutStoryNestedInput
+    readingStates?: UserStoryReadingStateUpdateManyWithoutStoryNestedInput
+    subscriptions?: StorySubscriptionUpdateManyWithoutStoryNestedInput
+    notifications?: NotificationUpdateManyWithoutStoryNestedInput
     tags?: TagUpdateManyWithoutStoriesNestedInput
   }
 
@@ -40280,6 +54531,7 @@ export namespace Prisma {
     slug?: NullableStringFieldUpdateOperationsInput | string | null
     stringUrl?: StringFieldUpdateOperationsInput | string
     totalChapters?: NullableIntFieldUpdateOperationsInput | number | null
+    latestChapterAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     uploaderId?: StringFieldUpdateOperationsInput | string
@@ -40292,7 +54544,12 @@ export namespace Prisma {
     fans?: StoryFanUncheckedUpdateManyWithoutStoryNestedInput
     votes?: StoryRecommendationUncheckedUpdateManyWithoutStoryNestedInput
     stats?: StoryStatsUncheckedUpdateOneWithoutStoryNestedInput
+    dailyStats?: StoryDailyReadStatsUncheckedUpdateManyWithoutStoryNestedInput
     topReads?: TopStoryReadUncheckedUpdateManyWithoutStoryNestedInput
+    readEvents?: ChapterReadEventUncheckedUpdateManyWithoutStoryNestedInput
+    readingStates?: UserStoryReadingStateUncheckedUpdateManyWithoutStoryNestedInput
+    subscriptions?: StorySubscriptionUncheckedUpdateManyWithoutStoryNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutStoryNestedInput
     tags?: TagUncheckedUpdateManyWithoutStoriesNestedInput
   }
 
@@ -40323,8 +54580,14 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     voteTickets?: IntFieldUpdateOperationsInput | number
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    imageUpdatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    authVersion?: IntFieldUpdateOperationsInput | number
     accounts?: AccountUpdateManyWithoutUserNestedInput
     chaptersRead?: ChapterReadUpdateManyWithoutUserNestedInput
+    chapterReadEvents?: ChapterReadEventUpdateManyWithoutUserNestedInput
+    readingStates?: UserStoryReadingStateUpdateManyWithoutUserNestedInput
+    storySubscriptions?: StorySubscriptionUpdateManyWithoutUserNestedInput
+    notifications?: NotificationUpdateManyWithoutUserNestedInput
     discussesLikes?: DiscussLikeUpdateManyWithoutUserNestedInput
     ratingStorys?: RatingUpdateManyWithoutUserNestedInput
     ratingComments?: RatingCommentUpdateManyWithoutUserNestedInput
@@ -40336,6 +54599,7 @@ export namespace Prisma {
     storysFan?: StoryFanUpdateManyWithoutUserNestedInput
     votes?: StoryRecommendationUpdateManyWithoutUserNestedInput
     setting?: UserSettingUpdateOneWithoutUserNestedInput
+    authTokens?: UserAuthTokenUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutDiscussStorysInput = {
@@ -40354,8 +54618,14 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     voteTickets?: IntFieldUpdateOperationsInput | number
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    imageUpdatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    authVersion?: IntFieldUpdateOperationsInput | number
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     chaptersRead?: ChapterReadUncheckedUpdateManyWithoutUserNestedInput
+    chapterReadEvents?: ChapterReadEventUncheckedUpdateManyWithoutUserNestedInput
+    readingStates?: UserStoryReadingStateUncheckedUpdateManyWithoutUserNestedInput
+    storySubscriptions?: StorySubscriptionUncheckedUpdateManyWithoutUserNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
     discussesLikes?: DiscussLikeUncheckedUpdateManyWithoutUserNestedInput
     ratingStorys?: RatingUncheckedUpdateManyWithoutUserNestedInput
     ratingComments?: RatingCommentUncheckedUpdateManyWithoutUserNestedInput
@@ -40367,6 +54637,7 @@ export namespace Prisma {
     storysFan?: StoryFanUncheckedUpdateManyWithoutUserNestedInput
     votes?: StoryRecommendationUncheckedUpdateManyWithoutUserNestedInput
     setting?: UserSettingUncheckedUpdateOneWithoutUserNestedInput
+    authTokens?: UserAuthTokenUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type DiscussLikeUpsertWithWhereUniqueWithoutDiscussInput = {
@@ -40386,26 +54657,32 @@ export namespace Prisma {
   }
 
   export type DiscussCreateWithoutLikesInput = {
+    clientSubmissionId?: string | null
     content: string
     createdAt?: Date | string
     updatedAt?: Date | string
     likeCount?: number
     parent?: DiscussCreateNestedOneWithoutRepliesInput
     replies?: DiscussCreateNestedManyWithoutParentInput
+    threadRoot?: DiscussCreateNestedOneWithoutThreadItemsInput
+    threadItems?: DiscussCreateNestedManyWithoutThreadRootInput
     story: StoryCreateNestedOneWithoutDiscussesInput
     user: UserCreateNestedOneWithoutDiscussStorysInput
   }
 
   export type DiscussUncheckedCreateWithoutLikesInput = {
     id?: number
+    clientSubmissionId?: string | null
     content: string
     createdAt?: Date | string
     updatedAt?: Date | string
     userId: string
     storyId: number
     parentId?: number | null
+    threadRootId?: number | null
     likeCount?: number
     replies?: DiscussUncheckedCreateNestedManyWithoutParentInput
+    threadItems?: DiscussUncheckedCreateNestedManyWithoutThreadRootInput
   }
 
   export type DiscussCreateOrConnectWithoutLikesInput = {
@@ -40429,8 +54706,14 @@ export namespace Prisma {
     updatedAt?: Date | string
     voteTickets?: number
     emailVerified?: Date | string | null
+    imageUpdatedAt?: Date | string | null
+    authVersion?: number
     accounts?: AccountCreateNestedManyWithoutUserInput
     chaptersRead?: ChapterReadCreateNestedManyWithoutUserInput
+    chapterReadEvents?: ChapterReadEventCreateNestedManyWithoutUserInput
+    readingStates?: UserStoryReadingStateCreateNestedManyWithoutUserInput
+    storySubscriptions?: StorySubscriptionCreateNestedManyWithoutUserInput
+    notifications?: NotificationCreateNestedManyWithoutUserInput
     discussStorys?: DiscussCreateNestedManyWithoutUserInput
     ratingStorys?: RatingCreateNestedManyWithoutUserInput
     ratingComments?: RatingCommentCreateNestedManyWithoutUserInput
@@ -40442,6 +54725,7 @@ export namespace Prisma {
     storysFan?: StoryFanCreateNestedManyWithoutUserInput
     votes?: StoryRecommendationCreateNestedManyWithoutUserInput
     setting?: UserSettingCreateNestedOneWithoutUserInput
+    authTokens?: UserAuthTokenCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutDiscussesLikesInput = {
@@ -40460,8 +54744,14 @@ export namespace Prisma {
     updatedAt?: Date | string
     voteTickets?: number
     emailVerified?: Date | string | null
+    imageUpdatedAt?: Date | string | null
+    authVersion?: number
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     chaptersRead?: ChapterReadUncheckedCreateNestedManyWithoutUserInput
+    chapterReadEvents?: ChapterReadEventUncheckedCreateNestedManyWithoutUserInput
+    readingStates?: UserStoryReadingStateUncheckedCreateNestedManyWithoutUserInput
+    storySubscriptions?: StorySubscriptionUncheckedCreateNestedManyWithoutUserInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
     discussStorys?: DiscussUncheckedCreateNestedManyWithoutUserInput
     ratingStorys?: RatingUncheckedCreateNestedManyWithoutUserInput
     ratingComments?: RatingCommentUncheckedCreateNestedManyWithoutUserInput
@@ -40473,6 +54763,7 @@ export namespace Prisma {
     storysFan?: StoryFanUncheckedCreateNestedManyWithoutUserInput
     votes?: StoryRecommendationUncheckedCreateNestedManyWithoutUserInput
     setting?: UserSettingUncheckedCreateNestedOneWithoutUserInput
+    authTokens?: UserAuthTokenUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutDiscussesLikesInput = {
@@ -40492,26 +54783,32 @@ export namespace Prisma {
   }
 
   export type DiscussUpdateWithoutLikesInput = {
+    clientSubmissionId?: NullableStringFieldUpdateOperationsInput | string | null
     content?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     likeCount?: IntFieldUpdateOperationsInput | number
     parent?: DiscussUpdateOneWithoutRepliesNestedInput
     replies?: DiscussUpdateManyWithoutParentNestedInput
+    threadRoot?: DiscussUpdateOneWithoutThreadItemsNestedInput
+    threadItems?: DiscussUpdateManyWithoutThreadRootNestedInput
     story?: StoryUpdateOneRequiredWithoutDiscussesNestedInput
     user?: UserUpdateOneRequiredWithoutDiscussStorysNestedInput
   }
 
   export type DiscussUncheckedUpdateWithoutLikesInput = {
     id?: IntFieldUpdateOperationsInput | number
+    clientSubmissionId?: NullableStringFieldUpdateOperationsInput | string | null
     content?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     userId?: StringFieldUpdateOperationsInput | string
     storyId?: IntFieldUpdateOperationsInput | number
     parentId?: NullableIntFieldUpdateOperationsInput | number | null
+    threadRootId?: NullableIntFieldUpdateOperationsInput | number | null
     likeCount?: IntFieldUpdateOperationsInput | number
     replies?: DiscussUncheckedUpdateManyWithoutParentNestedInput
+    threadItems?: DiscussUncheckedUpdateManyWithoutThreadRootNestedInput
   }
 
   export type UserUpsertWithoutDiscussesLikesInput = {
@@ -40541,8 +54838,14 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     voteTickets?: IntFieldUpdateOperationsInput | number
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    imageUpdatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    authVersion?: IntFieldUpdateOperationsInput | number
     accounts?: AccountUpdateManyWithoutUserNestedInput
     chaptersRead?: ChapterReadUpdateManyWithoutUserNestedInput
+    chapterReadEvents?: ChapterReadEventUpdateManyWithoutUserNestedInput
+    readingStates?: UserStoryReadingStateUpdateManyWithoutUserNestedInput
+    storySubscriptions?: StorySubscriptionUpdateManyWithoutUserNestedInput
+    notifications?: NotificationUpdateManyWithoutUserNestedInput
     discussStorys?: DiscussUpdateManyWithoutUserNestedInput
     ratingStorys?: RatingUpdateManyWithoutUserNestedInput
     ratingComments?: RatingCommentUpdateManyWithoutUserNestedInput
@@ -40554,6 +54857,7 @@ export namespace Prisma {
     storysFan?: StoryFanUpdateManyWithoutUserNestedInput
     votes?: StoryRecommendationUpdateManyWithoutUserNestedInput
     setting?: UserSettingUpdateOneWithoutUserNestedInput
+    authTokens?: UserAuthTokenUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutDiscussesLikesInput = {
@@ -40572,8 +54876,14 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     voteTickets?: IntFieldUpdateOperationsInput | number
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    imageUpdatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    authVersion?: IntFieldUpdateOperationsInput | number
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     chaptersRead?: ChapterReadUncheckedUpdateManyWithoutUserNestedInput
+    chapterReadEvents?: ChapterReadEventUncheckedUpdateManyWithoutUserNestedInput
+    readingStates?: UserStoryReadingStateUncheckedUpdateManyWithoutUserNestedInput
+    storySubscriptions?: StorySubscriptionUncheckedUpdateManyWithoutUserNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
     discussStorys?: DiscussUncheckedUpdateManyWithoutUserNestedInput
     ratingStorys?: RatingUncheckedUpdateManyWithoutUserNestedInput
     ratingComments?: RatingCommentUncheckedUpdateManyWithoutUserNestedInput
@@ -40585,6 +54895,7 @@ export namespace Prisma {
     storysFan?: StoryFanUncheckedUpdateManyWithoutUserNestedInput
     votes?: StoryRecommendationUncheckedUpdateManyWithoutUserNestedInput
     setting?: UserSettingUncheckedUpdateOneWithoutUserNestedInput
+    authTokens?: UserAuthTokenUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type StoryCreateWithoutFansInput = {
@@ -40592,6 +54903,7 @@ export namespace Prisma {
     slug?: string | null
     stringUrl: string
     totalChapters?: number | null
+    latestChapterAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     introduce: string
@@ -40604,7 +54916,12 @@ export namespace Prisma {
     bookmarks?: StoryBookmarkCreateNestedManyWithoutStoryInput
     votes?: StoryRecommendationCreateNestedManyWithoutStoryInput
     stats?: StoryStatsCreateNestedOneWithoutStoryInput
+    dailyStats?: StoryDailyReadStatsCreateNestedManyWithoutStoryInput
     topReads?: TopStoryReadCreateNestedManyWithoutStoryInput
+    readEvents?: ChapterReadEventCreateNestedManyWithoutStoryInput
+    readingStates?: UserStoryReadingStateCreateNestedManyWithoutStoryInput
+    subscriptions?: StorySubscriptionCreateNestedManyWithoutStoryInput
+    notifications?: NotificationCreateNestedManyWithoutStoryInput
     tags?: TagCreateNestedManyWithoutStoriesInput
   }
 
@@ -40614,6 +54931,7 @@ export namespace Prisma {
     slug?: string | null
     stringUrl: string
     totalChapters?: number | null
+    latestChapterAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     uploaderId: string
@@ -40626,7 +54944,12 @@ export namespace Prisma {
     bookmarks?: StoryBookmarkUncheckedCreateNestedManyWithoutStoryInput
     votes?: StoryRecommendationUncheckedCreateNestedManyWithoutStoryInput
     stats?: StoryStatsUncheckedCreateNestedOneWithoutStoryInput
+    dailyStats?: StoryDailyReadStatsUncheckedCreateNestedManyWithoutStoryInput
     topReads?: TopStoryReadUncheckedCreateNestedManyWithoutStoryInput
+    readEvents?: ChapterReadEventUncheckedCreateNestedManyWithoutStoryInput
+    readingStates?: UserStoryReadingStateUncheckedCreateNestedManyWithoutStoryInput
+    subscriptions?: StorySubscriptionUncheckedCreateNestedManyWithoutStoryInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutStoryInput
     tags?: TagUncheckedCreateNestedManyWithoutStoriesInput
   }
 
@@ -40651,8 +54974,14 @@ export namespace Prisma {
     updatedAt?: Date | string
     voteTickets?: number
     emailVerified?: Date | string | null
+    imageUpdatedAt?: Date | string | null
+    authVersion?: number
     accounts?: AccountCreateNestedManyWithoutUserInput
     chaptersRead?: ChapterReadCreateNestedManyWithoutUserInput
+    chapterReadEvents?: ChapterReadEventCreateNestedManyWithoutUserInput
+    readingStates?: UserStoryReadingStateCreateNestedManyWithoutUserInput
+    storySubscriptions?: StorySubscriptionCreateNestedManyWithoutUserInput
+    notifications?: NotificationCreateNestedManyWithoutUserInput
     discussStorys?: DiscussCreateNestedManyWithoutUserInput
     discussesLikes?: DiscussLikeCreateNestedManyWithoutUserInput
     ratingStorys?: RatingCreateNestedManyWithoutUserInput
@@ -40664,6 +54993,7 @@ export namespace Prisma {
     storyBookmarks?: StoryBookmarkCreateNestedManyWithoutUserInput
     votes?: StoryRecommendationCreateNestedManyWithoutUserInput
     setting?: UserSettingCreateNestedOneWithoutUserInput
+    authTokens?: UserAuthTokenCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutStorysFanInput = {
@@ -40682,8 +55012,14 @@ export namespace Prisma {
     updatedAt?: Date | string
     voteTickets?: number
     emailVerified?: Date | string | null
+    imageUpdatedAt?: Date | string | null
+    authVersion?: number
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     chaptersRead?: ChapterReadUncheckedCreateNestedManyWithoutUserInput
+    chapterReadEvents?: ChapterReadEventUncheckedCreateNestedManyWithoutUserInput
+    readingStates?: UserStoryReadingStateUncheckedCreateNestedManyWithoutUserInput
+    storySubscriptions?: StorySubscriptionUncheckedCreateNestedManyWithoutUserInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
     discussStorys?: DiscussUncheckedCreateNestedManyWithoutUserInput
     discussesLikes?: DiscussLikeUncheckedCreateNestedManyWithoutUserInput
     ratingStorys?: RatingUncheckedCreateNestedManyWithoutUserInput
@@ -40695,6 +55031,7 @@ export namespace Prisma {
     storyBookmarks?: StoryBookmarkUncheckedCreateNestedManyWithoutUserInput
     votes?: StoryRecommendationUncheckedCreateNestedManyWithoutUserInput
     setting?: UserSettingUncheckedCreateNestedOneWithoutUserInput
+    authTokens?: UserAuthTokenUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutStorysFanInput = {
@@ -40718,6 +55055,7 @@ export namespace Prisma {
     slug?: NullableStringFieldUpdateOperationsInput | string | null
     stringUrl?: StringFieldUpdateOperationsInput | string
     totalChapters?: NullableIntFieldUpdateOperationsInput | number | null
+    latestChapterAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     introduce?: StringFieldUpdateOperationsInput | string
@@ -40730,7 +55068,12 @@ export namespace Prisma {
     bookmarks?: StoryBookmarkUpdateManyWithoutStoryNestedInput
     votes?: StoryRecommendationUpdateManyWithoutStoryNestedInput
     stats?: StoryStatsUpdateOneWithoutStoryNestedInput
+    dailyStats?: StoryDailyReadStatsUpdateManyWithoutStoryNestedInput
     topReads?: TopStoryReadUpdateManyWithoutStoryNestedInput
+    readEvents?: ChapterReadEventUpdateManyWithoutStoryNestedInput
+    readingStates?: UserStoryReadingStateUpdateManyWithoutStoryNestedInput
+    subscriptions?: StorySubscriptionUpdateManyWithoutStoryNestedInput
+    notifications?: NotificationUpdateManyWithoutStoryNestedInput
     tags?: TagUpdateManyWithoutStoriesNestedInput
   }
 
@@ -40740,6 +55083,7 @@ export namespace Prisma {
     slug?: NullableStringFieldUpdateOperationsInput | string | null
     stringUrl?: StringFieldUpdateOperationsInput | string
     totalChapters?: NullableIntFieldUpdateOperationsInput | number | null
+    latestChapterAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     uploaderId?: StringFieldUpdateOperationsInput | string
@@ -40752,7 +55096,12 @@ export namespace Prisma {
     bookmarks?: StoryBookmarkUncheckedUpdateManyWithoutStoryNestedInput
     votes?: StoryRecommendationUncheckedUpdateManyWithoutStoryNestedInput
     stats?: StoryStatsUncheckedUpdateOneWithoutStoryNestedInput
+    dailyStats?: StoryDailyReadStatsUncheckedUpdateManyWithoutStoryNestedInput
     topReads?: TopStoryReadUncheckedUpdateManyWithoutStoryNestedInput
+    readEvents?: ChapterReadEventUncheckedUpdateManyWithoutStoryNestedInput
+    readingStates?: UserStoryReadingStateUncheckedUpdateManyWithoutStoryNestedInput
+    subscriptions?: StorySubscriptionUncheckedUpdateManyWithoutStoryNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutStoryNestedInput
     tags?: TagUncheckedUpdateManyWithoutStoriesNestedInput
   }
 
@@ -40783,8 +55132,14 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     voteTickets?: IntFieldUpdateOperationsInput | number
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    imageUpdatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    authVersion?: IntFieldUpdateOperationsInput | number
     accounts?: AccountUpdateManyWithoutUserNestedInput
     chaptersRead?: ChapterReadUpdateManyWithoutUserNestedInput
+    chapterReadEvents?: ChapterReadEventUpdateManyWithoutUserNestedInput
+    readingStates?: UserStoryReadingStateUpdateManyWithoutUserNestedInput
+    storySubscriptions?: StorySubscriptionUpdateManyWithoutUserNestedInput
+    notifications?: NotificationUpdateManyWithoutUserNestedInput
     discussStorys?: DiscussUpdateManyWithoutUserNestedInput
     discussesLikes?: DiscussLikeUpdateManyWithoutUserNestedInput
     ratingStorys?: RatingUpdateManyWithoutUserNestedInput
@@ -40796,6 +55151,7 @@ export namespace Prisma {
     storyBookmarks?: StoryBookmarkUpdateManyWithoutUserNestedInput
     votes?: StoryRecommendationUpdateManyWithoutUserNestedInput
     setting?: UserSettingUpdateOneWithoutUserNestedInput
+    authTokens?: UserAuthTokenUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutStorysFanInput = {
@@ -40814,8 +55170,14 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     voteTickets?: IntFieldUpdateOperationsInput | number
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    imageUpdatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    authVersion?: IntFieldUpdateOperationsInput | number
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     chaptersRead?: ChapterReadUncheckedUpdateManyWithoutUserNestedInput
+    chapterReadEvents?: ChapterReadEventUncheckedUpdateManyWithoutUserNestedInput
+    readingStates?: UserStoryReadingStateUncheckedUpdateManyWithoutUserNestedInput
+    storySubscriptions?: StorySubscriptionUncheckedUpdateManyWithoutUserNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
     discussStorys?: DiscussUncheckedUpdateManyWithoutUserNestedInput
     discussesLikes?: DiscussLikeUncheckedUpdateManyWithoutUserNestedInput
     ratingStorys?: RatingUncheckedUpdateManyWithoutUserNestedInput
@@ -40827,6 +55189,7 @@ export namespace Prisma {
     storyBookmarks?: StoryBookmarkUncheckedUpdateManyWithoutUserNestedInput
     votes?: StoryRecommendationUncheckedUpdateManyWithoutUserNestedInput
     setting?: UserSettingUncheckedUpdateOneWithoutUserNestedInput
+    authTokens?: UserAuthTokenUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type AccountCreateManyUserInput = {
@@ -40846,16 +55209,51 @@ export namespace Prisma {
   export type ChapterReadCreateManyUserInput = {
     id?: number
     readAt?: Date | string
+    updatedAt?: Date | string
     chapterId: number
+  }
+
+  export type ChapterReadEventCreateManyUserInput = {
+    id?: number
+    readAt?: Date | string
+    storyId: number
+    chapterId: number
+  }
+
+  export type UserStoryReadingStateCreateManyUserInput = {
+    id?: number
+    storyId: number
+    lastChapterId: number
+    lastReadAt?: Date | string
+    hiddenAt?: Date | string | null
+  }
+
+  export type StorySubscriptionCreateManyUserInput = {
+    id?: number
+    storyId: number
+    createdAt?: Date | string
+  }
+
+  export type NotificationCreateManyUserInput = {
+    id?: number
+    type: $Enums.NotificationType
+    storyId?: number | null
+    title: string
+    content?: string | null
+    dedupeKey: string
+    readAt?: Date | string | null
+    createdAt?: Date | string
   }
 
   export type DiscussCreateManyUserInput = {
     id?: number
+    clientSubmissionId?: string | null
     content: string
     createdAt?: Date | string
     updatedAt?: Date | string
     storyId: number
     parentId?: number | null
+    threadRootId?: number | null
     likeCount?: number
   }
 
@@ -40882,6 +55280,7 @@ export namespace Prisma {
 
   export type RatingCommentCreateManyUserInput = {
     id?: number
+    clientSubmissionId?: string | null
     content: string
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -40915,6 +55314,7 @@ export namespace Prisma {
     slug?: string | null
     stringUrl: string
     totalChapters?: number | null
+    latestChapterAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     authorId: number
@@ -40939,6 +55339,16 @@ export namespace Prisma {
   export type StoryRecommendationCreateManyUserInput = {
     id?: number
     storyId: number
+    createdAt?: Date | string
+  }
+
+  export type UserAuthTokenCreateManyUserInput = {
+    id?: string
+    type: $Enums.AuthTokenType
+    tokenHash: string
+    targetEmail?: string | null
+    expiresAt: Date | string
+    usedAt?: Date | string | null
     createdAt?: Date | string
   }
 
@@ -40986,51 +55396,154 @@ export namespace Prisma {
 
   export type ChapterReadUpdateWithoutUserInput = {
     readAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     chapter?: ChapterUpdateOneRequiredWithoutReadsNestedInput
   }
 
   export type ChapterReadUncheckedUpdateWithoutUserInput = {
     id?: IntFieldUpdateOperationsInput | number
     readAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     chapterId?: IntFieldUpdateOperationsInput | number
   }
 
   export type ChapterReadUncheckedUpdateManyWithoutUserInput = {
     id?: IntFieldUpdateOperationsInput | number
     readAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     chapterId?: IntFieldUpdateOperationsInput | number
   }
 
+  export type ChapterReadEventUpdateWithoutUserInput = {
+    readAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    chapter?: ChapterUpdateOneRequiredWithoutReadEventsNestedInput
+    story?: StoryUpdateOneRequiredWithoutReadEventsNestedInput
+  }
+
+  export type ChapterReadEventUncheckedUpdateWithoutUserInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    readAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    storyId?: IntFieldUpdateOperationsInput | number
+    chapterId?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type ChapterReadEventUncheckedUpdateManyWithoutUserInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    readAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    storyId?: IntFieldUpdateOperationsInput | number
+    chapterId?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type UserStoryReadingStateUpdateWithoutUserInput = {
+    lastReadAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    hiddenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    story?: StoryUpdateOneRequiredWithoutReadingStatesNestedInput
+    lastChapter?: ChapterUpdateOneRequiredWithoutReadingStatesNestedInput
+  }
+
+  export type UserStoryReadingStateUncheckedUpdateWithoutUserInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    storyId?: IntFieldUpdateOperationsInput | number
+    lastChapterId?: IntFieldUpdateOperationsInput | number
+    lastReadAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    hiddenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type UserStoryReadingStateUncheckedUpdateManyWithoutUserInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    storyId?: IntFieldUpdateOperationsInput | number
+    lastChapterId?: IntFieldUpdateOperationsInput | number
+    lastReadAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    hiddenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type StorySubscriptionUpdateWithoutUserInput = {
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    story?: StoryUpdateOneRequiredWithoutSubscriptionsNestedInput
+  }
+
+  export type StorySubscriptionUncheckedUpdateWithoutUserInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    storyId?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type StorySubscriptionUncheckedUpdateManyWithoutUserInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    storyId?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type NotificationUpdateWithoutUserInput = {
+    type?: EnumNotificationTypeFieldUpdateOperationsInput | $Enums.NotificationType
+    title?: StringFieldUpdateOperationsInput | string
+    content?: NullableStringFieldUpdateOperationsInput | string | null
+    dedupeKey?: StringFieldUpdateOperationsInput | string
+    readAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    story?: StoryUpdateOneWithoutNotificationsNestedInput
+  }
+
+  export type NotificationUncheckedUpdateWithoutUserInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    type?: EnumNotificationTypeFieldUpdateOperationsInput | $Enums.NotificationType
+    storyId?: NullableIntFieldUpdateOperationsInput | number | null
+    title?: StringFieldUpdateOperationsInput | string
+    content?: NullableStringFieldUpdateOperationsInput | string | null
+    dedupeKey?: StringFieldUpdateOperationsInput | string
+    readAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type NotificationUncheckedUpdateManyWithoutUserInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    type?: EnumNotificationTypeFieldUpdateOperationsInput | $Enums.NotificationType
+    storyId?: NullableIntFieldUpdateOperationsInput | number | null
+    title?: StringFieldUpdateOperationsInput | string
+    content?: NullableStringFieldUpdateOperationsInput | string | null
+    dedupeKey?: StringFieldUpdateOperationsInput | string
+    readAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type DiscussUpdateWithoutUserInput = {
+    clientSubmissionId?: NullableStringFieldUpdateOperationsInput | string | null
     content?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     likeCount?: IntFieldUpdateOperationsInput | number
     parent?: DiscussUpdateOneWithoutRepliesNestedInput
     replies?: DiscussUpdateManyWithoutParentNestedInput
+    threadRoot?: DiscussUpdateOneWithoutThreadItemsNestedInput
+    threadItems?: DiscussUpdateManyWithoutThreadRootNestedInput
     story?: StoryUpdateOneRequiredWithoutDiscussesNestedInput
     likes?: DiscussLikeUpdateManyWithoutDiscussNestedInput
   }
 
   export type DiscussUncheckedUpdateWithoutUserInput = {
     id?: IntFieldUpdateOperationsInput | number
+    clientSubmissionId?: NullableStringFieldUpdateOperationsInput | string | null
     content?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     storyId?: IntFieldUpdateOperationsInput | number
     parentId?: NullableIntFieldUpdateOperationsInput | number | null
+    threadRootId?: NullableIntFieldUpdateOperationsInput | number | null
     likeCount?: IntFieldUpdateOperationsInput | number
     replies?: DiscussUncheckedUpdateManyWithoutParentNestedInput
+    threadItems?: DiscussUncheckedUpdateManyWithoutThreadRootNestedInput
     likes?: DiscussLikeUncheckedUpdateManyWithoutDiscussNestedInput
   }
 
   export type DiscussUncheckedUpdateManyWithoutUserInput = {
     id?: IntFieldUpdateOperationsInput | number
+    clientSubmissionId?: NullableStringFieldUpdateOperationsInput | string | null
     content?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     storyId?: IntFieldUpdateOperationsInput | number
     parentId?: NullableIntFieldUpdateOperationsInput | number | null
+    threadRootId?: NullableIntFieldUpdateOperationsInput | number | null
     likeCount?: IntFieldUpdateOperationsInput | number
   }
 
@@ -41100,6 +55613,7 @@ export namespace Prisma {
   }
 
   export type RatingCommentUpdateWithoutUserInput = {
+    clientSubmissionId?: NullableStringFieldUpdateOperationsInput | string | null
     content?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -41111,6 +55625,7 @@ export namespace Prisma {
 
   export type RatingCommentUncheckedUpdateWithoutUserInput = {
     id?: IntFieldUpdateOperationsInput | number
+    clientSubmissionId?: NullableStringFieldUpdateOperationsInput | string | null
     content?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -41122,6 +55637,7 @@ export namespace Prisma {
 
   export type RatingCommentUncheckedUpdateManyWithoutUserInput = {
     id?: IntFieldUpdateOperationsInput | number
+    clientSubmissionId?: NullableStringFieldUpdateOperationsInput | string | null
     content?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -41192,6 +55708,7 @@ export namespace Prisma {
     slug?: NullableStringFieldUpdateOperationsInput | string | null
     stringUrl?: StringFieldUpdateOperationsInput | string
     totalChapters?: NullableIntFieldUpdateOperationsInput | number | null
+    latestChapterAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     introduce?: StringFieldUpdateOperationsInput | string
@@ -41204,7 +55721,12 @@ export namespace Prisma {
     fans?: StoryFanUpdateManyWithoutStoryNestedInput
     votes?: StoryRecommendationUpdateManyWithoutStoryNestedInput
     stats?: StoryStatsUpdateOneWithoutStoryNestedInput
+    dailyStats?: StoryDailyReadStatsUpdateManyWithoutStoryNestedInput
     topReads?: TopStoryReadUpdateManyWithoutStoryNestedInput
+    readEvents?: ChapterReadEventUpdateManyWithoutStoryNestedInput
+    readingStates?: UserStoryReadingStateUpdateManyWithoutStoryNestedInput
+    subscriptions?: StorySubscriptionUpdateManyWithoutStoryNestedInput
+    notifications?: NotificationUpdateManyWithoutStoryNestedInput
     tags?: TagUpdateManyWithoutStoriesNestedInput
   }
 
@@ -41214,6 +55736,7 @@ export namespace Prisma {
     slug?: NullableStringFieldUpdateOperationsInput | string | null
     stringUrl?: StringFieldUpdateOperationsInput | string
     totalChapters?: NullableIntFieldUpdateOperationsInput | number | null
+    latestChapterAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     authorId?: IntFieldUpdateOperationsInput | number
@@ -41226,7 +55749,12 @@ export namespace Prisma {
     fans?: StoryFanUncheckedUpdateManyWithoutStoryNestedInput
     votes?: StoryRecommendationUncheckedUpdateManyWithoutStoryNestedInput
     stats?: StoryStatsUncheckedUpdateOneWithoutStoryNestedInput
+    dailyStats?: StoryDailyReadStatsUncheckedUpdateManyWithoutStoryNestedInput
     topReads?: TopStoryReadUncheckedUpdateManyWithoutStoryNestedInput
+    readEvents?: ChapterReadEventUncheckedUpdateManyWithoutStoryNestedInput
+    readingStates?: UserStoryReadingStateUncheckedUpdateManyWithoutStoryNestedInput
+    subscriptions?: StorySubscriptionUncheckedUpdateManyWithoutStoryNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutStoryNestedInput
     tags?: TagUncheckedUpdateManyWithoutStoriesNestedInput
   }
 
@@ -41236,6 +55764,7 @@ export namespace Prisma {
     slug?: NullableStringFieldUpdateOperationsInput | string | null
     stringUrl?: StringFieldUpdateOperationsInput | string
     totalChapters?: NullableIntFieldUpdateOperationsInput | number | null
+    latestChapterAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     authorId?: IntFieldUpdateOperationsInput | number
@@ -41300,6 +55829,36 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type UserAuthTokenUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    type?: EnumAuthTokenTypeFieldUpdateOperationsInput | $Enums.AuthTokenType
+    tokenHash?: StringFieldUpdateOperationsInput | string
+    targetEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    usedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type UserAuthTokenUncheckedUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    type?: EnumAuthTokenTypeFieldUpdateOperationsInput | $Enums.AuthTokenType
+    tokenHash?: StringFieldUpdateOperationsInput | string
+    targetEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    usedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type UserAuthTokenUncheckedUpdateManyWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    type?: EnumAuthTokenTypeFieldUpdateOperationsInput | $Enums.AuthTokenType
+    tokenHash?: StringFieldUpdateOperationsInput | string
+    targetEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    usedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type ChapterCreateManyStoryInput = {
     id?: number
     name: string
@@ -41310,11 +55869,13 @@ export namespace Prisma {
 
   export type DiscussCreateManyStoryInput = {
     id?: number
+    clientSubmissionId?: string | null
     content: string
     createdAt?: Date | string
     updatedAt?: Date | string
     userId: string
     parentId?: number | null
+    threadRootId?: number | null
     likeCount?: number
   }
 
@@ -41352,11 +55913,51 @@ export namespace Prisma {
     createdAt?: Date | string
   }
 
+  export type StoryDailyReadStatsCreateManyStoryInput = {
+    id?: number
+    date: Date | string
+    readerCount?: number
+  }
+
   export type TopStoryReadCreateManyStoryInput = {
     id?: number
     readerCount: number
     createdAt?: Date | string
-    duration: number
+    updatedAt?: Date | string
+    windowStart: Date | string
+    windowEnd: Date | string
+  }
+
+  export type ChapterReadEventCreateManyStoryInput = {
+    id?: number
+    readAt?: Date | string
+    userId: string
+    chapterId: number
+  }
+
+  export type UserStoryReadingStateCreateManyStoryInput = {
+    id?: number
+    userId: string
+    lastChapterId: number
+    lastReadAt?: Date | string
+    hiddenAt?: Date | string | null
+  }
+
+  export type StorySubscriptionCreateManyStoryInput = {
+    id?: number
+    userId: string
+    createdAt?: Date | string
+  }
+
+  export type NotificationCreateManyStoryInput = {
+    id?: number
+    userId: string
+    type: $Enums.NotificationType
+    title: string
+    content?: string | null
+    dedupeKey: string
+    readAt?: Date | string | null
+    createdAt?: Date | string
   }
 
   export type ChapterUpdateWithoutStoryInput = {
@@ -41365,6 +55966,8 @@ export namespace Prisma {
     content?: StringFieldUpdateOperationsInput | string
     postedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     reads?: ChapterReadUpdateManyWithoutChapterNestedInput
+    readEvents?: ChapterReadEventUpdateManyWithoutChapterNestedInput
+    readingStates?: UserStoryReadingStateUpdateManyWithoutLastChapterNestedInput
   }
 
   export type ChapterUncheckedUpdateWithoutStoryInput = {
@@ -41374,6 +55977,8 @@ export namespace Prisma {
     content?: StringFieldUpdateOperationsInput | string
     postedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     reads?: ChapterReadUncheckedUpdateManyWithoutChapterNestedInput
+    readEvents?: ChapterReadEventUncheckedUpdateManyWithoutChapterNestedInput
+    readingStates?: UserStoryReadingStateUncheckedUpdateManyWithoutLastChapterNestedInput
   }
 
   export type ChapterUncheckedUpdateManyWithoutStoryInput = {
@@ -41385,35 +55990,43 @@ export namespace Prisma {
   }
 
   export type DiscussUpdateWithoutStoryInput = {
+    clientSubmissionId?: NullableStringFieldUpdateOperationsInput | string | null
     content?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     likeCount?: IntFieldUpdateOperationsInput | number
     parent?: DiscussUpdateOneWithoutRepliesNestedInput
     replies?: DiscussUpdateManyWithoutParentNestedInput
+    threadRoot?: DiscussUpdateOneWithoutThreadItemsNestedInput
+    threadItems?: DiscussUpdateManyWithoutThreadRootNestedInput
     user?: UserUpdateOneRequiredWithoutDiscussStorysNestedInput
     likes?: DiscussLikeUpdateManyWithoutDiscussNestedInput
   }
 
   export type DiscussUncheckedUpdateWithoutStoryInput = {
     id?: IntFieldUpdateOperationsInput | number
+    clientSubmissionId?: NullableStringFieldUpdateOperationsInput | string | null
     content?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     userId?: StringFieldUpdateOperationsInput | string
     parentId?: NullableIntFieldUpdateOperationsInput | number | null
+    threadRootId?: NullableIntFieldUpdateOperationsInput | number | null
     likeCount?: IntFieldUpdateOperationsInput | number
     replies?: DiscussUncheckedUpdateManyWithoutParentNestedInput
+    threadItems?: DiscussUncheckedUpdateManyWithoutThreadRootNestedInput
     likes?: DiscussLikeUncheckedUpdateManyWithoutDiscussNestedInput
   }
 
   export type DiscussUncheckedUpdateManyWithoutStoryInput = {
     id?: IntFieldUpdateOperationsInput | number
+    clientSubmissionId?: NullableStringFieldUpdateOperationsInput | string | null
     content?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     userId?: StringFieldUpdateOperationsInput | string
     parentId?: NullableIntFieldUpdateOperationsInput | number | null
+    threadRootId?: NullableIntFieldUpdateOperationsInput | number | null
     likeCount?: IntFieldUpdateOperationsInput | number
   }
 
@@ -41519,24 +56132,139 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type StoryDailyReadStatsUpdateWithoutStoryInput = {
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    readerCount?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type StoryDailyReadStatsUncheckedUpdateWithoutStoryInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    readerCount?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type StoryDailyReadStatsUncheckedUpdateManyWithoutStoryInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    readerCount?: IntFieldUpdateOperationsInput | number
+  }
+
   export type TopStoryReadUpdateWithoutStoryInput = {
     readerCount?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    duration?: IntFieldUpdateOperationsInput | number
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    windowStart?: DateTimeFieldUpdateOperationsInput | Date | string
+    windowEnd?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type TopStoryReadUncheckedUpdateWithoutStoryInput = {
     id?: IntFieldUpdateOperationsInput | number
     readerCount?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    duration?: IntFieldUpdateOperationsInput | number
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    windowStart?: DateTimeFieldUpdateOperationsInput | Date | string
+    windowEnd?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type TopStoryReadUncheckedUpdateManyWithoutStoryInput = {
     id?: IntFieldUpdateOperationsInput | number
     readerCount?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    duration?: IntFieldUpdateOperationsInput | number
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    windowStart?: DateTimeFieldUpdateOperationsInput | Date | string
+    windowEnd?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ChapterReadEventUpdateWithoutStoryInput = {
+    readAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    chapter?: ChapterUpdateOneRequiredWithoutReadEventsNestedInput
+    user?: UserUpdateOneRequiredWithoutChapterReadEventsNestedInput
+  }
+
+  export type ChapterReadEventUncheckedUpdateWithoutStoryInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    readAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    userId?: StringFieldUpdateOperationsInput | string
+    chapterId?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type ChapterReadEventUncheckedUpdateManyWithoutStoryInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    readAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    userId?: StringFieldUpdateOperationsInput | string
+    chapterId?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type UserStoryReadingStateUpdateWithoutStoryInput = {
+    lastReadAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    hiddenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    user?: UserUpdateOneRequiredWithoutReadingStatesNestedInput
+    lastChapter?: ChapterUpdateOneRequiredWithoutReadingStatesNestedInput
+  }
+
+  export type UserStoryReadingStateUncheckedUpdateWithoutStoryInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    userId?: StringFieldUpdateOperationsInput | string
+    lastChapterId?: IntFieldUpdateOperationsInput | number
+    lastReadAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    hiddenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type UserStoryReadingStateUncheckedUpdateManyWithoutStoryInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    userId?: StringFieldUpdateOperationsInput | string
+    lastChapterId?: IntFieldUpdateOperationsInput | number
+    lastReadAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    hiddenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type StorySubscriptionUpdateWithoutStoryInput = {
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutStorySubscriptionsNestedInput
+  }
+
+  export type StorySubscriptionUncheckedUpdateWithoutStoryInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    userId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type StorySubscriptionUncheckedUpdateManyWithoutStoryInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    userId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type NotificationUpdateWithoutStoryInput = {
+    type?: EnumNotificationTypeFieldUpdateOperationsInput | $Enums.NotificationType
+    title?: StringFieldUpdateOperationsInput | string
+    content?: NullableStringFieldUpdateOperationsInput | string | null
+    dedupeKey?: StringFieldUpdateOperationsInput | string
+    readAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutNotificationsNestedInput
+  }
+
+  export type NotificationUncheckedUpdateWithoutStoryInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    userId?: StringFieldUpdateOperationsInput | string
+    type?: EnumNotificationTypeFieldUpdateOperationsInput | $Enums.NotificationType
+    title?: StringFieldUpdateOperationsInput | string
+    content?: NullableStringFieldUpdateOperationsInput | string | null
+    dedupeKey?: StringFieldUpdateOperationsInput | string
+    readAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type NotificationUncheckedUpdateManyWithoutStoryInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    userId?: StringFieldUpdateOperationsInput | string
+    type?: EnumNotificationTypeFieldUpdateOperationsInput | $Enums.NotificationType
+    title?: StringFieldUpdateOperationsInput | string
+    content?: NullableStringFieldUpdateOperationsInput | string | null
+    dedupeKey?: StringFieldUpdateOperationsInput | string
+    readAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type TagUpdateWithoutStoriesInput = {
@@ -41565,6 +56293,7 @@ export namespace Prisma {
     slug?: string | null
     stringUrl: string
     totalChapters?: number | null
+    latestChapterAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     uploaderId: string
@@ -41577,6 +56306,7 @@ export namespace Prisma {
     slug?: NullableStringFieldUpdateOperationsInput | string | null
     stringUrl?: StringFieldUpdateOperationsInput | string
     totalChapters?: NullableIntFieldUpdateOperationsInput | number | null
+    latestChapterAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     introduce?: StringFieldUpdateOperationsInput | string
@@ -41589,7 +56319,12 @@ export namespace Prisma {
     fans?: StoryFanUpdateManyWithoutStoryNestedInput
     votes?: StoryRecommendationUpdateManyWithoutStoryNestedInput
     stats?: StoryStatsUpdateOneWithoutStoryNestedInput
+    dailyStats?: StoryDailyReadStatsUpdateManyWithoutStoryNestedInput
     topReads?: TopStoryReadUpdateManyWithoutStoryNestedInput
+    readEvents?: ChapterReadEventUpdateManyWithoutStoryNestedInput
+    readingStates?: UserStoryReadingStateUpdateManyWithoutStoryNestedInput
+    subscriptions?: StorySubscriptionUpdateManyWithoutStoryNestedInput
+    notifications?: NotificationUpdateManyWithoutStoryNestedInput
     tags?: TagUpdateManyWithoutStoriesNestedInput
   }
 
@@ -41599,6 +56334,7 @@ export namespace Prisma {
     slug?: NullableStringFieldUpdateOperationsInput | string | null
     stringUrl?: StringFieldUpdateOperationsInput | string
     totalChapters?: NullableIntFieldUpdateOperationsInput | number | null
+    latestChapterAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     uploaderId?: StringFieldUpdateOperationsInput | string
@@ -41611,7 +56347,12 @@ export namespace Prisma {
     fans?: StoryFanUncheckedUpdateManyWithoutStoryNestedInput
     votes?: StoryRecommendationUncheckedUpdateManyWithoutStoryNestedInput
     stats?: StoryStatsUncheckedUpdateOneWithoutStoryNestedInput
+    dailyStats?: StoryDailyReadStatsUncheckedUpdateManyWithoutStoryNestedInput
     topReads?: TopStoryReadUncheckedUpdateManyWithoutStoryNestedInput
+    readEvents?: ChapterReadEventUncheckedUpdateManyWithoutStoryNestedInput
+    readingStates?: UserStoryReadingStateUncheckedUpdateManyWithoutStoryNestedInput
+    subscriptions?: StorySubscriptionUncheckedUpdateManyWithoutStoryNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutStoryNestedInput
     tags?: TagUncheckedUpdateManyWithoutStoriesNestedInput
   }
 
@@ -41621,6 +56362,7 @@ export namespace Prisma {
     slug?: NullableStringFieldUpdateOperationsInput | string | null
     stringUrl?: StringFieldUpdateOperationsInput | string
     totalChapters?: NullableIntFieldUpdateOperationsInput | number | null
+    latestChapterAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     uploaderId?: StringFieldUpdateOperationsInput | string
@@ -41631,24 +56373,86 @@ export namespace Prisma {
   export type ChapterReadCreateManyChapterInput = {
     id?: number
     readAt?: Date | string
+    updatedAt?: Date | string
     userId: string
+  }
+
+  export type ChapterReadEventCreateManyChapterInput = {
+    id?: number
+    readAt?: Date | string
+    userId: string
+    storyId: number
+  }
+
+  export type UserStoryReadingStateCreateManyLastChapterInput = {
+    id?: number
+    userId: string
+    storyId: number
+    lastReadAt?: Date | string
+    hiddenAt?: Date | string | null
   }
 
   export type ChapterReadUpdateWithoutChapterInput = {
     readAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutChaptersReadNestedInput
   }
 
   export type ChapterReadUncheckedUpdateWithoutChapterInput = {
     id?: IntFieldUpdateOperationsInput | number
     readAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     userId?: StringFieldUpdateOperationsInput | string
   }
 
   export type ChapterReadUncheckedUpdateManyWithoutChapterInput = {
     id?: IntFieldUpdateOperationsInput | number
     readAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     userId?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type ChapterReadEventUpdateWithoutChapterInput = {
+    readAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    story?: StoryUpdateOneRequiredWithoutReadEventsNestedInput
+    user?: UserUpdateOneRequiredWithoutChapterReadEventsNestedInput
+  }
+
+  export type ChapterReadEventUncheckedUpdateWithoutChapterInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    readAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    userId?: StringFieldUpdateOperationsInput | string
+    storyId?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type ChapterReadEventUncheckedUpdateManyWithoutChapterInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    readAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    userId?: StringFieldUpdateOperationsInput | string
+    storyId?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type UserStoryReadingStateUpdateWithoutLastChapterInput = {
+    lastReadAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    hiddenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    user?: UserUpdateOneRequiredWithoutReadingStatesNestedInput
+    story?: StoryUpdateOneRequiredWithoutReadingStatesNestedInput
+  }
+
+  export type UserStoryReadingStateUncheckedUpdateWithoutLastChapterInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    userId?: StringFieldUpdateOperationsInput | string
+    storyId?: IntFieldUpdateOperationsInput | number
+    lastReadAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    hiddenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type UserStoryReadingStateUncheckedUpdateManyWithoutLastChapterInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    userId?: StringFieldUpdateOperationsInput | string
+    storyId?: IntFieldUpdateOperationsInput | number
+    lastReadAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    hiddenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type TagCreateManyGroupInput = {
@@ -41681,6 +56485,7 @@ export namespace Prisma {
     slug?: NullableStringFieldUpdateOperationsInput | string | null
     stringUrl?: StringFieldUpdateOperationsInput | string
     totalChapters?: NullableIntFieldUpdateOperationsInput | number | null
+    latestChapterAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     introduce?: StringFieldUpdateOperationsInput | string
@@ -41694,7 +56499,12 @@ export namespace Prisma {
     fans?: StoryFanUpdateManyWithoutStoryNestedInput
     votes?: StoryRecommendationUpdateManyWithoutStoryNestedInput
     stats?: StoryStatsUpdateOneWithoutStoryNestedInput
+    dailyStats?: StoryDailyReadStatsUpdateManyWithoutStoryNestedInput
     topReads?: TopStoryReadUpdateManyWithoutStoryNestedInput
+    readEvents?: ChapterReadEventUpdateManyWithoutStoryNestedInput
+    readingStates?: UserStoryReadingStateUpdateManyWithoutStoryNestedInput
+    subscriptions?: StorySubscriptionUpdateManyWithoutStoryNestedInput
+    notifications?: NotificationUpdateManyWithoutStoryNestedInput
   }
 
   export type StoryUncheckedUpdateWithoutTagsInput = {
@@ -41703,6 +56513,7 @@ export namespace Prisma {
     slug?: NullableStringFieldUpdateOperationsInput | string | null
     stringUrl?: StringFieldUpdateOperationsInput | string
     totalChapters?: NullableIntFieldUpdateOperationsInput | number | null
+    latestChapterAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     uploaderId?: StringFieldUpdateOperationsInput | string
@@ -41716,7 +56527,12 @@ export namespace Prisma {
     fans?: StoryFanUncheckedUpdateManyWithoutStoryNestedInput
     votes?: StoryRecommendationUncheckedUpdateManyWithoutStoryNestedInput
     stats?: StoryStatsUncheckedUpdateOneWithoutStoryNestedInput
+    dailyStats?: StoryDailyReadStatsUncheckedUpdateManyWithoutStoryNestedInput
     topReads?: TopStoryReadUncheckedUpdateManyWithoutStoryNestedInput
+    readEvents?: ChapterReadEventUncheckedUpdateManyWithoutStoryNestedInput
+    readingStates?: UserStoryReadingStateUncheckedUpdateManyWithoutStoryNestedInput
+    subscriptions?: StorySubscriptionUncheckedUpdateManyWithoutStoryNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutStoryNestedInput
   }
 
   export type StoryUncheckedUpdateManyWithoutTagsInput = {
@@ -41725,6 +56541,7 @@ export namespace Prisma {
     slug?: NullableStringFieldUpdateOperationsInput | string | null
     stringUrl?: StringFieldUpdateOperationsInput | string
     totalChapters?: NullableIntFieldUpdateOperationsInput | number | null
+    latestChapterAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     uploaderId?: StringFieldUpdateOperationsInput | string
@@ -41735,6 +56552,7 @@ export namespace Prisma {
 
   export type RatingCommentCreateManyRatingInput = {
     id?: number
+    clientSubmissionId?: string | null
     content: string
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -41750,6 +56568,7 @@ export namespace Prisma {
   }
 
   export type RatingCommentUpdateWithoutRatingInput = {
+    clientSubmissionId?: NullableStringFieldUpdateOperationsInput | string | null
     content?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -41761,6 +56580,7 @@ export namespace Prisma {
 
   export type RatingCommentUncheckedUpdateWithoutRatingInput = {
     id?: IntFieldUpdateOperationsInput | number
+    clientSubmissionId?: NullableStringFieldUpdateOperationsInput | string | null
     content?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -41772,6 +56592,7 @@ export namespace Prisma {
 
   export type RatingCommentUncheckedUpdateManyWithoutRatingInput = {
     id?: IntFieldUpdateOperationsInput | number
+    clientSubmissionId?: NullableStringFieldUpdateOperationsInput | string | null
     content?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -41801,6 +56622,7 @@ export namespace Prisma {
 
   export type RatingCommentCreateManyParentInput = {
     id?: number
+    clientSubmissionId?: string | null
     content: string
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -41816,6 +56638,7 @@ export namespace Prisma {
   }
 
   export type RatingCommentUpdateWithoutParentInput = {
+    clientSubmissionId?: NullableStringFieldUpdateOperationsInput | string | null
     content?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -41827,6 +56650,7 @@ export namespace Prisma {
 
   export type RatingCommentUncheckedUpdateWithoutParentInput = {
     id?: IntFieldUpdateOperationsInput | number
+    clientSubmissionId?: NullableStringFieldUpdateOperationsInput | string | null
     content?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -41838,6 +56662,7 @@ export namespace Prisma {
 
   export type RatingCommentUncheckedUpdateManyWithoutParentInput = {
     id?: IntFieldUpdateOperationsInput | number
+    clientSubmissionId?: NullableStringFieldUpdateOperationsInput | string | null
     content?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -41867,11 +56692,25 @@ export namespace Prisma {
 
   export type DiscussCreateManyParentInput = {
     id?: number
+    clientSubmissionId?: string | null
     content: string
     createdAt?: Date | string
     updatedAt?: Date | string
     userId: string
     storyId: number
+    threadRootId?: number | null
+    likeCount?: number
+  }
+
+  export type DiscussCreateManyThreadRootInput = {
+    id?: number
+    clientSubmissionId?: string | null
+    content: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    userId: string
+    storyId: number
+    parentId?: number | null
     likeCount?: number
   }
 
@@ -41883,11 +56722,14 @@ export namespace Prisma {
   }
 
   export type DiscussUpdateWithoutParentInput = {
+    clientSubmissionId?: NullableStringFieldUpdateOperationsInput | string | null
     content?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     likeCount?: IntFieldUpdateOperationsInput | number
     replies?: DiscussUpdateManyWithoutParentNestedInput
+    threadRoot?: DiscussUpdateOneWithoutThreadItemsNestedInput
+    threadItems?: DiscussUpdateManyWithoutThreadRootNestedInput
     story?: StoryUpdateOneRequiredWithoutDiscussesNestedInput
     user?: UserUpdateOneRequiredWithoutDiscussStorysNestedInput
     likes?: DiscussLikeUpdateManyWithoutDiscussNestedInput
@@ -41895,23 +56737,69 @@ export namespace Prisma {
 
   export type DiscussUncheckedUpdateWithoutParentInput = {
     id?: IntFieldUpdateOperationsInput | number
+    clientSubmissionId?: NullableStringFieldUpdateOperationsInput | string | null
     content?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     userId?: StringFieldUpdateOperationsInput | string
     storyId?: IntFieldUpdateOperationsInput | number
+    threadRootId?: NullableIntFieldUpdateOperationsInput | number | null
     likeCount?: IntFieldUpdateOperationsInput | number
     replies?: DiscussUncheckedUpdateManyWithoutParentNestedInput
+    threadItems?: DiscussUncheckedUpdateManyWithoutThreadRootNestedInput
     likes?: DiscussLikeUncheckedUpdateManyWithoutDiscussNestedInput
   }
 
   export type DiscussUncheckedUpdateManyWithoutParentInput = {
     id?: IntFieldUpdateOperationsInput | number
+    clientSubmissionId?: NullableStringFieldUpdateOperationsInput | string | null
     content?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     userId?: StringFieldUpdateOperationsInput | string
     storyId?: IntFieldUpdateOperationsInput | number
+    threadRootId?: NullableIntFieldUpdateOperationsInput | number | null
+    likeCount?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type DiscussUpdateWithoutThreadRootInput = {
+    clientSubmissionId?: NullableStringFieldUpdateOperationsInput | string | null
+    content?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    likeCount?: IntFieldUpdateOperationsInput | number
+    parent?: DiscussUpdateOneWithoutRepliesNestedInput
+    replies?: DiscussUpdateManyWithoutParentNestedInput
+    threadItems?: DiscussUpdateManyWithoutThreadRootNestedInput
+    story?: StoryUpdateOneRequiredWithoutDiscussesNestedInput
+    user?: UserUpdateOneRequiredWithoutDiscussStorysNestedInput
+    likes?: DiscussLikeUpdateManyWithoutDiscussNestedInput
+  }
+
+  export type DiscussUncheckedUpdateWithoutThreadRootInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    clientSubmissionId?: NullableStringFieldUpdateOperationsInput | string | null
+    content?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    userId?: StringFieldUpdateOperationsInput | string
+    storyId?: IntFieldUpdateOperationsInput | number
+    parentId?: NullableIntFieldUpdateOperationsInput | number | null
+    likeCount?: IntFieldUpdateOperationsInput | number
+    replies?: DiscussUncheckedUpdateManyWithoutParentNestedInput
+    threadItems?: DiscussUncheckedUpdateManyWithoutThreadRootNestedInput
+    likes?: DiscussLikeUncheckedUpdateManyWithoutDiscussNestedInput
+  }
+
+  export type DiscussUncheckedUpdateManyWithoutThreadRootInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    clientSubmissionId?: NullableStringFieldUpdateOperationsInput | string | null
+    content?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    userId?: StringFieldUpdateOperationsInput | string
+    storyId?: IntFieldUpdateOperationsInput | number
+    parentId?: NullableIntFieldUpdateOperationsInput | number | null
     likeCount?: IntFieldUpdateOperationsInput | number
   }
 

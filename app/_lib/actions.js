@@ -1,23 +1,55 @@
 "use server";
 
 import { prisma } from "@/lib/prisma";
-import { auth, signIn, signOut } from "../../lib/auth-with-adapter";
+import { auth } from "../../lib/auth";
 import { FormCommentValidate, FormRatingValidate } from "./validate";
-import { countTotalWorlds } from "./data-service";
+import { setActivityLikeState } from "./story-activity-like-service";
+import {
+    createDiscussionReply,
+    createRatingComment,
+    createStoryDiscussion,
+    upsertStoryRating,
+} from "./story-activity-write-service";
+import { getPublicActivityErrorMessage } from "./story-activity-error";
+import { z } from "zod";
 
-async function createOrUpdateRating(formData, storyId, slug) {
-    console.log("formData:", formData);
-    console.log("storyId::", storyId);
+const UserLibrarySettingsSchema = z.object({
+    sortReading: z.enum(["LATESTCHAPTER", "RECENTLYREAD", "TITLE"]),
+    sortMarked: z.enum(["LATESTCHAPTER", "RECENTLYSAVED", "TITLE"]),
+    notifyGeneral: z.boolean(),
+});
+
+function getValidationMessage(result, fallback) {
+    return result.error?.flatten().fieldErrors.content?.[0] || fallback;
+}
+
+function hasValidSubmissionId(clientSubmissionId) {
+    return (
+        typeof clientSubmissionId === "string" &&
+        /^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(
+            clientSubmissionId,
+        )
+    );
+}
+
+function invalidSubmissionResponse(clientSubmissionId) {
+    return hasValidSubmissionId(clientSubmissionId)
+        ? null
+        : { success: false, error: "Mã submission không hợp lệ" };
+}
+
+async function upsertStoryRatingAction({
+    clientSubmissionId,
+    formData,
+    storyId,
+}) {
     const { stars, character, plot, world, content } = formData;
-
     const session = await auth();
-
     if (!session) {
-        return {
-            success: false,
-            error: "Bạn chưa đăng nhập",
-        };
+        return { success: false, error: "Bạn chưa đăng nhập" };
     }
+    const submissionError = invalidSubmissionResponse(clientSubmissionId);
+    if (submissionError) return submissionError;
 
     if (character || plot || world || content) {
         const validateContent = FormRatingValidate.safeParse({
@@ -27,78 +59,173 @@ async function createOrUpdateRating(formData, storyId, slug) {
             content,
         });
         if (!validateContent.success) {
-            const errorFieldContent =
-                validateContent.error.flatten().fieldErrors;
-            const messageError =
-                errorFieldContent.content?.[0] || "Error not define!!!";
-
-            throw new Error(messageError);
+            throw new Error(
+                getValidationMessage(
+                    validateContent,
+                    "Nội dung đánh giá không hợp lệ",
+                ),
+            );
         }
     }
-    try {
-        const wordCount = countTotalWorlds(formData);
-        const rating = await prisma.rating.upsert({
-            where: {
-                userId_storyId: {
-                    userId: session.user.id,
-                    storyId: storyId,
-                },
-            },
-            update: {
-                stars: parseFloat(stars),
-                character,
-                plot,
-                world,
-                content,
-                wordCount,
-            },
-            create: {
-                story: {
-                    connect: {
-                        id: storyId,
-                    },
-                },
-                user: {
-                    connect: {
-                        id: session.user.id,
-                    },
-                },
-                stars: parseFloat(stars),
-                character,
-                plot,
-                world,
-                content,
-                wordCount,
-            },
-            include: {
-                user: true,
-            },
-        });
-        console.log("Slug server::", slug);
 
-        console.log("New Rating at server", rating);
-        // await new Promise((res) => setTimeout(res, 3000));
-        if (rating) {
-            // revalidatePath(`/truyen/${slug}`);
-            return {
-                success: true,
-                message: "Cảm ơn bạn đã đánh giá",
-                rating,
-            };
-        }
+    try {
+        const rating = await upsertStoryRating({
+            clientSubmissionId,
+            formData: { stars, character, plot, world, content },
+            storyId: Number(storyId),
+            userId: session.user.id,
+        });
+        return {
+            success: true,
+            message: "Cảm ơn bạn đã đánh giá",
+            rating,
+        };
     } catch (err) {
-        console.log("Internation Error::::", err);
-        throw new Error(err?.message);
+        console.error("[story-activity] Không thể lưu đánh giá", err);
+        return {
+            success: false,
+            error: getPublicActivityErrorMessage(
+                err,
+                "Không thể lưu đánh giá. Vui lòng thử lại.",
+            ),
+        };
     }
 }
 
-async function createComment({
+function validateCommentContent(formData) {
+    const result = FormCommentValidate.safeParse({
+        content: formData?.content,
+    });
+    if (!result.success) {
+        return getValidationMessage(result, "Nội dung bình luận không hợp lệ");
+    }
+    return null;
+}
+
+async function createRatingCommentAction({
+    clientSubmissionId,
     formData,
     ratingId,
     commentId,
-    storyId,
-    active,
 }) {
+    const session = await auth();
+    if (!session) {
+        return { success: false, error: "Bạn chưa đăng nhập" };
+    }
+    const submissionError = invalidSubmissionResponse(clientSubmissionId);
+    if (submissionError) return submissionError;
+    const error = validateCommentContent(formData);
+    if (error) return { success: false, error };
+
+    try {
+        const newComment = await createRatingComment({
+            clientSubmissionId,
+            commentId: commentId ? Number(commentId) : null,
+            content: formData.content,
+            ratingId: Number(ratingId),
+            userId: session.user.id,
+        });
+        return {
+            success: true,
+            newComment,
+            message: "Cảm ơn bạn đã phản hồi",
+        };
+    } catch (err) {
+        console.error("[story-activity] Không thể tạo bình luận đánh giá", err);
+        return {
+            success: false,
+            error: getPublicActivityErrorMessage(
+                err,
+                "Không thể gửi bình luận. Vui lòng thử lại.",
+            ),
+        };
+    }
+}
+
+async function createStoryDiscussionAction({
+    clientSubmissionId,
+    formData,
+    storyId,
+}) {
+    const session = await auth();
+    if (!session) {
+        return { success: false, error: "Bạn chưa đăng nhập" };
+    }
+    const submissionError = invalidSubmissionResponse(clientSubmissionId);
+    if (submissionError) return submissionError;
+    const error = validateCommentContent(formData);
+    if (error) return { success: false, error };
+
+    try {
+        const newComment = await createStoryDiscussion({
+            clientSubmissionId,
+            content: formData.content,
+            storyId: Number(storyId),
+            userId: session.user.id,
+        });
+        return {
+            success: true,
+            newComment,
+            message: "Cảm ơn bạn đã phản hồi",
+        };
+    } catch (err) {
+        console.error("[story-activity] Không thể tạo thảo luận", err);
+        return {
+            success: false,
+            error: getPublicActivityErrorMessage(
+                err,
+                "Không thể tạo thảo luận. Vui lòng thử lại.",
+            ),
+        };
+    }
+}
+
+async function createDiscussionReplyAction({
+    clientSubmissionId,
+    commentId,
+    formData,
+    rootCommentId,
+    storyId,
+}) {
+    const session = await auth();
+    if (!session) {
+        return { success: false, error: "Bạn chưa đăng nhập" };
+    }
+    const submissionError = invalidSubmissionResponse(clientSubmissionId);
+    if (submissionError) return submissionError;
+    const error = validateCommentContent(formData);
+    if (error) return { success: false, error };
+    if (!commentId || !rootCommentId) {
+        return { success: false, error: "Thiếu thông tin thread thảo luận" };
+    }
+
+    try {
+        const newComment = await createDiscussionReply({
+            clientSubmissionId,
+            commentId: Number(commentId),
+            content: formData.content,
+            rootCommentId: Number(rootCommentId),
+            storyId: Number(storyId),
+            userId: session.user.id,
+        });
+        return {
+            success: true,
+            newComment,
+            message: "Cảm ơn bạn đã phản hồi",
+        };
+    } catch (err) {
+        console.error("[story-activity] Không thể trả lời thảo luận", err);
+        return {
+            success: false,
+            error: getPublicActivityErrorMessage(
+                err,
+                "Không thể gửi trả lời. Vui lòng thử lại.",
+            ),
+        };
+    }
+}
+
+async function setStoryActivityLike({ target, targetId, liked }) {
     const session = await auth();
     if (!session) {
         return {
@@ -106,265 +233,107 @@ async function createComment({
             error: "Bạn chưa đăng nhập",
         };
     }
-    const validateContent = FormCommentValidate.safeParse({
-        content: formData.content,
-    });
 
-    if (!validateContent.success) {
-        const errorFieldContent = validateContent.error.flatten().fieldErrors;
-        const messageError =
-            errorFieldContent.content?.[0] || "Error not define!!!";
+    try {
+        const result = await prisma.$transaction((tx) =>
+            setActivityLikeState({
+                tx,
+                userId: session.user.id,
+                target,
+                targetId,
+                liked,
+            }),
+        );
 
         return {
-            success: false,
-            error: messageError,
+            success: true,
+            ...result,
         };
+    } catch (err) {
+        console.log("Internation Error::::", err);
+        throw new Error(err?.message);
     }
-    try {
-        let newComment;
-        if (active === "ratings" && ratingId) {
-            newComment = await prisma.$transaction(async (tx) => {
-                return await tx.ratingComment.create({
-                    data: {
-                        content: formData.content,
-                        ratingId,
-                        parentId: commentId ?? null,
-                        userId: session.user.id,
-                    },
-                    include: {
-                        user: true,
-                        replies: true,
-                    },
-                });
-            });
-        } else {
-            console.log("activeTabs:", active);
-            console.log("create Discuss for story:", storyId);
-            console.log("parentId for discuss", commentId);
-            newComment = await prisma.$transaction(async (tx) => {
-                return await tx.discuss.create({
-                    data: {
-                        content: formData.content,
-                        storyId,
-                        parentId: commentId ?? null,
-                        userId: session.user.id,
-                    },
-                    include: {
-                        user: true,
-                        replies: true,
-                    },
-                });
-            });
-        }
+}
 
-        console.log("new comment he he:", newComment);
-        if (newComment) {
+async function updateUser({ userId, nameAccount, year, sex }) {
+    const session = await auth();
+    if (!session) throw new Error("Bạn chưa đăng nhập");
+
+    if (userId !== session.user.id)
+        throw new Error("Bạn không có quyền cập nhật thông tin");
+
+    try {
+        const updated = await prisma.$transaction(async (tx) => {
+            return await tx.user.update({
+                where: {
+                    id: userId,
+                },
+                data: {
+                    name: nameAccount,
+                    birthYear: Number(year),
+                    sex: sex ? sex : null,
+                },
+            });
+        });
+        console.log("updated infor user hjeh eh e:::", updated);
+        if (updated) {
             return {
                 success: true,
-                newComment,
-                message: "Cảm ơn bạn đã phản hồi",
+                updated,
             };
         }
-    } catch (err) {
-        console.log("Internation Error::::", err);
-        throw new Error(err?.message);
+    } catch (error) {
+        console.warn("ERROR HE HE HE AT UPDATEUSER ACTION:", error);
+        throw new Error("ERROR AT UPDATEUSER ACTION:::", error);
     }
 }
 
-async function toggleRatingLike({
-    ratingId,
-    commentId: ratingCommentId,
-    active,
-}) {
-    console.log("ratingId::", ratingId);
-    console.log("ratingCommentId::", ratingCommentId);
-    const isCommentLike = !!ratingCommentId;
+async function updateUserLibrarySettingsAction(input) {
     const session = await auth();
-    if (!session) {
-        return {
-            success: false,
-            error: "Bạn chưa đăng nhập",
-        };
+    if (!session?.user?.id) {
+        return { success: false, error: "Bạn chưa đăng nhập" };
     }
-    let where;
-    if (active === "comments") {
-        where = {
-            userId_discussId: {
-                userId: session.user.id,
-                discussId: ratingCommentId,
-            },
-        };
-    } else {
-        where = isCommentLike
-            ? {
-                  userId_ratingCommentId: {
-                      userId: session.user.id,
-                      ratingCommentId,
-                  },
-              }
-            : {
-                  userId_ratingId: {
-                      userId: session.user.id,
-                      ratingId,
-                  },
-              };
+
+    const parsed = UserLibrarySettingsSchema.safeParse(input);
+    if (!parsed.success) {
+        return { success: false, error: "Cài đặt không hợp lệ" };
     }
 
     try {
-        if (active === "comments") {
-            const existingLike = await prisma.discussLike.findUnique({
-                where,
-            });
-            if (existingLike) {
-                const [discuss] = await prisma.$transaction([
-                    prisma.discussLike.delete({
-                        where,
-                    }),
-                    prisma.discuss.update({
-                        where: {
-                            id: ratingCommentId,
-                        },
-                        data: {
-                            likeCount: {
-                                decrement: 1,
-                            },
-                        },
-                    }),
-                ]);
-                return {
-                    success: true,
-                    discussId: discuss.id,
-                    message: "Bỏ like và update thành công Discuss",
-                };
-            } else {
-                const [discuss] = await prisma.$transaction([
-                    prisma.discussLike.create({
-                        data: {
-                            userId: session.user.id,
-                            discussId: ratingCommentId,
-                        },
-                    }),
-                    prisma.discuss.update({
-                        where: {
-                            id: ratingCommentId,
-                        },
-                        data: {
-                            likeCount: {
-                                increment: 1,
-                            },
-                        },
-                    }),
-                ]);
-                return {
-                    success: true,
-                    discussId: discuss.id,
-                    message:
-                        "Đã tạo mới discussLike và update thành công Discuss",
-                };
-            }
-        } else {
-            if (isCommentLike) {
-                const existingLike = await prisma.ratingCommentLike.findUnique({
-                    where,
-                });
-                if (existingLike) {
-                    const ratingComment = await prisma.ratingCommentLike.delete(
-                        {
-                            where,
-                        }
-                    );
-                    return {
-                        success: true,
-                        commentId: ratingComment.id,
-                        message: "Bỏ liked comment thành công",
-                    };
-                } else {
-                    const ratingComment = await prisma.ratingCommentLike.create(
-                        {
-                            data: {
-                                userId: session.user.id,
-                                ratingCommentId,
-                            },
-                        }
-                    );
-                    return {
-                        success: true,
-                        commentId: ratingComment.id,
-                        message: "Đã liked comment thành công",
-                    };
-                }
-            } else {
-                const existingLike = await prisma.ratingLike.findUnique({
-                    where,
-                });
-                if (existingLike) {
-                    const [rating] = await prisma.$transaction([
-                        prisma.ratingLike.delete({
-                            where,
-                        }),
-                        prisma.rating.update({
-                            where: {
-                                id: ratingId,
-                            },
-                            data: {
-                                likeCount: {
-                                    decrement: 1,
-                                },
-                            },
-                        }),
-                    ]);
+        const settings = await prisma.userSetting.upsert({
+            where: { userId: session.user.id },
+            create: {
+                userId: session.user.id,
+                ...parsed.data,
+            },
+            update: parsed.data,
+            select: {
+                sortReading: true,
+                sortMarked: true,
+                notifyGeneral: true,
+            },
+        });
 
-                    return {
-                        ratingId: rating.id,
-                        success: true,
-                        message:
-                            "Xoá liked rating và updated likeCount success",
-                    };
-                } else {
-                    const [rating] = await prisma.$transaction([
-                        prisma.ratingLike.create({
-                            data: {
-                                userId: session.user.id,
-                                ratingId,
-                            },
-                        }),
-                        prisma.rating.update({
-                            where: {
-                                id: ratingId,
-                            },
-                            data: {
-                                likeCount: {
-                                    increment: 1,
-                                },
-                            },
-                        }),
-                    ]);
-                    return {
-                        ratingId: rating.id,
-                        success: true,
-                        message: "Đã liked rating và updated likeCount success",
-                    };
-                }
-            }
-        }
-    } catch (err) {
-        console.log("Internation Error::::", err);
-        throw new Error(err?.message);
+        return {
+            success: true,
+            message: "Đã lưu cài đặt tủ truyện",
+            settings,
+        };
+    } catch (error) {
+        console.error("[user-settings] Không thể cập nhật cài đặt", error);
+        return {
+            success: false,
+            error: "Không thể lưu cài đặt. Vui lòng thử lại.",
+        };
     }
-}
-
-async function signInAction() {
-    await signIn("google");
-}
-
-async function signOutAction() {
-    await signOut("google");
 }
 
 export {
-    createOrUpdateRating,
-    signInAction,
-    signOutAction,
-    createComment,
-    toggleRatingLike,
+    createDiscussionReplyAction,
+    createRatingCommentAction,
+    createStoryDiscussionAction,
+    upsertStoryRatingAction,
+    setStoryActivityLike,
+    updateUser,
+    updateUserLibrarySettingsAction,
 };

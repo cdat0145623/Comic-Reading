@@ -87,7 +87,7 @@ export function Skeleton({ section }) {
         );
     }
 
-    if ((section = "chapter")) {
+    if (section === "chapter") {
         return (
             <div className="col-span-1 space-y-1 pb-2 border-b text-primary border-slate-200">
                 <div className="font-medium md:text-base text-sm">

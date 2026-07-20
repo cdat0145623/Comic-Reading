@@ -1,26 +1,24 @@
 "use client";
 
-import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 
 function Error({ error, reset }) {
-    const router = useRouter();
     useEffect(() => {
-        console.error(error);
+        console.error("Application error", error);
     }, [error]);
 
     return (
-        <div className=" flex flex-col items-center justify-center text-center p-4">
-            <h2 className="text-3xl font-bold mb-4">🚫 Đã xảy ra lỗi!</h2>
-            <p className="mt-3 mb-6 text-gray-600 text-xl">
-                {error.message ||
-                    "Có lỗi không xác định đã xảy ra. Vui lòng thử lại."}
+        <div className="flex flex-col items-center justify-center p-4 text-center">
+            <h2 className="mb-4 text-3xl font-bold">Đã xảy ra lỗi</h2>
+            <p className="mb-6 mt-3 text-xl text-gray-600">
+                Không thể tải dữ liệu. Vui lòng thử lại sau ít phút.
             </p>
             <button
-                onClick={() => router.back()}
-                className="px-4 py-2 bg-panel text-black rounded hover:text-white hover:bg-primary text-xl cursor-pointer"
+                type="button"
+                onClick={reset}
+                className="cursor-pointer rounded bg-panel px-4 py-2 text-xl text-black hover:bg-primary hover:text-white"
             >
-                Quay lại trang trước
+                Thử lại
             </button>
         </div>
     );

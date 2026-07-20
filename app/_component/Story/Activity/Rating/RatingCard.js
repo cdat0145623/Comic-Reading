@@ -13,12 +13,11 @@ function RatingCard({
     paragraph,
     storyId,
     ratingId,
+    rootCommentId,
     commentId,
     pageSize,
     setIsReply,
     activeTab,
-    tempComments,
-    setTempComments,
     showComments,
     setShowComments,
 }) {
@@ -52,10 +51,17 @@ function RatingCard({
                 />
 
                 <TextExpander>{formatRatingContent(paragraph)}</TextExpander>
+                {comment?.parent?.user?.name && (
+                    <p className="mt-2 text-xs text-gray-500">
+                        Trả lời @{comment.parent.user.name}
+                    </p>
+                )}
 
                 <Footer
                     activeTab={activeTab}
+                    storyId={storyId}
                     ratingId={ratingId}
+                    rootCommentId={rootCommentId}
                     commentId={comment?.id ?? commentId}
                     user={(rating || comment)?.user}
                     story={rating?.story}
@@ -77,36 +83,15 @@ function RatingCard({
                 <FormComment
                     storyId={storyId}
                     ratingId={ratingId}
+                    rootCommentId={rootCommentId}
                     user={comment?.user}
                     commentId={comment?.id}
                     mentionName={mentionName}
                     setIsReply={setIsReplyComment}
-                    tempComments={tempComments}
-                    setTempComments={setTempComments}
                     showComments={showComments}
                     setShowComments={setShowComments}
                     activeTab={activeTab}
                 />
-            )}
-            {comment?.replies?.length > 0 && (
-                <div>
-                    {comment.replies.map((reply) => (
-                        <RatingCard
-                            storyId={storyId}
-                            activeTab={activeTab}
-                            comment={reply}
-                            key={reply.id}
-                            paragraph={{
-                                content: reply.content,
-                            }}
-                            ratingId={reply?.ratingId ?? ratingId}
-                            tempComments={tempComments}
-                            setTempComments={setTempComments}
-                            showComments={showComments}
-                            setShowComments={setShowComments}
-                        />
-                    ))}
-                </div>
             )}
         </>
     );

@@ -6,6 +6,7 @@ import { useFetchWithMinLoading } from "@/app/hooks/useFetchWithMinLoading";
 
 import Spinner from "../../Spinner";
 import ListRealtime from "./ListRealtime";
+import { sortByReaderCount } from "@/app/_lib/helper";
 
 function TopRealtime() {
     const { data: topStories, loading } = useFetchWithMinLoading(
@@ -21,7 +22,7 @@ function TopRealtime() {
                 {loading ? (
                     <Spinner />
                 ) : (
-                    <ListRealtime topStories={topStories} />
+                    <ListRealtime topStories={sortByReaderCount(topStories)} />
                 )}
             </div>
         </>

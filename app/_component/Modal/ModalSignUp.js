@@ -14,18 +14,15 @@ function ModalSignUp({ onCloseModal }) {
     const {
         register,
         handleSubmit,
-        formState: { errors },
+        formState: { errors, isSubmitting },
         watch,
     } = useForm();
 
     const onSignUp = async (data) => {
-        console.log("onSignUp Data forn:::", data);
         try {
             const { email, password } = data;
 
             const newUser = await signUp(email, password);
-
-            console.log(newUser);
 
             if (newUser) {
                 notify({
@@ -66,7 +63,7 @@ function ModalSignUp({ onCloseModal }) {
                         width={32}
                         height={32}
                     />
-                    <h2 className="font-bold text-xl">Đăng nhập</h2>
+                    <h2 className="font-bold text-xl">Đăng ký</h2>
                     <button
                         type="button"
                         className="rounded-md bg-white text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
@@ -84,13 +81,13 @@ function ModalSignUp({ onCloseModal }) {
                         <div className="w-full">
                             <input
                                 id="email"
-                                type="text"
+                                type="email"
                                 placeholder="email"
                                 className="w-full rounded-xl pl-5 pr-10 placeholder-gray-500 border border-gray-300 bg-slate-100 focus:outline-none focus:ring-1 focus:ring-primary h-10 text-sm"
                                 {...register("email", {
                                     required: "Email không được để trống.",
                                     pattern: {
-                                        value: /^[^s@]+@[^s@]+.[^s@]+$/,
+                                        value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
                                         message: "Email Không hợp lệ.",
                                     },
                                 })}
@@ -114,9 +111,9 @@ function ModalSignUp({ onCloseModal }) {
                                 {...register("password", {
                                     required: "Bạn chưa nhập mật khẩu",
                                     minLength: {
-                                        value: 5,
+                                        value: 6,
                                         message:
-                                            "Mật khẩu phải có ít nhất 5 ký tự.",
+                                            "Mật khẩu phải có ít nhất 6 ký tự.",
                                     },
                                     validate: {
                                         hasUppercase: (value) =>
@@ -161,8 +158,11 @@ function ModalSignUp({ onCloseModal }) {
                         </div>
                     </div>
                     <div className="flex justify-center w-full flex-wrap space-y-3">
-                        <button className="w-1/2 rounded-xl text-xl bg-primary disabled:opacity-25 text-white py-2">
-                            Đăng ký
+                        <button
+                            disabled={isSubmitting}
+                            className="w-1/2 rounded-xl text-xl bg-primary disabled:opacity-25 text-white py-2"
+                        >
+                            {isSubmitting ? "Đang tạo..." : "Đăng ký"}
                         </button>
                         <div className="text-sm italic">
                             Đã có tài khoản?

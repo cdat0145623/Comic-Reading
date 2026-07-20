@@ -7,38 +7,16 @@ import { useSession } from "next-auth/react";
 import { useModal } from "../Modal/Modal";
 import { notify } from "@/lib/toaster";
 import SpinnerMini from "../SpinnerMini";
-import { setParams, waitForElementById } from "@/app/_lib/helper";
-import { useRouter, useSearchParams } from "next/navigation";
 import { useCreateRating } from "@/app/hooks/useCreateRating";
-import { useState, useTransition } from "react";
+import PendingActivityList from "./Activity/PendingActivityList";
+import { activityMutationKeys } from "@/app/_lib/story-activity-query";
+import { useActivityDraft } from "@/app/hooks/useActivityDraft";
 
-const criteriaList = [
-    {
-        key: "character",
-        placeholder:
-            "Nhân vật chính như nào? (nhiệt huyết?, vô sỉ?, thông minh? ...)",
-    },
-    {
-        key: "plot",
-        placeholder:
-            "Cốt truyện như nào? (logic?, sảng văn?, bố cục nhiều lớp?, quay xe liên tục? ...)",
-    },
-    {
-        key: "world",
-        placeholder:
-            "Bố cục thế giới như nào? (lớn hay nhỏ?, một thế giới?, nhiều thế giới?, nhiều tầng? ...)",
-    },
-    {
-        key: "content",
-        placeholder: "Nội dung bài đánh giá (ít nhất 100 từ)...",
-    },
-];
-
-function FormRating({ slug, storyId, filter, display }) {
+function FormRating({ onCancel, onSuccess, storyId }) {
     const {
         register,
         handleSubmit,
-        formState: { errors, isSubmitting },
+        formState: { errors },
         setValue,
         getValues,
         clearErrors,
@@ -57,49 +35,70 @@ function FormRating({ slug, storyId, filter, display }) {
     const onlyStar = watch("onlyStar");
     const { data: session } = useSession();
     const { open } = useModal();
-    const [isPending, startTransition] = useTransition();
-    const handleSucess = (newRating, message) => {
-        reset();
+    const handleSuccess = (newRating, message) => {
         notify({ type: "success", message });
 
-        startTransition(() => {
-            requestAnimationFrame(() => {
-                const el = document.getElementById(`rating-${newRating.id}`);
-                console.log("el:", el);
-                if (el) {
-                    el.scrollIntoView({ behavior: "smooth", block: "center" });
-                }
-            });
+        if (onSuccess) {
+            onSuccess(newRating);
+            return;
+        }
+
+        window.setTimeout(() => {
+            document
+                .getElementById(`rating-${newRating.id}`)
+                ?.scrollIntoView({ behavior: "smooth", block: "center" });
         });
     };
 
-    const { createRating } = useCreateRating({
-        onSuccess: handleSucess,
+    const { createRating, isLoadingRating } = useCreateRating({
+        onSuccess: handleSuccess,
+        storyId,
+    });
+    const clearDraft = useActivityDraft({
+        reset,
+        scope: `rating:${storyId}`,
+        userId: session?.user?.id,
+        watch,
     });
 
-    const onRating = async (data) => {
+    const onRating = () => {
         if (!session) {
             open("signIn");
             return;
         }
-        console.log("OnRating::", data);
-
         if (onlyStar) {
-            console.log("HaveOnlyStar", onlyStar);
             setValue("character", "");
             setValue("plot", "");
             setValue("world", "");
             setValue("content", "");
             clearErrors(["character", "plot", "world", "content"]);
         }
-        console.log("Before createRating::", storyId);
-        createRating({ formData: getValues(), storyId, slug });
+        createRating({
+            clientSubmissionId: crypto.randomUUID(),
+            formData: getValues(),
+            storyId,
+        });
+        clearDraft();
+        reset();
     };
     return (
-        <form
-            className="p-4 border border-gray-200 rounded-lg space-y-6 col-span-full"
-            onSubmit={handleSubmit(onRating)}
-        >
+        <>
+            <form
+                className="p-4 border border-gray-200 rounded-lg space-y-6 col-span-full"
+                onSubmit={handleSubmit(onRating)}
+            >
+            {onCancel && (
+                <div className="flex justify-end">
+                    <button
+                        type="button"
+                        onClick={onCancel}
+                        disabled={isLoadingRating}
+                        className="text-sm font-medium text-primary disabled:cursor-wait disabled:opacity-60"
+                    >
+                        Quay lại bình luận
+                    </button>
+                </div>
+            )}
             <div className="p-2">
                 <div className="flex flex-col space-y-2 w-full">
                     <h3 className="text-sm">
@@ -187,7 +186,7 @@ function FormRating({ slug, storyId, filter, display }) {
             )}
 
             <div className="flex items-center justify-center">
-                {isSubmitting ? (
+                {isLoadingRating ? (
                     <span className="mx-auto">
                         <SpinnerMini />
                     </span>
@@ -197,7 +196,13 @@ function FormRating({ slug, storyId, filter, display }) {
                     </button>
                 )}
             </div>
-        </form>
+            </form>
+            <PendingActivityList
+                mutationKey={activityMutationKeys.rating(storyId)}
+                onRetry={createRating}
+                variant="rating"
+            />
+        </>
     );
 }
 

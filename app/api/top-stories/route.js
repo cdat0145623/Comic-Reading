@@ -10,11 +10,12 @@ export async function GET(request) {
 
     try {
         const topStories = await getTopStoriesRead(minutes, limit);
+        console.log("getTopstories route::", topStories);
 
         return NextResponse.json({
             success: true,
-            data: topStories.map(({ story, ...rest }) => ({
-                ...rest,
+            data: topStories.map((story) => ({
+                ...story,
                 title: story.title,
                 author: story.author.name,
                 totalChapters: story.totalChapters,
@@ -33,3 +34,16 @@ export async function GET(request) {
         );
     }
 }
+
+// return NextResponse.json({
+//             success: true,
+//             data: topStories.map(({ story, ...rest }) => ({
+//                 ...rest,
+//                 title: story.title,
+//                 author: story.author.name,
+//                 totalChapters: story.totalChapters,
+//                 stringUrl: story.stringUrl,
+//                 introduce: story.introduce,
+//                 tag: story.tags.find((tag) => tag.groupId === 5)?.label,
+//             })),
+//         });

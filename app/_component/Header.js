@@ -1,30 +1,28 @@
 import SideBarHeader from "./SideBarHeader";
 import Logo from "./Logo";
-import { MagnifyingGlassIcon } from "@heroicons/react/24/solid";
-
 import SearchIcon from "./SearchIcon";
+import NavigationLink from "./NavigationLink";
+import { MapIcon } from "@heroicons/react/24/outline";
 
 async function Header() {
     return (
-        <header className="border-b border-gray-500">
-            <div className="p-2">
-                <div className="flex items-center justify-between">
-                    <SearchIcon />
+        <header className="app-surface relative z-40 border-b border-gray-500">
+            <div className="relative p-2">
+                <div className="grid grid-cols-[1fr_auto_1fr] items-center">
+                    <div className="flex items-center gap-2 justify-self-start">
+                        <SearchIcon />
+                        <NavigationLink
+                            href="/kham-pha"
+                            aria-label="Khám phá truyện"
+                            title="Khám phá truyện"
+                            className="rounded-md p-1.5 text-title-color transition-colors hover:bg-[var(--app-primary-soft)] hover:text-primary"
+                        >
+                            <MapIcon className="h-6 w-6" />
+                        </NavigationLink>
+                    </div>
                     <Logo />
-                    <SideBarHeader />
-                </div>
-                <div className="py-4 h-16 hidden">
-                    <div className="relative">
-                        <div>
-                            <input
-                                type="text"
-                                placeholder="tên truyện, tác giả..."
-                                className="h-10 w-full pl-5 pr-10 placeholder-slate-400 text-sm focus:outline-none border border-slate-300 focus:ring-1 focus:ring-primary rounded"
-                            />
-                            <button className="absolute inset-y-0 right-0 rounded-r-lg p-2 text-primary">
-                                <MagnifyingGlassIcon className="w-6 h-6" />
-                            </button>
-                        </div>
+                    <div className="justify-self-end">
+                        <SideBarHeader />
                     </div>
                 </div>
             </div>
