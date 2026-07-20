@@ -1,4 +1,6 @@
 import { fetchRatings } from "./api";
+import { getRatingListParams, ratingKeys } from "./story-activity-query";
+// import { fetchRatings } from "../../app/_lib/api.js";
 
 const parseNumberParams = (value, fallback) => {
     const num = Number(value);
@@ -10,17 +12,17 @@ const parseBooleanParams = (value) => {
 };
 
 const fetchRatingsByKey = ({ queryKey, pageParam }) => {
-    const [key, params] = queryKey;
+    const params = getRatingListParams(queryKey);
 
     return fetchRatings({
         ...params,
         paginationCursor: pageParam,
-        active: key,
+        active: "ratings",
     });
 };
 
 function getRatingsQueryKey({ storyId, pageSize, sortOption, isDisplayAll }) {
-    return ["ratings", { storyId, pageSize, sortOption, isDisplayAll }];
+    return ratingKeys.list({ storyId, pageSize, sortOption, isDisplayAll });
 }
 
 function unwrapOrderByEntry(entry) {
@@ -93,7 +95,24 @@ function createCursorFromItem(item, orderBy) {
     return cursor;
 }
 
+function breakSentences(title, content) {
+    const formatedContent = content.replace(/([.!?…])\s+/g, "$1\n\n").trim();
+
+    return `${title}\n\n${formatedContent}`;
+}
+
+function checkExistNumber(number) {
+    if (!number) return false;
+
+    const numStr = number.split("-").pop();
+    console.log("numStr", numStr);
+
+    return /^[1-9]\d*$/.test(numStr);
+}
+
 export {
+    checkExistNumber,
+    breakSentences,
     parseBooleanParams,
     parseNumberParams,
     fetchRatingsByKey,

@@ -1,10 +1,20 @@
 import { formatDistanceToNow } from "../../node_modules/date-fns/formatDistanceToNow.js";
-import { vi } from "../../node_modules/date-fns/locale.js";
-import { prisma } from "@/lib/prisma.js";
+import { id, vi } from "../../node_modules/date-fns/locale.js";
+import { prisma } from "../../lib/prisma.js";
 import { startOfWeek } from "../../node_modules/date-fns/startOfWeek.js";
 import { endOfMonth, startOfMonth } from "date-fns";
 import { cache } from "react";
 import { buildCursorFilter, createCursorFromItem } from "./helper-server.js";
+import { v2 as cloudinary } from "cloudinary";
+// import { AppError } from "./errors.js";
+import { auth } from "@/lib/auth.js";
+import { buildRatingListWhere } from "./story-activity-filter.js";
+
+cloudinary.config({
+    cloud_name: process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME,
+    api_key: process.env.NEXT_PUBLIC_CLOUDINARY_API_KEY,
+    api_secret: process.env.CLOUDINARY_API_SECRET,
+});
 
 function timeAgo(date) {
     return formatDistanceToNow(new Date(date), { addSuffix: true, locale: vi });
@@ -27,6 +37,21 @@ function removePasswordField(data) {
         }, {});
     }
     return data;
+}
+
+const stories = [
+    { title: "Truyện A", readerCount: 50, tags: ["action", "fantasy"] },
+    { title: "Truyện B", readerCount: 200, tags: ["romance", "drama"] },
+    { title: "Truyện C", readerCount: 120, tags: ["action", "adventure"] },
+    { title: "Truyện D", readerCount: 80, tags: ["fantasy", "romance"] },
+];
+
+function filter(stories) {
+    const tagAction = stories.map((item) =>
+        item.tags.filter((tag) => tag === "action"),
+    );
+    const sort = tagAction.sort((a, b) => b.readerCount - a.readerCount);
+    return sort.map((s) => s.title);
 }
 
 function sortLatest(arr, count) {
@@ -76,7 +101,7 @@ function normalizeTimeBlock(date, durationInMinutes) {
 function chunkArray(array, chunkSize) {
     return Array.from(
         { length: Math.floor(array.length / chunkSize) },
-        (_, i) => array.slice(i * chunkSize, i * chunkSize + chunkSize)
+        (_, i) => array.slice(i * chunkSize, i * chunkSize + chunkSize),
     );
 }
 
@@ -90,99 +115,66 @@ async function getReadingStories(userId) {
         },
     });
 
-    const reads = await prisma.chapterRead.findMany({
-        where: { userId },
-        orderBy: { readAt: "desc" },
-        include: {
-            chapter: {
-                include: {
-                    story: true,
+    const sortReading = setting?.sortReading || "RECENTLYREAD";
+    const orderBy =
+        sortReading === "TITLE"
+            ? { story: { title: "asc" } }
+            : sortReading === "LATESTCHAPTER"
+              ? {
+                    story: {
+                        latestChapterAt: { sort: "desc", nulls: "last" },
+                    },
+                }
+              : { lastReadAt: "desc" };
+
+    const states = await prisma.userStoryReadingState.findMany({
+        where: { userId, hiddenAt: null },
+        orderBy,
+        take: 5,
+        select: {
+            id: true,
+            lastReadAt: true,
+            lastChapter: { select: { number: true } },
+            story: {
+                select: {
+                    id: true,
+                    slug: true,
+                    title: true,
+                    totalChapters: true,
                 },
             },
         },
     });
 
-    const storyMap = new Map();
+    return states.map((state) => ({
+        id: state.id,
+        storyId: state.story.id,
+        slug: state.story.slug,
+        readAt: state.lastReadAt,
+        lastReadAt: state.lastReadAt,
+        title: state.story.title,
+        readNumber: state.lastChapter.number,
+        totalChapters: state.story.totalChapters,
+    }));
+}
 
-    for (const read of reads) {
-        const storyId = read.chapter.story.id;
-        if (!storyMap.has(storyId)) {
-            storyMap.set(storyId, read);
+async function getUserLibrarySettings(userId) {
+    const settings = await prisma.userSetting.findUnique({
+        where: { userId },
+        select: {
+            sortReading: true,
+            sortMarked: true,
+            notifyGeneral: true,
+        },
+    });
+
+    return (
+        settings ?? {
+            sortReading: "RECENTLYREAD",
+            sortMarked: "RECENTLYSAVED",
+            notifyGeneral: true,
         }
-    }
-
-    const stories = Array.from(storyMap.values());
-
-    const sortReading = setting?.sortReading || "RECENTLYREAD";
-
-    if (sortReading === "RECENTLYREAD") {
-        const recentlyRead = stories
-            .sort((a, b) => b.readAt - a.readAt)
-            .slice(0, 5);
-
-        // await new Promise((res) => setTimeout(res, 20000));
-
-        return recentlyRead.map((read) => ({
-            id: read.id,
-            slug: read.chapter.story.slug,
-            readAt: read.readAt,
-            title: read.chapter.story.title,
-            readNumber: read.chapter.number,
-            totalChapters: read.chapter.story.totalChapters,
-        }));
-    }
-    if (sortReading === "LATESTCHAPTER") {
-        const storyIds = stories.map((r) => r.chapter.story.id);
-
-        const latestChapters = await prisma.chapter.groupBy({
-            by: ["storyId"],
-            where: {
-                storyId: { in: storyIds },
-            },
-            _max: {
-                postedAt: true,
-            },
-        });
-
-        const latestMap = new Map();
-        for (const item of latestChapters) {
-            latestMap.set(item.storyId, item._max.postedAt);
-        }
-
-        const sortLatestChapters = stories
-            .map((read) => ({
-                id: read.id,
-                readAt: read.readAt,
-                title: read.chapter.story.title,
-                readNumber: read.chapter.number,
-                totalChapters: read.chapter.story.totalChapters,
-                latestPostedAt: latestMap.get(read.chapter.story.id),
-            }))
-            .sort((a, b) => b.latestPostedAt - a.latestPostedAt)
-            .slice(0, 5);
-
-        return sortLatestChapters;
-    }
-
-    if (sortReading === "TITLE") {
-        const sortTitle = stories
-            .sort((a, b) => {
-                const titleA = a.chapter.story.title.toLowerCase();
-                const titleB = b.chapter.story.title.toLowerCase();
-                return titleA.localeCompare(titleB);
-            })
-            .slice(0, 5);
-
-        // return sortTitle;
-
-        return sortTitle.map((e) => ({
-            id: e.id,
-            readAt: e.readAt,
-            title: e.chapter.story.title,
-            readNumber: e.chapter.number,
-            totalChapters: e.chapter.story.totalChapters,
-        }));
-    }
+    );
 }
 
 async function getChapterRecentlyUpdated(page = 1, limit = 10, manager_pick) {
@@ -252,36 +244,90 @@ async function getChapterRecentlyUpdated(page = 1, limit = 10, manager_pick) {
             title: story.title,
             totalChapters: story.totalChapters,
             tag: story.tags.find((tag) => tag.groupId === 5)?.label,
-        })
+        }),
     );
 
     return { topChaptersRencetlyUpdated, count };
 }
 
 async function getTopStoriesRead(minutes, limit) {
-    const now = new Date();
-    const blockTime = normalizeTimeBlock(now, Number(minutes ?? 15));
+    try {
+        const duration = minutes ? Number(minutes) : 15;
 
-    const topStories = await prisma.topStoryRead.findMany({
-        where: {
-            duration: minutes,
-            createdAt: blockTime,
-        },
-        orderBy: { readerCount: "desc" },
-        take: limit ?? 10,
-        include: {
-            story: {
-                include: {
-                    author: true,
-                    tags: true,
+        const group = await prisma.topStoryRead.groupBy({
+            by: ["storyId"],
+            where: {
+                windowStart: {
+                    gte: new Date(Date.now() - duration * 60 * 1000),
                 },
             },
-        },
-    });
-    // await new Promise((res) => setTimeout(res, 5000));
+            _sum: {
+                readerCount: true,
+            },
+            orderBy: {
+                _sum: {
+                    readerCount: "desc",
+                },
+            },
+            take: limit ?? 10,
+        });
 
-    return topStories;
+        const storyIds = group.map((item) => item.storyId);
+
+        const stories = await prisma.story.findMany({
+            where: {
+                id: {
+                    in: storyIds,
+                },
+            },
+            include: {
+                author: true,
+                tags: true,
+            },
+        });
+
+        const topStories = stories.map((story) => {
+            const stats = group.find((item) => item.storyId === story.id);
+            return {
+                ...story,
+                readerCount: stats?._sum?.readerCount ?? 0,
+            };
+        });
+
+        console.log("logic server:", topStories);
+        // await new Promise((res) => setTimeout(res, 5000));
+
+        return topStories;
+    } catch (error) {
+        console.log("error international:", error);
+        throw new Error(error);
+    }
 }
+
+// async function getTopStoriesRead(minutes, limit) {
+//     const now = new Date();
+//     const blockTime = normalizeTimeBlock(now, Number(minutes ?? 15));
+
+//     const topStories = await prisma.topStoryRead.findMany({
+//         where: {
+//             duration: minutes,
+//             createdAt: blockTime,
+//         },
+//         orderBy: { readerCount: "desc" },
+//         take: limit ?? 10,
+// include: {
+//     story: {
+//         include: {
+//             author: true,
+//             tags: true,
+//         },
+//     },
+// },
+//     });
+//     // await new Promise((res) => setTimeout(res, 5000));
+
+//     return topStories;
+// }
 
 const getTotalRecordVotedStories = cache(async (month, year) => {
     const now = new Date();
@@ -518,6 +564,7 @@ const getAllAppreciate = cache(async (page = 1, limit = 4) => {
 const getRatings = async ({
     active,
     ratingId,
+    rootCommentId,
     storyId,
     sortOption = "mostLiked",
     paginationCursor,
@@ -525,6 +572,7 @@ const getRatings = async ({
     // pageSize = 10,
     isDisplayAll = false,
 }) => {
+    const currentUserId = (await auth())?.user?.id;
     let where;
     let orderBy;
     console.log("pageSize:", pageSize);
@@ -539,45 +587,58 @@ const getRatings = async ({
               },
               user: true,
               userLikes: {
+                  where: { userId: currentUserId ?? "" },
                   select: {
                       userId: true,
                   },
               },
-          }
-        : storyId
-        ? {
-              user: {
+              parent: {
                   select: {
-                      id: true,
-                      name: true,
-                      _count: {
+                      user: {
                           select: {
-                              chaptersRead: true,
+                              id: true,
+                              name: true,
                           },
                       },
                   },
               },
-              story: true,
-              _count: {
-                  select: {
-                      ratingUsersComments: true,
-                  },
-              },
-              likes: {
-                  select: {
-                      userId: true,
-                  },
-              },
           }
-        : {
-              user: true,
-              story: true,
-              likes: {
-                  select: {
-                      userId: true,
-                  },
-              },
-          };
+        : storyId
+          ? {
+                user: {
+                    select: {
+                        id: true,
+                        name: true,
+                        _count: {
+                            select: {
+                                chaptersRead: true,
+                            },
+                        },
+                    },
+                },
+                story: true,
+                _count: {
+                    select: {
+                        ratingUsersComments: true,
+                    },
+                },
+                likes: {
+                    where: { userId: currentUserId ?? "" },
+                    select: {
+                        userId: true,
+                    },
+                },
+            }
+          : {
+                user: true,
+                story: true,
+                likes: {
+                    where: { userId: currentUserId ?? "" },
+                    select: {
+                        userId: true,
+                    },
+                },
+            };
 
     if (ratingId && active === "ratings") {
         console.log("ratingId:::", ratingId);
@@ -592,7 +653,7 @@ const getRatings = async ({
         };
         console.log(
             "📌 Prisma where condition for find comments:",
-            JSON.stringify(where, null, 2)
+            JSON.stringify(where, null, 2),
         );
 
         const comments = await prisma.ratingComment.findMany({
@@ -618,8 +679,8 @@ const getRatings = async ({
             sortOption === "mostLiked"
                 ? [{ likeCount: "desc" }, { id: "desc" }, { createdAt: "desc" }]
                 : sortOption === "newest"
-                ? [{ createdAt: "desc" }, { id: "desc" }]
-                : [{ createdAt: "asc" }, { id: "asc" }];
+                  ? [{ createdAt: "desc" }, { id: "desc" }]
+                  : [{ createdAt: "asc" }, { id: "asc" }];
 
         console.log(`Where: ${where}, isDisplay: ${isDisplayAll}`);
         console.log("orderBy for Ratings", orderBy);
@@ -627,20 +688,15 @@ const getRatings = async ({
         console.log("paginationCursor for Rating", paginationCursor);
 
         if (active === "comments") {
-            if (ratingId) {
-                console.log("dieu kien co ratingId", ratingId);
+            if (rootCommentId) {
                 orderBy = [{ createdAt: "asc" }, { id: "asc" }];
                 where = {
                     storyId,
-                    parentId: ratingId,
+                    threadRootId: rootCommentId,
                     ...(paginationCursor
                         ? buildCursorFilter(paginationCursor, orderBy)
                         : {}),
                 };
-                console.log(
-                    "replies of comments have ratingId:",
-                    JSON.stringify(where, null, 2)
-                );
             } else {
                 console.log("paginationCursor discuss:", paginationCursor);
                 console.log("orderBy::", orderBy);
@@ -654,7 +710,7 @@ const getRatings = async ({
 
                 console.log(
                     "where of comments don't have ratingID",
-                    JSON.stringify(where, null, 2)
+                    JSON.stringify(where, null, 2),
                 );
             }
 
@@ -663,30 +719,6 @@ const getRatings = async ({
                 orderBy,
                 ...(pageSize ? { take: pageSize + 1 } : {}),
                 select: {
-                    ...(ratingId
-                        ? {
-                              replies: {
-                                  select: {
-                                      id: true,
-                                      user: {
-                                          select: {
-                                              id: true,
-                                              name: true,
-                                          },
-                                      },
-                                      createdAt: true,
-                                      content: true,
-                                      parentId: true,
-                                      likeCount: true,
-                                      likes: {
-                                          select: {
-                                              userId: true,
-                                          },
-                                      },
-                                  },
-                              },
-                          }
-                        : {}),
                     likeCount: true,
                     likes: {
                         select: {
@@ -697,12 +729,24 @@ const getRatings = async ({
                         select: {
                             likes: true,
                             replies: true,
+                            threadItems: true,
                         },
                     },
                     id: true,
                     content: true,
                     parentId: true,
+                    threadRootId: true,
                     createdAt: true,
+                    parent: {
+                        select: {
+                            user: {
+                                select: {
+                                    id: true,
+                                    name: true,
+                                },
+                            },
+                        },
+                    },
                     user: {
                         select: {
                             id: true,
@@ -754,11 +798,12 @@ const getRatings = async ({
                 nextCursor,
             };
         } else {
+            const baseWhere = buildRatingListWhere({
+                storyId,
+                isDisplayAll,
+            });
             where = {
-                ...(storyId ? { storyId } : {}),
-                wordCount: {
-                    gte: isDisplayAll ? 0 : 100,
-                },
+                ...baseWhere,
                 ...(paginationCursor
                     ? buildCursorFilter(paginationCursor, orderBy)
                     : {}),
@@ -766,14 +811,14 @@ const getRatings = async ({
             console.log("isDisplay:");
             console.log(
                 "📌 Prisma where condition:",
-                JSON.stringify(where, null, 2)
+                JSON.stringify(where, null, 2),
             );
 
             console.log("storyId", storyId);
         }
         console.log("orderBy for Rating tab::::::", orderBy);
 
-        const [ratings, count] = await prisma.$transaction([
+        const [ratings, visibleCount] = await prisma.$transaction([
             prisma.rating.findMany({
                 where,
                 orderBy,
@@ -781,9 +826,7 @@ const getRatings = async ({
                 include,
             }),
             prisma.rating.count({
-                where: {
-                    storyId: storyId,
-                },
+                where: buildRatingListWhere({ storyId, isDisplayAll }),
             }),
         ]);
 
@@ -799,7 +842,7 @@ const getRatings = async ({
         return {
             ratings: results,
             nextCursor,
-            count: count,
+            visibleCount,
         };
     }
 };
@@ -875,75 +918,514 @@ async function getChaptersByStoryId(storyId) {
     return chapters;
 }
 
-async function getStoryBySlug(slug) {
+async function getLatestChaptersByStoryId(storyId, limit = 3) {
+    const safeLimit = Number(limit) > 0 ? Number(limit) : 3;
+
     try {
-        let story = await prisma.story.findFirst({
+        return await prisma.chapter.findMany({
+            where: {
+                storyId: Number(storyId),
+            },
+            select: {
+                id: true,
+                name: true,
+                number: true,
+                postedAt: true,
+                storyId: true,
+            },
+            orderBy: {
+                number: "desc",
+            },
+            take: safeLimit,
+        });
+    } catch (error) {
+        console.log("Error at getLatestChaptersByStoryId::", error);
+        throw new Error("Internal server error at getLatestChaptersByStoryId");
+    }
+}
+
+async function getStoryDetailBySlug(slug) {
+    try {
+        const story = await prisma.story.findUnique({
             where: {
                 slug,
             },
             include: {
-                stats: true,
+                stats: {
+                    select: {
+                        averageRating: true,
+                        totalComments: true,
+                        weeklyChapter: true,
+                        totalReads: true,
+                        totalVotes: true,
+                        totalBookmarks: true,
+                    },
+                },
                 author: {
-                    include: {
+                    select: {
+                        name: true,
+                        slug: true,
                         stories: {
-                            include: {
-                                uploader: true,
+                            select: {
+                                uploader: {
+                                    select: {
+                                        name: true,
+                                    },
+                                },
+                                id: true,
+                                title: true,
+                                totalChapters: true,
                                 tags: true,
                             },
                         },
                     },
                 },
                 uploader: {
-                    include: {
-                        uploadedStories: true,
+                    select: {
+                        id: true,
+                        name: true,
+                        uploadedStories: {
+                            select: {
+                                id: true,
+                                stringUrl: true,
+                                title: true,
+                                slug: true,
+                            },
+                        },
                     },
                 },
                 tags: {
-                    include: {
-                        group: true,
+                    select: {
+                        id: true,
+                        label: true,
+                        groupId: true,
+                        slug: true,
+                        group: {
+                            select: {
+                                id: true,
+                                slug: true,
+                            },
+                        },
                     },
                 },
-                chapters: true,
+                _count: {
+                    select: { bookmarks: true },
+                },
+            },
+        });
+        const normalizedStory = story
+            ? {
+                  ...story,
+                  stats: {
+                      ...story.stats,
+                      totalBookmarks: story._count.bookmarks,
+                  },
+              }
+            : null;
+
+        return { story: normalizedStory, error: null };
+    } catch (e) {
+        console.log("Error Server International at getStoryDetailBySlug:::", e);
+        return {
+            story: null,
+            error: "Internal server error at getStoryDetailBySlug",
+        };
+    }
+}
+
+async function getStoryChaptersById(storyId) {
+    try {
+        const story = await prisma.story.findUnique({
+            where: {
+                id: Number(storyId),
+            },
+            include: {
+                chapters: {
+                    select: {
+                        id: true,
+                        name: true,
+                        number: true,
+                        postedAt: true,
+                    },
+                    orderBy: {
+                        number: "asc",
+                    },
+                },
             },
         });
 
-        const groupSlugs = [
-            "tinh-trang",
-            "the-loai",
-            "tinh-cach-nhan-vat-chinh",
-            "boi-canh-the-gioi",
-            "luu-phai",
-        ];
-
-        const colorMap = {
-            "tinh-trang": "yellow",
-            "the-loai": "rose",
-        };
-
-        const selectedTag = groupSlugs.reduce((acc, slug) => {
-            const tag = story.tags.find((tag) => tag.group.slug === slug);
-            // console.log(tag);
-            if (tag) {
-                acc.push({
-                    label: tag.label,
-                    slug: tag.slug,
-                    color: colorMap[slug] || "emerald",
-                });
-            }
-            return acc;
-        }, []);
-
-        // await new Promise((res) => setTimeout(res, 5000));
-        story = removePasswordField(story);
-
         return {
-            ...story,
-            tags: selectedTag,
+            story,
+            error: null,
         };
     } catch (e) {
-        console.log("Error Server International:::", e);
+        console.log("Error Server International at getStoryChaptersById:::", e);
+        return {
+            story: null,
+            error: "Internal server error at getStoryChaptersById",
+        };
     }
 }
+
+async function getReadChapterIdsByStoryId(storyId) {
+    const session = await auth();
+    const userId = session?.user?.id;
+
+    if (!userId) return { chapterIds: [], error: null };
+
+    try {
+        const reads = await prisma.chapterRead.findMany({
+            where: {
+                userId,
+                chapter: {
+                    storyId: Number(storyId),
+                },
+            },
+            select: {
+                chapterId: true,
+            },
+        });
+
+        return {
+            chapterIds: reads.map((read) => read.chapterId),
+            error: null,
+        };
+    } catch (e) {
+        console.log(
+            "Error Server International at getReadChapterIdsByStoryId:::",
+            e,
+        );
+        return {
+            chapterIds: [],
+            error: "Internal server error at getReadChapterIdsByStoryId",
+        };
+    }
+}
+
+async function getContinueChapterByStoryId(storyId) {
+    const session = await auth();
+    const userId = session?.user?.id;
+    const numericStoryId = Number(storyId);
+
+    try {
+        if (userId) {
+            const latestRead = await prisma.chapterRead.findFirst({
+                where: {
+                    userId,
+                    chapter: {
+                        storyId: numericStoryId,
+                    },
+                },
+                orderBy: {
+                    updatedAt: "desc",
+                },
+                select: {
+                    chapterId: true,
+                    chapter: {
+                        select: {
+                            number: true,
+                        },
+                    },
+                },
+            });
+
+            if (latestRead) {
+                return {
+                    continueChapter: {
+                        chapterId: latestRead.chapterId,
+                        chapterNumber: latestRead.chapter.number,
+                    },
+                    error: null,
+                };
+            }
+        }
+
+        const firstChapter = await prisma.chapter.findFirst({
+            where: {
+                storyId: numericStoryId,
+            },
+            orderBy: {
+                number: "asc",
+            },
+            select: {
+                id: true,
+                number: true,
+            },
+        });
+
+        return {
+            continueChapter: firstChapter
+                ? {
+                      chapterId: firstChapter.id,
+                      chapterNumber: firstChapter.number,
+                  }
+                : null,
+            error: null,
+        };
+    } catch (e) {
+        console.log(
+            "Error Server International at getContinueChapterByStoryId:::",
+            e,
+        );
+        return {
+            continueChapter: null,
+            error: "Internal server error at getContinueChapterByStoryId",
+        };
+    }
+}
+
+async function getChapterByStorySlugAndNumber({ slug, number }) {
+    const chapterNumber = Number(number.split("-")[1]);
+
+    try {
+        const story = await prisma.story.findUnique({
+            where: {
+                slug,
+            },
+            include: {
+                author: {
+                    select: {
+                        name: true,
+                    },
+                },
+                chapters: {
+                    where: {
+                        number: chapterNumber,
+                    },
+                    select: {
+                        id: true,
+                        name: true,
+                        number: true,
+                        content: true,
+                        postedAt: true,
+                        storyId: true,
+                    },
+                },
+                _count: {
+                    select: {
+                        chapters: true,
+                        discusses: true,
+                        ratings: true,
+                    },
+                },
+            },
+        });
+
+        return { story, error: null };
+    } catch (e) {
+        console.log(
+            "Error Server International at getChapterByStorySlugAndNumber:::",
+            e,
+        );
+        return {
+            story: null,
+            error: "Internal server error at getChapterByStorySlugAndNumber",
+        };
+    }
+}
+
+async function recordChapterRead({ storyId, chapterId }) {
+    const session = await auth();
+
+    if (!session?.user?.id) {
+        return {
+            read: null,
+            error: null,
+        };
+    }
+
+    const numericStoryId = Number(storyId);
+    const numericChapterId = Number(chapterId);
+    const now = new Date();
+
+    try {
+        const read = await prisma.$transaction(async (tx) => {
+            const chapter = await tx.chapter.findUnique({
+                where: {
+                    id: numericChapterId,
+                },
+                select: {
+                    id: true,
+                    number: true,
+                    storyId: true,
+                },
+            });
+
+            if (!chapter || chapter.storyId !== numericStoryId) {
+                throw new Error("Chapter does not belong to story");
+            }
+
+            await tx.chapterRead.upsert({
+                where: {
+                    userId_chapterId: {
+                        userId: session.user.id,
+                        chapterId: chapter.id,
+                    },
+                },
+                create: {
+                    userId: session.user.id,
+                    chapterId: chapter.id,
+                    readAt: now,
+                },
+                update: {
+                    readAt: now,
+                    updatedAt: now,
+                },
+            });
+
+            await tx.chapterReadEvent.create({
+                data: {
+                    userId: session.user.id,
+                    storyId: chapter.storyId,
+                    chapterId: chapter.id,
+                    readAt: now,
+                },
+            });
+
+            await tx.userStoryReadingState.upsert({
+                where: {
+                    userId_storyId: {
+                        userId: session.user.id,
+                        storyId: chapter.storyId,
+                    },
+                },
+                create: {
+                    userId: session.user.id,
+                    storyId: chapter.storyId,
+                    lastChapterId: chapter.id,
+                    lastReadAt: now,
+                },
+                update: {
+                    lastChapterId: chapter.id,
+                    lastReadAt: now,
+                    hiddenAt: null,
+                },
+            });
+
+            return {
+                storyId: chapter.storyId,
+                chapterId: chapter.id,
+                chapterNumber: chapter.number,
+                readAt: now,
+            };
+        });
+
+        return {
+            read,
+            error: null,
+        };
+    } catch (e) {
+        console.log("Error Server International at recordChapterRead:::", e);
+        return {
+            read: null,
+            error: "Internal server error at recordChapterRead",
+        };
+    }
+}
+
+async function getStoryBySlug({ slug, number, storyId }) {
+    if (slug && number) return getChapterByStorySlugAndNumber({ slug, number });
+    if (storyId) return getStoryChaptersById(storyId);
+    return getStoryDetailBySlug(slug);
+}
+
+// async function getStoryBySlug(slug, number) {
+//     if (number) number = Number(number.split("-")[1]);
+//     const include =
+//         slug && number
+//             ? {
+//                   author: {
+//                       select: {
+//                           name: true,
+//                       },
+//                   },
+//                   chapters: {
+//                       where: {
+//                           number: number,
+//                       },
+//                       select: {
+//                           id: true,
+//                           name: true,
+//                           number: true,
+//                           content: true,
+//                           postedAt: true,
+//                           storyId: true,
+//                       },
+//                   },
+//               }
+//             : {
+//                   stats: {
+//                       select: {
+//                           averageRating: true,
+//                           totalComments: true,
+//                           weeklyChapter: true,
+//                           totalReads: true,
+//                           totalVotes: true,
+//                           totalBookmarks: true,
+//                       },
+//                   },
+//                   author: {
+//                       select: {
+//                           name: true,
+//                           slug: true,
+//                           stories: {
+//                               select: {
+//                                   uploader: {
+//                                       select: {
+//                                           name: true,
+//                                       },
+//                                   },
+//                                   id: true,
+//                                   title: true,
+//                                   totalChapters: true,
+//                                   tags: true,
+//                               },
+//                           },
+//                       },
+//                   },
+//                   uploader: {
+//                       select: {
+//                           id: true,
+//                           name: true,
+//                           uploadedStories: {
+//                               select: {
+//                                   id: true,
+//                                   stringUrl: true,
+//                                   title: true,
+//                                   slug: true,
+//                               },
+//                           },
+//                       },
+//                   },
+//                   tags: {
+//                       select: {
+//                           id: true,
+//                           label: true,
+//                           groupId: true,
+//                           slug: true,
+//                           group: {
+//                               select: {
+//                                   id: true,
+//                                   slug: true,
+//                               },
+//                           },
+//                       },
+//                   },
+//               };
+//     try {
+//         let story = await prisma.story.findUnique({
+//             where: {
+//                 slug,
+//             },
+//             include,
+//         });
+
+//         return story;
+//     } catch (e) {
+//         console.log("Error Server International:::", e);
+//         throw new Error(e);
+//     }
+// }
 
 async function getAllStories() {
     const stories = await prisma.story.findMany();
@@ -966,10 +1448,94 @@ async function createUser(name, email, password) {
             name,
             email,
             password,
+            setting: {
+                create: {},
+            },
+        },
+        select: {
+            id: true,
+            email: true,
+            name: true,
+            emailVerified: true,
+            createdAt: true,
         },
     });
 
     return user;
+}
+
+async function createSignature(existImage, userId, type = "avatar") {
+    const session = await auth();
+    console.log("userId from server::", userId);
+    console.log("sesssion user id::", session.user.id);
+    console.log("session:::", session);
+    if (userId !== session?.user?.id) throw new Error("Bạn chưa đăng nhập");
+
+    const timestamp = Math.round(Date.now() / 1000);
+
+    const folder =
+        type === "avatar" ? "metruyenchu/avatars" : "metruyenchu/stories";
+
+    const public_id = `${folder}/${userId}`;
+
+    const paramsToSign = {
+        timestamp,
+        public_id,
+    };
+
+    if (existImage) {
+        console.log("Đã tồn tại ảnh cũ:", public_id);
+        paramsToSign.overwrite = true;
+    }
+    console.log("params to sign::", paramsToSign);
+    const signature = cloudinary.utils.api_sign_request(
+        paramsToSign,
+        process.env.CLOUDINARY_API_SECRET,
+    );
+    return {
+        signature,
+        timestamp,
+        public_id,
+        api_key: process.env.NEXT_PUBLIC_CLOUDINARY_API_KEY,
+        cloudName: process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME,
+    };
+}
+
+async function updateImageUser(id, imageUrl) {
+    console.log("updateImageUser user id::", id);
+
+    const session = await auth();
+
+    console.log("session user id at updateImageUser::", session?.user?.id);
+    if (!session || session?.user?.id !== id)
+        throw new Error("Bạn chưa đăng nhập");
+    // const { file, public_id, overwrite } = formData;
+    // const public_id = formData.get("public_id");
+    // const file = formData.get("file");
+
+    // console.log("file from backend:::", file);
+    // const result = await cloudinary.uploader.upload(file, {
+    //     public_id,
+    //     overwrite: true,
+    //     invalidate: true,
+    // });
+    // console.log("result after upload image::", result);
+    // let updatedImage;
+    try {
+        const updatedImage = await prisma.user.update({
+            where: { id },
+            data: {
+                image: imageUrl,
+                imageUpdatedAt: new Date(),
+            },
+        });
+
+        console.log("updatedImage:::", updatedImage);
+        return updatedImage;
+    } catch (error) {
+        console.log("Error at updateImageUser backend::", error);
+        throw new Error("Error at updateImageUser backend:", error);
+    }
 }
 
 export {
@@ -979,6 +1545,7 @@ export {
     sortLatest,
     chunkArray,
     getReadingStories,
+    getUserLibrarySettings,
     getChapterRecentlyUpdated,
     getTopStoriesRead,
     normalizeTimeBlock,
@@ -989,6 +1556,13 @@ export {
     getAllAppreciate,
     getAllStories,
     getChaptersByStoryId,
+    getLatestChaptersByStoryId,
+    getStoryDetailBySlug,
+    getChapterByStorySlugAndNumber,
+    recordChapterRead,
+    getStoryChaptersById,
+    getReadChapterIdsByStoryId,
+    getContinueChapterByStoryId,
     handleSentences,
     getUser,
     createUser,
@@ -996,4 +1570,6 @@ export {
     countRatings,
     getStoryBySlug,
     countBy,
+    createSignature,
+    updateImageUser,
 };
