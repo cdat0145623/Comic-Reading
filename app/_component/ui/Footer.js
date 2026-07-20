@@ -3,7 +3,7 @@ import { timeAgo } from "@/app/_lib/helper";
 import { HandThumbUpIcon } from "@heroicons/react/24/outline";
 import { HandThumbUpIcon as LikedHandThunUpIcon } from "@heroicons/react/24/solid";
 import { ChatBubbleOvalLeftEllipsisIcon } from "@heroicons/react/24/outline";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useLiked } from "@/app/hooks/useLiked";
 
 function Footer({
@@ -18,26 +18,58 @@ function Footer({
     likeCount,
     liked: isLiked,
     activeTab,
+    storyId,
+    rootCommentId,
 }) {
     const [totalLike, setTotalLike] = useState(likeCount);
     const [liked, setLiked] = useState(isLiked);
-    const { mutateLike } = useLiked({ active: activeTab });
+    const { mutateLike, isLikePending } = useLiked();
     const chapterName =
         user?.chaptersRead?.[0]?.chapter?.name ??
         story?.chapters?.[0]?.name ??
         "";
-    const handleToggleLike = async (ratingId, commentId) => {
-        const nextLiked = !liked;
-        try {
-            setLiked(nextLiked);
-            setTotalLike((prev) => prev + (nextLiked ? 1 : -1));
-
-            mutateLike({ active: activeTab, ratingId, commentId });
-        } catch (e) {
-            setLiked(!nextLiked);
-            setTotalLike((prev) => prev - (nextLiked ? 1 : -1));
-            console.log("ERROR SERVER INTERNATIONAL::", e);
+    useEffect(() => {
+        if (!isLikePending) {
+            setLiked(Boolean(isLiked));
+            setTotalLike(likeCount);
         }
+    }, [isLikePending, isLiked, likeCount]);
+
+    const handleToggleLike = () => {
+        if (isLikePending) return;
+
+        const previousLiked = liked;
+        const previousTotalLike = totalLike;
+        const nextLiked = !liked;
+        const target =
+            activeTab === "comments"
+                ? "discussion"
+                : commentId
+                  ? "ratingComment"
+                  : "rating";
+        const targetId = commentId ?? ratingId;
+
+        setLiked(nextLiked);
+        setTotalLike((prev) => prev + (nextLiked ? 1 : -1));
+
+        mutateLike(
+            {
+                target,
+                targetId,
+                liked: nextLiked,
+                active: activeTab,
+                ratingId,
+                commentId,
+                storyId,
+                rootCommentId,
+            },
+            {
+                onError: () => {
+                    setLiked(previousLiked);
+                    setTotalLike(previousTotalLike);
+                },
+            },
+        );
     };
     const handleReply = () => {
         setIsReply((prev) => !prev);
@@ -52,8 +84,11 @@ function Footer({
             >
                 <div>
                     <button
-                        className="flex items-center space-x-2"
-                        onClick={() => handleToggleLike(ratingId, commentId)}
+                        type="button"
+                        disabled={isLikePending}
+                        aria-pressed={liked}
+                        className="flex items-center space-x-2 disabled:cursor-wait disabled:opacity-60"
+                        onClick={handleToggleLike}
                     >
                         {liked ? (
                             <LikedHandThunUpIcon className="w-4 h-4 text-primary" />

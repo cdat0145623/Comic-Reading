@@ -1,7 +1,7 @@
 "use client";
 import { SunIcon } from "@heroicons/react/24/outline";
 import { MoonIcon } from "@heroicons/react/24/outline";
-import { ComputerDesktopIcon } from "@heroicons/react/24/outline";
+import { BookOpenIcon } from "@heroicons/react/24/outline";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import { PencilSquareIcon } from "@heroicons/react/24/outline";
 import { SquaresPlusIcon } from "@heroicons/react/24/outline";
@@ -16,32 +16,45 @@ import Image from "next/image";
 import Link from "next/link";
 import Modal from "./Modal";
 import { handleLogoutWithToast } from "@/lib/handleLoginWithToast";
+import { usePathname } from "next/navigation";
+import { useState } from "react";
+import ThemeSelector from "../Appearance/ThemeSelector";
+import { useAppearance } from "../Appearance/AppearanceProvider";
+import NavigationLink from "../NavigationLink";
 
 function ModalSideBar({ user, onCloseModal }) {
+    const pathname = usePathname();
+    const { theme } = useAppearance();
+    const [isThemePickerOpen, setIsThemePickerOpen] = useState(false);
+    const ThemeIcon =
+        theme === "dark" ? MoonIcon : theme === "sepia" ? BookOpenIcon : SunIcon;
+
+    const handleLogout = async () => {
+        handleLogoutWithToast({ pathname });
+        onCloseModal();
+    };
+
     return (
-        <div className="flex flex-col py-6 shadow-xl overflow-y-scroll h-full bg-secondary">
+        <div className="scrollbar-hidden app-panel flex h-full flex-col overflow-y-auto py-6 shadow-xl">
             <div className="px-6">
                 <div className="flex items-center justify-between">
                     <div className="relative">
-                        <button className="text-primary">
-                            <SunIcon className="w-6 h-6" />
+                        <button
+                            type="button"
+                            className="rounded p-1 text-primary hover:bg-[var(--app-primary-soft)]"
+                            onClick={() =>
+                                setIsThemePickerOpen((isOpen) => !isOpen)
+                            }
+                            aria-expanded={isThemePickerOpen}
+                            aria-label="Đổi màu giao diện"
+                        >
+                            <ThemeIcon className="h-6 w-6" />
                         </button>
-                        <div className="hidden absolute w-36 left-0 mt-3 rounded border border-gray-300 shadow-xl z-10">
-                            <div className="p-3 space-y-4 text-sm">
-                                <button className="flex items-center w-full text-black">
-                                    <SunIcon className="size-6 mr-2" />
-                                    <span className="ml-2">Ngày</span>
-                                </button>
-                                <button className="flex items-center w-full text-black">
-                                    <MoonIcon className="size-6 mr-2" />
-                                    <span className="ml-2">Đêm</span>
-                                </button>
-                                <button className="flex items-center w-full text-black">
-                                    <ComputerDesktopIcon className="size-6 mr-2" />
-                                    <span className="ml-2">Tự động</span>
-                                </button>
+                        {isThemePickerOpen && (
+                            <div className="app-panel absolute left-0 z-10 mt-2 w-48 rounded-md border p-2 shadow-xl">
+                                <ThemeSelector compact />
                             </div>
-                        </div>
+                        )}
                     </div>
 
                     <div>
@@ -82,10 +95,7 @@ function ModalSideBar({ user, onCloseModal }) {
 
                             <button
                                 className="rounded border border-primary text-xs px-2 py-1 text-primary"
-                                onClick={() => {
-                                    handleLogoutWithToast();
-                                    onCloseModal();
-                                }}
+                                onClick={handleLogout}
                             >
                                 Thoát
                             </button>
@@ -106,13 +116,23 @@ function ModalSideBar({ user, onCloseModal }) {
                                     </a>
                                 </li>
                                 <li className="py-2">
-                                    <a href="#">Tủ truyện của tôi</a>
+                                    <NavigationLink
+                                        href="/tai-khoan/tu-truyen"
+                                        onClick={onCloseModal}
+                                    >
+                                        Tủ truyện của tôi
+                                    </NavigationLink>
                                 </li>
                                 <li className="py-2">
                                     <a href="#">Lịch sử giao dịch</a>
                                 </li>
                                 <li className="py-2">
-                                    <a href="#">Cài đặt cá nhân</a>
+                                    <NavigationLink
+                                        href="/tai-khoan/cai-dat"
+                                        onClick={onCloseModal}
+                                    >
+                                        Cài đặt cá nhân
+                                    </NavigationLink>
                                 </li>
                                 <li className="py-2">
                                     <a href="#">Yêu cầu hỗ trợ</a>
@@ -204,19 +224,32 @@ function ModalSideBar({ user, onCloseModal }) {
                     <div>
                         <h3 className="flex items-center space-x-2 text-sm font-semibold">
                             <SquaresPlusIcon className="w-5 h-5" />
-                            <a href="#">Kho truyện</a>
+                            <NavigationLink
+                                href="/kham-pha"
+                                onClick={onCloseModal}
+                            >
+                                Kho truyện
+                            </NavigationLink>
                         </h3>
                         <div className="mt-2 mx-10">
                             <ul className="list-disc list-inside text-sm divide-y divide-slate-100">
                                 <li className="py-2">
-                                    <Link href="#" className="pt-2">
+                                    <NavigationLink
+                                        href="/kham-pha?sort=updated"
+                                        onClick={onCloseModal}
+                                        className="pt-2"
+                                    >
                                         Truyện mới
-                                    </Link>
+                                    </NavigationLink>
                                 </li>
                                 <li className="py-2">
-                                    <Link href="#" className="pt-2">
+                                    <NavigationLink
+                                        href="/kham-pha?status=hoan-thanh"
+                                        onClick={onCloseModal}
+                                        className="pt-2"
+                                    >
                                         Truyện full
-                                    </Link>
+                                    </NavigationLink>
                                 </li>
                             </ul>
                         </div>

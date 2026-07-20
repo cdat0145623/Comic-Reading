@@ -3,7 +3,7 @@ import Link from "next/link";
 
 function Footer() {
     return (
-        <footer className="mt-5 p-5 border-t border-slate-200 text-gray-500 text-sm text-center max-w-screen-lg mx-auto">
+        <footer className="app-surface mt-5 p-5 border-t border-slate-200 text-gray-500 text-sm text-center max-w-screen-lg mx-auto">
             <div className="text-center">
                 <span>
                     Mê Truyện Chữ là nền tảng mở trực tuyến, miễn phí đọc truyện
