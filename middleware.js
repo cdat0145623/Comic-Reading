@@ -1,22 +1,25 @@
+import { getToken } from "next-auth/jwt";
 import { NextResponse } from "next/server";
-import { auth } from "./lib/auth";
-// import { getToken } from "next-auth/jwt";
 
-export default auth(async (req) => {
-    console.log("🔍 Middleware chạy tại:", req.nextUrl.pathname);
-    console.log("req.auth:::", req.auth);
-    // console.log(
-    //     "🔍 token::: middleware:::",
-    //     await getToken({ req, secret: process.env.NEXTAUTH_SECRET })
-    // );
-    if (!req.auth) {
-        return NextResponse.redirect(new URL("/", req.url));
+export default async function middleware(request) {
+    const token = await getToken({
+        req: request,
+        secret: process.env.NEXTAUTH_SECRET,
+        secureCookie: process.env.NODE_ENV === "production",
+    });
+
+    if (!token) {
+        const loginUrl = new URL("/login", request.url);
+        loginUrl.searchParams.set(
+            "callbackUrl",
+            `${request.nextUrl.pathname}${request.nextUrl.search}`,
+        );
+        return NextResponse.redirect(loginUrl);
     }
 
     return NextResponse.next();
-});
+}
 
 export const config = {
-    // matcher: ["/truyen/:slug*", "/xep-hang/de-cu"],
-    matcher: ["/xep-hang/de-cu"],
+    matcher: ["/tai-khoan/:path*"],
 };

@@ -1,1 +1,1 @@
-export { GET, POST } from "../../../../lib/auth-with-adapter";
+export { GET, POST } from "../../../../lib/auth";
