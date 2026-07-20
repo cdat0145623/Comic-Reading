@@ -1,5 +1,5 @@
 "use client";
-import { useMemo, useState } from "react";
+import { useState } from "react";
 import RatingCard from "./RatingCard";
 import Spinner from "@/app/_component/Spinner";
 import { ChevronDownIcon } from "@heroicons/react/24/solid";
@@ -7,6 +7,10 @@ import { ChevronUpIcon } from "@heroicons/react/24/solid";
 import { ArrowTurnDownRightIcon } from "@heroicons/react/24/solid";
 import FormComment from "./FormComment";
 import { useComments } from "@/app/hooks/useComments";
+import PendingActivityList from "../PendingActivityList";
+import { activityMutationKeys } from "@/app/_lib/story-activity-query";
+import { useCreateComment } from "@/app/hooks/useCreateComment";
+import { notify } from "@/lib/toaster";
 
 function RatingItem({ rating, pageSize, activeTab, storyId, sortOption }) {
     const field = activeTab === "ratings" ? "comments" : "discuss";
@@ -19,12 +23,29 @@ function RatingItem({ rating, pageSize, activeTab, storyId, sortOption }) {
     };
     const ratingId = rating?.id;
     const initialCount =
-        rating?._count?.ratingUsersComments ?? rating?._count?.replies;
+        rating?._count?.ratingUsersComments ??
+        rating?._count?.threadItems ??
+        rating?._count?.replies;
     const isGlobalRatingPage = pageSize === 4 || pageSize === 20;
     const [showComments, setShowComments] = useState(false);
     const [isReply, setIsReply] = useState(false);
-    const [hasFetched, setHasFetched] = useState(false);
-    const [tempComments, setTempComments] = useState({});
+    const rootCommentId = activeTab === "comments" ? ratingId : undefined;
+    const mutationKey =
+        activeTab === "ratings"
+            ? activityMutationKeys.ratingComment({ storyId, ratingId })
+            : activityMutationKeys.discussionReply({
+                  storyId,
+                  rootCommentId,
+              });
+    const { submitComment: retryComment } = useCreateComment({
+        activeTab,
+        onSuccess: (_newComment, message) => {
+            notify({ type: "success", message: message || "Success" });
+        },
+        ratingId,
+        rootCommentId,
+        storyId,
+    });
     const { data, isLoading, isFetchingNextPage, fetchNextPage, hasNextPage } =
         useComments({
             enabled: showComments,
@@ -32,54 +53,27 @@ function RatingItem({ rating, pageSize, activeTab, storyId, sortOption }) {
                 ? { ratingId: rating?.id }
                 : {
                       storyId,
-                      sortOption,
-                      ratingId,
                       active: activeTab,
                       rootCommentId: ratingId,
                   }),
         });
-    const queryKey =
-        activeTab === "ratings"
-            ? ["ratingComments", ratingId]
-            : ["comments", ratingId];
-    const keyStr = JSON.stringify(queryKey);
-
-    const mergedPages = useMemo(() => {
-        if (!data) return [];
-
-        const temp = tempComments[keyStr] || [];
-        if (temp.length === 0) return data.pages;
-
-        return data.pages.map((page, index) =>
-            index === 0
-                ? {
-                      ...page,
-                      [field]: [
-                          ...temp,
-                          ...page[field].filter(
-                              (c) => !temp.some((t) => t.id === c.id)
-                          ),
-                      ],
-                  }
-                : page
-        );
-    }, [data, tempComments, field, keyStr]);
-
     const handleToggle = () => {
-        if (!hasFetched) {
-            setHasFetched(true);
-        }
         setShowComments((prev) => !prev);
+    };
+    const handleRetry = (variables) => {
+        setShowComments(true);
+        retryComment(variables);
     };
 
     return (
         <>
             <RatingCard
                 activeTab={activeTab}
+                storyId={storyId}
                 rating={rating}
                 paragraph={paragraph}
                 {...(activeTab === "comments"
-                    ? { commentId: ratingId }
+                    ? { commentId: ratingId, rootCommentId: ratingId }
                     : { ratingId: ratingId })}
                 pageSize={pageSize}
                 setIsReply={setIsReply}
@@ -87,19 +81,23 @@ function RatingItem({ rating, pageSize, activeTab, storyId, sortOption }) {
             {isReply && (
                 <FormComment
                     {...(activeTab === "ratings"
-                        ? { ratingId: rating.id }
+                        ? { ratingId: rating.id, storyId }
                         : {
                               storyId,
                               commentId: rating?.id,
-                              sortOption,
-                              ratingId,
+                              rootCommentId: ratingId,
                           })}
-                    tempComments={tempComments}
-                    setTempComments={setTempComments}
                     showComments={showComments}
                     setShowComments={setShowComments}
                     setIsReply={setIsReply}
                     activeTab={activeTab}
+                />
+            )}
+            {!isGlobalRatingPage && (
+                <PendingActivityList
+                    className="ml-12 mb-4"
+                    mutationKey={mutationKey}
+                    onRetry={handleRetry}
                 />
             )}
 
@@ -126,7 +124,7 @@ function RatingItem({ rating, pageSize, activeTab, storyId, sortOption }) {
             )}
             {!isGlobalRatingPage && showComments && (
                 <div className="ml-12 mb-4">
-                    {mergedPages.map((page, i) => (
+                    {data?.pages?.map((page, i) => (
                         <div key={i}>
                             {page[field].map((comment) => (
                                 <RatingCard
@@ -135,8 +133,11 @@ function RatingItem({ rating, pageSize, activeTab, storyId, sortOption }) {
                                     activeTab={activeTab}
                                     comment={comment}
                                     ratingId={ratingId}
-                                    tempComments={tempComments}
-                                    setTempComments={setTempComments}
+                                    rootCommentId={
+                                        activeTab === "comments"
+                                            ? ratingId
+                                            : undefined
+                                    }
                                     showComments={showComments}
                                     setShowComments={setShowComments}
                                     paragraph={{

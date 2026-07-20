@@ -7,7 +7,6 @@ async function Rating({
     activeTab,
     display,
     filter,
-    ratingsCount,
 }) {
     return (
         <div className="grid col-span-full">
@@ -18,7 +17,6 @@ async function Rating({
                 display={display}
             />
             <RatingSection
-                ratingsCount={ratingsCount}
                 activeTab={activeTab}
                 storyId={storyId}
                 display={display}

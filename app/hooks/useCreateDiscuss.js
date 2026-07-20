@@ -1,62 +1,76 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { createComment } from "../_lib/actions";
+import { createStoryDiscussionAction } from "../_lib/actions";
+import {
+    activityMutationKeys,
+    discussionKeys,
+} from "../_lib/story-activity-query";
 import { notify } from "@/lib/toaster";
+import { useSession } from "next-auth/react";
+import {
+    commitActivitySubmission,
+    upsertActivitySubmission,
+} from "../_lib/story-activity-sync";
+import { getPublicActivityErrorMessage } from "../_lib/story-activity-error";
 
-export function useCreateDiscuss({ onSuccess }) {
+export function useCreateDiscuss({ onSuccess, storyId }) {
     const queryClient = useQueryClient();
+    const { data: session } = useSession();
+    const userId = session?.user?.id;
+    const mutationKey = activityMutationKeys.rootDiscussion(storyId);
 
-    const { mutate: createDiscuss, isPending: isLoadingDiscuss } = useMutation({
-        mutationFn: ({ formData, storyId }) =>
-            createComment({ formData, storyId }),
-        onSuccess: ({ newComment: newDiscuss, message }) => {
-            console.log("new discuss: ", newDiscuss);
-
-            queryClient.setQueriesData(
-                {
-                    queryKey: ["comments"],
-                },
-                (oldData) => {
-                    console.log("oldData:", oldData);
-                    if (!oldData || !oldData?.pages?.length) return oldData;
-
-                    const updatedPages = oldData.pages.map(
-                        (page, pageIndex) => {
-                            const filteredDiscuss = page.discuss.filter(
-                                (r) => r.userId !== newDiscuss.userId
-                            );
-                            console.log("filteredDiscuss:", filteredDiscuss);
-                            if (pageIndex === 0) {
-                                return {
-                                    ...page,
-                                    discuss: [newDiscuss, ...filteredDiscuss],
-                                };
-                            }
-                            return {
-                                ...page,
-                                discuss: filteredDiscuss,
-                            };
-                        }
-                    );
-
-                    return {
-                        ...oldData,
-                        pages: updatedPages,
-                    };
-                }
-            );
-
+    const mutation = useMutation({
+        mutationKey,
+        mutationFn: async (variables) => {
+            const result = await createStoryDiscussionAction(variables);
+            if (!result?.success) {
+                throw new Error(result?.error || "Không thể tạo thảo luận");
+            }
+            return result;
+        },
+        onMutate: (variables) => {
+            upsertActivitySubmission({
+                mutationKey,
+                status: "pending",
+                userId,
+                variables,
+            });
+        },
+        onSuccess: async (
+            { newComment: newDiscuss, message },
+            variables,
+        ) => {
+            const { storyId } = variables;
+            await queryClient.invalidateQueries({
+                queryKey: discussionKeys.lists(storyId),
+            });
+            commitActivitySubmission({
+                context: { domain: "root-discussion", storyId },
+                userId,
+                variables,
+            });
             onSuccess?.(newDiscuss, message);
         },
-        onError: (err) => {
-            console.log(
-                "Mutation useCreateDiscuss not work, client error:",
-                err?.message
+        onError: (err, variables) => {
+            const message = getPublicActivityErrorMessage(
+                err,
+                "Không thể tạo thảo luận. Vui lòng thử lại.",
             );
+            upsertActivitySubmission({
+                error: new Error(message),
+                mutationKey,
+                status: "error",
+                userId,
+                variables,
+            });
             notify({
                 type: "error",
-                message: err?.message || "Error is not defined",
+                message,
             });
         },
     });
-    return { createDiscuss, isLoadingDiscuss };
+
+    return {
+        createDiscuss: mutation.mutate,
+        isLoadingDiscuss: mutation.isPending,
+    };
 }

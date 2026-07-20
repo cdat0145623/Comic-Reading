@@ -3,21 +3,33 @@ import {
     HydrationBoundary,
     QueryClient,
 } from "@tanstack/react-query";
-import { fetchRatingsByKey } from "@/app/_lib/helper-server";
 import GenericSection from "@/app/_component/Appreciated/GenericSection";
 import { Suspense } from "react";
 import Spinner from "@/app/_component/Spinner";
 import WrapperFormDiscuss from "./WrapperFormDiscuss";
+import { getStoryDiscussions } from "@/app/_lib/story-activity-service";
+import {
+    ACTIVITY_LIST_PAGE_SIZE,
+    ACTIVITY_LIST_STALE_TIME,
+    discussionKeys,
+} from "@/app/_lib/story-activity-query";
 
-function Comment({ activeTab, commentsCount, storyId, filter }) {
+async function Comment({ activeTab, commentsCount, storyId, filter }) {
     const queryClient = new QueryClient();
-    const queryKey = ["comments", { storyId, sortOption: filter }];
-    const queryFn = ({ queryKey }) => fetchRatingsByKey({ queryKey });
+    const queryKey = discussionKeys.list({ storyId, sortOption: filter });
+    const queryFn = ({ pageParam }) =>
+        getStoryDiscussions({
+            storyId,
+            sortOption: filter,
+            pageSize: ACTIVITY_LIST_PAGE_SIZE,
+            paginationCursor: pageParam,
+        });
 
-    queryClient.prefetchInfiniteQuery({
+    await queryClient.prefetchInfiniteQuery({
         queryKey,
         queryFn,
-        initialPageParam: 1,
+        initialPageParam: null,
+        staleTime: ACTIVITY_LIST_STALE_TIME,
     });
 
     return (
@@ -26,7 +38,6 @@ function Comment({ activeTab, commentsCount, storyId, filter }) {
                 activeTab={activeTab}
                 count={commentsCount}
                 storyId={storyId}
-                filter={filter}
             />
             <HydrationBoundary state={dehydrate(queryClient)}>
                 <Suspense fallback={<Spinner />} key={`${filter}`}>

@@ -5,6 +5,7 @@ import {
     generateRandomRating,
     generateRandomWord,
     generateTextWithSentences,
+    randomDateWithinLastHour,
 } from "./helper-prisma.js";
 
 async function createManyRating() {
@@ -559,18 +560,18 @@ async function replyRatingComment() {
     );
 }
 
-async function deleteManyRatingComment() {
+async function deleteManyTable() {
     // 1. Xóa các comment có id >= 150
-    await prisma.ratingComment.deleteMany({
+    await prisma.storyDailyReadStats.deleteMany({
         where: {
             id: {
-                gte: 74,
+                gte: 1,
             },
         },
     });
 
     // 2. Lấy ID lớn nhất còn lại
-    const result = await prisma.ratingComment.aggregate({
+    const result = await prisma.storyDailyReadStats.aggregate({
         _max: {
             id: true,
         },
@@ -580,7 +581,7 @@ async function deleteManyRatingComment() {
     // 3. Reset lại sequence để auto-increment đúng
     //RatingComment
     await prisma.$executeRawUnsafe(
-        `ALTER SEQUENCE "RatingComment_id_seq" RESTART WITH ${maxId + 1};`
+        `ALTER SEQUENCE "StoryDailyReadStats_id_seq" RESTART WITH ${maxId + 1};`
     );
 }
 async function deleteManyDiscuss() {
@@ -800,30 +801,111 @@ async function updateLikeCountForDiscuss() {
     }
 }
 
-export async function main() {
-    // await createManyRating();
-    // await createRatingLike();
-    // await updateCountRaintForAllRatings();
-    // await rateForStoriesUserHaveReadButDontRating();
-    try {
-        await updateLikeCountForDiscuss();
-        // await deleteManyDiscuss();
-        // await createDiscussLike();
-        // await createFansStory();
+async function updateUpdatedAtChapterRead() {
+    // 1. Lấy các bản ghi cần update, sắp xếp theo id
+    const rows = await prisma.chapterRead.findMany({
+        where: {
+            updatedAt: {
+                gt: new Date("2025-07-10"),
+            },
+        },
+        orderBy: { id: "asc" },
+    });
 
-        // await replyRatingComment();
+    // 2. Cập nhật lần lượt với tăng dần theo giây
+    for (let i = 0; i < rows.length; i++) {
+        await prisma.chapterRead.update({
+            where: { id: rows[i].id },
+            data: {
+                updatedAt: new Date(
+                    new Date("2025-07-10").getTime() + i * 1000
+                ),
+            },
+        });
+    }
+
+    console.log(`Updated ${rows.length} rows`);
+}
+
+export async function seedChapterRead() {
+    const users = await prisma.user.findMany({
+        take: 100,
+        orderBy: { id: "asc" }, // hoặc random nếu bạn có cách khác
+    });
+
+    // 2. Lấy toàn bộ stories kèm chapter
+    const stories = await prisma.story.findMany({
+        include: {
+            chapters: { select: { id: true } },
+        },
+    });
+
+    for (const user of users) {
+        // 3. Chọn 1 story ngẫu nhiên
+        const story = stories[Math.floor(Math.random() * stories.length)];
+        if (!story || story.chapters.length === 0) continue;
+
+        // 4. Random số lượng chapters mà user đọc (1 → N)
+        const numberOfChapters =
+            Math.floor(Math.random() * story.chapters.length) + 1;
+
+        // Shuffle chapter list rồi lấy subset
+        const selectedChapters = generateRandomElement(story.chapters, 5);
+
+        for (const chapter of selectedChapters) {
+            await prisma.chapterRead.upsert({
+                where: {
+                    userId_chapterId: {
+                        userId: user.id,
+                        chapterId: chapter.id,
+                    },
+                },
+                create: {
+                    userId: user.id,
+                    chapterId: chapter.id,
+                    readAt: randomDateWithinLastHour(),
+                },
+                update: {
+                    readAt: randomDateWithinLastHour(),
+                },
+            });
+        }
+    }
+
+    console.log(`Đã seed dữ liệu ChapterRead cho ${users.length} users`);
+}
+
+// await createManyRating();
+// await createRatingLike();
+// await updateCountRaintForAllRatings();
+// await rateForStoriesUserHaveReadButDontRating();
+// await updateLikeCountForDiscuss();
+// await deleteManyDiscuss();
+// await createDiscussLike();
+// await createFansStory();
+
+// await replyRatingComment();
+// await updateUpdatedAtChapterRead();
+// await seedChapterRead();
+export async function main() {
+    try {
+        await seedChapterRead();
         console.log("✅ Seed completed!");
     } catch (err) {
         console.log("EORRRRRRR: ❌❌❌", err);
+        throw new Error("Error at createRating:", err);
+    } finally {
+        prisma.$disconnect();
+        console.log("✅ Prisma client disconnected");
     }
 }
 
-main()
-    .catch((e) => {
-        console.error("❌ Seeding failed:", e);
-        process.exit(1);
-    })
-    .finally(() => {
-        prisma.$disconnect();
-        console.log("✅ Prisma client disconnected");
-    });
+// main()
+//     .catch((e) => {
+//         console.error("❌ Seeding failed:", e);
+//         process.exit(1);
+//     })
+//     .finally(() => {
+//         prisma.$disconnect();
+//         console.log("✅ Prisma client disconnected");
+//     });

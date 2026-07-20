@@ -12,7 +12,7 @@ export default async function StoryActivity({
     slug,
     storyId,
 }) {
-    console.log("activeTab:", activeTab);
+    // console.log("activeTab:", activeTab);
     const { ratingsCount, commentsCount, fansCount } = await countBy({
         storyId,
     });
@@ -28,7 +28,6 @@ export default async function StoryActivity({
                 <Suspense fallback={<div>Loading....</div>} key={activeTab}>
                     {activeTab === "ratings" && (
                         <Rating
-                            ratingsCount={ratingsCount}
                             activeTab={activeTab}
                             storyId={storyId}
                             slug={slug}
