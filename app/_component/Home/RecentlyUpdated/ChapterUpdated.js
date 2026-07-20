@@ -4,6 +4,7 @@ import ChapterCard from "./ChapterCard";
 async function ChapterUpdated() {
     const { topChaptersRencetlyUpdated: topUpdated } =
         await getChapterRecentlyUpdated();
+
     return (
         <>
             {!topUpdated || topUpdated?.length === 0 ? (

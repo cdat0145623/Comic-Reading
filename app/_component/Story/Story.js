@@ -1,29 +1,23 @@
 "use client";
 import Image from "next/image";
 import Link from "next/link";
-import { BookOpenIcon } from "@heroicons/react/24/outline";
-import { BookmarkIcon } from "@heroicons/react/24/outline";
 import { ListBulletIcon } from "@heroicons/react/24/outline";
 import { StarIcon } from "@heroicons/react/24/outline";
 import { ChatBubbleBottomCenterTextIcon } from "@heroicons/react/24/outline";
 import { FlagIcon } from "@heroicons/react/24/outline";
-
-const colorClassMap = {
-    yellow: "text-primary border-primary",
-    rose: "text-rose-700 border-rose-700",
-    emerald: "text-emerald-700 border-emerald-700",
-};
+import { selectedTag } from "@/app/_lib/helper";
+import ChapterCatalogButton from "./ChapterCatalog/ChapterCatalogButton";
+import ContinueReadingButton from "./ContinueReadingButton";
+import StoryBookmarkButton from "./StoryBookmarkButton";
+import { useState } from "react";
+import { getCatalogHrefForTag } from "@/app/_lib/story-catalog-query";
+import NavigationLink from "../NavigationLink";
 
 function Story({ story, slug }) {
-    const {
-        title,
-        author,
-        stats,
-        selectedTag,
-        tags,
-        stringUrl,
-        totalChapters,
-    } = story;
+    const { id, title, author, stats, tags, stringUrl, totalChapters } = story;
+    const [bookmarkCount, setBookmarkCount] = useState(
+        stats?.totalBookmarks ?? 0,
+    );
 
     return (
         <div className="flex md:flex-row flex-col">
@@ -63,25 +57,38 @@ function Story({ story, slug }) {
 
                 <div className="md:mb-8 mb-6 flex md:flex-row space-x-4 flex-col">
                     <div className="flex md:mb-0 mb-6 justify-center md:justify-start">
-                        <button className="flex items-center border border-white px-2 py-1 bg-rose-700 text-white text-sm space-x-2 rounded ">
-                            <BookOpenIcon className="w-5 h-5" />
-                            <span>Đọc Tiếp</span>
-                        </button>
+                        <ContinueReadingButton
+                            storyId={id}
+                            slug={slug}
+                            className="flex items-center border border-white px-2 py-1 bg-rose-700 text-white text-sm space-x-2 rounded"
+                        />
                     </div>
 
                     <div className="flex space-x-4 items-center justify-center">
-                        <button className="flex items-center px-2 py-1 border border-gray-600 rounded text-sm space-x-2 hover:text-primary hover:border-primary">
-                            <BookmarkIcon className="w-5 h-5" />
-                            <span className="sm:block hidden">Đánh dấu</span>
-                        </button>
-                        <button className="flex items-center px-2 py-1 border border-gray-600 rounded text-sm space-x-2 hover:text-primary relative">
+                        <StoryBookmarkButton
+                            storyId={id}
+                            className="flex items-center px-2 py-1 border border-gray-600 rounded text-sm space-x-2 hover:text-primary hover:border-primary"
+                            label="Đánh dấu"
+                            onChange={(enabled) =>
+                                setBookmarkCount((count) =>
+                                    Math.max(0, count + (enabled ? 1 : -1)),
+                                )
+                            }
+                        />
+                        <ChapterCatalogButton
+                            storyId={id}
+                            slug={slug}
+                            storyTitle={title}
+                            totalChapters={totalChapters}
+                            className="flex items-center px-2 py-1 border border-gray-600 rounded text-sm space-x-2 hover:text-primary relative"
+                        >
                             <ListBulletIcon className="w-5 h-5" />
 
                             <span className="sm:block hidden">Mục lục</span>
                             <span className="absolute bg-primary min-w-6 h-6 flex items-center justify-center text-white text-[10px] rounded-full -top-4 -right-4 -">
                                 {totalChapters}
                             </span>
-                        </button>
+                        </ChapterCatalogButton>
                         <button className="flex items-center px-2 py-1 border border-gray-600 rounded text-sm space-x-2 hover:text-primary hover:border-primary relative">
                             <StarIcon className="w-5 h-5" />
 
@@ -122,23 +129,21 @@ function Story({ story, slug }) {
                     </div>
                     <div className="text-sm px-3 flex flex-col items-center">
                         <span className="font-semibold">
-                            {stats?.totalBookmarks}
+                            {bookmarkCount}
                         </span>
                         <span>Cất giữ</span>
                     </div>
                 </div>
 
                 <div className="md:leading-normal leading-10 space-x-4">
-                    {tags?.map((tag) => (
-                        <Link
+                    {selectedTag(tags)?.map((tag) => (
+                        <NavigationLink
                             key={tag?.label}
-                            href={`danh-sach/${tag?.slug}`}
-                            className={`px-2 py-1 rounded border text-xs ${
-                                colorClassMap[tag?.color]
-                            }`}
+                            href={getCatalogHrefForTag(tag)}
+                            className={`px-2 py-1 rounded border text-xs ${tag.color}`}
                         >
                             {tag?.label}
-                        </Link>
+                        </NavigationLink>
                     ))}
                 </div>
             </div>

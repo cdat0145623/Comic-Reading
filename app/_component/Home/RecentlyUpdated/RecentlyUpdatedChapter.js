@@ -10,7 +10,7 @@ function RecentlyUpdatedChapter() {
         <div className="mt-5">
             <SectionLink
                 title="Vừa lên chương"
-                href="/danh-sach/truyen-moi"
+                href="/kham-pha?sort=updated"
                 icon
             />
             <Suspense fallback={<Loading />}>

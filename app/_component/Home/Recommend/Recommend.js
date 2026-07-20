@@ -11,7 +11,7 @@ function Recommend() {
             <div className="flex flex-wrap">
                 <SectionLink
                     title="BTV đề cử"
-                    href="/danh-sach/truyen-chon-loc"
+                    href="/kham-pha?attribute=chon-loc"
                     icon
                 />
                 <Suspense

@@ -1,9 +1,9 @@
 "use client";
-import Link from "next/link";
 import { UserCircleIcon } from "@heroicons/react/24/outline";
 import { Square3Stack3DIcon } from "@heroicons/react/24/outline";
 import { formatDistanceToNow } from "date-fns";
 import { vi } from "date-fns/locale";
+import NavigationLink from "../../NavigationLink";
 
 function timeAgo(time) {
     return formatDistanceToNow(new Date(time), { addSuffix: true, locale: vi });
@@ -14,6 +14,7 @@ function ChapterCard({ story, index }) {
         return <p className="text-center text-sm italic">Chưa có dữ liệu</p>;
 
     const {
+        slug,
         author,
         content,
         name,
@@ -34,12 +35,12 @@ function ChapterCard({ story, index }) {
             }`}
         >
             <div className="col-span-12 sm:col-span-8 md:col-span-7 lg:col-span-6">
-                <Link
-                    href="#"
+                <NavigationLink
+                    href={`/truyen/${slug}`}
                     className="text-sm text-title-color font-medium hover:text-primary"
                 >
                     {title}
-                </Link>
+                </NavigationLink>
             </div>
 
             <div className="flex items-center col-span-6 space-x-1 sm:hidden md:block md:col-span-2 lg:col-span-2">

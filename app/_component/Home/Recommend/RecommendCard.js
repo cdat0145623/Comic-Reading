@@ -2,13 +2,14 @@
 import { UserIcon } from "@heroicons/react/20/solid";
 import Image from "next/image";
 import Link from "next/link";
+import NavigationLink from "../../NavigationLink";
 function RecommendCard({ story }) {
     const { title, content, stringUrl, tag, author, slug } = story;
     return (
         <>
             <div className="flex pt-3 px-3 space-x-3 mb-8 mr-5 col-span-1">
                 <div className="flex-shrink-0">
-                    <Link href={`/truyen/${slug}`}>
+                    <NavigationLink href={`/truyen/${slug}`}>
                         <Image
                             src={stringUrl}
                             alt={`Hinh anh cua truyen ${title}`}
@@ -16,17 +17,17 @@ function RecommendCard({ story }) {
                             height={128}
                             className="rounded"
                         />
-                    </Link>
+                    </NavigationLink>
                 </div>
                 <div className="flex flex-wrap space-y-2">
-                    <Link
+                    <NavigationLink
                         href={`/truyen/${slug}`}
                         className="w-full hover:text-primary"
                     >
                         <span className="text-title-color font-semibold">
                             {title}
                         </span>
-                    </Link>
+                    </NavigationLink>
                     <div>
                         <span className="text-overflow-multiple-lines text-gray-500">
                             {content}
