@@ -1,0 +1,1243 @@
+<!doctype html>
+<html lang="vi">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <title>Demo bộ lọc tất cả truyện</title>
+        <style>
+            :root {
+                --primary: #b78a27;
+                --primary-strong: #866313;
+                --primary-soft: #f6f0e2;
+                --canvas: #ecebea;
+                --surface: #fcfcfa;
+                --panel: #ffffff;
+                --muted-surface: #f3f4f6;
+                --text: #1f2937;
+                --muted: #6b7280;
+                --border: #d8dbe0;
+                --success: #147a42;
+            }
+
+            * {
+                box-sizing: border-box;
+                letter-spacing: 0;
+            }
+
+            html {
+                background: var(--canvas);
+            }
+
+            body {
+                width: min(1024px, 100%);
+                min-height: 100dvh;
+                margin: 0 auto;
+                color: var(--text);
+                background: var(--surface);
+                font-family: "Avenir Next", Arial, Helvetica, sans-serif;
+                font-size: 14px;
+                line-height: 1.45;
+            }
+
+            button,
+            select {
+                color: inherit;
+                font: inherit;
+            }
+
+            button {
+                cursor: pointer;
+            }
+
+            button:focus-visible,
+            select:focus-visible,
+            a:focus-visible {
+                outline: 2px solid var(--primary-strong);
+                outline-offset: 2px;
+            }
+
+            .topbar {
+                display: grid;
+                grid-template-columns: 1fr auto 1fr;
+                min-height: 62px;
+                align-items: center;
+                padding: 0 22px;
+                border-bottom: 1px solid var(--border);
+                background: var(--panel);
+            }
+
+            .topbar a {
+                color: inherit;
+                font-weight: 700;
+                text-decoration: none;
+            }
+
+            .logo {
+                width: 42px;
+                height: 42px;
+                object-fit: contain;
+            }
+
+            .account-link {
+                justify-self: end;
+                color: var(--muted) !important;
+            }
+
+            .page-heading {
+                display: flex;
+                align-items: end;
+                justify-content: space-between;
+                gap: 24px;
+                padding: 34px 28px 24px;
+                border-bottom: 1px solid var(--border);
+            }
+
+            h1 {
+                margin: 0;
+                font-size: 30px;
+                line-height: 1.15;
+            }
+
+            .page-heading p {
+                margin: 7px 0 0;
+                color: var(--muted);
+            }
+
+            .filter-mobile-button {
+                display: none;
+                min-height: 40px;
+                border: 1px solid var(--primary);
+                border-radius: 6px;
+                background: transparent;
+                color: var(--primary-strong);
+                font-weight: 700;
+                padding: 0 14px;
+            }
+
+            .explore-layout {
+                display: grid;
+                grid-template-columns: 252px minmax(0, 1fr);
+                min-height: 760px;
+            }
+
+            .filters {
+                padding: 24px 20px 32px;
+                border-right: 1px solid var(--border);
+                background: var(--surface);
+            }
+
+            .filter-header {
+                display: flex;
+                min-height: 34px;
+                align-items: center;
+                justify-content: space-between;
+                gap: 12px;
+                margin-bottom: 18px;
+            }
+
+            .filter-header strong {
+                font-size: 16px;
+            }
+
+            .text-button {
+                border: 0;
+                background: transparent;
+                color: var(--primary-strong);
+                font-size: 12px;
+                font-weight: 700;
+            }
+
+            .filter-group {
+                padding: 17px 0;
+                border-top: 1px solid var(--border);
+            }
+
+            .filter-group:first-of-type {
+                border-top: 0;
+            }
+
+            .filter-label {
+                display: block;
+                margin-bottom: 10px;
+                font-size: 12px;
+                font-weight: 800;
+                text-transform: uppercase;
+            }
+
+            .choice-list {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 7px;
+            }
+
+            .choice {
+                display: inline-flex;
+                min-height: 34px;
+                align-items: center;
+                justify-content: center;
+                padding: 7px 11px;
+                border: 1px solid var(--border);
+                border-radius: 6px;
+                background: var(--panel);
+                color: var(--muted);
+                font-size: 13px;
+                font-weight: 650;
+                line-height: 1.2;
+                text-align: center;
+                transition:
+                    border-color 160ms ease,
+                    color 160ms ease,
+                    background-color 160ms ease,
+                    transform 120ms ease;
+            }
+
+            .choice:hover {
+                border-color: var(--primary);
+                color: var(--primary-strong);
+            }
+
+            .choice:active {
+                transform: scale(0.98);
+            }
+
+            .choice.active {
+                border-color: var(--primary);
+                color: var(--primary-strong);
+                background: var(--primary-soft);
+                box-shadow: inset 0 0 0 1px var(--primary);
+            }
+
+            .genre-extra {
+                display: none;
+            }
+
+            .choice-list.expanded .genre-extra {
+                display: inline-flex;
+                animation: chip-in 160ms ease both;
+            }
+
+            .show-more-button {
+                margin-top: 10px;
+                padding: 0;
+                border: 0;
+                background: transparent;
+                color: var(--primary-strong);
+                font-size: 12px;
+                font-weight: 800;
+            }
+
+            .filter-search-wrap {
+                position: relative;
+                margin-bottom: 9px;
+            }
+
+            .filter-search {
+                width: 100%;
+                min-height: 36px;
+                padding: 0 10px;
+                border: 1px solid var(--border);
+                border-radius: 6px;
+                color: var(--text);
+                background: var(--panel);
+                font: inherit;
+                outline: none;
+            }
+
+            .filter-search:focus {
+                border-color: var(--primary);
+                box-shadow: 0 0 0 1px var(--primary);
+            }
+
+            .option-list {
+                display: grid;
+                max-height: 210px;
+                gap: 3px;
+                overflow-y: auto;
+                padding-right: 4px;
+                scrollbar-width: thin;
+                scrollbar-color: var(--border) transparent;
+            }
+
+            .option-row {
+                display: flex;
+                width: 100%;
+                min-height: 35px;
+                align-items: center;
+                padding: 0 9px;
+                border: 0;
+                border-radius: 5px;
+                background: transparent;
+                color: var(--muted);
+                font-size: 13px;
+                text-align: left;
+                transition:
+                    color 150ms ease,
+                    background-color 150ms ease;
+            }
+
+            .option-row:hover,
+            .option-row.active {
+                color: var(--primary-strong);
+                background: var(--primary-soft);
+            }
+
+            .option-row.active::after {
+                margin-left: auto;
+                content: "Đã chọn";
+                font-size: 10px;
+                font-weight: 800;
+            }
+
+            .advanced-toggle {
+                display: flex;
+                width: 100%;
+                min-height: 44px;
+                align-items: center;
+                justify-content: space-between;
+                border: 0;
+                border-top: 1px solid var(--border);
+                background: transparent;
+                font-weight: 800;
+            }
+
+            .advanced-toggle span:last-child {
+                transition: transform 180ms ease;
+            }
+
+            .advanced-toggle.open span:last-child {
+                transform: rotate(180deg);
+            }
+
+            .advanced-content {
+                display: grid;
+                grid-template-rows: 0fr;
+                opacity: 0;
+                transition:
+                    grid-template-rows 190ms ease,
+                    opacity 160ms ease;
+            }
+
+            .advanced-content.open {
+                grid-template-rows: 1fr;
+                opacity: 1;
+            }
+
+            .advanced-inner {
+                overflow: hidden;
+            }
+
+            .results-region {
+                min-width: 0;
+                padding: 22px 28px 52px;
+            }
+
+            .catalog-search-row {
+                display: grid;
+                grid-template-columns: minmax(0, 1fr) auto;
+                gap: 10px;
+                padding-bottom: 15px;
+            }
+
+            .catalog-search {
+                position: relative;
+            }
+
+            .catalog-search input {
+                width: 100%;
+                min-height: 42px;
+                padding: 0 42px 0 13px;
+                border: 1px solid var(--border);
+                border-radius: 6px;
+                color: var(--text);
+                background: var(--panel);
+                font: inherit;
+                outline: none;
+                transition:
+                    border-color 150ms ease,
+                    box-shadow 150ms ease;
+            }
+
+            .catalog-search input:focus {
+                border-color: var(--primary);
+                box-shadow: 0 0 0 1px var(--primary);
+            }
+
+            .clear-search {
+                position: absolute;
+                top: 50%;
+                right: 8px;
+                width: 30px;
+                height: 30px;
+                padding: 0;
+                border: 0;
+                border-radius: 5px;
+                transform: translateY(-50%);
+                color: var(--muted);
+                background: transparent;
+                font-size: 19px;
+            }
+
+            .clear-search:hover {
+                color: var(--primary-strong);
+                background: var(--primary-soft);
+            }
+
+            .result-toolbar {
+                display: flex;
+                min-height: 44px;
+                align-items: center;
+                justify-content: space-between;
+                gap: 16px;
+                padding-bottom: 15px;
+                border-bottom: 1px solid var(--border);
+            }
+
+            .result-count {
+                color: var(--muted);
+            }
+
+            .result-count strong {
+                color: var(--text);
+                font-size: 16px;
+            }
+
+            select {
+                min-height: 38px;
+                padding: 0 34px 0 11px;
+                border: 1px solid var(--border);
+                border-radius: 6px;
+                background: var(--panel);
+                font-weight: 700;
+            }
+
+            .active-filters {
+                display: flex;
+                min-height: 47px;
+                flex-wrap: wrap;
+                align-items: center;
+                gap: 7px;
+                padding: 9px 0;
+            }
+
+            .filter-chip {
+                display: inline-flex;
+                min-height: 29px;
+                align-items: center;
+                gap: 7px;
+                padding: 0 8px 0 10px;
+                border: 1px solid #ddca9f;
+                border-radius: 6px;
+                background: var(--primary-soft);
+                color: var(--primary-strong);
+                font-size: 12px;
+                font-weight: 700;
+                animation: chip-in 160ms ease both;
+            }
+
+            .filter-chip button {
+                border: 0;
+                background: transparent;
+                color: inherit;
+                font-size: 16px;
+                line-height: 1;
+            }
+
+            @keyframes chip-in {
+                from {
+                    opacity: 0;
+                    transform: translateY(-3px);
+                }
+            }
+
+            .story-list {
+                display: grid;
+                gap: 0;
+            }
+
+            .story-card {
+                display: grid;
+                grid-template-columns: 88px minmax(0, 1fr) auto;
+                gap: 17px;
+                align-items: start;
+                padding: 18px 0;
+                border-bottom: 1px solid var(--border);
+                animation: result-in 210ms ease both;
+            }
+
+            @keyframes result-in {
+                from {
+                    opacity: 0;
+                    transform: translateY(5px);
+                }
+            }
+
+            .story-card[hidden] {
+                display: none;
+            }
+
+            .cover {
+                width: 88px;
+                aspect-ratio: 3 / 4;
+                border-radius: 4px;
+                object-fit: cover;
+                background: var(--muted-surface);
+            }
+
+            .story-title {
+                display: inline-block;
+                max-width: 100%;
+                overflow: hidden;
+                color: var(--text);
+                font-size: 17px;
+                font-weight: 800;
+                text-decoration: none;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+            }
+
+            .story-title:hover {
+                color: var(--primary-strong);
+            }
+
+            .author {
+                margin: 3px 0 10px;
+                color: var(--muted);
+                font-size: 12px;
+            }
+
+            .summary-text {
+                display: -webkit-box;
+                margin: 0;
+                overflow: hidden;
+                color: #4b5563;
+                -webkit-box-orient: vertical;
+                -webkit-line-clamp: 2;
+            }
+
+            .story-meta {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 6px 14px;
+                margin-top: 13px;
+                color: var(--muted);
+                font-size: 12px;
+            }
+
+            .story-side {
+                display: grid;
+                min-width: 96px;
+                justify-items: end;
+                gap: 9px;
+                color: var(--muted);
+                font-size: 12px;
+            }
+
+            .genre {
+                padding: 4px 8px;
+                border: 1px solid var(--primary);
+                border-radius: 5px;
+                color: var(--primary-strong);
+                font-weight: 700;
+            }
+
+            .status-complete {
+                color: var(--success);
+                font-weight: 700;
+            }
+
+            .empty-state {
+                display: none;
+                min-height: 330px;
+                place-items: center;
+                text-align: center;
+            }
+
+            .empty-state.show {
+                display: grid;
+            }
+
+            .empty-state strong {
+                display: block;
+                margin-bottom: 5px;
+                font-size: 18px;
+            }
+
+            .empty-state span {
+                color: var(--muted);
+            }
+
+            .pagination {
+                display: flex;
+                justify-content: center;
+                gap: 6px;
+                padding-top: 28px;
+            }
+
+            .page-button {
+                width: 38px;
+                height: 38px;
+                border: 1px solid var(--border);
+                border-radius: 5px;
+                background: var(--panel);
+                font-weight: 700;
+            }
+
+            .page-button.active {
+                border-color: var(--primary);
+                background: var(--primary);
+                color: #fff;
+            }
+
+            .mobile-backdrop,
+            .mobile-filter-bar {
+                display: none;
+            }
+
+            @media (max-width: 719px) {
+                .topbar {
+                    padding: 0 16px;
+                }
+
+                .home-link span,
+                .account-link {
+                    font-size: 0;
+                }
+
+                .home-link span::after {
+                    content: "Trang chủ";
+                    font-size: 13px;
+                }
+
+                .page-heading {
+                    align-items: center;
+                    padding: 25px 16px 19px;
+                }
+
+                h1 {
+                    font-size: 25px;
+                }
+
+                .page-heading p {
+                    display: none;
+                }
+
+                .filter-mobile-button {
+                    display: inline-flex;
+                    align-items: center;
+                }
+
+                .explore-layout {
+                    display: block;
+                }
+
+                .filters {
+                    position: fixed;
+                    z-index: 70;
+                    top: 0;
+                    bottom: 0;
+                    left: 0;
+                    width: min(340px, 88vw);
+                    overflow-y: auto;
+                    border-right: 1px solid var(--border);
+                    transform: translateX(-102%);
+                    transition: transform 210ms ease;
+                }
+
+                .filters.open {
+                    transform: translateX(0);
+                }
+
+                .mobile-backdrop {
+                    position: fixed;
+                    z-index: 60;
+                    inset: 0;
+                    background: rgb(31 41 55 / 0.46);
+                    opacity: 0;
+                    transition: opacity 190ms ease;
+                }
+
+                .mobile-backdrop.open {
+                    display: block;
+                    opacity: 1;
+                }
+
+                .mobile-filter-bar {
+                    display: flex;
+                    position: sticky;
+                    z-index: 2;
+                    bottom: 0;
+                    gap: 8px;
+                    margin: 18px -20px -32px;
+                    padding: 12px 20px;
+                    border-top: 1px solid var(--border);
+                    background: var(--panel);
+                }
+
+                .mobile-filter-bar button {
+                    min-height: 42px;
+                    flex: 1;
+                    border: 1px solid var(--primary);
+                    border-radius: 6px;
+                    background: transparent;
+                    color: var(--primary-strong);
+                    font-weight: 800;
+                }
+
+                .mobile-filter-bar .apply-button {
+                    background: var(--primary);
+                    color: #fff;
+                }
+
+                .results-region {
+                    padding: 17px 16px 42px;
+                }
+
+                .result-toolbar {
+                    align-items: flex-start;
+                }
+
+                .catalog-search-row {
+                    grid-template-columns: 1fr;
+                }
+
+                .result-count span {
+                    display: block;
+                }
+
+                .story-card {
+                    grid-template-columns: 70px minmax(0, 1fr);
+                    gap: 12px;
+                }
+
+                .cover {
+                    width: 70px;
+                }
+
+                .story-side {
+                    display: none;
+                }
+
+                .summary-text {
+                    -webkit-line-clamp: 2;
+                }
+            }
+
+            @media (prefers-reduced-motion: reduce) {
+                *,
+                *::before,
+                *::after {
+                    scroll-behavior: auto !important;
+                    animation-duration: 0.01ms !important;
+                    transition-duration: 0.01ms !important;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <header class="topbar">
+            <a class="home-link" href="../app/(home)/page.js"><span>Trang chủ</span></a>
+            <img class="logo" src="../public/logo.png" alt="Mê Truyện Chữ" />
+            <a class="account-link" href="#">Tài khoản</a>
+        </header>
+
+        <section class="page-heading">
+            <div>
+                <h1>Tất cả truyện</h1>
+                <p>Khám phá truyện theo thể loại, tình trạng và phong cách.</p>
+            </div>
+            <button class="filter-mobile-button" id="openFilters" type="button">
+                Bộ lọc
+            </button>
+        </section>
+
+        <main class="explore-layout">
+            <aside class="filters" id="filterPanel" aria-label="Bộ lọc truyện">
+                <div class="filter-header">
+                    <strong>Bộ lọc</strong>
+                    <button class="text-button clear-all" type="button">Xóa tất cả</button>
+                </div>
+
+                <section class="filter-group" data-group="status">
+                    <span class="filter-label">Tình trạng</span>
+                    <div class="choice-list">
+                        <button class="choice" data-value="ongoing" type="button">Còn tiếp</button>
+                        <button class="choice" data-value="complete" type="button">Hoàn thành</button>
+                        <button class="choice" data-value="paused" type="button">Tạm dừng</button>
+                    </div>
+                </section>
+
+                <section class="filter-group" data-group="genre">
+                    <span class="filter-label">Thể loại</span>
+                    <div class="choice-list" id="genreChoices">
+                        <button class="choice" data-value="canh-ky" type="button">Cạnh Kỹ</button>
+                        <button class="choice" data-value="da-su" type="button">Dã Sử</button>
+                        <button class="choice" data-value="tien-hiep" type="button">Tiên Hiệp</button>
+                        <button class="choice" data-value="huyen-huyen" type="button">Huyền Huyễn</button>
+                        <button class="choice" data-value="do-thi" type="button">Đô Thị</button>
+                        <button class="choice" data-value="khoa-huyen" type="button">Khoa Huyễn</button>
+                        <button class="choice genre-extra" data-value="huyen-nghi" type="button">Huyền Nghi</button>
+                        <button class="choice genre-extra" data-value="kiem-hiep" type="button">Kiếm Hiệp</button>
+                        <button class="choice genre-extra" data-value="ky-ao" type="button">Kỳ Ảo</button>
+                        <button class="choice genre-extra" data-value="light-novel" type="button">Light Novel</button>
+                        <button class="choice genre-extra" data-value="vong-du" type="button">Võng Du</button>
+                        <button class="choice genre-extra" data-value="dong-nhan" type="button">Đồng Nhân</button>
+                    </div>
+                    <button class="show-more-button" id="toggleGenres" type="button">Xem thêm 6</button>
+                </section>
+
+                <section class="filter-group" data-group="type">
+                    <span class="filter-label">Loại truyện</span>
+                    <div class="choice-list">
+                        <button class="choice" data-value="translated" type="button">Chuyển ngữ</button>
+                        <button class="choice" data-value="original" type="button">Sáng tác</button>
+                    </div>
+                </section>
+
+                <section class="filter-group" data-group="attribute">
+                    <span class="filter-label">Thuộc tính</span>
+                    <div class="choice-list">
+                        <button class="choice" data-value="chat-luong-cao" type="button">Chất Lượng Cao</button>
+                        <button class="choice" data-value="mien-phi" type="button">Miễn Phí</button>
+                        <button class="choice" data-value="thu-phi" type="button">Thu Phí</button>
+                    </div>
+                </section>
+
+                <section class="filter-group" data-group="chapters">
+                    <span class="filter-label">Số chương</span>
+                    <div class="choice-list">
+                        <button class="choice" data-value="short" type="button">Dưới 300</button>
+                        <button class="choice" data-value="medium" type="button">300 đến 600</button>
+                        <button class="choice" data-value="long" type="button">Trên 600</button>
+                    </div>
+                </section>
+
+                <button class="advanced-toggle" id="advancedToggle" type="button" aria-expanded="false">
+                    <span>Bộ lọc nâng cao</span>
+                    <span aria-hidden="true">⌄</span>
+                </button>
+                <div class="advanced-content" id="advancedContent">
+                    <div class="advanced-inner">
+                        <section class="filter-group" data-group="personality">
+                            <span class="filter-label">Tính cách nhân vật</span>
+                            <div class="choice-list">
+                                <button class="choice" data-value="co-tri" type="button">Cơ Trí</button>
+                                <button class="choice" data-value="giao-hoat" type="button">Giảo Hoạt</button>
+                                <button class="choice" data-value="kieu-ngao" type="button">Kiêu Ngạo</button>
+                                <button class="choice" data-value="lanh-khoc" type="button">Lãnh Khốc</button>
+                                <button class="choice" data-value="ngu-ngoc" type="button">Ngu Ngốc</button>
+                                <button class="choice" data-value="nhiet-huyet" type="button">Nhiệt Huyết</button>
+                                <button class="choice" data-value="nhe-nhang" type="button">Nhẹ Nhàng</button>
+                                <button class="choice" data-value="thiet-huyet" type="button">Thiết Huyết</button>
+                                <button class="choice" data-value="vo-si" type="button">Vô Sỉ</button>
+                                <button class="choice" data-value="diem-dam" type="button">Điềm Đạm</button>
+                            </div>
+                        </section>
+                        <section class="filter-group" data-group="world">
+                            <span class="filter-label">Bối cảnh</span>
+                            <div class="filter-search-wrap">
+                                <input class="filter-search" id="worldSearch" type="search" placeholder="Tìm bối cảnh" aria-label="Tìm trong danh sách bối cảnh" />
+                            </div>
+                            <div class="option-list" id="worldOptions"></div>
+                        </section>
+                        <section class="filter-group" data-group="style">
+                            <span class="filter-label">Lưu phái</span>
+                            <div class="filter-search-wrap">
+                                <input class="filter-search" id="styleSearch" type="search" placeholder="Tìm lưu phái" aria-label="Tìm trong danh sách lưu phái" />
+                            </div>
+                            <div class="option-list" id="styleOptions"></div>
+                        </section>
+                    </div>
+                </div>
+
+                <div class="mobile-filter-bar">
+                    <button class="clear-all" type="button">Đặt lại</button>
+                    <button class="apply-button" id="applyFilters" type="button">Áp dụng</button>
+                </div>
+            </aside>
+
+            <div class="mobile-backdrop" id="filterBackdrop"></div>
+
+            <section class="results-region" aria-label="Kết quả truyện">
+                <div class="catalog-search-row">
+                    <div class="catalog-search">
+                        <input id="storySearch" type="search" placeholder="Tìm theo tên truyện hoặc tác giả" aria-label="Tìm theo tên truyện hoặc tác giả" />
+                        <button class="clear-search" id="clearStorySearch" type="button" aria-label="Xóa từ khóa tìm kiếm" hidden>×</button>
+                    </div>
+                    <label>
+                        <span style="position: absolute; width: 1px; height: 1px; overflow: hidden">Sắp xếp</span>
+                        <select id="sortSelect">
+                            <option value="updated">Mới cập nhật</option>
+                            <option value="rating">Đánh giá cao</option>
+                            <option value="reads">Lượt đọc</option>
+                            <option value="chapters">Nhiều chương</option>
+                        </select>
+                    </label>
+                </div>
+                <div class="result-toolbar">
+                    <div class="result-count">
+                        <strong id="resultCount">6 truyện</strong>
+                        <span> phù hợp</span>
+                    </div>
+                </div>
+
+                <div class="active-filters" id="activeFilters"></div>
+
+                <div class="story-list" id="storyList">
+                    <article class="story-card" data-status="ongoing" data-genre="tien-hiep" data-type="translated" data-attribute="chat-luong-cao" data-chapters="long" data-personality="diem-dam" data-style="pham-nhan" data-world="hien-dai-tu-chan" data-rating="4.8" data-reads="980000" data-count="1260" data-updated="6">
+                        <img class="cover" src="https://static.cdnno.com/poster/thai-hu-chi-ton/300.jpg?1751029137" alt="Bìa truyện Thái Hư Chí Tôn 3" />
+                        <div>
+                            <a class="story-title" href="#">Thái Hư Chí Tôn 3</a>
+                            <p class="author">Ngã Thị Ngưu Chiến Sĩ</p>
+                            <p class="summary-text">Một con đường tu hành khắc nghiệt, nơi mỗi lựa chọn đều thay đổi vận mệnh của nhân vật chính.</p>
+                            <div class="story-meta"><span>1.260 chương</span><span>980K lượt đọc</span><span>4.8 điểm</span></div>
+                        </div>
+                        <div class="story-side"><span class="genre">Tiên Hiệp</span><span>6 phút trước</span></div>
+                    </article>
+
+                    <article class="story-card" data-status="ongoing" data-genre="huyen-huyen" data-type="translated" data-attribute="mien-phi" data-chapters="medium" data-personality="co-tri" data-style="he-thong" data-world="di-the-dai-luc" data-rating="4.6" data-reads="760000" data-count="524" data-updated="12">
+                        <img class="cover" src="https://static.cdnno.com/poster/manh-len-tu-huyen-lenh-bat-dau/300.jpg?1748587111" alt="Bìa truyện Mạnh Lên Từ Huyện Lệnh Bắt Đầu" />
+                        <div>
+                            <a class="story-title" href="#">Mạnh Lên Từ Huyện Lệnh Bắt Đầu</a>
+                            <p class="author">Bất Hoang Phong Vũ Các</p>
+                            <p class="summary-text">Từ một huyện lệnh nhỏ bé, nhân vật chính từng bước xây dựng thế lực giữa thời cuộc biến động.</p>
+                            <div class="story-meta"><span>524 chương</span><span>760K lượt đọc</span><span>4.6 điểm</span></div>
+                        </div>
+                        <div class="story-side"><span class="genre">Huyền Huyễn</span><span>12 phút trước</span></div>
+                    </article>
+
+                    <article class="story-card" data-status="complete" data-genre="khoa-huyen" data-type="original" data-attribute="thu-phi" data-chapters="short" data-personality="thiet-huyet" data-style="vo-dich" data-world="tinh-te-van-minh" data-rating="4.9" data-reads="540000" data-count="248" data-updated="45">
+                        <img class="cover" src="https://static.cdnno.com/poster/toan-dan-tinh-hai-thoi-dai/300.jpg" alt="Bìa truyện Toàn Dân Tinh Hải Thời Đại" />
+                        <div>
+                            <a class="story-title" href="#">Toàn Dân Tinh Hải Thời Đại</a>
+                            <p class="author">Sơn Cao Địa Huýnh</p>
+                            <p class="summary-text">Nhân loại bước vào kỷ nguyên tinh hải, đối mặt với những nền văn minh vượt ngoài trí tưởng tượng.</p>
+                            <div class="story-meta"><span>248 chương</span><span>540K lượt đọc</span><span>4.9 điểm</span></div>
+                        </div>
+                        <div class="story-side"><span class="genre">Khoa Huyễn</span><span class="status-complete">Hoàn thành</span></div>
+                    </article>
+
+                    <article class="story-card" data-status="paused" data-genre="do-thi" data-type="original" data-attribute="mien-phi" data-chapters="short" data-personality="lanh-khoc" data-style="he-thong" data-world="do-thi-sinh-hoat" data-rating="4.2" data-reads="280000" data-count="186" data-updated="160">
+                        <img class="cover" src="https://static.cdnno.com/poster/quang-am-chi-ngoai/300.jpg?1718153607" alt="Bìa truyện Quang Âm Chi Ngoại 3" />
+                        <div>
+                            <a class="story-title" href="#">Quang Âm Chi Ngoại 3</a>
+                            <p class="author">Nhĩ Căn</p>
+                            <p class="summary-text">Ánh sáng và bóng tối giao thoa trong hành trình tìm kiếm câu trả lời về quá khứ.</p>
+                            <div class="story-meta"><span>186 chương</span><span>280K lượt đọc</span><span>4.2 điểm</span></div>
+                        </div>
+                        <div class="story-side"><span class="genre">Đô Thị</span><span>Tạm dừng</span></div>
+                    </article>
+
+                    <article class="story-card" data-status="complete" data-genre="ky-ao" data-type="translated" data-attribute="chat-luong-cao" data-chapters="long" data-personality="nhiet-huyet" data-style="pham-nhan" data-world="di-the-dai-luc" data-rating="4.7" data-reads="1120000" data-count="986" data-updated="82">
+                        <img class="cover" src="https://static.cdnno.com/poster/trong-sinh-2011-tu-dai-hoc-hang-hai-tro-thanh-985-danh-giao/300.jpg" alt="Bìa truyện Trọng Sinh 2011" />
+                        <div>
+                            <a class="story-title" href="#">Trọng Sinh 2011, Từ Đại Học Hàng Hải</a>
+                            <p class="author">Lão Điểu Tiên Phi</p>
+                            <p class="summary-text">Một cơ hội làm lại cuộc đời mở ra hành trình vượt biển và gây dựng sự nghiệp mới.</p>
+                            <div class="story-meta"><span>986 chương</span><span>1.12M lượt đọc</span><span>4.7 điểm</span></div>
+                        </div>
+                        <div class="story-side"><span class="genre">Kỳ Ảo</span><span class="status-complete">Hoàn thành</span></div>
+                    </article>
+
+                    <article class="story-card" data-status="ongoing" data-genre="tien-hiep" data-type="translated" data-attribute="thu-phi" data-chapters="medium" data-personality="giao-hoat" data-style="vo-dich" data-world="huyen-tuong-tu-tien" data-rating="4.5" data-reads="430000" data-count="412" data-updated="26">
+                        <img class="cover" src="https://static.cdnno.com/poster/manh-len-tu-huyen-lenh-bat-dau/300.jpg?1748587111" alt="Bìa truyện Từ Trọng Trò Chơi Rút Ra Kỹ Năng" />
+                        <div>
+                            <a class="story-title" href="#">Từ Trong Trò Chơi Rút Ra Kỹ Năng</a>
+                            <p class="author">Cô Độc Tiểu Văn</p>
+                            <p class="summary-text">Kỹ năng trong trò chơi dần trở thành sức mạnh thực tế và thay đổi cuộc sống thường ngày.</p>
+                            <div class="story-meta"><span>412 chương</span><span>430K lượt đọc</span><span>4.5 điểm</span></div>
+                        </div>
+                        <div class="story-side"><span class="genre">Tiên Hiệp</span><span>26 phút trước</span></div>
+                    </article>
+                </div>
+
+                <div class="empty-state" id="emptyState">
+                    <div><strong>Không có truyện phù hợp</strong><span>Thử bỏ bớt điều kiện lọc.</span></div>
+                </div>
+
+                <nav class="pagination" aria-label="Phân trang">
+                    <button class="page-button active" type="button">1</button>
+                    <button class="page-button" type="button">2</button>
+                    <button class="page-button" type="button">3</button>
+                </nav>
+            </section>
+        </main>
+
+        <script>
+            const state = {};
+            let storySearchQuery = "";
+            const filterPanel = document.querySelector("#filterPanel");
+            const backdrop = document.querySelector("#filterBackdrop");
+            const storyList = document.querySelector("#storyList");
+            const cards = [...document.querySelectorAll(".story-card")];
+            const activeFilters = document.querySelector("#activeFilters");
+            const resultCount = document.querySelector("#resultCount");
+            const emptyState = document.querySelector("#emptyState");
+            const storySearchInput = document.querySelector("#storySearch");
+            const clearStorySearch = document.querySelector("#clearStorySearch");
+
+            const worldTags = [
+                ["cao-vo-the-gioi", "Cao Võ Thế Giới"],
+                ["chu-thien-van-gioi", "Chư Thiên Vạn Giới"],
+                ["cung-vi-trach-dau", "Cung Vi Trạch Đấu"],
+                ["cao-tieu-tho-tao", "Cáo Tiếu Thổ Tào"],
+                ["co-vo-co-giap", "Cổ Võ Cơ Giáp"],
+                ["co-vo-tuong-lai", "Cổ Võ Tương Lai"],
+                ["co-dien-tien-hiep", "Cổ Điển Tiên Hiệp"],
+                ["dien-sinh-dong-nhan", "Diễn Sinh Đồng Nhân"],
+                ["du-hi-di-gioi", "Du Hí Dị Giới"],
+                ["dan-gian-truyen-thuyet", "Dân Gian Truyền Thuyết"],
+                ["di-the-dai-luc", "Dị Thế Đại Lục"],
+                ["di-toc-luyen-tinh", "Dị Tộc Luyến Tình"],
+                ["gia-khong-lich-su", "Giá Không Lịch Sử"],
+                ["hien-dai-ma-phap", "Hiện Đại Ma Pháp"],
+                ["hien-dai-tu-chan", "Hiện Đại Tu Chân"],
+                ["huyen-tuong-tu-tien", "Huyễn Tưởng Tu Tiên"],
+                ["hao-mon-the-gia", "Hào Môn Thế Gia"],
+                ["hu-nghi-vong-du", "Hư Nghĩ Võng Du"],
+                ["hac-am-huyen-tuong", "Hắc Ám Huyễn Tưởng"],
+                ["kinh-thuong-chung-dien", "Kinh Thương Chủng Điển"],
+                ["ky-dieu-the-gioi", "Kỳ Diệu Thế Giới"],
+                ["linh-khi-khoi-phuc", "Linh Khí Khôi Phục"],
+                ["lich-su-quan-truong", "Lịch Sử Quan Trường"],
+                ["lich-su-quan-su", "Lịch Sử Quân Sự"],
+                ["lich-su-than-thoai", "Lịch Sử Thần Thoại"],
+                ["ma-phap-huyen-tinh", "Ma Pháp Huyễn Tình"],
+                ["mat-the-nguy-co", "Mạt Thế Nguy Cơ"],
+                ["ngu-nhac-minh-tinh", "Ngu Nhạc Minh Tinh"],
+                ["nguyen-sinh-huyen-tuong", "Nguyên Sinh Huyễn Tưởng"],
+                ["quy-bi-huyen-nghi", "Quỷ Bí Huyền Nghi"],
+                ["thanh-xuan-vuon-truong", "Thanh Xuân Vườn Trường"],
+                ["tham-hiem-sinh-ton", "Thám Hiểm Sinh Tồn"],
+                ["thuong-chien-chuc-trang", "Thương Chiến Chức Tràng"],
+                ["than-thoai-tu-chan", "Thần Thoại Tu Chân"],
+                ["the-gioi-tuong-lai", "Thế Giới Tương Lai"],
+                ["the-duc-canh-ky", "Thể Dục Cạnh Kỹ"],
+                ["thoi-khong-xuyen-toa", "Thời Không Xuyên Toa"],
+                ["tinh-te-luyen-ca", "Tinh Tế Luyến Ca"],
+                ["tinh-te-van-minh", "Tinh Tế Văn Minh"],
+                ["tien-lu-ky-duyen", "Tiên Lữ Kỳ Duyên"],
+                ["tien-hoa-bien-di", "Tiến Hoá Biến Dị"],
+                ["trinh-tham-thoi-ly", "Trinh Thám Thôi Lý"],
+                ["tu-chan-van-minh", "Tu Chân Văn Minh"],
+                ["tay-phuong-ky-huyen", "Tây Phương Kỳ Huyễn"],
+                ["vien-co-hong-hoang", "Viễn Cổ Hồng Hoang"],
+                ["vo-hiep-huyen-tuong", "Võ Hiệp Huyễn Tưởng"],
+                ["vuong-trieu-tranh-ba", "Vương Triều Tranh Bá"],
+                ["yeu-duong-thuong-ngay", "Yêu Đương Thường Ngày"],
+                ["dien-tu-canh-ky", "Điện Tử Cạnh Kỹ"],
+                ["do-thi-di-nang", "Đô Thị Dị Năng"],
+                ["do-thi-sinh-hoat", "Đô Thị Sinh Hoạt"],
+                ["dong-phuong-huyen-huyen", "Đông Phương Huyền Huyễn"],
+            ];
+
+            const styleTags = [
+                ["bien-than", "Biến Thân"],
+                ["ban-tho", "Bàn Thờ"],
+                ["chuyen-the", "Chuyển Thế"],
+                ["ca-man", "Cá Mặn"],
+                ["com-mem", "Cơm Mềm"],
+                ["co-ngu", "Cổ Ngu"],
+                ["duong-thanh", "Dưỡng Thành"],
+                ["he-thong", "Hệ Thống"],
+                ["lao-gia", "Lão Gia"],
+                ["mary-sue", "Mary Sue"],
+                ["my-thuc", "Mỹ Thực"],
+                ["ngot-sung", "Ngọt Sủng"],
+                ["ngu-thu", "Ngự Thú"],
+                ["nu-phu", "Nữ Phụ"],
+                ["pham-nhan", "Phàm Nhân"],
+                ["phan-phai", "Phản Phái"],
+                ["phe-tai", "Phế Tài"],
+                ["sau-man", "Sau Màn"],
+                ["sang-van", "Sảng Văn"],
+                ["thien-tai", "Thiên Tài"],
+                ["toan-dan", "Toàn Dân"],
+                ["tuy-than", "Tuỳ Thân"],
+                ["vo-han", "Vô Hạn"],
+                ["vo-dich", "Vô Địch"],
+                ["va-mat", "Vả Mặt"],
+                ["xuyen-khong", "Xuyên Không"],
+                ["xuyen-nhanh", "Xuyên Nhanh"],
+                ["xuyen-sach", "Xuyên Sách"],
+                ["xay-dung-the-luc", "Xây Dựng Thế Lực"],
+                ["dien-vien", "Điền Viên"],
+                ["dan-xuyen", "Đàn Xuyên"],
+            ];
+
+            function normalizeText(value) {
+                return String(value)
+                    .normalize("NFD")
+                    .replace(/[\u0300-\u036f]/g, "")
+                    .replace(/[đĐ]/g, "d")
+                    .toLowerCase()
+                    .trim();
+            }
+
+            function renderLongOptions(containerId, options) {
+                const container = document.querySelector(`#${containerId}`);
+                const fragment = document.createDocumentFragment();
+                options.forEach(([value, label]) => {
+                    const button = document.createElement("button");
+                    button.type = "button";
+                    button.className = "option-row";
+                    button.dataset.value = value;
+                    button.textContent = label;
+                    fragment.append(button);
+                });
+                container.replaceChildren(fragment);
+            }
+
+            function setupOptionSearch(inputId, containerId) {
+                const input = document.querySelector(`#${inputId}`);
+                const container = document.querySelector(`#${containerId}`);
+                input.addEventListener("input", () => {
+                    const query = normalizeText(input.value);
+                    [...container.children].forEach((option) => {
+                        option.hidden = !normalizeText(option.textContent).includes(query);
+                    });
+                });
+            }
+
+            renderLongOptions("worldOptions", worldTags);
+            renderLongOptions("styleOptions", styleTags);
+            setupOptionSearch("worldSearch", "worldOptions");
+            setupOptionSearch("styleSearch", "styleOptions");
+
+            function closeMobileFilters() {
+                filterPanel.classList.remove("open");
+                backdrop.classList.remove("open");
+                document.body.style.overflow = "";
+            }
+
+            function renderFilters() {
+                document.querySelectorAll(".choice, .option-row").forEach((button) => {
+                    const group = button.closest("[data-group]").dataset.group;
+                    button.classList.toggle("active", state[group] === button.dataset.value);
+                });
+
+                activeFilters.replaceChildren();
+                Object.entries(state).forEach(([group, value]) => {
+                    const source = document.querySelector(`[data-group="${group}"] [data-value="${value}"]`);
+                    if (!source) return;
+                    const chip = document.createElement("span");
+                    chip.className = "filter-chip";
+                    chip.innerHTML = `${source.textContent}<button type="button" aria-label="Xóa ${source.textContent}">×</button>`;
+                    chip.querySelector("button").addEventListener("click", () => {
+                        delete state[group];
+                        applyFilters();
+                    });
+                    activeFilters.append(chip);
+                });
+
+                if (storySearchQuery) {
+                    const chip = document.createElement("span");
+                    const removeButton = document.createElement("button");
+                    chip.className = "filter-chip";
+                    removeButton.type = "button";
+                    removeButton.textContent = "×";
+                    removeButton.setAttribute("aria-label", "Xóa từ khóa truyện");
+                    chip.append(
+                        document.createTextNode(`Tên: ${storySearchQuery}`),
+                        removeButton,
+                    );
+                    removeButton.addEventListener("click", () => {
+                        storySearchInput.value = "";
+                        storySearchQuery = "";
+                        clearStorySearch.hidden = true;
+                        applyFilters();
+                    });
+                    activeFilters.prepend(chip);
+                }
+            }
+
+            function applyFilters() {
+                let visible = 0;
+                cards.forEach((card) => {
+                    const matchesTags = Object.entries(state).every(([group, value]) => card.dataset[group] === value);
+                    const searchableText = normalizeText(`${card.querySelector(".story-title").textContent} ${card.querySelector(".author").textContent}`);
+                    const matchesSearch = searchableText.includes(normalizeText(storySearchQuery));
+                    const matches = matchesTags && matchesSearch;
+                    card.hidden = !matches;
+                    if (matches) visible += 1;
+                });
+                renderFilters();
+                resultCount.textContent = `${visible} truyện`;
+                emptyState.classList.toggle("show", visible === 0);
+                document.querySelector(".pagination").style.display = visible ? "flex" : "none";
+            }
+
+            filterPanel.addEventListener("click", (event) => {
+                const button = event.target.closest("[data-value]");
+                if (!button) return;
+                    const group = button.closest("[data-group]").dataset.group;
+                    state[group] = state[group] === button.dataset.value ? undefined : button.dataset.value;
+                    if (!state[group]) delete state[group];
+                    applyFilters();
+            });
+
+            document.querySelectorAll(".clear-all").forEach((button) => {
+                button.addEventListener("click", () => {
+                    Object.keys(state).forEach((key) => delete state[key]);
+                    storySearchInput.value = "";
+                    storySearchQuery = "";
+                    clearStorySearch.hidden = true;
+                    applyFilters();
+                });
+            });
+
+            let searchTimeout;
+            storySearchInput.addEventListener("input", () => {
+                clearTimeout(searchTimeout);
+                clearStorySearch.hidden = !storySearchInput.value;
+                searchTimeout = setTimeout(() => {
+                    storySearchQuery = storySearchInput.value.trim();
+                    applyFilters();
+                }, 260);
+            });
+
+            clearStorySearch.addEventListener("click", () => {
+                clearTimeout(searchTimeout);
+                storySearchInput.value = "";
+                storySearchQuery = "";
+                clearStorySearch.hidden = true;
+                storySearchInput.focus();
+                applyFilters();
+            });
+
+            document.querySelector("#toggleGenres").addEventListener("click", (event) => {
+                const choices = document.querySelector("#genreChoices");
+                const expanded = choices.classList.toggle("expanded");
+                event.currentTarget.textContent = expanded ? "Thu gọn" : "Xem thêm 6";
+            });
+
+            document.querySelector("#sortSelect").addEventListener("change", (event) => {
+                const key = event.target.value;
+                const sorted = [...cards].sort((left, right) => {
+                    if (key === "updated") return Number(left.dataset.updated) - Number(right.dataset.updated);
+                    const dataKey = key === "chapters" ? "count" : key;
+                    return Number(right.dataset[dataKey]) - Number(left.dataset[dataKey]);
+                });
+                sorted.forEach((card) => storyList.append(card));
+            });
+
+            document.querySelector("#advancedToggle").addEventListener("click", (event) => {
+                const button = event.currentTarget;
+                const isOpen = button.classList.toggle("open");
+                document.querySelector("#advancedContent").classList.toggle("open", isOpen);
+                button.setAttribute("aria-expanded", String(isOpen));
+            });
+
+            document.querySelector("#openFilters").addEventListener("click", () => {
+                filterPanel.classList.add("open");
+                backdrop.classList.add("open");
+                document.body.style.overflow = "hidden";
+            });
+
+            document.querySelector("#applyFilters").addEventListener("click", closeMobileFilters);
+            backdrop.addEventListener("click", closeMobileFilters);
+            document.addEventListener("keydown", (event) => {
+                if (event.key === "Escape") closeMobileFilters();
+            });
+        </script>
+    </body>
+</html>

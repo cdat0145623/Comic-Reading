@@ -1,0 +1,692 @@
+<!doctype html>
+<html lang="vi">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <title>Demo trang Tủ truyện</title>
+        <style>
+            :root {
+                --primary: #b78a27;
+                --primary-strong: #866313;
+                --primary-soft: #f6f0e2;
+                --canvas: #ecebea;
+                --surface: #fcfcfa;
+                --panel: #ffffff;
+                --muted-surface: #f3f4f6;
+                --text: #1f2937;
+                --muted: #6b7280;
+                --border: #d8dbe0;
+                --danger: #b42318;
+            }
+
+            * {
+                box-sizing: border-box;
+                letter-spacing: 0;
+            }
+
+            html {
+                background: var(--canvas);
+            }
+
+            body {
+                width: min(1024px, 100%);
+                min-height: 100dvh;
+                margin: 0 auto;
+                color: var(--text);
+                background: var(--surface);
+                font-family: "Avenir Next", Arial, Helvetica, sans-serif;
+                font-size: 14px;
+                line-height: 1.45;
+            }
+
+            button,
+            select {
+                color: inherit;
+                font: inherit;
+            }
+
+            button {
+                cursor: pointer;
+            }
+
+            button:focus-visible,
+            select:focus-visible,
+            a:focus-visible {
+                outline: 2px solid var(--primary-strong);
+                outline-offset: 2px;
+            }
+
+            .topbar {
+                display: grid;
+                grid-template-columns: 1fr auto 1fr;
+                min-height: 64px;
+                align-items: center;
+                padding: 0 24px;
+                border-bottom: 1px solid var(--border);
+                background: var(--panel);
+            }
+
+            .topbar a {
+                color: var(--text);
+                text-decoration: none;
+            }
+
+            .home-link {
+                justify-self: start;
+                font-weight: 700;
+            }
+
+            .logo {
+                width: 46px;
+                height: 46px;
+                object-fit: contain;
+            }
+
+            .account-link {
+                justify-self: end;
+                color: var(--muted) !important;
+                font-weight: 600;
+            }
+
+            main {
+                padding: 42px 28px 64px;
+            }
+
+            .heading-row {
+                display: flex;
+                align-items: end;
+                justify-content: space-between;
+                gap: 24px;
+                padding-bottom: 26px;
+            }
+
+            h1 {
+                margin: 0;
+                font-size: clamp(26px, 4vw, 36px);
+                line-height: 1.15;
+            }
+
+            .heading-row p {
+                max-width: 52ch;
+                margin: 8px 0 0;
+                color: var(--muted);
+            }
+
+            .summary {
+                flex: 0 0 auto;
+                color: var(--muted);
+                font-size: 13px;
+            }
+
+            .summary strong {
+                color: var(--text);
+                font-size: 22px;
+            }
+
+            .library-bar {
+                display: flex;
+                min-height: 58px;
+                align-items: stretch;
+                justify-content: space-between;
+                gap: 20px;
+                border-block: 1px solid var(--border);
+            }
+
+            .tabs {
+                display: flex;
+                align-items: stretch;
+                gap: 30px;
+            }
+
+            .tab {
+                position: relative;
+                min-width: 118px;
+                border: 0;
+                background: transparent;
+                color: var(--muted);
+                font-weight: 700;
+            }
+
+            .tab::after {
+                position: absolute;
+                right: 0;
+                bottom: -1px;
+                left: 0;
+                height: 3px;
+                content: "";
+                transform: scaleX(0);
+                transform-origin: center;
+                background: var(--primary);
+                transition: transform 180ms ease;
+            }
+
+            .tab.active {
+                color: var(--primary-strong);
+            }
+
+            .tab.active::after {
+                transform: scaleX(1);
+            }
+
+            .tab .count {
+                margin-left: 5px;
+                color: var(--muted);
+                font-size: 12px;
+                font-weight: 600;
+            }
+
+            .sort-wrap {
+                display: flex;
+                align-items: center;
+                gap: 9px;
+                color: var(--muted);
+                font-size: 13px;
+            }
+
+            .sort-wrap select {
+                min-height: 38px;
+                padding: 0 34px 0 12px;
+                border: 1px solid var(--border);
+                border-radius: 5px;
+                background: var(--panel);
+                font-weight: 700;
+            }
+
+            .list-shell {
+                min-height: 720px;
+            }
+
+            .list {
+                animation: list-in 220ms ease both;
+            }
+
+            @keyframes list-in {
+                from {
+                    opacity: 0;
+                    transform: translateY(5px);
+                }
+                to {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+            }
+
+            .book-row {
+                display: grid;
+                grid-template-columns: 56px minmax(0, 1fr) minmax(150px, 190px) auto;
+                gap: 16px;
+                align-items: center;
+                min-height: 92px;
+                padding: 14px 0;
+                border-bottom: 1px solid var(--border);
+            }
+
+            .cover {
+                width: 56px;
+                height: 72px;
+                border: 1px solid rgb(0 0 0 / 8%);
+                border-radius: 3px;
+                object-fit: cover;
+                background: var(--muted-surface);
+            }
+
+            .book-copy {
+                min-width: 0;
+            }
+
+            .book-title {
+                display: block;
+                overflow: hidden;
+                color: var(--text);
+                font-size: 15px;
+                font-weight: 750;
+                text-decoration: none;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+            }
+
+            .book-title:hover {
+                color: var(--primary-strong);
+            }
+
+            .meta {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 5px 12px;
+                margin-top: 6px;
+                color: var(--muted);
+                font-size: 12px;
+            }
+
+            .progress-track {
+                width: min(250px, 100%);
+                height: 3px;
+                margin-top: 11px;
+                overflow: hidden;
+                background: var(--muted-surface);
+            }
+
+            .progress-value {
+                height: 100%;
+                background: var(--primary);
+            }
+
+            .chapter-info {
+                min-width: 0;
+            }
+
+            .chapter-info span {
+                display: block;
+                color: var(--muted);
+                font-size: 11px;
+            }
+
+            .chapter-info a {
+                display: block;
+                overflow: hidden;
+                margin-top: 4px;
+                color: var(--text);
+                font-size: 13px;
+                font-weight: 650;
+                text-decoration: none;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+            }
+
+            .row-actions {
+                display: flex;
+                align-items: center;
+                gap: 8px;
+            }
+
+            .continue,
+            .icon-button {
+                min-height: 38px;
+                border-radius: 5px;
+                transition: transform 120ms ease, background-color 160ms ease;
+            }
+
+            .continue:active,
+            .icon-button:active,
+            .page-button:active {
+                transform: scale(0.97);
+            }
+
+            .continue {
+                padding: 0 14px;
+                border: 1px solid var(--primary);
+                background: var(--panel);
+                color: var(--primary-strong);
+                font-weight: 750;
+                white-space: nowrap;
+            }
+
+            .continue:hover {
+                background: var(--primary-soft);
+            }
+
+            .icon-button {
+                width: 38px;
+                border: 1px solid var(--border);
+                background: var(--panel);
+                color: var(--muted);
+                font-size: 17px;
+            }
+
+            .icon-button.saved {
+                border-color: var(--primary);
+                color: var(--primary-strong);
+                background: var(--primary-soft);
+            }
+
+            .pagination {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                gap: 16px;
+                padding-top: 24px;
+            }
+
+            .pagination p {
+                margin: 0;
+                color: var(--muted);
+                font-size: 12px;
+            }
+
+            .page-buttons {
+                display: flex;
+                gap: 6px;
+            }
+
+            .page-button {
+                min-width: 38px;
+                min-height: 38px;
+                border: 1px solid var(--border);
+                border-radius: 5px;
+                background: var(--panel);
+                font-weight: 700;
+            }
+
+            .page-button.active {
+                border-color: var(--primary);
+                background: var(--primary);
+                color: white;
+            }
+
+            .page-button:disabled {
+                cursor: not-allowed;
+                opacity: 0.4;
+            }
+
+            .toast {
+                position: fixed;
+                right: 18px;
+                bottom: 18px;
+                z-index: 10;
+                max-width: calc(100vw - 36px);
+                padding: 11px 14px;
+                border: 1px solid var(--border);
+                border-radius: 5px;
+                opacity: 0;
+                background: var(--panel);
+                box-shadow: 0 10px 28px rgb(31 41 55 / 14%);
+                pointer-events: none;
+                transform: translateY(8px);
+                transition: opacity 180ms ease, transform 180ms ease;
+            }
+
+            .toast.show {
+                opacity: 1;
+                transform: translateY(0);
+            }
+
+            @media (max-width: 760px) {
+                main {
+                    padding: 28px 16px 48px;
+                }
+
+                .heading-row {
+                    align-items: start;
+                }
+
+                .summary {
+                    display: none;
+                }
+
+                .library-bar {
+                    display: block;
+                    padding-bottom: 12px;
+                }
+
+                .tabs {
+                    justify-content: space-between;
+                    gap: 8px;
+                }
+
+                .tab {
+                    min-height: 52px;
+                    min-width: 0;
+                    flex: 1;
+                }
+
+                .sort-wrap {
+                    justify-content: space-between;
+                    padding-top: 12px;
+                }
+
+                .book-row {
+                    grid-template-columns: 48px minmax(0, 1fr) auto;
+                    gap: 12px;
+                }
+
+                .cover {
+                    width: 48px;
+                    height: 64px;
+                }
+
+                .chapter-info {
+                    display: none;
+                }
+
+                .continue {
+                    width: 38px;
+                    padding: 0;
+                    font-size: 0;
+                }
+
+                .continue::after {
+                    content: "›";
+                    font-size: 22px;
+                }
+
+                .pagination {
+                    align-items: flex-start;
+                    flex-direction: column;
+                }
+            }
+
+            @media (prefers-reduced-motion: reduce) {
+                *,
+                *::before,
+                *::after {
+                    scroll-behavior: auto !important;
+                    animation-duration: 0.01ms !important;
+                    transition-duration: 0.01ms !important;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <header class="topbar">
+            <a class="home-link" href="#">← Trang chủ</a>
+            <img class="logo" src="../public/logo.png" alt="Mê Truyện Chữ" />
+            <a class="account-link" href="#">Cài đặt</a>
+        </header>
+
+        <main>
+            <div class="heading-row">
+                <div>
+                    <h1>Tủ truyện</h1>
+                    <p>Tiếp tục hành trình đang đọc hoặc quản lý những truyện bạn đã đánh dấu.</p>
+                </div>
+                <div class="summary"><strong id="summaryCount">23</strong><br />truyện đang đọc</div>
+            </div>
+
+            <div class="library-bar">
+                <div class="tabs" role="tablist" aria-label="Danh sách trong tủ truyện">
+                    <button class="tab active" role="tab" aria-selected="true" data-tab="reading">
+                        Đang đọc <span class="count">23</span>
+                    </button>
+                    <button class="tab" role="tab" aria-selected="false" data-tab="saved">
+                        Đánh dấu <span class="count">14</span>
+                    </button>
+                </div>
+                <label class="sort-wrap">
+                    <span>Sắp xếp</span>
+                    <select id="sortSelect" aria-label="Sắp xếp danh sách">
+                        <option value="recent">Mới đọc</option>
+                        <option value="chapter">Chương mới</option>
+                        <option value="title">Tên truyện</option>
+                    </select>
+                </label>
+            </div>
+
+            <div class="list-shell">
+                <div class="list" id="bookList"></div>
+                <nav class="pagination" aria-label="Phân trang tủ truyện">
+                    <p id="pageSummary"></p>
+                    <div class="page-buttons" id="pageButtons"></div>
+                </nav>
+            </div>
+        </main>
+
+        <div class="toast" id="toast" role="status"></div>
+
+        <script>
+            const titles = [
+                "Thái Hư Chí Tôn 3",
+                "Mạnh Lên Từ Huyện Lệnh Bắt Đầu 4",
+                "Tu Luyện Giản Lược Hoá Công Pháp Bắt Đầu 1",
+                "Từ Trong Trò Chơi Rút Ra Kỹ Năng, Ta Phát Đạt 5",
+                "Quang Âm Chi Ngoại 4",
+                "Tự Bảo Tiên Bồn",
+                "Kiếm Lai",
+                "Đại Đạo Triều Thiên",
+                "Ta Có Một Quyển Quỷ Thần Đồ Lục",
+                "Tiên Công Khai Vật",
+                "Nhân Đạo Đại Thánh",
+                "Trận Vấn Trường Sinh",
+                "Cẩu Tại Yêu Võ Loạn Thế Tu Tiên",
+                "Đạo Gia Muốn Phi Thăng",
+                "Thiên Nhân Đồ Phổ",
+                "Vạn Tướng Chi Vương",
+                "Túc Mệnh Chi Hoàn",
+                "Linh Cảnh Hành Giả",
+                "Xích Tâm Tuần Thiên",
+                "Ngự Thú Chi Vương",
+                "Thâm Không Bỉ Ngạn",
+                "Trường Sinh Giới",
+                "Phàm Nhân Tu Tiên",
+            ];
+
+            const coverSources = [
+                "../public/300.jpg",
+                "../public/image_user.jpg",
+                "../public/banner-main.webp",
+                "../public/sub_banner.webp",
+                "../public/sub_banner_3.webp",
+            ];
+
+            const makeBooks = (count, savedOffset = 0) =>
+                Array.from({ length: count }, (_, index) => ({
+                    id: index + 1 + savedOffset,
+                    title: titles[(index + savedOffset) % titles.length],
+                    cover: coverSources[(index + savedOffset) % coverSources.length],
+                    read: 3 + ((index * 17 + savedOffset) % 96),
+                    total: 108 + ((index * 23) % 420),
+                    latest: 109 + ((index * 23) % 420),
+                    updated: index < 2 ? `${index + 2} phút trước` : `${index + 1} giờ trước`,
+                    saved: true,
+                }));
+
+            const datasets = {
+                reading: makeBooks(23),
+                saved: makeBooks(14, 5),
+            };
+
+            const state = { tab: "reading", page: 1, pageSize: 10, sort: "recent" };
+            const list = document.getElementById("bookList");
+            const pageButtons = document.getElementById("pageButtons");
+            const pageSummary = document.getElementById("pageSummary");
+            const summaryCount = document.getElementById("summaryCount");
+            const sortSelect = document.getElementById("sortSelect");
+            const toast = document.getElementById("toast");
+            let toastTimer;
+
+            function showToast(message) {
+                toast.textContent = message;
+                toast.classList.add("show");
+                clearTimeout(toastTimer);
+                toastTimer = setTimeout(() => toast.classList.remove("show"), 1800);
+            }
+
+            function sortedBooks() {
+                const books = [...datasets[state.tab]];
+                if (state.sort === "title") return books.sort((a, b) => a.title.localeCompare(b.title, "vi"));
+                if (state.sort === "chapter") return books.sort((a, b) => b.latest - a.latest);
+                return books;
+            }
+
+            function renderList() {
+                const books = sortedBooks();
+                const start = (state.page - 1) * state.pageSize;
+                const visible = books.slice(start, start + state.pageSize);
+                list.classList.remove("list");
+                void list.offsetWidth;
+                list.classList.add("list");
+
+                list.innerHTML = visible.map((book) => {
+                    const progress = Math.min(100, Math.round((book.read / book.total) * 100));
+                    return `
+                        <article class="book-row">
+                            <img class="cover" src="${book.cover}" alt="Bìa ${book.title}" />
+                            <div class="book-copy">
+                                <a class="book-title" href="#">${book.title}</a>
+                                <div class="meta">
+                                    <span>Đã đọc ${book.read}/${book.total}</span>
+                                    <span>${book.updated}</span>
+                                </div>
+                                <div class="progress-track" aria-label="Tiến độ ${progress}%">
+                                    <div class="progress-value" style="width:${progress}%"></div>
+                                </div>
+                            </div>
+                            <div class="chapter-info">
+                                <span>Chương mới nhất</span>
+                                <a href="#">Chương ${book.latest}: Đại đạo tranh phong</a>
+                            </div>
+                            <div class="row-actions">
+                                <button class="continue" data-action="continue" data-title="${book.title}">Đọc tiếp</button>
+                                <button class="icon-button" data-action="remove" data-id="${book.id}" aria-label="${state.tab === "reading" ? "Xóa khỏi danh sách đang đọc" : "Bỏ đánh dấu"}">×</button>
+                            </div>
+                        </article>`;
+                }).join("");
+
+                pageSummary.textContent = `Hiển thị ${start + 1}–${Math.min(start + state.pageSize, books.length)} trong ${books.length} truyện`;
+                summaryCount.textContent = books.length;
+                renderPagination(books.length);
+            }
+
+            function renderPagination(total) {
+                const pages = Math.ceil(total / state.pageSize);
+                pageButtons.innerHTML = `
+                    <button class="page-button" data-page="${state.page - 1}" ${state.page === 1 ? "disabled" : ""} aria-label="Trang trước">‹</button>
+                    ${Array.from({ length: pages }, (_, i) => `<button class="page-button ${state.page === i + 1 ? "active" : ""}" data-page="${i + 1}">${i + 1}</button>`).join("")}
+                    <button class="page-button" data-page="${state.page + 1}" ${state.page === pages ? "disabled" : ""} aria-label="Trang sau">›</button>`;
+            }
+
+            document.querySelectorAll(".tab").forEach((tab) => {
+                tab.addEventListener("click", () => {
+                    state.tab = tab.dataset.tab;
+                    state.page = 1;
+                    document.querySelectorAll(".tab").forEach((item) => {
+                        const active = item === tab;
+                        item.classList.toggle("active", active);
+                        item.setAttribute("aria-selected", String(active));
+                    });
+                    sortSelect.options[0].textContent = state.tab === "reading" ? "Mới đọc" : "Mới lưu";
+                    renderList();
+                });
+            });
+
+            sortSelect.addEventListener("change", (event) => {
+                state.sort = event.target.value;
+                state.page = 1;
+                renderList();
+            });
+
+            pageButtons.addEventListener("click", (event) => {
+                const button = event.target.closest("[data-page]");
+                if (!button || button.disabled) return;
+                state.page = Number(button.dataset.page);
+                renderList();
+                document.querySelector(".library-bar").scrollIntoView({ behavior: "smooth", block: "start" });
+            });
+
+            list.addEventListener("click", (event) => {
+                const button = event.target.closest("[data-action]");
+                if (!button) return;
+                if (button.dataset.action === "continue") {
+                    showToast(`Mở chương đang đọc của ${button.dataset.title}`);
+                    return;
+                }
+
+                const index = datasets[state.tab].findIndex((item) => item.id === Number(button.dataset.id));
+                datasets[state.tab].splice(index, 1);
+                showToast(state.tab === "reading" ? "Đã ẩn khỏi danh sách đang đọc" : "Đã bỏ đánh dấu");
+                renderList();
+            });
+
+            renderList();
+        </script>
+    </body>
+</html>
