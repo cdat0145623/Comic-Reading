@@ -26,10 +26,7 @@ import {
     getImportJobProgressForOwner,
 } from "../infrastructure/persistence/import-repository.js";
 import { ImportDiscoveryError } from "../domain/errors.js";
-import {
-    fetchTruyenDichLiveChapter,
-    probeTruyenDichLiveStory,
-} from "../infrastructure/sources/truyendich/adapter.js";
+import { defaultSourceRegistry } from "../infrastructure/sources/registry.js";
 import { hashChapterContent } from "../domain/chapter-content.js";
 
 async function buildJobDto(job, ownerId) {
@@ -89,7 +86,9 @@ export async function discoverStorySource({ actor, input }) {
     });
 
     try {
-        const discovery = await probeTruyenDichLiveStory(parsed.sourceUrl);
+        const discovery = await defaultSourceRegistry
+            .resolve(parsed.sourceUrl)
+            .probeStory(parsed.sourceUrl);
         await saveSourceProbe({ jobId: job.id, discovery });
         const savedJob = await findImportJobForOwner(job.id, actor.id);
         return buildJobDto(savedJob, actor.id);
@@ -345,13 +344,15 @@ export async function importSingleChapterDraft({ actor, input }) {
     ensureChapterIsInConfiguredRange(job, parsed.chapterNumber);
 
     const draftChapter = job.draft.chapters[0];
-    const fetched = await fetchTruyenDichLiveChapter({
+    const fetched = await defaultSourceRegistry
+        .resolve(job.source.canonicalUrl)
+        .fetchChapter({
         sourceSlug: job.source.sourceSlug,
         sourceCanonicalUrl: job.source.canonicalUrl,
         chapterNumber: parsed.chapterNumber,
         editionExternalId: job.selectedEditionExternalId,
         editionName: job.selectedEditionName,
-    });
+        });
     const targetChapters = await findTargetChaptersByNumber(
         job.targetStoryId,
         parsed.chapterNumber,
