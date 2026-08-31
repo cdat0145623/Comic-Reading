@@ -178,7 +178,7 @@ export async function enqueueChapterJobs(importJobId, chapters) {
                     chapterDraftId: chapter.id,
                 },
                 opts: {
-                    jobId: `chapter-${chapter.id}-${Date.now()}`,
+                    jobId: `chapter-${chapter.id}`,
                 },
             })),
         );
@@ -196,7 +196,7 @@ export async function enqueueCatalogJob(importJobId) {
         await getImportQueue().add(
             IMPORT_JOB_NAMES.PREPARE_CATALOG,
             { importJobId },
-            { jobId: `catalog-${importJobId}-${Date.now()}` },
+            { jobId: `catalog-${importJobId}` },
         );
     } catch (error) {
         throw new ImportDiscoveryError(

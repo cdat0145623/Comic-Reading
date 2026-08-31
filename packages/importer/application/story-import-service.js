@@ -137,11 +137,29 @@ export async function queueStoryDiscovery({ actor, input }) {
         };
     }
 
-    const job = await createQueuedDiscoveryJob({
-        clientRequestId: parsed.clientRequestId,
-        ownerId: actor.id,
-        requestedSourceUrl: parsed.sourceUrl,
-    });
+    let job;
+    try {
+        job = await createQueuedDiscoveryJob({
+            clientRequestId: parsed.clientRequestId,
+            ownerId: actor.id,
+            requestedSourceUrl: parsed.sourceUrl,
+        });
+    } catch (error) {
+        const raced = await findImportJobByRequestId(parsed.clientRequestId);
+        if (!raced) throw error;
+        if (raced.ownerId !== actor.id) {
+            throw new ImportDiscoveryError(
+                "IMPORT_REQUEST_CONFLICT",
+                "Yêu cầu discovery không thuộc tài khoản hiện tại.",
+            );
+        }
+        return {
+            jobId: raced.id,
+            status: raced.status,
+            queued: raced.status === "QUEUED",
+            discovery: null,
+        };
+    }
     try {
         return {
             jobId: job.id,

@@ -881,20 +881,26 @@ export async function rollbackPreparedChapterBatch(jobId, chapterDraftIds) {
 }
 
 export async function markChapterRunning(chapterDraftId) {
-    const chapter = await prisma.chapterImportDraft.update({
+    const chapter = await prisma.chapterImportDraft.findUnique({
         where: { id: chapterDraftId },
+        select: { importStatus: true, draft: { select: { jobId: true } } },
+    });
+    if (!chapter) throw new ImportDiscoveryError("IMPORT_CHAPTER_NOT_FOUND", "Chapter không còn tồn tại trong draft.");
+    if (chapter.importStatus === "COMPLETED") return chapter;
+    const updated = await prisma.chapterImportDraft.updateMany({
+        where: { id: chapterDraftId, importStatus: { in: ["PENDING", "QUEUED", "FAILED"] } },
         data: {
             importStatus: "RUNNING",
             attemptCount: { increment: 1 },
             errorCode: null,
             errorMessage: null,
         },
-        select: { draft: { select: { jobId: true } } },
     });
-    await prisma.storyImportJob.update({
-        where: { id: chapter.draft.jobId },
+    await prisma.storyImportJob.updateMany({
+        where: { id: chapter.draft.jobId, status: { in: ["QUEUED", "RUNNING"] }, stage: "CHAPTER_IMPORT" },
         data: { status: "RUNNING" },
     });
+    return updated;
 }
 
 export async function saveWorkerChapterDraft({
@@ -960,8 +966,8 @@ export async function reconcileImportJobProgress(jobId) {
         job.queuedChapterCount > 0 &&
         completed + failed >= job.queuedChapterCount;
 
-    return prisma.storyImportJob.update({
-        where: { id: jobId },
+    const transitioned = await prisma.storyImportJob.updateMany({
+        where: { id: jobId, status: "RUNNING", stage: "CHAPTER_IMPORT" },
         data: {
             completedChapterCount: completed,
             failedChapterCount: failed,
@@ -974,6 +980,7 @@ export async function reconcileImportJobProgress(jobId) {
             completedAt: finished ? new Date() : null,
         },
     });
+    return transitioned;
 }
 
 export async function getImportJobProgressForOwner(jobId, ownerId) {
