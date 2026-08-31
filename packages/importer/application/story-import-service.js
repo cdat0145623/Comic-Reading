@@ -24,7 +24,7 @@ import {
     toImportDiscoveryDto,
     updateImportConfiguration,
     getImportJobProgressForOwner,
-} from "../infrastructure/persistence/import-repository.js";
+} from "../infrastructure/persistence/index.js";
 import { ImportDiscoveryError } from "../domain/errors.js";
 import { defaultSourceRegistry } from "../infrastructure/sources/registry.js";
 import { hashChapterContent } from "../domain/chapter-content.js";
