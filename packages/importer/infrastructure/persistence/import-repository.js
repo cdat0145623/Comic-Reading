@@ -237,7 +237,6 @@ export async function saveDiscovery({ jobId, discovery }) {
                     completedAt: null,
                 },
             });
-
             return { draftId: draft.id };
         },
         { timeout: 20_000 },
@@ -297,8 +296,8 @@ export async function saveSourceProbe({ jobId, discovery }) {
                 rawMetadata: discovery.rawMetadata,
             },
         });
-        await transaction.storyImportJob.update({
-            where: { id: jobId },
+        const transitioned = await transaction.storyImportJob.updateMany({
+            where: { id: jobId, status: "DISCOVERING", stage: "DISCOVERY" },
             data: {
                 sourceId: source.id,
                 selectedEditionExternalId: defaultEdition?.externalId || null,
@@ -316,6 +315,9 @@ export async function saveSourceProbe({ jobId, discovery }) {
                 completedAt: null,
             },
         });
+        if (transitioned.count !== 1) {
+            throw new ImportDiscoveryError("IMPORT_JOB_STATE_CONFLICT", "Import job đã được thay đổi bởi tác vụ khác.", { category: "CONFLICT" });
+        }
     });
 }
 
@@ -331,11 +333,8 @@ export async function beginCatalogPreparation(jobId) {
                 "Import job chưa có draft metadata.",
             );
         }
-        await transaction.chapterImportDraft.deleteMany({
-            where: { draftId: job.draft.id },
-        });
-        return transaction.storyImportJob.update({
-            where: { id: jobId },
+        const transitioned = await transaction.storyImportJob.updateMany({
+            where: { id: jobId, status: "QUEUED", stage: "CATALOG" },
             data: {
                 status: "RUNNING",
                 stage: "CATALOG",
@@ -349,6 +348,13 @@ export async function beginCatalogPreparation(jobId) {
                 completedAt: null,
             },
         });
+        if (transitioned.count !== 1) {
+            throw new ImportDiscoveryError("IMPORT_JOB_STATE_CONFLICT", "Import job đã được thay đổi bởi tác vụ khác.", { category: "CONFLICT" });
+        }
+        await transaction.chapterImportDraft.deleteMany({
+            where: { draftId: job.draft.id },
+        });
+        return transitioned;
     });
 }
 
@@ -695,8 +701,8 @@ export async function markImportJobQueued(jobId) {
 }
 
 export async function markDiscoveryRunning(jobId) {
-    return prisma.storyImportJob.update({
-        where: { id: jobId },
+    const transitioned = await prisma.storyImportJob.updateMany({
+        where: { id: jobId, status: "QUEUED", stage: "DISCOVERY" },
         data: {
             status: "DISCOVERING",
             stage: "DISCOVERY",
@@ -705,6 +711,17 @@ export async function markDiscoveryRunning(jobId) {
             errorMessage: null,
         },
     });
+    if (transitioned.count !== 1) {
+        const current = await prisma.storyImportJob.findUnique({
+            where: { id: jobId },
+            select: { status: true, stage: true },
+        });
+        if (current?.status === "DISCOVERING" && current.stage === "DISCOVERY") {
+            return current;
+        }
+        throw new ImportDiscoveryError("IMPORT_JOB_STATE_CONFLICT", "Import job đã được thay đổi bởi tác vụ khác.", { category: "CONFLICT" });
+    }
+    return transitioned;
 }
 
 export async function prepareChapterBatch({
