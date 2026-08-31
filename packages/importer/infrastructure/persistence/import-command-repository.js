@@ -84,6 +84,10 @@ export async function claimImportQueueCommands(
     client = prisma,
     { limit = 100, leaseMs = 30_000 } = {},
 ) {
+    if (client && typeof client.$queryRawUnsafe !== "function") {
+        ({ limit = 100, leaseMs = 30_000 } = client);
+        client = prisma;
+    }
     const rows = await client.$queryRawUnsafe(
         `WITH candidates AS (
             SELECT "id"
@@ -109,6 +113,10 @@ export async function claimImportQueueCommands(
 }
 
 export async function markImportQueueCommandPublished(client = prisma, commandId) {
+    if (typeof client === "string" && commandId === undefined) {
+        commandId = client;
+        client = prisma;
+    }
     const rows = await client.$queryRawUnsafe(
         `UPDATE "StoryImportQueueCommand"
          SET "status" = 'PUBLISHED'::"ImportQueueCommandStatus",
@@ -128,6 +136,11 @@ export async function releaseImportQueueCommand(
     commandId,
     error,
 ) {
+    if (typeof client === "string" && error === undefined) {
+        error = commandId;
+        commandId = client;
+        client = prisma;
+    }
     const message = String(error?.message || error || "Queue publish failed").slice(
         0,
         1_000,

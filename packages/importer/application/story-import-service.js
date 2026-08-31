@@ -6,6 +6,7 @@ import {
 } from "../domain/schemas.js";
 import {
     createDiscoveringJob,
+    createQueuedDiscoveryJob,
     findImportJobByRequestId,
     findImportJobForOwner,
     findChapterImportContext,
@@ -16,7 +17,7 @@ import {
     findTargetChaptersByNumber,
     findTargetStoryCandidates,
     markImportJobFailed,
-    markImportJobQueued,
+    queueCatalogPreparation,
     saveSourceProbe,
     saveSingleChapterDraft,
     toChapterDraftDto,
@@ -30,10 +31,6 @@ import {
     probeTruyenDichLiveStory,
 } from "../infrastructure/sources/truyendich/adapter.js";
 import { hashChapterContent } from "../domain/chapter-content.js";
-import {
-    enqueueCatalogJob,
-    enqueueDiscoveryJob,
-} from "../infrastructure/queue/import-queue.js";
 
 async function buildJobDto(job, ownerId) {
     if (!job?.draft) return null;
@@ -140,14 +137,12 @@ export async function queueStoryDiscovery({ actor, input }) {
         };
     }
 
-    const job = await createDiscoveringJob({
+    const job = await createQueuedDiscoveryJob({
         clientRequestId: parsed.clientRequestId,
         ownerId: actor.id,
         requestedSourceUrl: parsed.sourceUrl,
     });
     try {
-        await enqueueDiscoveryJob(job.id);
-        await markImportJobQueued(job.id);
         return {
             jobId: job.id,
             status: "QUEUED",
@@ -173,8 +168,7 @@ export async function startChapterImportBatch({ actor, input }) {
         );
     }
     try {
-        await enqueueCatalogJob(parsed.jobId);
-        await markImportJobQueued(parsed.jobId);
+        await queueCatalogPreparation(parsed.jobId, actor.id);
         return {
             jobId: parsed.jobId,
             queuedChapterCount: 0,

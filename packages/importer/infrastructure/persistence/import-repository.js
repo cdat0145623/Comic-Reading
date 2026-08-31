@@ -2,6 +2,10 @@ import { prisma } from "@mtc/database";
 
 import { countChapterWords } from "../../domain/chapter-content.js";
 import { ImportDiscoveryError } from "../../domain/errors.js";
+import { assertImportJobTransition } from "../../domain/import-job-state-machine.js";
+import {
+    createImportQueueCommand,
+} from "./import-command-repository.js";
 
 function serializeChapter(chapter) {
     return {
@@ -63,6 +67,70 @@ export async function createDiscoveringJob({
             startedAt: new Date(),
         },
         select: { id: true },
+    });
+}
+
+export async function createQueuedDiscoveryJob({
+    clientRequestId,
+    ownerId,
+    requestedSourceUrl,
+}) {
+    return prisma.$transaction(async (transaction) => {
+        const job = await transaction.storyImportJob.create({
+            data: {
+                clientRequestId,
+                ownerId,
+                requestedSourceUrl,
+                status: "QUEUED",
+                stage: "DISCOVERY",
+            },
+            select: { id: true, status: true },
+        });
+        await createImportQueueCommand(transaction, {
+            name: "DISCOVER_STORY",
+            importJobId: job.id,
+        });
+        return job;
+    });
+}
+
+export async function queueCatalogPreparation(jobId, ownerId) {
+    return prisma.$transaction(async (transaction) => {
+        const job = await transaction.storyImportJob.findFirst({
+            where: { id: jobId, ownerId },
+            select: { id: true, status: true, stage: true, draft: { select: { id: true } } },
+        });
+        if (!job?.draft) {
+            throw new ImportDiscoveryError(
+                "IMPORT_JOB_NOT_CONFIGURABLE",
+                "Import job chưa sẵn sàng để bắt đầu.",
+            );
+        }
+        assertImportJobTransition({ from: job, to: {
+            status: "QUEUED",
+            stage: "CATALOG",
+        } });
+        const updated = await transaction.storyImportJob.updateMany({
+            where: {
+                id: jobId,
+                ownerId,
+                status: job.status,
+                stage: job.stage,
+            },
+            data: { status: "QUEUED", stage: "CATALOG", errorCode: null, errorMessage: null, completedAt: null },
+        });
+        if (updated.count !== 1) {
+            throw new ImportDiscoveryError(
+                "IMPORT_JOB_STATE_CONFLICT",
+                "Import job đã được thay đổi bởi tác vụ khác.",
+                { category: "CONFLICT" },
+            );
+        }
+        await createImportQueueCommand(transaction, {
+            name: "PREPARE_CATALOG",
+            importJobId: jobId,
+        });
+        return { jobId, status: "QUEUED", stage: "CATALOG" };
     });
 }
 
@@ -399,6 +467,13 @@ export async function prepareConfiguredChapterScope(jobId) {
                 failedChapterCount: 0,
             },
         });
+        for (const chapter of chapters) {
+            await createImportQueueCommand(transaction, {
+                name: "IMPORT_CHAPTER",
+                importJobId: jobId,
+                chapterDraftId: chapter.id,
+            });
+        }
         return chapters;
     });
 }

@@ -5,6 +5,7 @@ import {
     executeDiscoveryJob,
     recordFinalDiscoveryFailure,
     recordFinalChapterFailure,
+    createImportCommandDispatcher,
 } from "@mtc/importer/worker";
 import {
     createSourceOriginHealthStore,
@@ -147,6 +148,8 @@ const importWorker = new Worker(
 );
 
 const workers = [discoveryWorker, importWorker];
+const commandDispatcher = createImportCommandDispatcher();
+commandDispatcher.start();
 
 for (const activeWorker of workers) {
     activeWorker.on("completed", (job) => {
@@ -194,6 +197,7 @@ async function shutdown(signal) {
     shuttingDown = true;
     console.info(`[import-worker] shutting down (${signal})`);
     await Promise.all(workers.map((activeWorker) => activeWorker.close()));
+    await commandDispatcher.stop();
     await Promise.all(
         [
             discoveryBrowserTransportPromise,

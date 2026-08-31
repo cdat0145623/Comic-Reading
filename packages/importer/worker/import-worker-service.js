@@ -17,7 +17,6 @@ import {
     probeTruyenDichLiveStory,
     fetchTruyenDichLiveChapter,
 } from "../infrastructure/sources/truyendich/adapter.js";
-import { enqueueChapterJobs } from "../infrastructure/queue/import-queue.js";
 
 export async function executeDiscoveryJob(
     importJobId,
@@ -71,7 +70,7 @@ export async function executeCatalogJob(
         onPage: (page) => saveCatalogPage({ jobId: job.id, ...page }),
     });
     const chapters = await prepareConfiguredChapterScope(job.id);
-    await enqueueChapterJobs(job.id, chapters);
+    return { queuedChapterCount: chapters.length };
 }
 
 export async function executeChapterJob(
