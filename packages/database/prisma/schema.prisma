@@ -487,6 +487,7 @@ model StoryImportJob {
   source                    StoryImportSource? @relation(fields: [sourceId], references: [id], onDelete: SetNull)
   targetStory               Story?             @relation(fields: [targetStoryId], references: [id], onDelete: SetNull)
   draft                     StoryImportDraft?
+  queueCommands             StoryImportQueueCommand[]
 
   @@index([ownerId, status, updatedAt])
   @@index([sourceId])
@@ -531,10 +532,33 @@ model ChapterImportDraft {
   createdAt         DateTime         @default(now())
   updatedAt         DateTime         @updatedAt
   draft             StoryImportDraft @relation(fields: [draftId], references: [id], onDelete: Cascade)
+  queueCommands     StoryImportQueueCommand[]
 
   @@unique([draftId, externalChapterId])
   @@index([draftId, number])
   @@index([draftId, importStatus, number])
+}
+
+model StoryImportQueueCommand {
+  id             String                  @id @default(uuid())
+  dedupeKey      String                  @unique
+  name           ImportQueueCommandName
+  importJobId    String
+  chapterDraftId String?
+  status         ImportQueueCommandStatus @default(PENDING)
+  attemptCount   Int                     @default(0)
+  availableAt    DateTime                @default(now())
+  leaseExpiresAt DateTime?
+  publishedAt    DateTime?
+  lastError      String?
+  createdAt      DateTime                @default(now())
+  updatedAt      DateTime                @updatedAt
+  importJob      StoryImportJob          @relation(fields: [importJobId], references: [id], onDelete: Cascade)
+  chapterDraft   ChapterImportDraft?     @relation(fields: [chapterDraftId], references: [id], onDelete: Cascade)
+
+  @@index([status, availableAt])
+  @@index([status, leaseExpiresAt])
+  @@index([importJobId])
 }
 
 enum Sex {
@@ -615,4 +639,16 @@ enum SourceFetchTransport {
   DIRECT
   HTTPCLOAK
   CHROMIUM
+}
+
+enum ImportQueueCommandName {
+  DISCOVER_STORY
+  PREPARE_CATALOG
+  IMPORT_CHAPTER
+}
+
+enum ImportQueueCommandStatus {
+  PENDING
+  PUBLISHING
+  PUBLISHED
 }
