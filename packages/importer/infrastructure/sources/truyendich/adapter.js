@@ -8,6 +8,18 @@ import {
 } from "../../../domain/chapter-content.js";
 import { ImportDiscoveryError } from "../../../domain/errors.js";
 import { createSourceOriginPolicy } from "../origin-policy.js";
+import {
+    mapCatalogChapter,
+    parseCatalogPage as parseCatalogPageModule,
+} from "./parsers/catalog-parser.js";
+import {
+    chapterPathForEdition as chapterPathForEditionModule,
+    parseChapterHtml,
+} from "./parsers/chapter-parser.js";
+import {
+    buildStoryDiscovery as buildStoryDiscoveryModule,
+    parseStoryPayload as parseStoryPayloadModule,
+} from "./parsers/story-parser.js";
 
 const SOURCE_PROVIDER = "TRUYENDICH_LIVE";
 const DEFAULT_SOURCE_ORIGIN = "https://truyendich.live";
@@ -692,7 +704,7 @@ function parsePublicStoryPage(html, { source, activeOrigin }) {
 
     let catalogPage;
     try {
-        catalogPage = parseCatalogPage(JSON.parse(catalogMatch[1]), 1);
+        catalogPage = parseCatalogPageModule(JSON.parse(catalogMatch[1]), 1);
     } catch (error) {
         if (error instanceof ImportDiscoveryError) throw error;
         throw new ImportDiscoveryError(
@@ -742,7 +754,7 @@ function parsePublicStoryPage(html, { source, activeOrigin }) {
     };
 
     return {
-        storyPayload: parseStoryPayload(storyPayload),
+        storyPayload: parseStoryPayloadModule(storyPayload),
         catalogPage,
         activeOrigin,
     };
@@ -803,7 +815,7 @@ async function fetchCatalogPage({
     });
     return {
         ...result,
-        page: parseCatalogPage(result.data, page),
+        page: parseCatalogPageModule(result.data, page),
     };
 }
 
@@ -863,7 +875,7 @@ export async function probeTruyenDichLiveStory(
             transportState,
             originHealth,
         });
-        storyPayload = parseStoryPayload(metadataResult.data);
+        storyPayload = parseStoryPayloadModule(metadataResult.data);
         const firstPageResult = await fetchCatalogPage({
             sourceSlug: source.sourceSlug,
             preferredOrigin: metadataResult.origin,
@@ -903,14 +915,14 @@ export async function probeTruyenDichLiveStory(
         usedPublicPageFallback = true;
     }
 
-    const shared = buildStoryDiscovery({
+    const shared = buildStoryDiscoveryModule({
         source,
         activeOrigin: metadataResult.origin,
         storyPayload,
         totalChapters: firstPage.total,
     });
     const firstChapter = firstPage.items[0]
-        ? mapChapter(firstPage.items[0], shared.canonicalUrl)
+        ? mapCatalogChapter(firstPage.items[0], shared.canonicalUrl)
         : null;
     const warnings = [];
     if (usedPublicPageFallback) {
@@ -960,7 +972,7 @@ export async function prepareTruyenDichLiveCatalog(
         pageCount,
         totalChapters: firstPageResult.page.total,
         chapters: firstPageResult.page.items.map((chapter) =>
-            mapChapter(chapter, canonicalUrl),
+            mapCatalogChapter(chapter, canonicalUrl),
         ),
     });
 
@@ -979,14 +991,14 @@ export async function prepareTruyenDichLiveCatalog(
             pageCount,
             totalChapters: firstPageResult.page.total,
             chapters: pageResult.page.items.map((chapter) =>
-                mapChapter(chapter, canonicalUrl),
+                mapCatalogChapter(chapter, canonicalUrl),
             ),
         });
     }
 
     const chapters = pages
         .flatMap((page) => page.items)
-        .map((chapter) => mapChapter(chapter, canonicalUrl))
+        .map((chapter) => mapCatalogChapter(chapter, canonicalUrl))
         .sort((left, right) => left.number - right.number);
     return {
         chapters,
@@ -1040,7 +1052,7 @@ function chapterPathForEdition({ sourceSlug, chapterNumber, editionName }) {
     );
 }
 
-export function parseTruyenDichLiveChapterHtml(
+function parseLegacyTruyenDichLiveChapterHtml(
     html,
     {
         expectedChapterNumber,
@@ -1122,7 +1134,7 @@ export async function fetchTruyenDichLiveChapter({
     editionName,
     browserTransport,
 }) {
-    const pathname = chapterPathForEdition({
+    const pathname = chapterPathForEditionModule({
         sourceSlug,
         chapterNumber,
         editionName,
@@ -1142,7 +1154,7 @@ export async function fetchTruyenDichLiveChapter({
     });
 
     return {
-        ...parseTruyenDichLiveChapterHtml(html, {
+        ...parseChapterHtml(html, {
             expectedChapterNumber: chapterNumber,
             expectedEditionExternalId: editionExternalId,
             expectedEditionName: editionName,
@@ -1168,7 +1180,7 @@ export async function discoverTruyenDichLiveStory(
     });
     const activeOrigin = metadataResult.origin;
 
-    const storyPayload = parseStoryPayload(metadataResult.data);
+    const storyPayload = parseStoryPayloadModule(metadataResult.data);
 
     const firstPageResult = await fetchFromSourceOrigins({
         preferredOrigin: activeOrigin,
@@ -1178,7 +1190,7 @@ export async function discoverTruyenDichLiveStory(
         transportState,
         originHealth,
     });
-    const firstPage = parseCatalogPage(firstPageResult.data, 1);
+    const firstPage = parseCatalogPageModule(firstPageResult.data, 1);
 
     const pageCount = Math.ceil(firstPage.total / CATALOG_PAGE_SIZE);
     const remainingPages = Array.from(
@@ -1194,12 +1206,12 @@ export async function discoverTruyenDichLiveStory(
             transportState,
             originHealth,
         });
-        return parseCatalogPage(pageResult.data, page);
+        return parseCatalogPageModule(pageResult.data, page);
     });
     const canonicalUrl = `${activeOrigin}/doc-truyen/${encodeURIComponent(source.sourceSlug)}`;
     const chapters = [firstPage, ...pages]
         .flatMap((page) => page.items)
-        .map((chapter) => mapChapter(chapter, canonicalUrl))
+        .map((chapter) => mapCatalogChapter(chapter, canonicalUrl))
         .sort((left, right) => left.number - right.number);
 
     const warnings = [];
@@ -1253,6 +1265,10 @@ export async function discoverTruyenDichLiveStory(
         rawMetadata: storyPayload,
         fetchTransport: metadataResult.transport,
     };
+}
+
+export function parseTruyenDichLiveChapterHtml(html, options) {
+    return parseChapterHtml(html, options);
 }
 
 export function createTruyenDichLiveSourceAdapter() {
