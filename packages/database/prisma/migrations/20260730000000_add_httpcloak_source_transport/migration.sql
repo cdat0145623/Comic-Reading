@@ -1,0 +1,1 @@
+ALTER TYPE "SourceFetchTransport" ADD VALUE IF NOT EXISTS 'HTTPCLOAK';

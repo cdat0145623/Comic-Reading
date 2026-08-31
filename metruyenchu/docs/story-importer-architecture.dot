@@ -1,0 +1,92 @@
+digraph StoryImporter {
+    graph [
+        rankdir=LR,
+        bgcolor="transparent",
+        pad="0.25",
+        nodesep="0.42",
+        ranksep="0.72",
+        fontname="Arial",
+        fontsize=12,
+        compound=true
+    ];
+    node [
+        shape=box,
+        style="rounded,filled",
+        color="#cbd1d8",
+        fillcolor="#ffffff",
+        fontcolor="#20252d",
+        fontname="Arial",
+        fontsize=11,
+        margin="0.16,0.10"
+    ];
+    edge [
+        color="#7d8794",
+        fontcolor="#5f6976",
+        fontname="Arial",
+        fontsize=9,
+        arrowsize=0.7
+    ];
+
+    subgraph cluster_admin {
+        label="Admin Next.js";
+        color="#d7b96c";
+        fillcolor="#fbf7ec";
+        style="rounded,filled";
+        fontcolor="#785b1e";
+
+        ui [label="ImportWorkflow\nClient state + polling"];
+        action [label="Server Actions\ninput boundary"];
+        route [label="Route Handler\nGET import job"];
+        dal [label="DAL\nauth + DTO boundary", fillcolor="#fff9e8", color="#b88f2f"];
+
+        ui -> action [label="command"];
+        ui -> route [label="poll status"];
+        action -> dal;
+        route -> dal;
+    }
+
+    subgraph cluster_package {
+        label="packages/importer";
+        color="#aab5c1";
+        fillcolor="#f7f9fb";
+        style="rounded,filled";
+        fontcolor="#46515d";
+
+        app [label="Application service\norchestrate use case"];
+        domain [label="Domain\nschema, rules, errors"];
+        repo [label="Repository\nPrisma operations"];
+        adapter [label="Source adapter\ntruyendich mapping"];
+        transport [label="Transports\ndirect / HTTP cloak / Chromium"];
+        queue [label="Queue adapter\nBullMQ producer"];
+
+        app -> domain [label="validate"];
+        app -> repo [label="read/write"];
+        app -> adapter [label="discover/import"];
+        adapter -> transport [label="fetch source"];
+        app -> queue [label="enqueue"];
+    }
+
+    subgraph cluster_worker {
+        label="Importer worker process";
+        color="#8bb397";
+        fillcolor="#f1f8f3";
+        style="rounded,filled";
+        fontcolor="#356443";
+
+        worker [label="BullMQ consumer\nretry + concurrency"];
+        worker_service [label="Worker service\ndiscovery, catalog, content"];
+        worker -> worker_service;
+    }
+
+    postgres [shape=cylinder, label="PostgreSQL\ncanonical import state", fillcolor="#eef4ff", color="#7894bd"];
+    redis [shape=cylinder, label="Redis\nqueue, lock, retry, source health TTL", fillcolor="#fff2f0", color="#bd746a"];
+    source [shape=component, label="truyendich source\nmetadata, catalog, chapter", fillcolor="#f5f5f5"];
+
+    dal -> app [label="use case"];
+    repo -> postgres [label="Prisma"];
+    queue -> redis [label="job payload"];
+    redis -> worker [label="claim job"];
+    worker_service -> repo [label="persist progress"];
+    worker_service -> adapter [label="load source"];
+    transport -> source [label="HTTPS"];
+}
