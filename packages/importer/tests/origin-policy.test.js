@@ -3,6 +3,7 @@ import test from "node:test";
 
 import { ImportDiscoveryError } from "../domain/errors.js";
 import { createSourceOriginPolicy } from "../infrastructure/sources/origin-policy.js";
+import { assertSourceTransport } from "../infrastructure/sources/transport-contract.js";
 
 test("origin policy uses direct transport for an allowed origin", async () => {
     const calls = [];
@@ -76,5 +77,12 @@ test("origin policy does not fallback for non-retryable source errors", async ()
             responseType: "json",
         }),
         (error) => error.code === "SOURCE_NOT_FOUND",
+    );
+});
+
+test("transport contract rejects an implementation without fetch", () => {
+    assert.throws(
+        () => assertSourceTransport({}),
+        (error) => error.code === "SOURCE_TRANSPORT_INVALID",
     );
 });

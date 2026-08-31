@@ -1,4 +1,5 @@
 import { ImportDiscoveryError } from "../../domain/errors.js";
+import { assertSourceTransport } from "./transport-contract.js";
 
 const DEFAULT_RETRYABLE_CODES = new Set([
     "SOURCE_TIMEOUT",
@@ -37,9 +38,8 @@ export function createSourceOriginPolicy({
     shouldSkipOrigin = async () => false,
     preferFallback = false,
 } = {}) {
-    if (!directTransport?.fetch) {
-        throw new TypeError("Origin policy requires a direct transport.");
-    }
+    assertSourceTransport(directTransport);
+    fallbackTransports.forEach(assertSourceTransport);
     const allowed = normalizeOrigins(allowedOrigins);
 
     function assertAllowedOrigin(value) {
@@ -67,7 +67,12 @@ export function createSourceOriginPolicy({
         const url = new URL(pathname, origin).toString();
         let lastError;
 
-        const healthyFallback = await originHealth?.getHealthyOrigin?.(provider);
+        let healthyFallback;
+        try {
+            healthyFallback = await originHealth?.getHealthyOrigin?.(provider);
+        } catch {
+            healthyFallback = null;
+        }
         const origins = [
             origin,
             ...(healthyFallback && healthyFallback !== origin
@@ -83,12 +88,16 @@ export function createSourceOriginPolicy({
                     { responseType },
                 );
                 const finalOrigin = assertAllowedOrigin(result.url || candidateOrigin);
-                await originHealth?.markOriginHealthy?.(provider, finalOrigin).catch?.(() => undefined);
+                try {
+                    await originHealth?.markOriginHealthy?.(provider, finalOrigin);
+                } catch {}
                 return { ...result, origin: finalOrigin, transport: result.transport || "DIRECT" };
             } catch (error) {
                 lastError = error;
                 if (!isRetryable(error)) throw error;
-                await originHealth?.markDirectOriginUnhealthy?.(candidateOrigin).catch?.(() => undefined);
+                try {
+                    await originHealth?.markDirectOriginUnhealthy?.(candidateOrigin);
+                } catch {}
             }
         }
 
@@ -99,7 +108,9 @@ export function createSourceOriginPolicy({
                     { responseType },
                 );
                 const finalOrigin = assertAllowedOrigin(result.url || origin);
-                await originHealth?.markOriginHealthy?.(provider, finalOrigin).catch?.(() => undefined);
+                try {
+                    await originHealth?.markOriginHealthy?.(provider, finalOrigin);
+                } catch {}
                 return { ...result, origin: finalOrigin };
             } catch (error) {
                 lastError = error;
