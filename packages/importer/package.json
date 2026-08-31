@@ -1,0 +1,27 @@
+{
+    "name": "@mtc/importer",
+    "version": "0.1.0",
+    "private": true,
+    "type": "module",
+    "exports": {
+        ".": "./index.js",
+        "./adapter": "./truyendich-live-adapter.js",
+        "./chromium": "./chromium-source-transport.js",
+        "./httpcloak": "./httpcloak-source-transport.js",
+        "./queue": "./import-queue.js",
+        "./worker": "./import-worker-service.js",
+        "./schemas": "./schemas.js"
+    },
+    "scripts": {
+        "test": "node --test tests/*.test.js",
+        "test:source": "node --test tests/source.integration.test.js"
+    },
+    "dependencies": {
+        "@mtc/database": "*",
+        "bullmq": "^5.58.5",
+        "cheerio": "^1.1.2",
+        "httpcloak": "^1.6.8",
+        "playwright": "^1.54.2",
+        "zod": "^3.25.67"
+    }
+}
