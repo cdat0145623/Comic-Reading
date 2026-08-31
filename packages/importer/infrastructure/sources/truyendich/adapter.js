@@ -7,6 +7,7 @@ import {
     normalizeChapterContent,
 } from "../../../domain/chapter-content.js";
 import { ImportDiscoveryError } from "../../../domain/errors.js";
+import { createSourceOriginPolicy } from "../origin-policy.js";
 
 const SOURCE_PROVIDER = "TRUYENDICH_LIVE";
 const DEFAULT_SOURCE_ORIGIN = "https://truyendich.live";
@@ -399,6 +400,37 @@ async function fetchFromSourceOrigins({
     transportState,
     originHealth,
 }) {
+    const policy = createSourceOriginPolicy({
+        provider: SOURCE_PROVIDER,
+        allowedOrigins: [
+            "https://truyendich.live",
+            "https://truyendich.ai",
+            "https://truyendich.fit",
+        ],
+        directTransport: {
+            fetch: (url, options) =>
+                options.responseType === "html"
+                    ? fetchHtml(url)
+                    : fetchJson(url),
+        },
+        fallbackTransports: browserTransport
+            ? [
+                  {
+                      fetch: async (url, options) => {
+                          const result = await browserTransport.fetch(url, options);
+                          if (transportState) transportState.preferBrowser = true;
+                          return { ...result, transport: result.transport || "CHROMIUM" };
+                      },
+                  },
+              ]
+            : [],
+        originHealth,
+        shouldSkipOrigin: (origin) =>
+            isDirectOriginUnhealthy(originHealth, origin),
+        preferFallback: transportState?.preferBrowser,
+    });
+    return policy.fetch({ preferredOrigin, pathname, responseType });
+    /*
     const healthyFallback = await readHealthyFallback(
         originHealth,
         preferredOrigin,
@@ -485,6 +517,7 @@ async function fetchFromSourceOrigins({
             { category: "SOURCE", retryable: true },
         )
     );
+    */
 }
 
 export function normalizeTruyenDichLiveUrl(value) {
