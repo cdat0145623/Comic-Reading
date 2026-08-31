@@ -1221,3 +1221,32 @@ export async function discoverTruyenDichLiveStory(
         fetchTransport: metadataResult.transport,
     };
 }
+
+export function createTruyenDichLiveSourceAdapter() {
+    return {
+        provider: SOURCE_PROVIDER,
+        canHandle(value) {
+            try {
+                normalizeTruyenDichLiveUrl(value);
+                return true;
+            } catch {
+                return false;
+            }
+        },
+        normalizeUrl(value) {
+            return normalizeTruyenDichLiveUrl(value);
+        },
+        probeStory(value, context) {
+            return probeTruyenDichLiveStory(value, context);
+        },
+        discoverStory(value, context) {
+            return discoverTruyenDichLiveStory(value, context);
+        },
+        prepareCatalog(value, context) {
+            return prepareTruyenDichLiveCatalog(value, context);
+        },
+        fetchChapter(input, context = {}) {
+            return fetchTruyenDichLiveChapter({ ...input, ...context });
+        },
+    };
+}
