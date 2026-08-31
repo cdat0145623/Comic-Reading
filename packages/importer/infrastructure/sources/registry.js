@@ -8,6 +8,8 @@ export function createDefaultSourceRegistry() {
     return createSourceRegistry([createTruyenDichLiveSourceAdapter()]);
 }
 
+export const defaultSourceRegistry = createDefaultSourceRegistry();
+
 export function createSourceRegistry(adapters = []) {
     const byProvider = new Map();
 

@@ -12,11 +12,7 @@ import {
     saveWorkerChapterDraft,
 } from "../infrastructure/persistence/import-repository.js";
 import { ImportDiscoveryError } from "../domain/errors.js";
-import {
-    prepareTruyenDichLiveCatalog,
-    probeTruyenDichLiveStory,
-    fetchTruyenDichLiveChapter,
-} from "../infrastructure/sources/truyendich/adapter.js";
+import { defaultSourceRegistry } from "../infrastructure/sources/registry.js";
 
 export async function executeDiscoveryJob(
     importJobId,
@@ -39,7 +35,8 @@ export async function executeDiscoveryJob(
 
     await markDiscoveryRunning(job.id);
     try {
-        const discovery = await probeTruyenDichLiveStory(
+        const sourceAdapter = defaultSourceRegistry.resolve(job.requestedSourceUrl);
+        const discovery = await sourceAdapter.probeStory(
             job.requestedSourceUrl,
             { browserTransport, originHealth },
         );
@@ -64,7 +61,8 @@ export async function executeCatalogJob(
         );
     }
     await beginCatalogPreparation(job.id);
-    await prepareTruyenDichLiveCatalog(job.requestedSourceUrl, {
+    const sourceAdapter = defaultSourceRegistry.resolve(job.requestedSourceUrl);
+    await sourceAdapter.prepareCatalog(job.requestedSourceUrl, {
         browserTransport,
         originHealth,
         onPage: (page) => saveCatalogPage({ jobId: job.id, ...page }),
@@ -98,14 +96,14 @@ export async function executeChapterJob(
     }
 
     await markChapterRunning(chapterDraft.id);
-    const fetched = await fetchTruyenDichLiveChapter({
+    const sourceAdapter = defaultSourceRegistry.resolve(job.source.canonicalUrl);
+    const fetched = await sourceAdapter.fetchChapter({
         sourceSlug: job.source.sourceSlug,
         sourceCanonicalUrl: job.source.canonicalUrl,
         chapterNumber: chapterDraft.number,
         editionExternalId: job.selectedEditionExternalId,
         editionName: job.selectedEditionName,
-        browserTransport,
-    });
+        }, { browserTransport });
     await saveWorkerChapterDraft({
         chapterDraftId: chapterDraft.id,
         chapter: fetched,
