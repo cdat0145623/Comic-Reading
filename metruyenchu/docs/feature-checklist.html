@@ -1,0 +1,2102 @@
+<!doctype html>
+<html lang="vi">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <title>Checklist chức năng trang truyện</title>
+        <style>
+            :root {
+                color-scheme: light;
+                --text: #1f2937;
+                --muted: #6b7280;
+                --line: #d9e0e8;
+                --soft: #f5f7fa;
+                --primary: #b13b3b;
+                --primary-soft: #fff1f1;
+                --must: #b42318;
+                --need: #9a6700;
+                --later: #475467;
+            }
+
+            * {
+                box-sizing: border-box;
+            }
+
+            body {
+                margin: 0;
+                font-family:
+                    Inter, ui-sans-serif, system-ui, -apple-system,
+                    BlinkMacSystemFont, "Segoe UI", sans-serif;
+                color: var(--text);
+                background: #ffffff;
+                line-height: 1.55;
+            }
+
+            main {
+                max-width: 1180px;
+                margin: 0 auto;
+                padding: 32px 20px 56px;
+            }
+
+            h1 {
+                margin: 0 0 8px;
+                font-size: 28px;
+                line-height: 1.2;
+            }
+
+            h2 {
+                margin: 34px 0 12px;
+                font-size: 20px;
+            }
+
+            p {
+                margin: 0 0 12px;
+            }
+
+            .intro {
+                color: var(--muted);
+                max-width: 920px;
+            }
+
+            .summary {
+                display: grid;
+                grid-template-columns: repeat(4, minmax(0, 1fr));
+                gap: 12px;
+                margin: 24px 0 28px;
+            }
+
+            .metric {
+                border: 1px solid var(--line);
+                border-radius: 8px;
+                padding: 14px;
+                background: var(--soft);
+            }
+
+            .metric strong {
+                display: block;
+                font-size: 24px;
+                line-height: 1;
+                margin-bottom: 6px;
+            }
+
+            .metric span {
+                color: var(--muted);
+                font-size: 13px;
+            }
+
+            table {
+                width: 100%;
+                border-collapse: collapse;
+                border: 1px solid var(--line);
+                font-size: 14px;
+            }
+
+            th,
+            td {
+                padding: 12px;
+                border-bottom: 1px solid var(--line);
+                vertical-align: top;
+                text-align: left;
+            }
+
+            th {
+                background: var(--soft);
+                color: #344054;
+                font-weight: 700;
+                white-space: nowrap;
+            }
+
+            tr:last-child td {
+                border-bottom: 0;
+            }
+
+            code {
+                padding: 2px 6px;
+                border-radius: 5px;
+                background: #eef2f6;
+                font-family:
+                    "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+                font-size: 12px;
+            }
+
+            .badge {
+                display: inline-flex;
+                align-items: center;
+                border-radius: 999px;
+                padding: 3px 9px;
+                font-size: 12px;
+                font-weight: 700;
+                white-space: nowrap;
+            }
+
+            .must {
+                color: var(--must);
+                background: #fff1f0;
+            }
+
+            .need {
+                color: var(--need);
+                background: #fff7db;
+            }
+
+            .done {
+                color: #08783e;
+                background: #e8f7ef;
+            }
+
+            .later {
+                color: var(--later);
+                background: #eef2f6;
+            }
+
+            .phase {
+                border: 1px solid var(--line);
+                border-radius: 8px;
+                margin-bottom: 12px;
+                overflow: hidden;
+            }
+
+            .phase h3 {
+                margin: 0;
+                padding: 12px 14px;
+                background: var(--primary-soft);
+                color: var(--primary);
+                font-size: 16px;
+            }
+
+            .phase ul {
+                margin: 0;
+                padding: 12px 18px 14px 34px;
+            }
+
+            .phase li + li {
+                margin-top: 8px;
+            }
+
+            .note {
+                border-left: 4px solid var(--primary);
+                padding: 12px 14px;
+                background: var(--primary-soft);
+                color: #5f2727;
+                margin-top: 16px;
+            }
+
+            @media (max-width: 860px) {
+                .summary {
+                    grid-template-columns: repeat(2, minmax(0, 1fr));
+                }
+
+                table {
+                    display: block;
+                    overflow-x: auto;
+                    white-space: nowrap;
+                }
+
+                td {
+                    white-space: normal;
+                    min-width: 150px;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <main>
+            <h1>Checklist chức năng trang truyện</h1>
+            <p class="intro">
+                Tài liệu này gom các chức năng cần làm theo screen, bảng dữ
+                liệu gốc, bảng liên quan và mức độ cần thiết với một trang đọc
+                truyện thực tế. Chức năng báo cáo được hiểu là user report
+                chapter có lỗi nội dung hoặc vi phạm policy tới quản trị viên.
+            </p>
+
+            <section class="summary" aria-label="Tổng quan">
+                <div class="metric">
+                    <strong>4</strong>
+                    <span>screen chính</span>
+                </div>
+                <div class="metric">
+                    <strong>15</strong>
+                    <span>chức năng cần phân loại</span>
+                </div>
+                <div class="metric">
+                    <strong>5</strong>
+                    <span>bảng DB chính đang có sẵn</span>
+                </div>
+                <div class="metric">
+                    <strong>4+</strong>
+                    <span>bảng mới cần thiết kế</span>
+                </div>
+            </section>
+
+            <h2>Checklist theo screen</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Trạng thái</th>
+                        <th>Screen</th>
+                        <th>Chức năng</th>
+                        <th>DB gốc</th>
+                        <th>Bảng liên quan</th>
+                        <th>Mức cần thiết</th>
+                        <th>Ghi chú triển khai</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><input type="checkbox" /></td>
+                        <td>Story detail <code>/truyen/[slug]</code></td>
+                        <td>Xem tất cả chương</td>
+                        <td><code>Chapter</code></td>
+                        <td><code>Story</code></td>
+                        <td><span class="badge must">Rất cần</span></td>
+                        <td>
+                            Nút Mục lục nên mở modal/drawer hoặc route danh
+                            sách chương. Có thể dùng chung với chapter page.
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><input type="checkbox" /></td>
+                        <td>Story detail <code>/truyen/[slug]</code></td>
+                        <td>Đọc tiếp</td>
+                        <td><code>ChapterRead</code></td>
+                        <td><code>User</code>, <code>Chapter</code>, <code>Story</code></td>
+                        <td><span class="badge must">Rất cần</span></td>
+                        <td>
+                            Nếu user đã đọc truyện này thì đi tới chương gần
+                            nhất; nếu chưa có lịch sử thì đi chương 1.
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><input type="checkbox" /></td>
+                        <td>Home logged-in</td>
+                        <td>Click truyện vừa đọc đi tới chương đã đọc</td>
+                        <td><code>ChapterRead</code></td>
+                        <td><code>User</code>, <code>Chapter</code>, <code>Story</code></td>
+                        <td><span class="badge must">Rất cần</span></td>
+                        <td>
+                            <code>ReadingCard</code> hiện link về story detail;
+                            nên chuyển sang <code>/truyen/[slug]/chuong-N</code>.
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><input type="checkbox" /></td>
+                        <td>Chapter page <code>/truyen/[slug]/chuong-N</code></td>
+                        <td>Mục lục</td>
+                        <td><code>Chapter</code></td>
+                        <td><code>Story</code></td>
+                        <td><span class="badge must">Rất cần</span></td>
+                        <td>
+                            Button Mục lục đang có UI nhưng chưa có action. Nên
+                            reuse danh sách chương ở story detail.
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><input type="checkbox" /></td>
+                        <td>Story detail + Chapter page</td>
+                        <td>Highlight chương user đã đọc trong modal mục lục</td>
+                        <td><code>ChapterRead</code></td>
+                        <td><code>User</code>, <code>Story</code>, <code>Chapter</code></td>
+                        <td><span class="badge need">Cần</span></td>
+                        <td>
+                            Backend hiện đã ghi <code>ChapterRead</code> khi
+                            user vào chapter detail. API mục lục cần trả thêm
+                            trạng thái <code>isRead</code> hoặc
+                            <code>readChapterIds</code> theo user hiện tại để
+                            UI đổi màu chương đã đọc. Không dùng
+                            <code>isActive</code> cho mục đích này vì
+                            <code>isActive</code> chỉ nên đại diện cho chương
+                            hiện tại nếu cần highlight vị trí đang đọc. Tách
+                            <code>ChapterRead</code> làm read state lâu dài và
+                            <code>ChapterReadEvent</code> làm event log cho
+                            cron/stat sau này. Đã xử lý cache theo hướng tách
+                            <code>chapterCatalog</code> và
+                            <code>readChapterIds</code>; khi user đọc chapter
+                            mới thì update cache read ids ở client.
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><input type="checkbox" /></td>
+                        <td>Story detail + Chapter page</td>
+                        <td>Đánh dấu / bỏ đánh dấu truyện</td>
+                        <td><code>StoryBookmark</code></td>
+                        <td><code>User</code>, <code>Story</code></td>
+                        <td><span class="badge need">Cần</span></td>
+                        <td>
+                            Gốc nghiệp vụ là bookmark truyện, không phải
+                            bookmark riêng từng chapter.
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><input type="checkbox" /></td>
+                        <td>Home logged-in</td>
+                        <td>Xóa truyện khỏi danh sách vừa đọc</td>
+                        <td><code>ChapterRead</code></td>
+                        <td><code>User</code>, <code>Chapter</code>, <code>Story</code></td>
+                        <td><span class="badge need">Cần</span></td>
+                        <td>
+                            Nút x đang có UI. Có thể xóa toàn bộ
+                            <code>ChapterRead</code> của user trong story đó.
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><input type="checkbox" /></td>
+                        <td>Admin/uploader + Chapter page</td>
+                        <td>Tính phí / mở khóa chương theo số từ</td>
+                        <td><code>Chapter</code></td>
+                        <td>
+                            <code>User</code>, <code>Story</code>,
+                            <code>ChapterUnlock</code>,
+                            <code>StoryMonetizationRule</code>,
+                            <code>ChapterPricing</code>
+                        </td>
+                        <td><span class="badge later">Chưa chốt</span></td>
+                        <td>
+                            Chưa quyết định hướng lưu giá. Có 2 hướng cần cân
+                            nhắc: tính giá động theo rule hiện tại và word
+                            count, hoặc lưu snapshot giá theo từng chapter khi
+                            publish/bật thu phí. Currency ví dụ:
+                            <code>LINH_THACH</code>.
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><input type="checkbox" /></td>
+                        <td>Chapter page</td>
+                        <td>Cấu hình đọc</td>
+                        <td>Không cần DB ở bản đầu</td>
+                        <td><code>UserSetting</code> nếu muốn sync account</td>
+                        <td><span class="badge need">Cần</span></td>
+                        <td>
+                            Font size, line height, theme, content width. Bản
+                            đầu nên lưu <code>localStorage</code>.
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><input type="checkbox" /></td>
+                        <td>Chapter page</td>
+                        <td>Chấm điểm</td>
+                        <td><code>Rating</code></td>
+                        <td><code>User</code>, <code>Story</code></td>
+                        <td><span class="badge need">Cần</span></td>
+                        <td>
+                            Có thể scroll/chuyển tới tab rating ở story detail
+                            thay vì mở modal riêng.
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><input type="checkbox" /></td>
+                        <td>Story detail</td>
+                        <td>Đánh giá</td>
+                        <td><code>Rating</code></td>
+                        <td><code>User</code>, <code>Story</code>, <code>RatingLike</code></td>
+                        <td><span class="badge need">Cần</span></td>
+                        <td>
+                            UI rating/comment đã có một phần trong
+                            <code>StoryActivity</code>; button nên scroll hoặc
+                            đổi tab.
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><input type="checkbox" /></td>
+                        <td>Story detail</td>
+                        <td>Thảo luận</td>
+                        <td><code>Discuss</code></td>
+                        <td><code>User</code>, <code>Story</code>, <code>DiscussLike</code></td>
+                        <td><span class="badge need">Cần</span></td>
+                        <td>
+                            Button Thảo luận nên chuyển tới tab comment/discuss
+                            của <code>StoryActivity</code>.
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><input type="checkbox" /></td>
+                        <td>Chapter page</td>
+                        <td>Đề cử</td>
+                        <td><code>StoryRecommendation</code></td>
+                        <td><code>User</code>, <code>Story</code></td>
+                        <td><span class="badge later">Trung bình</span></td>
+                        <td>
+                            Cần kiểm tra vé đề cử của user, ví dụ
+                            <code>voteTickets</code>.
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><input type="checkbox" /></td>
+                        <td>Chapter page</td>
+                        <td>Chọn quà</td>
+                        <td><code>StoryFan</code> hoặc bảng giao dịch mới</td>
+                        <td><code>User</code>, <code>Story</code></td>
+                        <td><span class="badge later">Sau</span></td>
+                        <td>
+                            Cần thiết kế rõ currency: candy, ticket, fan point
+                            hay vật phẩm.
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><input type="checkbox" /></td>
+                        <td>Chapter page</td>
+                        <td>Báo cáo chương lỗi / vi phạm policy</td>
+                        <td><code>ChapterReport</code> nên thêm mới</td>
+                        <td><code>User</code>, <code>Story</code>, <code>Chapter</code></td>
+                        <td><span class="badge need">Cần</span></td>
+                        <td>
+                            User gửi report tới admin khi chapter có lỗi nội
+                            dung, lỗi convert, spam, hoặc vi phạm policy.
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h2>Feature lớn: Đánh dấu truyện, Tủ truyện và cài đặt thư viện</h2>
+            <div class="note">
+                <strong>Requirement nguyên văn:</strong>
+                “tôi sẽ focus vào feature đánh dấu truyện + tủ truyện. Trong
+                phần setting của user thì có setting cho việc sắp xếp tủ truyện
+                / truyện đang đang đọc, thông báo chương mới, tương tác. Đối với
+                phần setting này tôi sẽ cần bạn làm lại giao diện mới (based on
+                taste skill + global css hiện tại trong source). Sau đó bạn thấy
+                side effect của phần setting này ảnh hưởng ntn đến list truyện
+                đang đọc ở home / tủ truyện /... Tôi cần demo design trước sau
+                đó mới bàn đến vấn đề tiếp theo.”
+            </div>
+
+            <h3>Cách hiểu requirement</h3>
+            <ul>
+                <li>
+                    <strong>Đánh dấu truyện</strong> là trạng thái user chủ động
+                    lưu một Story bằng <code>StoryBookmark</code>; không phải
+                    lịch sử đọc và không phải bookmark riêng một Chapter.
+                </li>
+                <li>
+                    <strong>Tủ truyện</strong> là màn hình quản lý các
+                    StoryBookmark, có Đọc tiếp, bỏ đánh dấu, tiến độ đọc và sắp
+                    xếp theo preference của user.
+                </li>
+                <li>
+                    <strong>Truyện đang đọc</strong> được suy ra từ
+                    <code>ChapterRead</code>. Xóa khỏi danh sách đang đọc không
+                    xóa bookmark, rating, discussion hoặc
+                    <code>ChapterReadEvent</code>.
+                </li>
+                <li>
+                    Giao diện cài đặt mới phải tách rõ Hồ sơ, Tủ truyện, Thông
+                    báo và Bảo mật; demo được duyệt trước khi thay code
+                    production.
+                </li>
+            </ul>
+
+            <h3>Bookmark count thay đổi và đồng bộ khi nào?</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Thao tác</th>
+                        <th>DB canonical</th>
+                        <th>Nếu dùng <code>_count</code></th>
+                        <th>Nếu giữ <code>StoryStats.totalBookmarks</code></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>User đánh dấu truyện</td>
+                        <td>Tạo <code>StoryBookmark</code></td>
+                        <td>
+                            Invalidate/refetch query count và library sau khi
+                            mutation thành công; không ghi thêm counter.
+                        </td>
+                        <td>
+                            Tạo bookmark và tăng counter đúng một lần trong cùng
+                            transaction.
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>User bỏ đánh dấu</td>
+                        <td>Xóa <code>StoryBookmark</code></td>
+                        <td>
+                            Invalidate/refetch query count và library sau khi
+                            mutation thành công.
+                        </td>
+                        <td>
+                            Xóa bookmark và giảm counter đúng một lần trong cùng
+                            transaction, không cho nhỏ hơn 0.
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <section>
+                <h2>Authentication và xác minh tài khoản</h2>
+                <div class="phase">
+                    <h3>Đã triển khai 18/07/2026</h3>
+                    <ul>
+                        <li>Hợp nhất Google và Credentials vào một Auth.js config dùng JWT session.</li>
+                        <li>Middleware chỉ bảo vệ khu vực tài khoản và giữ callback URL nội bộ.</li>
+                        <li>JWT/session chỉ chứa các field UI cần dùng; signup không trả password hash.</li>
+                        <li>Google login có ở trang login và modal; hồ sơ có flow liên kết Google cùng email.</li>
+                        <li>Email credentials có token xác minh một lần, hạn 24 giờ và chức năng gửi lại.</li>
+                        <li>Quên mật khẩu có token một lần, hạn 30 phút và response chống dò email.</li>
+                        <li>Login, signup, resend và reset có rate limit lưu trong PostgreSQL.</li>
+                        <li>Chỉ nghiệp vụ tài chính tương lai yêu cầu email đã xác minh; đọc và tương tác truyện không bị khóa.</li>
+                        <li>Tab Bảo mật có hai form React Hook Form độc lập để đổi email và đổi mật khẩu; email cũ giữ nguyên tới khi email mới được xác nhận.</li>
+                        <li>Trạng thái email đang chờ được giữ khi đổi tab và khôi phục từ DB khi reload; yêu cầu mới thay thế và vô hiệu hóa link đổi email cũ.</li>
+                        <li>Form bảo mật dùng chung FormField, PasswordField, FormSubmitButton và FormStatus; chưa mở rộng refactor sang các form khác.</li>
+                        <li>Yêu cầu đổi email dùng token một lần hạn 24 giờ, hỗ trợ gửi lại, hủy và cảnh báo email cũ sau khi đổi.</li>
+                        <li>Liên kết Google là phương thức đăng nhập thứ hai; Google khác email không tự xác minh hoặc thay đổi email credentials.</li>
+                        <li>Trang login hỗ trợ cả Credentials và Google sau khi thay đổi thông tin bảo mật.</li>
+                        <li><code>User.authVersion</code> là source of truth để thu hồi JWT cũ sau khi đổi email, đổi mật khẩu hoặc reset mật khẩu.</li>
+                        <li>Đổi thông tin bảo mật tăng version trong cùng transaction; gửi, gửi lại, hủy hoặc để token hết hạn không thay đổi version.</li>
+                        <li>Các tab cùng browser nhận native <code>BroadcastChannel</code> event; browser khác kiểm tra session khi focus hoặc gọi API/protected page, không polling nền.</li>
+                        <li>Session stale ở khu vực tài khoản chuyển tới login; trang public giữ nguyên nội dung và chuyển UI sang guest.</li>
+                        <li>Login, quên/reset mật khẩu và hai trang xác minh dùng chung auth shell, compact header và không hiển thị banner truyện.</li>
+                        <li>Trạng thái xác minh pending/success/error có UI riêng; thông báo transient dùng toast góc phải, lỗi form vẫn hiển thị tại field.</li>
+                    </ul>
+                </div>
+                <div class="phase">
+                    <h3>Cấu hình vận hành còn cần</h3>
+                    <ul>
+                        <li>Cấu hình Google SMTP: <code>SMTP_HOST</code>, <code>SMTP_PORT</code>, <code>SMTP_USER</code>, <code>SMTP_PASSWORD</code>, <code>EMAIL_FROM</code> và <code>APP_URL</code>.</li>
+                        <li>Google OAuth cần callback local/production tại <code>/api/auth/callback/google</code>.</li>
+                        <li>Chưa triển khai màn hình quản lý/unlink nhiều OAuth provider.</li>
+                        <li>Tài khoản Google-only chưa có flow Google re-auth để tạo mật khẩu hoặc đổi email.</li>
+                        <li>Chưa có WebSocket/SSE để đẩy logout tức thời xuyên browser; browser khác phát hiện khi focus hoặc ở request kế tiếp.</li>
+                        <li>Chưa có integration test email delivery thật; unit test chỉ kiểm tra validation và token hashing.</li>
+                    </ul>
+                </div>
+            </section>
+
+            <p class="note">
+                <strong>Đề xuất:</strong> dùng relation
+                <code>StoryBookmark</code> làm source of truth và đọc
+                <code>_count.bookmarks</code> ở giai đoạn hiện tại. API mutation
+                nhận trạng thái đích <code>bookmarked: true/false</code> thay vì
+                toggle mù để double-click, retry và nhiều browser tab không đảo
+                sai trạng thái.
+            </p>
+
+            <h3>Side effect của UserSetting</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Setting</th>
+                        <th>Ảnh hưởng trực tiếp</th>
+                        <th>Cache/query cần cập nhật</th>
+                        <th>Không được ảnh hưởng</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>sortReading</code></td>
+                        <td>
+                            Thứ tự Reading List ở Home và danh sách Đang đọc
+                            đầy đủ: chương mới, mới đọc hoặc tên truyện.
+                        </td>
+                        <td>
+                            Invalidate <code>readingStories</code>; backend phải
+                            đọc setting để chọn <code>orderBy</code>.
+                        </td>
+                        <td>Bookmark list và read progress canonical.</td>
+                    </tr>
+                    <tr>
+                        <td><code>sortMarked</code></td>
+                        <td>
+                            Thứ tự Tủ truyện: chương mới, mới lưu hoặc tên
+                            truyện.
+                        </td>
+                        <td>
+                            Invalidate bookmark/library query; không cần sửa các
+                            record <code>StoryBookmark</code>.
+                        </td>
+                        <td>Reading List ở Home.</td>
+                    </tr>
+                    <tr>
+                        <td><code>notifyNewChapter</code></td>
+                        <td>
+                            Cho phép tạo/gửi thông báo chương mới của truyện user
+                            đang theo dõi theo policy được chốt sau.
+                        </td>
+                        <td>
+                            Cập nhật preference; không invalidate list trừ khi UI
+                            hiển thị badge preference.
+                        </td>
+                        <td>Thứ tự Tủ truyện và Reading List.</td>
+                    </tr>
+                    <tr>
+                        <td><code>notifyInteraction</code></td>
+                        <td>
+                            Cho phép thông báo reply, like hoặc tương tác với
+                            rating/discussion của user.
+                        </td>
+                        <td>Cập nhật preference notification.</td>
+                        <td>Bookmark, read progress và ranking.</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <p class="note">
+                Demo UI để duyệt nằm tại
+                <code>docs/user-library-settings-demo.html</code>. Demo chỉ chốt
+                hierarchy, control và responsive behavior; chưa nối
+                <code>UserSetting</code>, bookmark API hoặc cache production.
+            </p>
+
+            <h3>Trạng thái triển khai giao diện và theme toàn website</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Trạng thái</th>
+                        <th>Phạm vi</th>
+                        <th>Implementation</th>
+                        <th>Ghi chú còn lại</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><span class="badge done">Đã xử lý</span></td>
+                        <td>Theme dùng chung</td>
+                        <td>
+                            <code>AppearanceProvider</code> áp
+                            <code>data-site-theme</code> lên
+                            <code>html</code>; detail chapter và sidebar dùng
+                            chung <code>ThemeSelector</code>.
+                        </td>
+                        <td>
+                            Theme lưu localStorage, migrate từ reader settings
+                            cũ và đồng bộ giữa browser tabs.
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><span class="badge done">Đã xử lý</span></td>
+                        <td>Reader preference</td>
+                        <td>
+                            Theme đã tách khỏi font size, font family và line
+                            height. Reader dùng global canvas/surface tokens.
+                        </td>
+                        <td>
+                            Reset trong reader đưa cả appearance và typography
+                            về mặc định.
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><span class="badge done">Đã xử lý</span></td>
+                        <td>Giao diện cài đặt Tủ truyện</td>
+                        <td>
+                            Demo đã chuyển thành route
+                            <code>/tai-khoan/cai-dat/tu-truyen</code>, giữ Header
+                            chung và responsive settings navigation.
+                        </td>
+                        <td>
+                            Có dirty, pending, success, error và khôi phục mặc
+                            định.
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><span class="badge done">Đã xử lý</span></td>
+                        <td>Lưu UserSetting</td>
+                        <td>
+                            Server action validate và upsert bốn preference;
+                            invalidate Reading List và library query theo user.
+                        </td>
+                        <td>
+                            <code>sortReading</code> đã tác động Home. Query Tủ
+                            truyện đầy đủ sẽ sử dụng <code>sortMarked</code> khi
+                            feature danh sách bookmark được triển khai.
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><span class="badge done">Đã xử lý</span></td>
+                        <td>Tủ truyện đầy đủ</td>
+                        <td>
+                            Đã có danh sách StoryBookmark, mutation thêm/bỏ
+                            bookmark và dữ liệu đếm từ
+                            <code>_count.bookmarks</code>.
+                        </td>
+                        <td>
+                            Bookmark chưa đọc không tạo tiến độ chương giả; hàng
+                            tiến độ chỉ xuất hiện sau khi user thực sự đọc.
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><span class="badge need">Chưa xử lý</span></td>
+                        <td>Notification delivery</td>
+                        <td>
+                            Preference đã lưu nhưng worker/event gửi thông báo
+                            chương mới và tương tác chưa được triển khai.
+                        </td>
+                        <td>Không ảnh hưởng việc lưu setting hiện tại.</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h2>Audit cần xử lý: đánh giá và thảo luận</h2>
+            <p class="intro">
+                Phạm vi dữ liệu hiện tại gồm bốn nhánh riêng: đánh giá chung của
+                truyện (<code>Rating</code>), bình luận dưới đánh giá
+                (<code>RatingComment</code>), thảo luận chung của truyện
+                (<code>Discuss</code>) và reply dưới một thảo luận
+                (<code>Discuss.parentId</code>). Không coi <code>Discuss</code>
+                là bình luận trực thuộc một <code>Rating</code>.
+            </p>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Trạng thái</th>
+                        <th>Vấn đề</th>
+                        <th>Flow / rủi ro hiện tại</th>
+                        <th>Hướng xử lý dự kiến</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><span class="badge need">Đã xử lý</span></td>
+                        <td>Query key chưa mô tả đủ domain và phạm vi dữ liệu</td>
+                        <td>
+                            Danh sách thảo luận dùng
+                            <code>["comments", { storyId, sortOption }]</code>,
+                            còn reply dùng <code>["comments", rootId]</code>.
+                            <code>useCreateDiscuss</code> gọi
+                            <code>setQueriesData(["comments"])</code> nên mutation
+                            tạo root discussion có thể sửa mọi cache bắt đầu bằng
+                            <code>comments</code>, kể cả story khác, sort khác và
+                            cache reply.
+                        </td>
+                        <td>
+                            Tạo query-key factory riêng cho
+                            <code>ratings.list</code>,
+                            <code>ratingComments.list</code>,
+                            <code>discussions.list</code> và
+                            <code>discussionReplies.list</code>. Mutation chỉ
+                            update/invalidate exact key thuộc đúng story, sort và
+                            parent. Rating và discussion list đều có parser tập
+                            trung, không còn tự đọc magic index trong hook.
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><span class="badge need">Đã xử lý</span></td>
+                        <td>Mutation root discussion có thể xóa nhầm item</td>
+                        <td>
+                            Mỗi page đang lọc bằng
+                            <code>r.userId !== newDiscuss.userId</code>. Nếu một
+                            user đã có nhiều discussion, tạo discussion mới sẽ
+                            loại tất cả discussion cũ của chính user đó khỏi các
+                            page đang cache. Item mới chỉ được chèn vào page đầu.
+                        </td>
+                        <td>
+                            Không dedupe theo <code>userId</code>. Dedupe theo
+                            <code>Discuss.id</code>; chèn item mới theo đúng sort,
+                            hoặc invalidate exact list để backend trả lại thứ tự
+                            chuẩn.
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><span class="badge need">Đã xử lý chính</span></td>
+                        <td>Comment mới đang có hai nguồn state</td>
+                        <td>
+                            <code>RatingItem</code> giữ
+                            <code>tempComments</code> bằng React state, trong khi
+                            <code>useCreateComment</code> đồng thời đọc/ghi
+                            Infinite Query cache bằng <code>setQueryData</code>.
+                            <code>mergedPages</code> lại merge hai nguồn trước khi
+                            render. Một comment có thể tồn tại ở temp state nhưng
+                            chưa có trong query cache, có trong cả hai nguồn, hoặc
+                            mất khi component unmount/remount. Logic reply còn phụ
+                            thuộc parent có nằm trong page cache hiện tại hay không.
+                        </td>
+                        <td>
+                            Chọn TanStack Query cache làm nguồn dữ liệu duy nhất;
+                            bỏ <code>tempComments</code>,
+                            <code>setTempComments</code> và <code>mergedPages</code>.
+                            TanStack Query cache là nguồn canonical duy nhất; đã bỏ
+                            <code>tempComments</code>,
+                            <code>setTempComments</code> và
+                            <code>mergedPages</code>. Pending item hiện được render
+                            từ mutation state gần form, không merge vào các page;
+                            khi exact query refetch xong thì UI chuyển sang record
+                            thật từ backend.
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><span class="badge need">Đã xử lý</span></td>
+                        <td>Reply Discuss chưa dùng pagination thật từ DB</td>
+                        <td>
+                            Lần mở reply đầu tiên gọi API lấy direct children và
+                            kèm thêm một tầng <code>replies</code>, sau đó
+                            <code>collect()</code> gộp dữ liệu và
+                            <code>slice(..., 5)</code> ở browser. Những trang sau
+                            chủ yếu cắt tiếp mảng <code>all</code> đã tải, không
+                            giảm query/payload ban đầu; cây sâu hơn một tầng có
+                            thể không đầy đủ.
+                        </td>
+                        <td>
+                            Backend query direct children theo
+                            thread root, cursor
+                            <code>createdAt + id</code>, <code>take + 1</code>.
+                            Mỗi nút “Xem thêm trả lời” fetch page tiếp theo từ DB
+                            cho đúng thread, không flatten cả cây trước. Requirement
+                            UI: mọi reply nằm cùng một visual layer dưới root;
+                            <code>parentId</code> vẫn chỉ ra comment được trả lời.
+                            Đã thêm <code>threadRootId</code> vào
+                            <code>Discuss</code>, backfill dữ liệu cũ và query mọi
+                            descendant của root bằng cursor mà không cần recursive
+                            fetch.
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><span class="badge need">Đã xử lý</span></td>
+                        <td>Initial page param không đúng kiểu cursor</td>
+                        <td>
+                            Server prefetch đang truyền
+                            <code>initialPageParam: 1</code>, trong khi
+                            <code>buildCursorFilter</code> cần object cursor chứa
+                            <code>createdAt</code>, <code>id</code> và có thể thêm
+                            <code>likeCount</code>. Page đầu không được giả làm
+                            page-number cursor.
+                        </td>
+                        <td>
+                            Dùng <code>initialPageParam: null</code> cho page đầu;
+                            chỉ truyền object <code>nextCursor</code> backend trả
+                            về cho các lần <code>fetchNextPage</code> sau.
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><span class="badge need">Đã xử lý</span></td>
+                        <td>Recursive UI có thể tăng DOM/state theo cây reply</td>
+                        <td>
+                            Lazy mở reply hiện tại là hướng đúng và tránh tải mọi
+                            nhánh ngay khi vào truyện. Tuy nhiên
+                            <code>RatingCard</code> tiếp tục render đệ quy toàn bộ
+                            <code>comment.replies</code> đã có trong payload; mỗi
+                            node tạo state, session/form liên quan và thụt lề có
+                            thể tăng vô hạn nếu cây lớn.
+                        </td>
+                        <td>
+                            Đã chuyển sang danh sách thread phẳng cùng một visual
+                            layer, giữ <code>parentId</code> và hiển thị user được
+                            trả lời. Chỉ fetch thread khi user mở root; không còn
+                            render đệ quy theo nested payload.
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><span class="badge need">Đã xử lý</span></td>
+                        <td>Server prefetch chưa được await đồng bộ</td>
+                        <td>
+                            <code>Comment</code> và <code>RatingSection</code> đều
+                            await <code>prefetchInfiniteQuery()</code> trước khi
+                            dehydrate, dùng <code>initialPageParam: null</code> và
+                            query key thống nhất với client.
+                        </td>
+                        <td>
+                            Await prefetch và dùng chung query options/query-key
+                            factory giữa server prefetch và client hook.
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><span class="badge need">Đã xử lý chính</span></td>
+                        <td>Payload và data-service đang gộp nhiều trách nhiệm</td>
+                        <td>
+                            <code>getRatings</code> xử lý ratings, rating comments
+                            và story discussions; payload discussion còn lấy
+                            story/chapter/read history/likes ở nhiều node.
+                        </td>
+                        <td>
+                            Đã tách read service cho rating comments và story
+                            discussions, trả DTO phẳng, dùng <code>_count</code>
+                            và chỉ trả trạng thái liked của user hiện tại. Rating
+                            list vẫn giữ <code>getRatings</code> riêng cho domain
+                            đánh giá.
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><span class="badge need">Đã xử lý</span></td>
+                        <td>Count rating không khớp bộ lọc hiển thị</td>
+                        <td>
+                            Tab cần tổng số rating, nhưng count cạnh bộ lọc phải
+                            phản ánh đúng danh sách sau điều kiện
+                            <code>wordCount</code>. Trước đây hai vị trí dùng cùng
+                            total count nên có thể báo có item trong khi list rỗng.
+                        </td>
+                        <td>
+                            Giữ total count cho tab; rating query trả
+                            <code>visibleCount</code> được đếm bằng cùng base where
+                            với list và hiển thị tại filter.
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><span class="badge need">Đã xử lý</span></td>
+                        <td>Like/unlike chưa idempotent</td>
+                        <td>
+                            Toggle dựa trên read-before-write có thể lỗi khi
+                            double-click, retry request hoặc nhiều tab cùng thao
+                            tác. Scalar <code>likeCount</code> có nguy cơ không đồng
+                            bộ với relation.
+                        </td>
+                        <td>
+                            Client gửi trạng thái đích; backend dùng
+                            <code>createMany(skipDuplicates)</code> hoặc
+                            <code>deleteMany</code>, chỉ đổi counter khi relation
+                            thực sự thay đổi và khóa button khi mutation pending.
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><span class="badge need">Đã xử lý</span></td>
+                        <td>Thiếu index cho rating activity</td>
+                        <td>
+                            Cursor pagination, sort theo thời gian/lượt thích và
+                            relation count sẽ scan/sort nhiều record khi dữ liệu
+                            tăng.
+                        </td>
+                        <td>
+                            Thêm composite index cho Rating, RatingComment và
+                            foreign-key-leading index cho các bảng like. Migration
+                            không thay đổi dữ liệu hiện có.
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><span class="badge later">Chờ triển khai</span></td>
+                        <td>Integration test với PostgreSQL thật</td>
+                        <td>
+                            Unit test hiện chỉ kiểm tra query-key/parser, filter,
+                            idempotent like và pending-submission helper bằng mock
+                            hoặc hàm thuần; chưa chạy mutation, transaction, cursor
+                            pagination và retry trên database PostgreSQL cô lập.
+                        </td>
+                        <td>
+                            Tạo test database/schema riêng, seed fixture tối thiểu
+                            cho Rating/RatingComment/Discuss, chạy service/action thật
+                            trong transaction có rollback hoặc reset dữ liệu sau mỗi
+                            test. Không dùng database development đang có dữ liệu.
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><span class="badge need">Đã apply local</span></td>
+                        <td>Migration index và idempotency story activity</td>
+                        <td>
+                            Migration
+                            <code>20260715000000_add_story_activity_indexes</code>
+                            và
+                            <code>20260715010000_add_story_activity_submission_ids</code>
+                            đã được review và áp dụng theo đúng thứ tự vào
+                            PostgreSQL local.
+                        </td>
+                        <td>
+                            Schema thêm unique nullable
+                            <code>clientSubmissionId</code> cho
+                            RatingComment/Discuss. Production vẫn cần chạy
+                            <code>npx prisma migrate deploy</code> theo quy trình
+                            backup/deploy của môi trường đó.
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><span class="badge need">Đã xử lý chính</span></td>
+                        <td>Optimistic create comment/discuss</td>
+                        <td>
+                            Root discussion, rating comment và discussion reply
+                            cần phản hồi ngay nhưng không được chèn sai vị trí vào
+                            infinite-query cache khi đang sort theo
+                            <code>oldest</code>/<code>mostLiked</code> hoặc chưa tải
+                            hết page.
+                        </td>
+                        <td>
+                            Render pending queue từ <code>useMutationState</code>
+                            tại owner ổn định, không sửa page/cursor. Mỗi submission
+                            có <code>clientSubmissionId</code>; retry được dedupe theo
+                            attempt mới nhất, lỗi có thể thử lại hoặc xóa. Đóng reply
+                            form không làm mất pending card. Textarea reset ngay sau
+                            submit và không dùng <code>router.refresh()</code> để
+                            đồng bộ activity.
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><span class="badge need">Đã xử lý</span></td>
+                        <td>Optimistic Rating, draft và đồng bộ browser tab</td>
+                        <td>
+                            Rating gốc trước đây chờ server; MutationCache và toast
+                            chỉ tồn tại trong tab hiện tại, reload hoặc tab khác
+                            không nhìn thấy pending/error và giữ cache cũ.
+                        </td>
+                        <td>
+                            Rating dùng pending preview ngoài infinite pages. Draft
+                            được lưu theo user/story/form/tab; pending/error lưu 24
+                            giờ và đồng bộ bằng localStorage + BroadcastChannel.
+                            Event thành công invalidate đúng cache active ở tab khác;
+                            không dùng broadcastQueryClient experimental và không tự
+                            retry pending.
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><span class="badge need">Đã xử lý</span></td>
+                        <td>Tách write domain và retry idempotent</td>
+                        <td>
+                            <code>createComment</code> trước đây multiplex
+                            RatingComment, root Discuss và Discuss reply, có nguy cơ
+                            rơi nhầm nhánh khi payload thiếu field.
+                        </td>
+                        <td>
+                            Tách action/service cho Rating, RatingComment, root
+                            Discuss và Discuss reply. Retry dùng cùng
+                            <code>clientSubmissionId</code>; unique constraint và
+                            canonical lookup ngăn tạo record trùng khi response cũ
+                            bị mất.
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <p class="note">
+                <strong>Shared UI đã xử lý:</strong> sidebar
+                <code>slide-right</code> giữ content mounted đến khi transition đóng
+                hoàn tất, khôi phục animation <code>translate-x</code>, đồng bộ fade
+                overlay và dùng <code>inert</code>/<code>aria-hidden</code> khi đang
+                đóng. Modal <code>fade-center</code> không thay đổi.
+            </p>
+
+            <h2>Đề xuất bảng mới / cần thiết kế</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Bảng</th>
+                        <th>Field chính</th>
+                        <th>Mục đích</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>ChapterReport</code></td>
+                        <td>
+                            <code>id</code>, <code>userId</code>,
+                            <code>storyId</code>, <code>chapterId</code>,
+                            <code>reason</code>, <code>content</code>,
+                            <code>status</code>, <code>createdAt</code>,
+                            <code>updatedAt</code>
+                        </td>
+                        <td>
+                            Lưu report từ user để admin xử lý. Status có thể là
+                            <code>PENDING</code>, <code>RESOLVED</code>,
+                            <code>REJECTED</code>.
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><code>StoryMonetizationRule</code></td>
+                        <td>
+                            <code>id</code>, <code>storyId</code>,
+                            <code>startsFromChapterNumber</code>,
+                            <code>currencyCode</code>, <code>isEnabled</code>,
+                            <code>createdAt</code>, <code>updatedAt</code>
+                        </td>
+                        <td>
+                            Lưu rule thu phí cấp truyện: từ chương nào bắt đầu
+                            thu phí và dùng đơn vị tiền tệ nào. Nếu chọn tính
+                            giá động, rule này có thể dùng để tính giá mỗi lần
+                            hiển thị/mua.
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><code>ChapterPricing</code></td>
+                        <td>
+                            <code>id</code>, <code>chapterId</code>,
+                            <code>wordCount</code>, <code>priceAmount</code>,
+                            <code>currencyCode</code>, <code>calculatedAt</code>,
+                            <code>manualOverridePriceAmount</code>
+                        </td>
+                        <td>
+                            Lưu snapshot giá theo từng chapter nếu chọn hướng
+                            ổn định giá. Có thể thêm unique constraint trên
+                            <code>chapterId</code>. Nếu chưa chọn snapshot thì
+                            bảng này có thể tạm hoãn.
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><code>ChapterUnlock</code></td>
+                        <td>
+                            <code>id</code>, <code>userId</code>,
+                            <code>chapterId</code>, <code>amountPaid</code>,
+                            <code>currencyCode</code>, <code>unlockedAt</code>
+                        </td>
+                        <td>
+                            Lưu user đã mở khóa chapter nào. Cần unique
+                            constraint <code>[userId, chapterId]</code> để
+                            tránh mua/mở khóa trùng.
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h2>Plan chưa chốt: tính phí chương theo số từ</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Hướng</th>
+                        <th>Cách hoạt động</th>
+                        <th>Ưu điểm</th>
+                        <th>Rủi ro / điểm cần quyết định</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Dynamic pricing</td>
+                        <td>
+                            Không lưu giá cố định theo chapter. Mỗi lần hiển
+                            thị/mua, backend lấy word count của
+                            <code>Chapter.content</code> và rule hiện tại để
+                            tính giá, ví dụ 1000 từ = 30 linh thạch, 2000 -
+                            3000 từ = 90 linh thạch.
+                        </td>
+                        <td>
+                            Ít bảng hơn, rule đổi là áp dụng ngay, phù hợp giai
+                            đoạn thử nghiệm khi giá chưa ổn định.
+                        </td>
+                        <td>
+                            Giá chapter cũ có thể đổi ngoài ý muốn khi admin
+                            đổi rule hoặc khi uploader sửa nội dung làm word
+                            count nhảy sang mốc khác. Khó giải thích lịch sử
+                            giao dịch nếu không lưu snapshot lúc mua.
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Snapshot pricing</td>
+                        <td>
+                            Khi publish chapter hoặc bật thu phí, backend tính
+                            <code>wordCount</code> và <code>priceAmount</code>
+                            rồi lưu vào <code>ChapterPricing</code>. User mở
+                            khóa dựa trên giá đã lưu, transaction ghi vào
+                            <code>ChapterUnlock</code>.
+                        </td>
+                        <td>
+                            Giá ổn định, dễ audit, không đổi ngầm khi rule mới
+                            được chỉnh. Lịch sử thanh toán dễ đối chiếu vì
+                            <code>ChapterUnlock.amountPaid</code> khớp với giá
+                            tại thời điểm mở khóa.
+                        </td>
+                        <td>
+                            Cần thêm bảng và flow recalculate/override nếu
+                            admin muốn áp rule mới cho chapter cũ. Chưa chốt có
+                            cho uploader override giá từng chapter hay không.
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h2>Feature lớn: Khám phá và bộ lọc tất cả truyện</h2>
+            <p class="intro">
+                Requirement: “Tìm truyện theo tên/tác giả, lọc theo tag và bốn
+                option sắp xếp; kết quả dùng infinite scroll, test bằng dữ liệu
+                seed trong PostgreSQL thật và báo cáo sau mỗi phase.”
+            </p>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Phase</th>
+                        <th>Case được xử lý</th>
+                        <th>Trạng thái</th>
+                        <th>Ghi chú kỹ thuật</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>0. UI contract</td>
+                        <td>Chip căn giữa, desktop/mobile, loading/empty/error</td>
+                        <td><span class="badge done">Đã triển khai</span></td>
+                        <td>
+                            Route chính thức <code>/kham-pha</code>. CSS và
+                            responsive đã rà bằng source; browser automation
+                            chưa khả dụng trong phiên kiểm thử cuối.
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>1. Backend và DB</td>
+                        <td>Search, tag AND, số chương, 4 sort, cursor</td>
+                        <td><span class="badge done">Đã kiểm thử DB</span></td>
+                        <td>
+                            <code>totalChapters</code> là nguồn số chương;
+                            <code>manager_pick</code> là nguồn Chọn lọc.
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>2. Infinite UI</td>
+                        <td>Debounce, abort, load more, URL và Back browser</td>
+                        <td><span class="badge done">Đã triển khai</span></td>
+                        <td>
+                            Query cache 30 giây, GC 10 phút; mobile chỉ commit
+                            filter khi nhấn Áp dụng.
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>3. Case phổ biến</td>
+                        <td>
+                            Gõ nhanh, tag kết hợp, cursor tie, quay lại detail,
+                            empty state, metadata cache
+                        </td>
+                        <td><span class="badge done">Đã kiểm thử</span></td>
+                        <td>Deduplicate theo <code>story.id</code>.</td>
+                    </tr>
+                    <tr>
+                        <td>4. Case ít gặp</td>
+                        <td>
+                            Dữ liệu đổi khi scroll, count, rating tie, query/cursor
+                            giả
+                        </td>
+                        <td><span class="badge later">Đã xử lý một phần</span></td>
+                        <td>
+                            Cursor/sort tie và query giả đã có test/validation.
+                            Chưa mô phỏng concurrent insert khi đang scroll và
+                            chưa triển khai Bayesian score; giữ tie-breaker bằng
+                            <code>id</code>.
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>5. Điều hướng catalog</td>
+                        <td>
+                            Tag story detail, legacy redirect, entry point và
+                            progress bar dùng chung
+                        </td>
+                        <td><span class="badge done">Đã triển khai</span></td>
+                        <td>
+                            Tag được map theo <code>TagGroup.slug</code>; header,
+                            sidebar và homepage dùng canonical URL
+                            <code>/kham-pha</code>. Root skeleton tổng quát đã
+                            bỏ để giữ component-level loading.
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="phase">
+                <h3>Dữ liệu kiểm thử catalog</h3>
+                <ul>
+                    <li>
+                        Seed idempotent 48 truyện có slug
+                        <code>catalog-fixture-*</code>, đủ ba page và các mốc
+                        chương 299/300/599/600/1000/1001.
+                    </li>
+                    <li>
+                        Fixture được giữ trong DB dev để test UI thủ công; chỉ
+                        xóa bằng <code>npm run cleanup:catalog</code>.
+                    </li>
+                    <li>
+                        Integration test thật chỉ chạy khi dùng
+                        <code>npm run test:catalog:db</code>.
+                    </li>
+                    <li>
+                        Kết quả 2026-07-18: 9 integration tests PostgreSQL và
+                        60 unit tests toàn project đều pass; production build
+                        pass và migration catalog đã apply trên DB dev.
+                    </li>
+                </ul>
+            </div>
+
+            <h2>Ưu tiên triển khai</h2>
+            <div class="phase">
+                <h3>Tủ truyện và thông báo theo truyện (2026-07-16)</h3>
+                <ul>
+                    <li>
+                        Đã thêm UI trang <code>/tai-khoan/tu-truyen</code> với
+                        hai tab Đang đọc/Đánh dấu, sort, pagination 10 truyện,
+                        loading, empty, error và responsive.
+                    </li>
+                    <li>
+                        Đã thêm nút X theo ngữ cảnh, confirm và optimistic
+                        remove có rollback/lookahead item.
+                    </li>
+                    <li>
+                        Đã thêm model <code>UserStoryReadingState</code>;
+                        xóa khỏi Đang đọc chỉ set <code>hiddenAt</code>, đọc
+                        lại sẽ clear <code>hiddenAt</code>. Không xóa
+                        <code>ChapterRead</code> hoặc
+                        <code>ChapterReadEvent</code>.
+                    </li>
+                    <li>
+                        Đã thêm bookmark create/delete và dùng chung button ở
+                        story detail/chapter detail. Toolbar chapter thao tác
+                        bookmark cấp Story, không tạo bookmark riêng cho Chapter.
+                        Bookmark dùng hard delete.
+                    </li>
+                    <li>
+                        Đã thêm <code>StorySubscription</code>, chuông bật/tắt
+                        theo từng truyện, model <code>Notification</code> và
+                        service fanout chống trùng bằng
+                        <code>dedupeKey</code>.
+                    </li>
+                    <li>
+                        Setting global đã chuyển sang
+                        <code>notifyGeneral</code>; chương mới không phụ thuộc
+                        setting này mà phụ thuộc subscription từng truyện.
+                    </li>
+                    <li>
+                        Migration
+                        <code>20260716000000_add_user_story_library</code> đã
+                        tạo nhưng chưa apply vào database.
+                    </li>
+                    <li>
+                        Chưa tự động gọi service phát notification vì codebase
+                        chưa có entrypoint publish/create chapter. Cần gọi
+                        <code>createNewChapterNotifications</code> sau khi
+                        transaction publish chapter thành công.
+                    </li>
+                    <li>
+                        Chức năng phá hủy “Xóa toàn bộ lịch sử đọc” chưa triển
+                        khai; nút X hiện tại luôn giữ tiến độ đọc.
+                    </li>
+                </ul>
+            </div>
+            <div class="phase">
+                <h3>Phase 1: Core reading flow</h3>
+                <ul>
+                    <li>Home ReadingCard link thẳng tới chương đã đọc.</li>
+                    <li>Story detail có nút Đọc tiếp.</li>
+                    <li>Mục lục dùng chung cho story detail và chapter page.</li>
+                    <li>
+                        Modal mục lục hiển thị trạng thái chương user đã đọc.
+                    </li>
+                    <li>Hoàn thiện trạng thái disabled cho Chương trước/sau.</li>
+                </ul>
+            </div>
+            <div class="phase">
+                <h3>Phase 2: User library</h3>
+                <ul>
+                    <li>Đánh dấu / bỏ đánh dấu truyện.</li>
+                    <li>Xóa truyện khỏi danh sách vừa đọc.</li>
+                    <li>Trang hoặc khu vực xem truyện đã đánh dấu.</li>
+                </ul>
+            </div>
+            <div class="phase">
+                <h3>Phase 3: Chapter tools</h3>
+                <ul>
+                    <li>Cấu hình đọc bằng localStorage.</li>
+                    <li>Báo cáo chương tới admin.</li>
+                    <li>Chấm điểm và đề cử từ chapter page.</li>
+                </ul>
+            </div>
+            <div class="phase">
+                <h3>Phase 4: Engagement nâng cao</h3>
+                <ul>
+                    <li>Chọn quà / fan point.</li>
+                    <li>Admin dashboard xử lý report.</li>
+                    <li>Notification sau khi report được xử lý.</li>
+                </ul>
+            </div>
+            <div class="phase">
+                <h3>Phase 5: Monetization chưa chốt</h3>
+                <ul>
+                    <li>
+                        Chốt dynamic pricing hay snapshot pricing cho chương
+                        trả phí.
+                    </li>
+                    <li>
+                        Thiết kế currency chính thức, ví dụ
+                        <code>LINH_THACH</code>, và cách nạp/tiêu tiền tệ.
+                    </li>
+                    <li>
+                        Thiết kế quyền admin/uploader: ai được bật thu phí, ai
+                        được override giá, và áp dụng từ chương nào.
+                    </li>
+                </ul>
+            </div>
+
+                <div class="phase">
+                    <h3>Xuất bản chapter và công cụ cho người đăng truyện</h3>
+                    <p class="intro">
+                        Requirement đã chốt: người đăng truyện không tự duyệt lại
+                        nội dung do chính họ đăng. Chapter mới được quản trị viên
+                        duyệt, hoặc được hệ thống tự xuất bản khi quản trị viên bật
+                        chế độ uỷ quyền. Dịch, Convert và AI dịch là phương pháp tạo
+                        nội dung trong cùng một vai trò người đăng, không phải ba
+                        role phân quyền độc lập.
+                    </p>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Hạng mục</th>
+                                <th>Flow đã hiểu</th>
+                                <th>Trạng thái / hướng triển khai</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Duyệt thủ công</td>
+                                <td>
+                                    Người đăng gửi chapter; chapter chuyển sang hàng
+                                    chờ quản trị viên duyệt. Quản trị viên có thể
+                                    xuất bản, từ chối hoặc yêu cầu chỉnh sửa.
+                                </td>
+                                <td>
+                                    <span class="badge later">Phase backend/admin</span>
+                                    Không có trạng thái “chờ người đăng xác nhận”.
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Admin uỷ quyền tự xuất bản</td>
+                                <td>
+                                    Khi cấu hình auto-publish được bật, hệ thống tự
+                                    đăng chapter mới theo rule kỹ thuật và policy lõi;
+                                    admin vẫn có quyền khoá hoặc gỡ chapter sau report.
+                                </td>
+                                <td>
+                                    <span class="badge later">Phase backend/admin</span>
+                                    Cần lưu publish mode, người bật cấu hình và audit
+                                    log cho mỗi lần xuất bản tự động.
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Policy lõi</td>
+                                <td>
+                                    Trước mắt chỉ xây rule nền tảng có thể kiểm tra
+                                    bằng code/config. Nội dung chính trị, quốc gia và
+                                    các trường hợp cần hiểu ngôn ngữ tự nhiên chưa nằm
+                                    trong bộ kiểm duyệt tự động ban đầu.
+                                </td>
+                                <td>
+                                    <span class="badge need">Cần định nghĩa rule</span>
+                                    Không hiển thị trạng thái “Đang soát policy” nếu
+                                    chưa có worker/check thực sự đang chạy.
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Kiểm duyệt bằng LLM</td>
+                                <td>
+                                    Dùng LLM để phát hiện nội dung nhạy cảm liên quan
+                                    chính trị/quốc gia và các vi phạm cần xử lý ngôn
+                                    ngữ tự nhiên. Kết quả rủi ro cao phải chuyển admin,
+                                    không tự động kết luận chỉ dựa trên model.
+                                </td>
+                                <td>
+                                    <span class="badge later">Phase sau</span>
+                                    Cần prompt/version, confidence threshold, hàng đợi
+                                    review, log quyết định, retry và kiểm soát chi phí.
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <h3>Dashboard người đăng cho chapter trả phí</h3>
+                    <p class="intro">
+                        Khi người đăng bật tính phí chapter, dashboard cần trả lời
+                        riêng hai câu hỏi: có bao nhiêu người đọc và ai đã thực sự
+                        trả tiền mở khoá. Hai metric không được gộp vì user có thể
+                        đọc preview, đọc miễn phí hoặc mở lại chapter đã mua.
+                    </p>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Tính năng</th>
+                                <th>Phạm vi dữ liệu</th>
+                                <th>UI / hành vi chính</th>
+                                <th>Ghi chú dữ liệu</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Tổng quan hiệu suất</td>
+                                <td>Ngày, tuần, tháng, năm và khoảng ngày tuỳ chọn</td>
+                                <td>
+                                    KPI unique readers, lượt đọc, lượt mở khoá, doanh
+                                    thu gộp, doanh thu ròng và tỉ lệ chuyển đổi từ đọc
+                                    sang mua; biểu đồ so sánh kỳ trước.
+                                </td>
+                                <td>
+                                    Lượt đọc lấy từ event bất biến; không dùng
+                                    <code>ChapterRead.updatedAt</code> làm lịch sử.
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Hiệu suất theo story/chapter</td>
+                                <td>Mỗi truyện và từng chapter trả phí</td>
+                                <td>
+                                    Bảng sortable theo lượt đọc, số người mua, doanh
+                                    thu, giá hiện tại và conversion rate; drill-down
+                                    từ story sang chapter.
+                                </td>
+                                <td>
+                                    Giá bán phải dùng snapshot tại thời điểm giao
+                                    dịch để báo cáo không đổi khi rule giá thay đổi.
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Danh sách người đã trả phí</td>
+                                <td>User nào mở khoá chapter nào</td>
+                                <td>
+                                    Tìm kiếm/lọc theo story, chapter, thời gian và
+                                    trạng thái giao dịch; xem số tiền, tiền tệ, thời
+                                    điểm mua và mã giao dịch. Không hiển thị dữ liệu
+                                    cá nhân vượt quyền của người đăng.
+                                </td>
+                                <td>
+                                    Nguồn chuẩn là <code>ChapterUnlock</code> liên kết
+                                    giao dịch thanh toán; unique
+                                    <code>[userId, chapterId]</code> chống mở khoá lặp.
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Đối soát và hoàn tiền</td>
+                                <td>Giao dịch thành công, hoàn tiền, chargeback</td>
+                                <td>
+                                    Báo cáo doanh thu gross/net, phí nền tảng, khoản
+                                    hoàn và số dư có thể rút. Export CSV nằm ở phase
+                                    sau khi quyền truy cập và audit log hoàn chỉnh.
+                                </td>
+                                <td>
+                                    Cần transaction ledger riêng; không suy ra doanh
+                                    thu chỉ từ <code>ChapterUnlock</code> nếu có refund.
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Quyền và bảo mật dữ liệu</td>
+                                <td>Chỉ story thuộc quyền quản lý của người đăng</td>
+                                <td>
+                                    Backend luôn scope query theo owner/contributor;
+                                    admin có màn hình tổng hợp riêng. Mọi export và
+                                    thay đổi giá phải có audit log.
+                                </td>
+                                <td>
+                                    Không tin <code>storyId</code> từ client nếu chưa
+                                    kiểm tra ownership ở server.
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <p class="note">
+                        Thứ tự đề xuất: chốt mô hình transaction/ChapterUnlock và
+                        snapshot giá trước; sau đó làm KPI theo ngày/tuần/tháng/năm,
+                        bảng hiệu suất chapter và danh sách giao dịch; cuối cùng mới
+                        thêm payout, export và dự báo. Chưa triển khai production ở
+                        phase demo admin hiện tại.
+                    </p>
+                </div>
+
+                <div class="phase">
+                    <h3>Nhập truyện từ nguồn: execution roadmap 8 phase</h3>
+                    <p class="intro">
+                        Feature dành cho người đăng truyện nhập metadata và chapter
+                        từ một website nguồn, lưu thành draft để kiểm tra trước khi
+                        xuất bản. Nguồn đầu tiên là
+                        <code>truyendich.live</code>. Roadmap được chia từ Phase 0
+                        đến Phase 7 và bắt buộc dừng kiểm tra sau từng checkpoint;
+                        không triển khai toàn bộ crawler trong một lượt.
+                    </p>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Phase</th>
+                                <th>Trạng thái</th>
+                                <th>Phạm vi</th>
+                                <th>Checkpoint trước phase tiếp theo</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Phase 0: Contract và infrastructure</td>
+                                <td><span class="badge need">Đã chốt</span></td>
+                                <td>
+                                    Chốt nguồn v1, import mode, trạng thái job,
+                                    concurrency, vai trò PostgreSQL/Redis, direct
+                                    fetch và Playwright fallback.
+                                </td>
+                                <td>
+                                    Duyệt contract và ranh giới trách nhiệm; chưa cài
+                                    package, chưa migration và chưa crawl thật.
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Phase 1: UI demo</td>
+                                <td><span class="badge need">Đã triển khai</span></td>
+                                <td>
+                                    Hoàn thiện wizard bốn bước: phân tích nguồn,
+                                    chọn phạm vi, theo dõi tiến trình và kiểm tra
+                                    draft. Concurrency UI cho phép chọn 1/2.
+                                </td>
+                                <td>
+                                    UI đã nối Server Action và job thật. Pause,
+                                    resume và cancel vẫn để Phase 5; cần kiểm tra
+                                    responsive thủ công trên browser.
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Phase 2: Data model và discovery</td>
+                                <td><span class="badge need">Đã triển khai</span></td>
+                                <td>
+                                    Thiết kế bảng import/draft, DAL và domain service;
+                                    direct fetch metadata và catalog bằng adapter riêng
+                                    cho <code>truyendich.live</code>.
+                                </td>
+                                <td>
+                                    Hoàn tất ngày 24/07/2026. Checkpoint nguồn thật
+                                    xác nhận title, author, ảnh, mô tả, đủ 2.933
+                                    chapter và đúng catalog đầu/cuối; dữ liệu test
+                                    được dọn sau khi chạy.
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Phase 3: Single chapter draft</td>
+                                <td><span class="badge need">Đã triển khai</span></td>
+                                <td>
+                                    Người đăng nhập số chapter mẫu; hệ thống fetch đúng
+                                    edition AI/Convert, parse DOM, chuẩn hóa plain text,
+                                    tính SHA-256, đối chiếu draft/truyện đích rồi lưu vào
+                                    <code>ChapterImportDraft</code>.
+                                </td>
+                                <td>
+                                    Hoàn tất ngày 24/07/2026. Unit test parser/hash và
+                                    integration test nguồn thật + PostgreSQL đã pass;
+                                    fetch lặp idempotent và không tạo
+                                    <code>Chapter</code> production. UI Draft khôi phục
+                                    được chapter gần nhất sau reload; publish, edit,
+                                    ảnh nội dung và batch queue để phase sau.
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Phase 4: BullMQ, Redis và worker</td>
+                                <td><span class="badge need">Đã triển khai</span></td>
+                                <td>
+                                    Discovery queue riêng; ưu tiên đúng origin từ
+                                    URL; Chromium fallback qua worker khi cần;
+                                    catalog job, content jobs, retry/backoff,
+                                    checkpoint và hai loại progress.
+                                </td>
+                                <td>
+                                    Refactor origin strategy ngày 30/07/2026:
+                                    không còn thử tuần tự mọi domain, có health
+                                    cache/circuit breaker Redis và discovery nhanh
+                                    chỉ lấy metadata + catalog trang đầu. Unit test
+                                    importer đã pass; E2E nguồn thật còn phụ thuộc
+                                    rate/block của website nguồn.
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Phase 5: Bulk import và concurrency</td>
+                                <td><span class="badge later">Triển khai một phần</span></td>
+                                <td>
+                                    ALL/MISSING/RANGE và queue toàn bộ scope đã có.
+                                    Còn concurrency 2 thực tế, pause/resume/cancel,
+                                    rate policy, retry thủ công và chia batch vận hành.
+                                </td>
+                                <td>
+                                    Test tăng dần 20 rồi 100 chapter; không chạy ngay
+                                    toàn bộ 2.933 chapter trước khi flow nhỏ ổn định.
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Phase 6: Browser pool và hardening nguồn</td>
+                                <td><span class="badge later">Triển khai một phần</span></td>
+                                <td>
+                                    Chromium fallback cơ bản đã được đưa sớm vào
+                                    Phase 4. Circuit breaker direct-fetch ngắn hạn
+                                    và reset Chromium context khi timeout đã có.
+                                    Phase này còn browser pool, proxy tùy chọn,
+                                    rate policy theo nguồn và dọn context/process
+                                    ở tải lớn.
+                                </td>
+                                <td>
+                                    Test tải dài, nguồn block tạm thời, proxy lỗi,
+                                    giới hạn process và không rò browser context.
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Phase 7: Review, publish và vận hành</td>
+                                <td><span class="badge later">Chưa triển khai</span></td>
+                                <td>
+                                    Review diff, chọn chapter, publish bằng transaction,
+                                    kiểm tra ownership, audit log, cache invalidation,
+                                    metrics, cleanup và incremental sync.
+                                </td>
+                                <td>
+                                    Chạy end-to-end discover → import → review → sửa
+                                    draft → publish và kiểm tra trên reader app.
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <h3>Contract Phase 0 đã chốt</h3>
+                    <ul>
+                        <li>
+                            Import mode gồm <code>all</code>,
+                            <code>missing</code> và <code>range</code>.
+                        </li>
+                        <li>
+                            Concurrency UI chỉ có <code>1</code> (An toàn) hoặc
+                            <code>2</code> (Cân bằng), mặc định là
+                            <code>1</code>; backend luôn có quyền áp giới hạn thấp
+                            hơn cấu hình client.
+                        </li>
+                        <li>
+                            Job status gồm <code>DRAFT</code>,
+                            <code>DISCOVERING</code>, <code>QUEUED</code>,
+                            <code>RUNNING</code>, <code>PAUSED</code>,
+                            <code>REVIEW_REQUIRED</code>,
+                            <code>COMPLETED</code>,
+                            <code>PARTIAL_FAILED</code>, <code>FAILED</code> và
+                            <code>CANCELLED</code>.
+                        </li>
+                        <li>
+                            PostgreSQL là nguồn dữ liệu chuẩn cho import job, draft
+                            và trạng thái nghiệp vụ. Redis chỉ điều phối queue,
+                            progress, retry, delay, worker lock và rate limit; không
+                            lưu canonical story/chapter content.
+                        </li>
+                        <li>
+                            Direct fetch là phương thức mặc định. Chromium
+                            Playwright fallback cơ bản đã được đưa sớm vào Phase 4
+                            cho timeout, lỗi kết nối/TLS, lỗi server hoặc challenge.
+                        </li>
+                        <li>
+                            Phase 2 cài Cheerio để chuẩn hóa mô tả HTML. Sang Phase
+                            4, BullMQ, Redis Docker và Playwright runtime đã được
+                            nối vào queue/worker thật; browser automation kiểm thử
+                            UI vẫn là công cụ độc lập với crawler runtime.
+                        </li>
+                        <li>
+                            Wizard hiện có bốn bước độc lập:
+                            <code>Phân tích nguồn</code>,
+                            <code>Phạm vi import</code>,
+                            <code>Tiến trình</code> và
+                            <code>Kiểm tra draft</code>. Chưa có thao tác publish
+                            production trong flow này.
+                        </li>
+                        <li>
+                            State machine khóa bước chưa đủ điều kiện, validate
+                            URL/range và chỉ mở Draft khi job đạt trạng thái
+                            <code>REVIEW_REQUIRED</code>.
+                        </li>
+                        <li>
+                            Checkpoint còn cần xác nhận thủ công trên browser:
+                            responsive, timer progress, pause/resume, cancel/reset
+                            và chuyển sang Draft. Browser automation không khả dụng
+                            trong phiên triển khai ngày 24/07/2026.
+                        </li>
+                        <li>
+                            Phase 2 thêm các model
+                            <code>StoryImportSource</code>,
+                            <code>StoryImportJob</code>,
+                            <code>StoryImportDraft</code> và
+                            <code>ChapterImportDraft</code>. Migration
+                            <code>20260724000000_add_story_import_discovery</code>
+                            đã apply vào PostgreSQL local và Prisma xác nhận schema
+                            up to date.
+                        </li>
+                        <li>
+                            Package <code>@mtc/importer</code> chịu trách nhiệm
+                            validate URL allowlist, quick probe metadata cùng
+                            trang catalog đầu, chuẩn bị toàn catalog ở worker,
+                            chuẩn hóa DTO và lưu discovery bằng domain service.
+                            Request mạng không nằm trong database transaction.
+                        </li>
+                        <li>
+                            UI admin gọi Server Action thật để phân tích nguồn,
+                            hiển thị metadata/catalog preview, lưu edition,
+                            import mode, range, concurrency và target story.
+                            Progress và Draft đọc trạng thái thật từ PostgreSQL.
+                        </li>
+                        <li>
+                            Luồng lỗi discovery phân biệt timeout, kết nối/TLS,
+                            HTTP 403/404/429/5xx, schema nguồn,
+                            validation, database và lỗi hệ thống. UI chỉ hiển thị
+                            message an toàn, mã lỗi, khả năng thử lại và mã hỗ trợ
+                            cho lỗi nội bộ; raw Prisma error chỉ nằm ở server log.
+                        </li>
+                        <li>
+                            Đã bỏ fallback hardcode <code>2.933 chương</code> khỏi
+                            state discovery và helper tính phạm vi. Khi phân tích
+                            URL mới hoặc request thất bại, metadata/catalog cũ bị
+                            xóa và giao diện trở về trạng thái chưa có dữ liệu;
+                            tổng chương chỉ lấy từ catalog nguồn đã parse thành
+                            công.
+                        </li>
+                        <li>
+                            Kiểm thử bắt buộc không còn phụ thuộc website bên thứ
+                            ba. Adapter unit test xác nhận quick probe chỉ gọi
+                            metadata cùng trang catalog đầu; PostgreSQL
+                            integration test xác nhận chỉ lưu preview, chưa tạo
+                            toàn bộ <code>ChapterImportDraft</code>. Smoke test
+                            nguồn thật được chạy riêng vì có thể bị rate-limit.
+                        </li>
+                        <li>
+                            Phase 4 thêm Redis Docker, BullMQ producer và worker
+                            Node riêng. Discovery dùng queue
+                            <code>mtc-story-discovery</code> với tối đa 2 lần thử;
+                            catalog/content dùng queue
+                            <code>mtc-story-import</code> với tối đa 3 lần thử.
+                            Cả hai worker chạy <code>concurrency = 1</code> trong
+                            cùng process và dùng exponential backoff;
+                            PostgreSQL vẫn là nguồn trạng thái chuẩn, Redis chỉ giữ
+                            hàng đợi và lock.
+                        </li>
+                        <li>
+                            Sau khi người dùng xác nhận phạm vi, catalog job mới
+                            tải toàn bộ metadata chapter theo từng trang. Mode
+                            <code>MISSING</code> loại số chapter đã có trong truyện
+                            đích; <code>ALL</code> và <code>RANGE</code> chọn đúng
+                            scope rồi mới tạo content jobs. Không còn hardcode
+                            batch tối đa 10 chapter.
+                        </li>
+                        <li>
+                            UI admin polling API progress 1,5 giây trong 10 giây
+                            đầu, 3 giây đến mốc 30 giây, sau đó 5 giây; tab ẩn dùng
+                            15 giây và poll ngay khi focus lại. UI hiển thị riêng
+                            tiến độ catalog như <code>2/13 trang</code> và
+                            tiến độ content như <code>7/10 chương</code>. Chapter
+                            thật có trạng thái <code>QUEUED</code>,
+                            <code>RUNNING</code>, <code>COMPLETED</code> hoặc
+                            <code>FAILED</code>. Activity mock và bộ đếm progress
+                            giả đã được loại bỏ. Reload trang khi batch đang chạy
+                            sẽ khôi phục job gần nhất và tiếp tục polling.
+                        </li>
+                        <li>
+                            Migration
+                            <code>20260725030000_split_import_catalog_progress</code>
+                            thêm bộ đếm catalog vào
+                            <code>StoryImportJob</code>, preview JSON vào
+                            <code>StoryImportDraft</code> và stage
+                            <code>CATALOG</code>. Migration đã apply vào PostgreSQL
+                            local ngày 25/07/2026.
+                        </li>
+                        <li>
+                            Direct fetch vẫn là transport đầu tiên. Chromium
+                            Playwright được đưa sớm vào Phase 4 làm fallback cho
+                            timeout, lỗi kết nối/TLS, lỗi server và challenge; không
+                            fallback cho 404 hoặc schema nguồn sai. Browser chỉ mở
+                            khi transport direct thực sự thất bại. Adapter ưu tiên
+                            origin đúng từ URL user nhập, theo redirect allowlist và
+                            chỉ thử origin khác nếu Redis ghi nhận origin đó vừa
+                            hoạt động. Direct origin lỗi được mở circuit breaker
+                            trong 2 phút; origin thành công được nhớ 10 phút.
+                            Timeout Chromium sẽ reset context trước lần BullMQ retry.
+                        </li>
+                        <li>
+                            Checkpoint database thật đã xác nhận mode
+                            <code>MISSING</code> bỏ qua chapter production, batch
+                            giữ đúng giới hạn và ghi cùng checkpoint hai lần chỉ
+                            cập nhật một <code>ChapterImportDraft</code>. Checkpoint
+                            Redis đã xác nhận job tồn tại khi worker tắt và hoàn tất
+                            sau khi worker khởi động.
+                        </li>
+                        <li>
+                            Chưa xác định được ngưỡng request chính xác của website
+                            nguồn. Trong lần test ngày 25/07/2026, một request
+                            metadata Chromium thành công; các discovery/retry liên
+                            tiếp sau đó khiến cả hai domain tạm timeout. Đây là giới
+                            hạn/rate block theo phiên hoặc IP, không đủ dữ liệu để
+                            kết luận nguồn chặn sau bao nhiêu chapter.
+                        </li>
+                        <li>
+                            Refactor cấu trúc ngày 02/08/2026: importer có route
+                            chính thức <code>/dashboard/imports/new</code> với
+                            <code>page.js</code>, <code>loading.js</code> và
+                            <code>error.js</code>; sidebar dùng URL thay cho state
+                            <code>activeItem</code>. UI của workflow được colocate
+                            dưới route <code>dashboard/imports</code>. Server action
+                            và progress route đi qua DAL
+                            <code>server-only</code>, không gọi Prisma từ client.
+                        </li>
+                        <li>
+                            Package <code>@mtc/importer</code> đã phân ranh giới
+                            <code>application</code>, <code>domain</code>,
+                            <code>infrastructure/persistence</code>,
+                            <code>infrastructure/sources</code>,
+                            <code>infrastructure/queue</code> và
+                            <code>worker</code>. Public exports và queue name được
+                            giữ tương thích bằng facade để admin/worker không phải
+                            đổi đồng loạt. Characterization suite sau refactor:
+                            27 test pass, 2 integration test PostgreSQL skip khi
+                            không bật biến môi trường test.
+                        </li>
+                    </ul>
+                    <p class="note">
+                        Quyết định triển khai: hoàn thành và duyệt Phase 0 trước,
+                        sau đó mới chỉnh UI Phase 1. Mỗi phase sau cũng phải có báo
+                        cáo và xác nhận UI/flow trước khi chuyển tiếp.
+                    </p>
+                </div>
+
+                <div class="phase">
+                    <h3>Admin + cron xếp hạng realtime (audit 20/07/2026)</h3>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Trạng thái</th>
+                                <th>Vấn đề đã xác định</th>
+                                <th>Ảnh hưởng hiện tại</th>
+                                <th>Hướng xử lý ở phase admin</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><span class="badge must">Cần sửa</span></td>
+                                <td>
+                                    Cron không chạy cùng lifecycle của web app.
+                                    <code>npm run dev</code> không khởi động
+                                    <code>scripts/dev-cron.js</code>.
+                                </td>
+                                <td>
+                                    User đọc chương thành công nhưng không có tiến
+                                    trình tổng hợp dữ liệu vào
+                                    <code>TopStoryRead</code>, nên top realtime ở
+                                    homepage có thể rỗng.
+                                </td>
+                                <td>
+                                    Tách worker/job runner độc lập; admin chỉ điều
+                                    khiển chạy một lần, xem trạng thái và cấu hình
+                                    lịch, không chạy cron bên trong request web.
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><span class="badge must">Cần sửa</span></td>
+                                <td>
+                                    Job đang tổng hợp từ
+                                    <code>ChapterRead.readAt</code>, là trạng thái
+                                    mutable của lần đọc gần nhất.
+                                </td>
+                                <td>
+                                    Dữ liệu lịch sử có thể bị mất nghĩa khi user đọc
+                                    lại chương. Luồng đọc hiện đã tạo
+                                    <code>ChapterReadEvent</code> bất biến nhưng cron
+                                    chưa dùng nguồn này.
+                                </td>
+                                <td>
+                                    Dùng <code>ChapterReadEvent</code> làm nguồn sự
+                                    kiện chuẩn; <code>ChapterRead</code> chỉ giữ trạng
+                                    thái chương đã đọc của user.
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><span class="badge must">Cần sửa</span></td>
+                                <td>
+                                    Snapshot chưa idempotent:
+                                    <code>TopStoryRead</code> chưa có unique constraint
+                                    theo story + time window và job đang
+                                    <code>create</code> mỗi lần chạy.
+                                </td>
+                                <td>
+                                    Chạy lại cùng một cửa sổ thời gian có thể sinh
+                                    record trùng và làm API cộng sai kết quả.
+                                </td>
+                                <td>
+                                    Thêm unique constraint, dùng upsert và khóa job
+                                    theo window để chống chạy chồng.
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><span class="badge need">Cần chốt</span></td>
+                                <td>
+                                    Job đếm unique user trong từng block 5 phút,
+                                    nhưng API lại cộng nhiều block trong 15 phút.
+                                </td>
+                                <td>
+                                    Một user đọc ở nhiều block có thể bị đếm nhiều
+                                    lần dù UI mô tả là số người đang đọc.
+                                </td>
+                                <td>
+                                    Chốt metric: unique reader toàn cửa sổ hoặc tổng
+                                    lượt đọc. Tên chỉ số và query phải dùng cùng một
+                                    định nghĩa.
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><span class="badge must">Cần sửa</span></td>
+                                <td>
+                                    API top stories đang dùng
+                                    <code>force-static</code>; client homepage chỉ
+                                    fetch khi mount và không polling/refetch focus.
+                                </td>
+                                <td>
+                                    Kể cả job đã ghi dữ liệu, UI vẫn có thể giữ kết
+                                    quả rỗng hoặc cũ.
+                                </td>
+                                <td>
+                                    Đặt chiến lược cache phù hợp với chu kỳ job và
+                                    dùng React Query polling/refetch focus có giới
+                                    hạn cho block realtime.
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><span class="badge later">Dọn sau</span></td>
+                                <td>
+                                    Còn implementation cron cũ lệch schema
+                                    (<code>duration</code>,
+                                    <code>normalizeTimeBlock</code>) và scheduler đã
+                                    bị comment.
+                                </td>
+                                <td>
+                                    Dễ gọi nhầm code chết hoặc hiểu sai flow đang
+                                    được sử dụng.
+                                </td>
+                                <td>
+                                    Xóa implementation cũ sau khi worker mới có test
+                                    và log vận hành đầy đủ.
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><span class="badge later">Phase admin</span></td>
+                                <td>
+                                    Seed hiện tại tạo dữ liệu ngẫu nhiên trực tiếp ở
+                                    <code>ChapterRead</code>, không tạo đầy đủ
+                                    <code>ChapterReadEvent</code> và không tái lập
+                                    được một kịch bản test.
+                                </td>
+                                <td>
+                                    Khó chứng minh ranking đúng, khó cleanup và có
+                                    thể tạo dữ liệu không nhất quán.
+                                </td>
+                                <td>
+                                    Tạo màn hình admin “Cron test lab”: chọn story,
+                                    số user, số event và time window; preview trước
+                                    khi seed; chạy job thật; xem output; cleanup theo
+                                    test run. Tắt mặc định ở production.
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <p class="note">
+                        Quyết định hiện tại: chưa sửa cron và chưa bổ sung seed bằng
+                        script. Chờ admin shell, RBAC và audit log hoàn thành rồi mới
+                        thêm nút seed/chạy job trên UI. Seed phải ghi vào
+                        <code>ChapterReadEvent</code> và gọi đúng production job để
+                        tạo <code>TopStoryRead</code>, không ghi thẳng kết quả ranking.
+                    </p>
+                    <p class="note">
+                        Đã có bản demo UI/UX độc lập tại
+                        <code>docs/admin-console-demo.html</code>. Demo dùng mock data,
+                        bản hiện tại còn role switcher cũ cho Admin, người đăng truyện
+                        và Dịch/Convert; cần refactor Dịch/Convert/AI dịch thành phương
+                        pháp nội dung của cùng role người đăng;
+                        bao phủ tổng quan, report, content, user, cron, test lab,
+                        notification và monetization. Chưa có RBAC, API hoặc mutation
+                        production trong scope này.
+                    </p>
+                    <p class="note">
+                        Admin auth phase 1 đã triển khai: workspace đã tách
+                        <code>admin</code>, <code>metruyenchu</code>,
+                        <code>packages/database</code> và
+                        <code>packages/auth</code>; Admin đăng nhập credentials
+                        bằng Auth.js với cookie riêng, chỉ chấp nhận tài khoản đã
+                        xác minh thuộc role <code>ADMIN</code> hoặc
+                        <code>UPLOADER</code>. Session có hạn tuyệt đối 8 giờ,
+                        kiểm tra <code>authVersion</code>, role và trạng thái xác
+                        minh lại từ DB; dashboard được bảo vệ ở middleware và
+                        server layout. Đã có CLI cấp role, unit test policy và
+                        integration test PostgreSQL. Dữ liệu dashboard, audit log
+                        và các mutation quản trị vẫn thuộc phase sau.
+                    </p>
+                </div>
+
+            <p class="note">
+                Đã xử lý cache cho feature highlight chương đã đọc: catalog
+                chương dùng query riêng và không ép refetch mỗi lần mở modal;
+                trạng thái chương đã đọc dùng query riêng
+                <code>readChapterIds</code>; khi user đọc chapter mới, client
+                update cache <code>readChapterIds</code> ngay sau khi chapter
+                page load. Đã xử lý thêm <code>continueChapter</code> cho nút
+                đọc tiếp ở story detail, migrate Home Reading List sang
+                React Query với key <code>readingStories</code>, link Home
+                ReadingCard tới chương đang đọc gần nhất, và invalidate
+                <code>readingStories</code> khi user đọc chapter mới. Chưa xử
+                lý pagination/virtualization cho truyện quá nhiều chương, chưa
+                xử lý persisted cache qua reload browser, chưa xử lý invalidate
+                catalog từ luồng uploader/admin đăng chương mới, và chưa xử lý
+                nút xóa truyện khỏi danh sách đang đọc.
+            </p>
+
+            <p class="note">
+                Gợi ý triển khai trước: làm luồng đọc tiếp và mục lục trước,
+                bao gồm trạng thái chương đã đọc trong modal, vì đây là chức
+                năng cốt lõi của trang truyện. Chức năng báo cáo nên làm sau
+                bookmark nhưng trước quà/fan point, vì nó liên quan tới vận
+                hành nội dung và quản trị. Monetization nên để sau khi chốt
+                pricing dynamic hay snapshot.
+            </p>
+        </main>
+    </body>
+</html>

@@ -1,0 +1,8 @@
+ALTER TYPE "ImportJobStage" ADD VALUE IF NOT EXISTS 'CATALOG';
+
+ALTER TABLE "StoryImportJob"
+ADD COLUMN "catalogPageCount" INTEGER NOT NULL DEFAULT 0,
+ADD COLUMN "completedCatalogPageCount" INTEGER NOT NULL DEFAULT 0;
+
+ALTER TABLE "StoryImportDraft"
+ADD COLUMN "catalogPreview" JSONB;

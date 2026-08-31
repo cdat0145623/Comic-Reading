@@ -1,36 +1,61 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Me Truyen Chu Workspace
 
-## Getting Started
+Workspace gồm hai ứng dụng Next.js dùng chung PostgreSQL và chính sách xác thực:
 
-First, run the development server:
+- `metruyenchu`: trang đọc truyện, mặc định chạy cổng `3000`.
+- `admin`: trang vận hành cho `ADMIN` và `UPLOADER`, mặc định chạy cổng `3001`.
+- `packages/database`: Prisma schema, migrations và Prisma client dùng chung.
+- `packages/auth`: cấu hình Auth.js và policy role/session dùng chung.
+
+## Cài đặt
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Lệnh trên tự generate Prisma client. Workspace chỉ dùng
+`package-lock.json` ở thư mục root.
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+## Chạy local
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+npm run dev:web
+npm run dev:admin
+```
 
-## Learn More
+Hai lệnh được chạy ở hai terminal khác nhau. App Admin cần file
+`admin/.env.local` theo mẫu `admin/.env.example`.
 
-To learn more about Next.js, take a look at the following resources:
+## Database
 
--   [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
--   [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```bash
+npm run db:generate
+npm run db:migrate:dev
+npm run db:migrate:deploy
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Prisma schema và migration nằm tại `packages/database/prisma`.
 
-## Deploy on Vercel
+## Cấp quyền Admin
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+```bash
+npm run user:set-role -- --email user@example.com --role ADMIN
+npm run user:set-role -- --email uploader@example.com --role UPLOADER
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Tài khoản phải có mật khẩu credentials và `emailVerified` mới đăng nhập được
+Admin. Đổi role tăng `authVersion`, làm mất hiệu lực các JWT cũ của user.
+
+## Kiểm tra
+
+```bash
+npm run lint
+npm test
+npm run build
+```
+
+Integration test credentials với PostgreSQL:
+
+```bash
+npm run test:admin-auth:db --workspace metruyenchu
+```

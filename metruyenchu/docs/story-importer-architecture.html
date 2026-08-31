@@ -1,0 +1,366 @@
+<!doctype html>
+<html lang="vi">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Kiến trúc Story Importer - Mê Truyện Chữ</title>
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='4' fill='%231d232b'/%3E%3Ctext x='16' y='21' text-anchor='middle' font-family='Arial' font-size='11' font-weight='700' fill='%23e0bd69'%3EMTC%3C/text%3E%3C/svg%3E">
+    <style>
+        :root {
+            --page: #eef0f2;
+            --surface: #ffffff;
+            --surface-muted: #f7f8f9;
+            --ink: #20252d;
+            --muted: #687381;
+            --line: #d9dee4;
+            --accent: #ad8227;
+            --accent-soft: #f7efd9;
+            --success: #397749;
+            --success-soft: #edf7ef;
+            --danger: #b84a3a;
+            --code: #1d232b;
+        }
+
+        * { box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body {
+            margin: 0;
+            background: var(--page);
+            color: var(--ink);
+            font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+            font-size: 15px;
+            line-height: 1.65;
+        }
+
+        a { color: inherit; }
+        code, pre { font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace; }
+        .shell { width: min(1220px, calc(100% - 32px)); margin: 0 auto; }
+        .topbar {
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            border-bottom: 1px solid #2e3540;
+            background: #1d232b;
+            color: #fff;
+        }
+        .topbar-inner {
+            min-height: 62px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 24px;
+        }
+        .brand { display: flex; align-items: center; gap: 12px; font-weight: 750; }
+        .mark {
+            width: 34px;
+            height: 34px;
+            display: grid;
+            place-items: center;
+            border: 1px solid #59616c;
+            border-radius: 5px;
+            color: #e0bd69;
+            font-size: 12px;
+        }
+        .topnav { display: flex; flex-wrap: wrap; gap: 18px; color: #c6ccd3; font-size: 13px; }
+        .topnav a { text-decoration: none; }
+        .topnav a:hover { color: #fff; }
+
+        main { padding: 42px 0 72px; }
+        .intro {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) auto;
+            align-items: end;
+            gap: 32px;
+            padding-bottom: 30px;
+            border-bottom: 1px solid var(--line);
+        }
+        .eyebrow {
+            margin: 0 0 8px;
+            color: var(--accent);
+            font-size: 12px;
+            font-weight: 800;
+            text-transform: uppercase;
+        }
+        h1, h2, h3, p { margin-top: 0; }
+        h1 { margin-bottom: 10px; font-size: clamp(30px, 4vw, 48px); line-height: 1.1; letter-spacing: 0; }
+        h2 { margin-bottom: 8px; font-size: 24px; line-height: 1.25; letter-spacing: 0; }
+        h3 { margin-bottom: 6px; font-size: 17px; letter-spacing: 0; }
+        .lede { max-width: 760px; margin-bottom: 0; color: var(--muted); }
+        .status {
+            padding: 7px 11px;
+            border: 1px solid #c8a14d;
+            border-radius: 4px;
+            background: var(--accent-soft);
+            color: #745817;
+            font-size: 12px;
+            font-weight: 750;
+            white-space: nowrap;
+        }
+
+        .section { padding: 34px 0; border-bottom: 1px solid var(--line); }
+        .section-head { display: flex; align-items: baseline; justify-content: space-between; gap: 24px; margin-bottom: 20px; }
+        .section-head p { max-width: 620px; margin-bottom: 0; color: var(--muted); }
+        .diagram-frame { overflow: auto; border: 1px solid var(--line); background: var(--surface); }
+        .diagram-frame img { display: block; width: 100%; min-width: 980px; height: auto; padding: 20px; }
+
+        .flow-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+        .flow-panel { border: 1px solid var(--line); background: var(--surface); }
+        .flow-panel > header { padding: 18px 20px; border-bottom: 1px solid var(--line); }
+        .flow-panel > header p { margin: 4px 0 0; color: var(--muted); font-size: 13px; }
+        .steps { margin: 0; padding: 0; list-style: none; counter-reset: step; }
+        .steps li {
+            position: relative;
+            min-height: 64px;
+            padding: 17px 20px 17px 62px;
+            border-bottom: 1px solid var(--line);
+            counter-increment: step;
+        }
+        .steps li:last-child { border-bottom: 0; }
+        .steps li::before {
+            content: counter(step);
+            position: absolute;
+            left: 20px;
+            top: 17px;
+            width: 25px;
+            height: 25px;
+            display: grid;
+            place-items: center;
+            border: 1px solid #c7a352;
+            border-radius: 50%;
+            color: #7d5d18;
+            font-size: 12px;
+            font-weight: 800;
+        }
+        .steps strong { display: block; }
+        .steps span { display: block; color: var(--muted); font-size: 13px; }
+
+        .callout {
+            margin-top: 18px;
+            padding: 16px 18px;
+            border-left: 4px solid var(--success);
+            background: var(--success-soft);
+        }
+        .callout strong { color: var(--success); }
+        .logic {
+            display: grid;
+            grid-template-columns: minmax(0, 1.1fr) minmax(320px, .9fr);
+            gap: 18px;
+            align-items: stretch;
+        }
+        pre {
+            height: 100%;
+            margin: 0;
+            padding: 20px;
+            overflow: auto;
+            border-radius: 4px;
+            background: var(--code);
+            color: #e9edf2;
+            font-size: 13px;
+            line-height: 1.65;
+        }
+        .truth-table, .file-table { width: 100%; border-collapse: collapse; background: var(--surface); }
+        .truth-table th, .truth-table td, .file-table th, .file-table td {
+            padding: 12px 14px;
+            border: 1px solid var(--line);
+            text-align: left;
+            vertical-align: top;
+        }
+        .truth-table th, .file-table th { background: var(--surface-muted); font-size: 12px; text-transform: uppercase; }
+        .stop { color: var(--danger); font-weight: 750; }
+        .go { color: var(--success); font-weight: 750; }
+        .file-table code { color: #755818; font-size: 12px; overflow-wrap: anywhere; }
+        .responsibilities { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+        .responsibility { padding: 20px; border-top: 3px solid var(--accent); background: var(--surface); }
+        .responsibility ul { margin: 12px 0 0; padding-left: 19px; }
+        .responsibility li + li { margin-top: 6px; }
+        .footnote { margin: 24px 0 0; color: var(--muted); font-size: 13px; }
+
+        @media (max-width: 820px) {
+            .shell { width: min(100% - 20px, 1220px); }
+            .topbar-inner, .intro, .section-head { align-items: flex-start; }
+            .topbar-inner { padding: 12px 0; flex-direction: column; gap: 8px; }
+            .intro { grid-template-columns: 1fr; }
+            .section-head { flex-direction: column; gap: 8px; }
+            .flow-grid, .logic, .responsibilities { grid-template-columns: 1fr; }
+            main { padding-top: 28px; }
+            .section { padding: 28px 0; }
+            .file-table { min-width: 760px; }
+            .table-scroll { overflow-x: auto; }
+        }
+
+        @media print {
+            .topbar { position: static; }
+            body { background: #fff; }
+            .shell { width: 100%; }
+            .section { break-inside: avoid; }
+        }
+    </style>
+</head>
+<body>
+    <header class="topbar">
+        <div class="shell topbar-inner">
+            <div class="brand"><span class="mark">MTC</span> Story Importer Architecture</div>
+            <nav class="topnav" aria-label="Mục lục">
+                <a href="#architecture">Kiến trúc</a>
+                <a href="#restore-flow">Khôi phục state</a>
+                <a href="#discovery-flow">Discovery mới</a>
+                <a href="#files">File và trách nhiệm</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="shell">
+        <section class="intro">
+            <div>
+                <p class="eyebrow">Tài liệu kỹ thuật</p>
+                <h1>Kiến trúc crawler và discovery flow</h1>
+                <p class="lede">Sơ đồ này mô tả ranh giới giữa Admin Next.js, package importer, worker, PostgreSQL và Redis. Phần dưới giải thích chính xác vì sao cùng một reducer action <code>ANALYSIS_SUCCEEDED</code> được dùng cho cả khôi phục dữ liệu cũ và discovery vừa hoàn tất.</p>
+            </div>
+            <span class="status">Codebase snapshot: 03/08/2026</span>
+        </section>
+
+        <section class="section" id="architecture">
+            <div class="section-head">
+                <div><p class="eyebrow">01 / Tổng thể</p><h2>Luồng dữ liệu theo layer</h2></div>
+                <p>Redis không nằm giữa server và PostgreSQL. Nó là hạ tầng điều phối công việc nền; PostgreSQL vẫn là nguồn dữ liệu chuẩn.</p>
+            </div>
+            <div class="diagram-frame">
+                <img src="story-importer-architecture.svg" alt="Sơ đồ kiến trúc story importer">
+            </div>
+        </section>
+
+        <section class="section" id="restore-flow">
+            <div class="section-head">
+                <div><p class="eyebrow">02 / Khi mở màn hình</p><h2>Khôi phục discovery gần nhất</h2></div>
+                <p>Effect này không phân tích URL mới. Nó tìm import job gần nhất của uploader hiện tại và phục hồi workflow nếu có.</p>
+            </div>
+
+            <div class="logic">
+                <pre><code>useEffect(() =&gt; {
+    let active = true;
+
+    getLatestImportDiscoveryAction().then((result) =&gt; {
+        if (!active || !result.ok || !result.data) return;
+
+        dispatch({
+            type: "ANALYSIS_SUCCEEDED",
+            data: result.data,
+        });
+    });
+
+    return () =&gt; {
+        active = false;
+    };
+}, []);</code></pre>
+
+                <table class="truth-table">
+                    <thead><tr><th>Điều kiện</th><th>Kết quả</th></tr></thead>
+                    <tbody>
+                        <tr><td><code>active === false</code></td><td class="stop">Return, component đã unmount</td></tr>
+                        <tr><td><code>result.ok === false</code></td><td class="stop">Return, action thất bại</td></tr>
+                        <tr><td><code>result.data</code> không tồn tại</td><td class="stop">Return, không có lịch sử để khôi phục</td></tr>
+                        <tr><td>Cả ba điều kiện trên đều không xảy ra</td><td class="go">Dispatch và hydrate reducer state</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="callout">
+                <strong>Điểm cần làm rõ:</strong> Khi không có data cũ, callback đã dừng ở từ khóa <code>return</code>. Dòng <code>dispatch</code> phía dưới không chạy. Tên <code>ANALYSIS_SUCCEEDED</code> chỉ mô tả trạng thái cuối cùng là “đã có kết quả phân tích hợp lệ”, không khẳng định kết quả vừa được tạo trong lần mount này.
+            </div>
+
+            <div class="flow-grid" style="margin-top: 18px">
+                <article class="flow-panel">
+                    <header><h3>Call chain</h3><p>Từ Client Component tới PostgreSQL.</p></header>
+                    <ol class="steps">
+                        <li><strong>Client effect</strong><span>Gọi <code>getLatestImportDiscoveryAction()</code> khi mount.</span></li>
+                        <li><strong>Server Action</strong><span>Chuẩn hóa kết quả thành <code>{ ok, data, error }</code>.</span></li>
+                        <li><strong>DAL</strong><span>Lấy actor hiện tại và kiểm tra quyền uploader/admin.</span></li>
+                        <li><strong>Application service</strong><span>Gọi <code>findLatestImportJob(actor.id)</code>.</span></li>
+                        <li><strong>Repository</strong><span>Đọc import job mới nhất và dựng DTO cho UI.</span></li>
+                    </ol>
+                </article>
+
+                <article class="flow-panel">
+                    <header><h3>Reducer phục hồi gì?</h3><p>Không chỉ metadata của truyện.</p></header>
+                    <ol class="steps">
+                        <li><strong>Discovery result</strong><span>URL nguồn, story metadata, catalog summary, edition.</span></li>
+                        <li><strong>Import configuration</strong><span>Mode, range, target story và concurrency đã chọn.</span></li>
+                        <li><strong>Job lifecycle</strong><span>Status và active job id nếu job còn đang chạy.</span></li>
+                        <li><strong>Screen position</strong><span>Có thể chuyển thẳng tới progress khi job đang queued/running/review.</span></li>
+                    </ol>
+                </article>
+            </div>
+        </section>
+
+        <section class="section" id="discovery-flow">
+            <div class="section-head">
+                <div><p class="eyebrow">03 / Khi bấm Phân tích nguồn</p><h2>Discovery mới</h2></div>
+                <p>Đây mới là flow tạo yêu cầu phân tích URL. Nó có thể trả kết quả trực tiếp hoặc tạo job nền rồi để UI polling.</p>
+            </div>
+            <div class="flow-grid">
+                <article class="flow-panel">
+                    <header><h3>Nhánh trả kết quả ngay</h3><p>Khi server đã có discovery dùng lại được.</p></header>
+                    <ol class="steps">
+                        <li><strong>Validate URL</strong><span>Sai domain/path thì dispatch <code>ANALYSIS_FAILED</code>.</span></li>
+                        <li><strong>START_ANALYSIS</strong><span>UI chuyển sang trạng thái đang phân tích.</span></li>
+                        <li><strong>Server Action</strong><span>Gọi <code>discoverStorySourceAction</code> với client request id.</span></li>
+                        <li><strong>Có discovery trong response</strong><span>Dispatch <code>ANALYSIS_SUCCEEDED</code> ngay.</span></li>
+                    </ol>
+                </article>
+                <article class="flow-panel">
+                    <header><h3>Nhánh chạy qua worker</h3><p>Khi discovery cần xử lý nền.</p></header>
+                    <ol class="steps">
+                        <li><strong>Queue job</strong><span>Server lưu job và đẩy job id vào BullMQ/Redis.</span></li>
+                        <li><strong>DISCOVERY_QUEUED</strong><span>Client giữ <code>activeJobId</code> và bắt đầu polling.</span></li>
+                        <li><strong>Worker xử lý</strong><span>Lấy metadata, catalog summary rồi persist progress vào PostgreSQL.</span></li>
+                        <li><strong>Polling thấy DRAFT</strong><span>Client gọi lại latest discovery và dispatch <code>ANALYSIS_SUCCEEDED</code>.</span></li>
+                    </ol>
+                </article>
+            </div>
+        </section>
+
+        <section class="section" id="files">
+            <div class="section-head">
+                <div><p class="eyebrow">04 / Ownership</p><h2>File và trách nhiệm</h2></div>
+                <p>Mỗi layer có một loại quyết định riêng để UI, domain và hạ tầng không bị trộn vào cùng một module.</p>
+            </div>
+            <div class="table-scroll">
+                <table class="file-table">
+                    <thead><tr><th>Layer</th><th>File chính</th><th>Trách nhiệm</th></tr></thead>
+                    <tbody>
+                        <tr><td>UI workflow</td><td><code>admin/app/dashboard/imports/_components/import-workflow.jsx</code></td><td>Reducer state, transition, polling, điều hướng 4 bước.</td></tr>
+                        <tr><td>Server Action</td><td><code>admin/app/actions/import-source.js</code></td><td>Boundary cho command từ client và response contract.</td></tr>
+                        <tr><td>DAL</td><td><code>admin/lib/dal/story-import.js</code></td><td>Lấy actor, kiểm tra quyền và gọi use case.</td></tr>
+                        <tr><td>Application</td><td><code>packages/importer/application/story-import-service.js</code></td><td>Điều phối discovery, configuration và import batch.</td></tr>
+                        <tr><td>Domain</td><td><code>packages/importer/domain/</code></td><td>Schema, invariant, error và xử lý chapter content.</td></tr>
+                        <tr><td>Persistence</td><td><code>packages/importer/infrastructure/persistence/import-repository.js</code></td><td>Prisma query và mapping record.</td></tr>
+                        <tr><td>Source adapter</td><td><code>packages/importer/infrastructure/sources/truyendich/</code></td><td>Map API/HTML của nguồn sang model nội bộ.</td></tr>
+                        <tr><td>Queue</td><td><code>packages/importer/infrastructure/queue/import-queue.js</code></td><td>Enqueue BullMQ job, retry, lock và source-health TTL.</td></tr>
+                        <tr><td>Worker</td><td><code>packages/importer/worker/import-worker-service.js</code><br><code>workers/importer/index.js</code></td><td>Consume job, tải catalog/content và ghi progress.</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="responsibilities" style="margin-top: 18px">
+                <article class="responsibility">
+                    <h3>PostgreSQL giữ dữ liệu chuẩn</h3>
+                    <ul>
+                        <li>Import source, job, story draft và chapter draft.</li>
+                        <li>Progress bền vững để reload UI vẫn phục hồi được.</li>
+                        <li>Kết quả cuối và error code có thể audit.</li>
+                    </ul>
+                </article>
+                <article class="responsibility">
+                    <h3>Redis điều phối công việc tạm thời</h3>
+                    <ul>
+                        <li>Queue job và phân phối cho worker.</li>
+                        <li>Retry, backoff, lock và concurrency.</li>
+                        <li>Cache ngắn hạn tình trạng origin khỏe/yếu.</li>
+                    </ul>
+                </article>
+            </div>
+            <p class="footnote">Tài liệu được tạo từ code hiện tại. Nếu action reducer được đổi tên, nên cân nhắc <code>RESTORE_DISCOVERY</code> cho mount flow và giữ <code>ANALYSIS_SUCCEEDED</code> cho discovery mới để intent dễ đọc hơn. Đây là cải thiện naming, không phải lỗi behavior.</p>
+        </section>
+    </main>
+</body>
+</html>
