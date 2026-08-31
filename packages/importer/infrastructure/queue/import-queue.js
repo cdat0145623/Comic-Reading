@@ -10,6 +10,59 @@ export const IMPORT_JOB_NAMES = {
     IMPORT_CHAPTER: "import-chapter",
 };
 
+export function getImportQueueJobDefinition(command) {
+    const opts = { jobId: command.dedupeKey };
+    switch (command.name) {
+        case "DISCOVER_STORY":
+            return {
+                queue: "discovery",
+                name: IMPORT_JOB_NAMES.DISCOVER_STORY,
+                data: { importJobId: command.importJobId },
+                opts,
+            };
+        case "PREPARE_CATALOG":
+            return {
+                queue: "import",
+                name: IMPORT_JOB_NAMES.PREPARE_CATALOG,
+                data: { importJobId: command.importJobId },
+                opts,
+            };
+        case "IMPORT_CHAPTER":
+            return {
+                queue: "import",
+                name: IMPORT_JOB_NAMES.IMPORT_CHAPTER,
+                data: {
+                    importJobId: command.importJobId,
+                    chapterDraftId: command.chapterDraftId,
+                },
+                opts,
+            };
+        default:
+            throw new ImportDiscoveryError(
+                "IMPORT_QUEUE_COMMAND_INVALID",
+                "Import command không được hỗ trợ.",
+                { category: "VALIDATION" },
+            );
+    }
+}
+
+export async function publishImportQueueCommand(command, queues = {}) {
+    const definition = getImportQueueJobDefinition(command);
+    const queue =
+        definition.queue === "discovery"
+            ? queues.discovery || getDiscoveryQueue()
+            : queues.import || getImportQueue();
+    try {
+        await queue.add(definition.name, definition.data, definition.opts);
+    } catch (error) {
+        throw new ImportDiscoveryError(
+            "IMPORT_QUEUE_UNAVAILABLE",
+            "Hàng đợi import hiện không khả dụng.",
+            { cause: error, category: "QUEUE", retryable: true },
+        );
+    }
+}
+
 const ACTIVE_ORIGIN_TTL_SECONDS = 10 * 60;
 const UNHEALTHY_ORIGIN_TTL_SECONDS = 2 * 60;
 

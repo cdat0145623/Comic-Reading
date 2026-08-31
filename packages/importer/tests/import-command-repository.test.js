@@ -6,6 +6,9 @@ import {
     getImportCommandRetryDelayMs,
     normalizeImportQueueCommand,
 } from "../infrastructure/persistence/import-command-repository.js";
+import {
+    getImportQueueJobDefinition,
+} from "../infrastructure/queue/import-queue.js";
 
 test("builds deterministic dedupe keys for every import command", () => {
     assert.equal(
@@ -60,4 +63,34 @@ test("normalizes persisted commands to a dispatcher-safe shape", () => {
         publishedAt: null,
         lastError: null,
     });
+});
+
+test("maps persisted commands to deterministic BullMQ jobs", () => {
+    assert.deepEqual(
+        getImportQueueJobDefinition({
+            name: "DISCOVER_STORY",
+            dedupeKey: "discovery-job-1",
+            importJobId: "job-1",
+        }),
+        {
+            queue: "discovery",
+            name: "discover-story",
+            data: { importJobId: "job-1" },
+            opts: { jobId: "discovery-job-1" },
+        },
+    );
+    assert.deepEqual(
+        getImportQueueJobDefinition({
+            name: "IMPORT_CHAPTER",
+            dedupeKey: "chapter-draft-1",
+            importJobId: "job-1",
+            chapterDraftId: "draft-1",
+        }),
+        {
+            queue: "import",
+            name: "import-chapter",
+            data: { importJobId: "job-1", chapterDraftId: "draft-1" },
+            opts: { jobId: "chapter-draft-1" },
+        },
+    );
 });
