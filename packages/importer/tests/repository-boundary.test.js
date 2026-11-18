@@ -4,12 +4,34 @@ import test from "node:test";
 import * as jobRepository from "../infrastructure/persistence/import-job-repository.js";
 import * as draftRepository from "../infrastructure/persistence/import-draft-repository.js";
 import * as chapterRepository from "../infrastructure/persistence/chapter-import-repository.js";
+import * as legacyRepository from "../import-repository.js";
 import * as progressRepository from "../infrastructure/persistence/import-progress-repository.js";
 
 test("persistence boundaries expose responsibilities by aggregate", () => {
     assert.equal(typeof jobRepository.createQueuedDiscoveryJob, "function");
     assert.equal(typeof jobRepository.queueCatalogPreparation, "function");
+    assert.equal(typeof jobRepository.beginCatalogPreparation, "function");
     assert.equal(typeof draftRepository.saveSourceProbe, "function");
+    assert.equal(typeof draftRepository.findTargetStoryCandidates, "function");
     assert.equal(typeof chapterRepository.prepareConfiguredChapterScope, "function");
     assert.equal(typeof progressRepository.reconcileImportJobProgress, "function");
+});
+
+test("compatibility facade points at aggregate boundary implementations", () => {
+    assert.equal(
+        legacyRepository.createQueuedDiscoveryJob,
+        jobRepository.createQueuedDiscoveryJob,
+    );
+    assert.equal(
+        legacyRepository.saveSourceProbe,
+        draftRepository.saveSourceProbe,
+    );
+    assert.equal(
+        legacyRepository.prepareConfiguredChapterScope,
+        chapterRepository.prepareConfiguredChapterScope,
+    );
+    assert.equal(
+        legacyRepository.reconcileImportJobProgress,
+        progressRepository.reconcileImportJobProgress,
+    );
 });

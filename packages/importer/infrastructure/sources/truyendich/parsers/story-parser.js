@@ -173,5 +173,3 @@ export function parsePublicStoryPage(html, { source, activeOrigin }) {
         activeOrigin,
     };
 }
-
-export { parseCatalogPage };

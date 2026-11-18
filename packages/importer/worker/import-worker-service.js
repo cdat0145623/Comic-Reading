@@ -1,16 +1,20 @@
 import {
     beginCatalogPreparation,
-    findChapterDraftForWorker,
     findImportJobForWorker,
-    markChapterRunning,
     markDiscoveryRunning,
-    markWorkerChapterFailed,
     markImportJobFailed,
+} from "../infrastructure/persistence/import-job-repository.js";
+import {
+    saveSourceProbe,
+} from "../infrastructure/persistence/import-draft-repository.js";
+import {
+    findChapterDraftForWorker,
+    markChapterRunning,
+    markWorkerChapterFailed,
     prepareConfiguredChapterScope,
     saveCatalogPage,
-    saveSourceProbe,
     saveWorkerChapterDraft,
-} from "../infrastructure/persistence/index.js";
+} from "../infrastructure/persistence/chapter-import-repository.js";
 import { ImportDiscoveryError } from "../domain/errors.js";
 import { defaultSourceRegistry } from "../infrastructure/sources/registry.js";
 
