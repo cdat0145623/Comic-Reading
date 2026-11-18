@@ -87,4 +87,91 @@ export function buildStoryDiscovery({ source, activeOrigin, storyPayload, totalC
     };
 }
 
+function slugifySourceLabel(value) {
+    return value
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "")
+        .toLowerCase()
+        .replace(/[^a-z0-9]+/g, "-")
+        .replace(/^-+|-+$/g, "");
+}
+
+export function parsePublicStoryPage(html, { source, activeOrigin }) {
+    const $ = cheerio.load(html);
+    const structuredData = $('script[type="application/ld+json"]')
+        .map((_, element) => {
+            try {
+                return JSON.parse($(element).html() || "");
+            } catch {
+                return null;
+            }
+        })
+        .get()
+        .find((item) => item?.["@type"] === "Book");
+    const decodedPayload = html.replaceAll('\\"', '"');
+    const catalogMatch = decodedPayload.match(
+        /"initialData":(\{"total":\d+,"page":\d+,"size":\d+,"items":\[.*?\]}),"slug":/s,
+    );
+    const novelIdMatch = decodedPayload.match(/"novelId":(\d+),"novelSlug":/);
+    if (!structuredData || !catalogMatch || !novelIdMatch) {
+        throw new ImportDiscoveryError(
+            "SOURCE_SCHEMA_CHANGED",
+            "Website nguồn đã thay đổi cấu trúc trang truyện công khai.",
+            { category: "SOURCE" },
+        );
+    }
+    let catalogPage;
+    try {
+        catalogPage = parseCatalogPage(JSON.parse(catalogMatch[1]), 1);
+    } catch (error) {
+        if (error instanceof ImportDiscoveryError) throw error;
+        throw new ImportDiscoveryError(
+            "SOURCE_SCHEMA_CHANGED",
+            "Website nguồn đã thay đổi dữ liệu catalog trên trang truyện.",
+            { cause: error, category: "SOURCE" },
+        );
+    }
+    const categoryNames = String(structuredData.genre || "")
+        .split(",")
+        .map((name) => name.trim())
+        .filter(Boolean);
+    const editionNames = ["ai"];
+    const convertPath = `/doc-truyen/cv/${source.sourceSlug}`;
+    if ($(`a[href="${convertPath}"], a[href="${convertPath}/"]`).length) {
+        editionNames.push("convert");
+    }
+    const pageText = $("body").text().replace(/\s+/g, " ");
+    const sourceStatus =
+        pageText.match(/Trạng thái\s*(Đang ra|Hoàn thành|Tạm dừng)/i)?.[1] || null;
+    const novelId = novelIdMatch[1];
+    const storyPayload = {
+        id: novelId,
+        title: String(structuredData.name || "").trim(),
+        slug: source.sourceSlug,
+        image_url: structuredData.image || null,
+        status: sourceStatus,
+        author:
+            typeof structuredData.author === "object"
+                ? structuredData.author?.name || null
+                : structuredData.author || null,
+        latest_chapter_number: catalogPage.total,
+        description: structuredData.description || "",
+        categories: categoryNames.map((name) => ({
+            id: `html:${novelId}:category:${slugifySourceLabel(name)}`,
+            name,
+            slug: slugifySourceLabel(name),
+        })),
+        editions: editionNames.map((name) => ({
+            id: `html:${novelId}:edition:${name}`,
+            edition_name: name,
+            first_chapter_slug: "1",
+        })),
+    };
+    return {
+        storyPayload: parseStoryPayload(storyPayload),
+        catalogPage,
+        activeOrigin,
+    };
+}
+
 export { parseCatalogPage };
