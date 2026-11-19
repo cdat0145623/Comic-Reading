@@ -1,1 +1,1 @@
-export * from "./infrastructure/persistence/import-repository.js";
+export * from "./infrastructure/persistence/index.js";

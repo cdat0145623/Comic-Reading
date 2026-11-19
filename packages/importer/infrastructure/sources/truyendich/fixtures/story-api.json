@@ -1,0 +1,9 @@
+{
+  "id": 1,
+  "title": "Fixture Story",
+  "slug": "fixture-story",
+  "latest_chapter_number": 2,
+  "description": "<p>Fixture description.</p>",
+  "categories": [],
+  "editions": [{ "id": 10, "edition_name": "ai", "first_chapter_slug": "1" }]
+}

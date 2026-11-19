@@ -1,13 +1,18 @@
-import * as cheerio from "cheerio";
-import { z } from "zod";
-
-import {
-    countChapterWords,
-    hashChapterContent,
-    normalizeChapterContent,
-} from "../../../domain/chapter-content.js";
 import { ImportDiscoveryError } from "../../../domain/errors.js";
 import { createSourceOriginPolicy } from "../origin-policy.js";
+import {
+    mapCatalogChapter,
+    parseCatalogPage as parseCatalogPageModule,
+} from "./parsers/catalog-parser.js";
+import {
+    chapterPathForEdition as chapterPathForEditionModule,
+    parseChapterHtml,
+} from "./parsers/chapter-parser.js";
+import {
+    buildStoryDiscovery as buildStoryDiscoveryModule,
+    parsePublicStoryPage as parsePublicStoryPageModule,
+    parseStoryPayload as parseStoryPayloadModule,
+} from "./parsers/story-parser.js";
 
 const SOURCE_PROVIDER = "TRUYENDICH_LIVE";
 const DEFAULT_SOURCE_ORIGIN = "https://truyendich.live";
@@ -45,49 +50,6 @@ export function shouldUseBrowserFallback(error) {
     );
 }
 const MAX_HTML_SIZE = 5_000_000;
-const MAX_CHAPTER_CONTENT_SIZE = 2_000_000;
-
-const editionSchema = z.object({
-    id: z.union([z.number(), z.string()]),
-    edition_name: z.string().min(1),
-    first_chapter_slug: z.string().nullable().optional(),
-});
-
-const storySchema = z.object({
-    id: z.union([z.number(), z.string()]),
-    title: z.string().min(1),
-    slug: z.string().min(1),
-    image_url: z.string().nullable().optional(),
-    status: z.string().nullable().optional(),
-    author: z.string().nullable().optional(),
-    latest_chapter_number: z.number().int().nonnegative(),
-    description: z.string().nullable().optional(),
-    categories: z
-        .array(
-            z.object({
-                id: z.union([z.number(), z.string()]),
-                name: z.string(),
-                slug: z.string(),
-            }),
-        )
-        .default([]),
-    editions: z.array(editionSchema).min(1),
-});
-
-const chapterSchema = z.object({
-    id: z.union([z.number(), z.string()]),
-    chapter_number: z.number().int().positive(),
-    title: z.string().nullable().optional(),
-    status: z.string().nullable().optional(),
-    update_time: z.string().trim().min(1).nullable().optional(),
-});
-
-const catalogPageSchema = z.object({
-    total: z.number().int().nonnegative(),
-    page: z.number().int().positive(),
-    size: z.number().int().positive(),
-    items: z.array(chapterSchema),
-});
 
 function sleep(milliseconds) {
     return new Promise((resolve) => setTimeout(resolve, milliseconds));
@@ -562,24 +524,6 @@ export function normalizeTruyenDichLiveUrl(value) {
     };
 }
 
-function descriptionToText(html) {
-    if (!html) return "";
-    const $ = cheerio.load(`<main>${html}</main>`);
-    $("script, style, iframe, object, embed").remove();
-    const blockText = $("main")
-        .find("p, li, h1, h2, h3, h4, blockquote")
-        .map((_, element) => $(element).text().trim())
-        .get()
-        .filter(Boolean)
-        .join("\n\n");
-    return blockText || $("main").text().trim();
-}
-
-function absoluteCoverUrl(value, sourceOrigin) {
-    if (!value) return null;
-    return new URL(value, sourceOrigin).toString();
-}
-
 async function mapConcurrent(values, concurrency, mapper) {
     const results = new Array(values.length);
     let cursor = 0;
@@ -600,191 +544,6 @@ async function mapConcurrent(values, concurrency, mapper) {
     return results;
 }
 
-function parseSourceDate(value) {
-    if (!value) return null;
-
-    const normalizedValue = /(?:Z|[+-]\d{2}:\d{2})$/.test(value)
-        ? value
-        : `${value}Z`;
-    const date = new Date(normalizedValue);
-
-    return Number.isNaN(date.getTime()) ? null : date;
-}
-
-function mapChapter(item, canonicalUrl) {
-    return {
-        externalChapterId: String(item.id),
-        number: item.chapter_number,
-        title: item.title?.trim() || `Chương ${item.chapter_number}`,
-        sourceStatus: item.status || null,
-        sourceUpdatedAt: parseSourceDate(item.update_time),
-        sourceUrl: `${canonicalUrl}/chuong-${item.chapter_number}`,
-    };
-}
-
-function parseStoryPayload(data) {
-    try {
-        return storySchema.parse(data);
-    } catch (error) {
-        if (error instanceof z.ZodError) {
-            throw new ImportDiscoveryError(
-                "SOURCE_SCHEMA_CHANGED",
-                "Website nguồn đã thay đổi cấu trúc metadata truyện.",
-                { cause: error, category: "SOURCE" },
-            );
-        }
-        throw error;
-    }
-}
-
-function parseCatalogPage(data, page) {
-    try {
-        return catalogPageSchema.parse(data);
-    } catch (error) {
-        if (error instanceof z.ZodError) {
-            throw new ImportDiscoveryError(
-                "SOURCE_SCHEMA_CHANGED",
-                page === 1
-                    ? "Website nguồn đã thay đổi cấu trúc catalog chương."
-                    : `Website nguồn đã thay đổi cấu trúc catalog ở trang ${page}.`,
-                { cause: error, category: "SOURCE" },
-            );
-        }
-        throw error;
-    }
-}
-
-function slugifySourceLabel(value) {
-    return value
-        .normalize("NFD")
-        .replace(/[\u0300-\u036f]/g, "")
-        .toLowerCase()
-        .replace(/[^a-z0-9]+/g, "-")
-        .replace(/^-+|-+$/g, "");
-}
-
-function parsePublicStoryPage(html, { source, activeOrigin }) {
-    const $ = cheerio.load(html);
-    const structuredData = $('script[type="application/ld+json"]')
-        .map((_, element) => {
-            try {
-                return JSON.parse($(element).html() || "");
-            } catch {
-                return null;
-            }
-        })
-        .get()
-        .find((item) => item?.["@type"] === "Book");
-
-    const decodedPayload = html.replaceAll('\\"', '"');
-    const catalogMatch = decodedPayload.match(
-        /"initialData":(\{"total":\d+,"page":\d+,"size":\d+,"items":\[.*?\]\}),"slug":/s,
-    );
-    const novelIdMatch = decodedPayload.match(/"novelId":(\d+),"novelSlug":/);
-
-    if (!structuredData || !catalogMatch || !novelIdMatch) {
-        throw new ImportDiscoveryError(
-            "SOURCE_SCHEMA_CHANGED",
-            "Website nguồn đã thay đổi cấu trúc trang truyện công khai.",
-            { category: "SOURCE" },
-        );
-    }
-
-    let catalogPage;
-    try {
-        catalogPage = parseCatalogPage(JSON.parse(catalogMatch[1]), 1);
-    } catch (error) {
-        if (error instanceof ImportDiscoveryError) throw error;
-        throw new ImportDiscoveryError(
-            "SOURCE_SCHEMA_CHANGED",
-            "Website nguồn đã thay đổi dữ liệu catalog trên trang truyện.",
-            { cause: error, category: "SOURCE" },
-        );
-    }
-
-    const categoryNames = String(structuredData.genre || "")
-        .split(",")
-        .map((name) => name.trim())
-        .filter(Boolean);
-    const editionNames = ["ai"];
-    const convertPath = `/doc-truyen/cv/${source.sourceSlug}`;
-    if ($(`a[href="${convertPath}"], a[href="${convertPath}/"]`).length) {
-        editionNames.push("convert");
-    }
-
-    const pageText = $("body").text().replace(/\s+/g, " ");
-    const sourceStatus =
-        pageText.match(/Trạng thái\s*(Đang ra|Hoàn thành|Tạm dừng)/i)?.[1] ||
-        null;
-    const novelId = novelIdMatch[1];
-    const storyPayload = {
-        id: novelId,
-        title: String(structuredData.name || "").trim(),
-        slug: source.sourceSlug,
-        image_url: structuredData.image || null,
-        status: sourceStatus,
-        author:
-            typeof structuredData.author === "object"
-                ? structuredData.author?.name || null
-                : structuredData.author || null,
-        latest_chapter_number: catalogPage.total,
-        description: structuredData.description || "",
-        categories: categoryNames.map((name) => ({
-            id: `html:${novelId}:category:${slugifySourceLabel(name)}`,
-            name,
-            slug: slugifySourceLabel(name),
-        })),
-        editions: editionNames.map((name) => ({
-            id: `html:${novelId}:edition:${name}`,
-            edition_name: name,
-            first_chapter_slug: "1",
-        })),
-    };
-
-    return {
-        storyPayload: parseStoryPayload(storyPayload),
-        catalogPage,
-        activeOrigin,
-    };
-}
-
-function buildStoryDiscovery({
-    source,
-    activeOrigin,
-    storyPayload,
-    totalChapters,
-}) {
-    const canonicalUrl = `${activeOrigin}/doc-truyen/${encodeURIComponent(source.sourceSlug)}`;
-    return {
-        source: {
-            ...source,
-            sourceOrigin: activeOrigin,
-            canonicalUrl,
-            externalNovelId: String(storyPayload.id),
-        },
-        story: {
-            title: storyPayload.title.trim(),
-            authorName: storyPayload.author?.trim() || "Chưa rõ tác giả",
-            coverUrl: absoluteCoverUrl(storyPayload.image_url, activeOrigin),
-            description: descriptionToText(storyPayload.description),
-            sourceStatus: storyPayload.status || null,
-            categories: storyPayload.categories.map((category) => ({
-                externalId: String(category.id),
-                name: category.name,
-                slug: category.slug,
-            })),
-            editions: storyPayload.editions.map((edition) => ({
-                externalId: String(edition.id),
-                name: edition.edition_name,
-                firstChapterSlug: edition.first_chapter_slug || null,
-            })),
-            totalChapters,
-        },
-        rawMetadata: storyPayload,
-        canonicalUrl,
-    };
-}
-
 async function fetchCatalogPage({
     sourceSlug,
     preferredOrigin,
@@ -803,7 +562,7 @@ async function fetchCatalogPage({
     });
     return {
         ...result,
-        page: parseCatalogPage(result.data, page),
+        page: parseCatalogPageModule(result.data, page),
     };
 }
 
@@ -830,7 +589,7 @@ async function probePublicStoryPage({
         transportState,
         originHealth,
     });
-    const parsed = parsePublicStoryPage(pageResult.data, {
+    const parsed = parsePublicStoryPageModule(pageResult.data, {
         source,
         activeOrigin: pageResult.origin,
     });
@@ -863,7 +622,7 @@ export async function probeTruyenDichLiveStory(
             transportState,
             originHealth,
         });
-        storyPayload = parseStoryPayload(metadataResult.data);
+        storyPayload = parseStoryPayloadModule(metadataResult.data);
         const firstPageResult = await fetchCatalogPage({
             sourceSlug: source.sourceSlug,
             preferredOrigin: metadataResult.origin,
@@ -903,14 +662,14 @@ export async function probeTruyenDichLiveStory(
         usedPublicPageFallback = true;
     }
 
-    const shared = buildStoryDiscovery({
+    const shared = buildStoryDiscoveryModule({
         source,
         activeOrigin: metadataResult.origin,
         storyPayload,
         totalChapters: firstPage.total,
     });
     const firstChapter = firstPage.items[0]
-        ? mapChapter(firstPage.items[0], shared.canonicalUrl)
+        ? mapCatalogChapter(firstPage.items[0], shared.canonicalUrl)
         : null;
     const warnings = [];
     if (usedPublicPageFallback) {
@@ -960,7 +719,7 @@ export async function prepareTruyenDichLiveCatalog(
         pageCount,
         totalChapters: firstPageResult.page.total,
         chapters: firstPageResult.page.items.map((chapter) =>
-            mapChapter(chapter, canonicalUrl),
+            mapCatalogChapter(chapter, canonicalUrl),
         ),
     });
 
@@ -979,138 +738,20 @@ export async function prepareTruyenDichLiveCatalog(
             pageCount,
             totalChapters: firstPageResult.page.total,
             chapters: pageResult.page.items.map((chapter) =>
-                mapChapter(chapter, canonicalUrl),
+                mapCatalogChapter(chapter, canonicalUrl),
             ),
         });
     }
 
     const chapters = pages
         .flatMap((page) => page.items)
-        .map((chapter) => mapChapter(chapter, canonicalUrl))
+        .map((chapter) => mapCatalogChapter(chapter, canonicalUrl))
         .sort((left, right) => left.number - right.number);
     return {
         chapters,
         pageCount,
         totalChapters: firstPageResult.page.total,
         activeOrigin,
-    };
-}
-
-function decodeEmbeddedString(value) {
-    try {
-        return JSON.parse(`"${value}"`);
-    } catch {
-        return value.replaceAll('\\"', '"').replaceAll("\\\\", "\\");
-    }
-}
-
-function extractChapterMetadata(html) {
-    const decodedPayload = html.replaceAll('\\"', '"');
-    const match = decodedPayload.match(
-        /"chapter":\{"id":(\d+),"chapter_number":(\d+),"title":"((?:\\.|[^"\\])*)".*?"novel_edition_id":(\d+),"edition_name":"([^"]+)"/s,
-    );
-
-    if (!match) {
-        throw new ImportDiscoveryError(
-            "SOURCE_CHAPTER_METADATA_INVALID",
-            "Không xác minh được metadata của chapter nguồn.",
-        );
-    }
-
-    return {
-        externalChapterId: match[1],
-        number: Number(match[2]),
-        title: decodeEmbeddedString(match[3]).trim(),
-        editionExternalId: match[4],
-        editionName: match[5].trim().toLowerCase(),
-    };
-}
-
-function chapterPathForEdition({ sourceSlug, chapterNumber, editionName }) {
-    const normalizedEdition = editionName.trim().toLowerCase();
-    if (normalizedEdition === "ai") {
-        return `/doc-truyen/${encodeURIComponent(sourceSlug)}/chuong-${chapterNumber}`;
-    }
-    if (normalizedEdition === "convert") {
-        return `/doc-truyen/cv/${encodeURIComponent(sourceSlug)}/chuong-${chapterNumber}`;
-    }
-    throw new ImportDiscoveryError(
-        "UNSUPPORTED_SOURCE_EDITION",
-        `Chưa hỗ trợ tải nội dung phiên bản ${editionName}.`,
-    );
-}
-
-export function parseTruyenDichLiveChapterHtml(
-    html,
-    {
-        expectedChapterNumber,
-        expectedEditionExternalId,
-        expectedEditionName,
-        sourceUrl,
-    },
-) {
-    const metadata = extractChapterMetadata(html);
-    if (metadata.number !== expectedChapterNumber) {
-        throw new ImportDiscoveryError(
-            "SOURCE_CHAPTER_MISMATCH",
-            "Nguồn trả về sai số chương đã yêu cầu.",
-        );
-    }
-    if (
-        metadata.editionExternalId !== String(expectedEditionExternalId) ||
-        metadata.editionName !== expectedEditionName.trim().toLowerCase()
-    ) {
-        throw new ImportDiscoveryError(
-            "SOURCE_EDITION_MISMATCH",
-            "Nguồn trả về sai phiên bản chapter đã chọn.",
-        );
-    }
-
-    const $ = cheerio.load(html);
-    const contentRoot = $("#original-content-tab").first();
-    if (!contentRoot.length) {
-        throw new ImportDiscoveryError(
-            "SOURCE_CHAPTER_CONTENT_INVALID",
-            "Không tìm thấy vùng nội dung chapter tại nguồn.",
-        );
-    }
-
-    const imageCount = contentRoot.find("img").length;
-    contentRoot
-        .find("script, style, iframe, object, embed, noscript, svg")
-        .remove();
-    const paragraphs = contentRoot
-        .find("p")
-        .map((_, element) => normalizeChapterContent($(element).text()))
-        .get()
-        .filter(Boolean);
-    const content = normalizeChapterContent(paragraphs.join("\n\n"));
-
-    if (!content) {
-        throw new ImportDiscoveryError(
-            "SOURCE_CHAPTER_CONTENT_EMPTY",
-            "Chapter nguồn không có nội dung có thể nhập.",
-        );
-    }
-    if (Buffer.byteLength(content, "utf8") > MAX_CHAPTER_CONTENT_SIZE) {
-        throw new ImportDiscoveryError(
-            "SOURCE_CHAPTER_CONTENT_TOO_LARGE",
-            "Nội dung chapter vượt quá giới hạn cho phép.",
-        );
-    }
-
-    return {
-        ...metadata,
-        title: $("h1").first().text().trim() || metadata.title,
-        content,
-        contentHash: hashChapterContent(content),
-        wordCount: countChapterWords(content),
-        imageCount,
-        sourceUrl,
-        warnings:
-            imageCount > 0
-                ? [`Đã bỏ qua ${imageCount} ảnh trong nội dung nguồn.`]
-                : [],
     };
 }
 
@@ -1122,7 +763,7 @@ export async function fetchTruyenDichLiveChapter({
     editionName,
     browserTransport,
 }) {
-    const pathname = chapterPathForEdition({
+    const pathname = chapterPathForEditionModule({
         sourceSlug,
         chapterNumber,
         editionName,
@@ -1142,7 +783,7 @@ export async function fetchTruyenDichLiveChapter({
     });
 
     return {
-        ...parseTruyenDichLiveChapterHtml(html, {
+        ...parseChapterHtml(html, {
             expectedChapterNumber: chapterNumber,
             expectedEditionExternalId: editionExternalId,
             expectedEditionName: editionName,
@@ -1168,7 +809,7 @@ export async function discoverTruyenDichLiveStory(
     });
     const activeOrigin = metadataResult.origin;
 
-    const storyPayload = parseStoryPayload(metadataResult.data);
+    const storyPayload = parseStoryPayloadModule(metadataResult.data);
 
     const firstPageResult = await fetchFromSourceOrigins({
         preferredOrigin: activeOrigin,
@@ -1178,7 +819,7 @@ export async function discoverTruyenDichLiveStory(
         transportState,
         originHealth,
     });
-    const firstPage = parseCatalogPage(firstPageResult.data, 1);
+    const firstPage = parseCatalogPageModule(firstPageResult.data, 1);
 
     const pageCount = Math.ceil(firstPage.total / CATALOG_PAGE_SIZE);
     const remainingPages = Array.from(
@@ -1194,12 +835,12 @@ export async function discoverTruyenDichLiveStory(
             transportState,
             originHealth,
         });
-        return parseCatalogPage(pageResult.data, page);
+        return parseCatalogPageModule(pageResult.data, page);
     });
     const canonicalUrl = `${activeOrigin}/doc-truyen/${encodeURIComponent(source.sourceSlug)}`;
     const chapters = [firstPage, ...pages]
         .flatMap((page) => page.items)
-        .map((chapter) => mapChapter(chapter, canonicalUrl))
+        .map((chapter) => mapCatalogChapter(chapter, canonicalUrl))
         .sort((left, right) => left.number - right.number);
 
     const warnings = [];
@@ -1224,35 +865,20 @@ export async function discoverTruyenDichLiveStory(
     }
 
     return {
-        source: {
-            ...source,
-            sourceOrigin: activeOrigin,
-            canonicalUrl,
-            externalNovelId: String(storyPayload.id),
-        },
-        story: {
-            title: storyPayload.title.trim(),
-            authorName: storyPayload.author?.trim() || "Chưa rõ tác giả",
-            coverUrl: absoluteCoverUrl(storyPayload.image_url, activeOrigin),
-            description: descriptionToText(storyPayload.description),
-            sourceStatus: storyPayload.status || null,
-            categories: storyPayload.categories.map((category) => ({
-                externalId: String(category.id),
-                name: category.name,
-                slug: category.slug,
-            })),
-            editions: storyPayload.editions.map((edition) => ({
-                externalId: String(edition.id),
-                name: edition.edition_name,
-                firstChapterSlug: edition.first_chapter_slug || null,
-            })),
+        ...buildStoryDiscoveryModule({
+            source,
+            activeOrigin,
+            storyPayload,
             totalChapters: firstPage.total,
-        },
+        }),
         chapters,
         warnings,
-        rawMetadata: storyPayload,
         fetchTransport: metadataResult.transport,
     };
+}
+
+export function parseTruyenDichLiveChapterHtml(html, options) {
+    return parseChapterHtml(html, options);
 }
 
 export function createTruyenDichLiveSourceAdapter() {
